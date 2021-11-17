@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>상품 상세 페이지</title>
+    <link rel="stylesheet" th:href="@{https://unpkg.com/swiper/swiper-bundle.min.css}">
+    <link rel="stylesheet" th:href="@{/css/product_style.css}">
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{/js/product_common.js}"></script> <!-- 상품 페이지 공통js -->
+    <script th:src="@{/js/product.js}"></script>	      <!-- 상품 상세js -->
+    <script th:src="@{/js/product_qna.js}"></script>	  <!-- 상품 상세 상품문의 js -->
+</head>
+<body>
+    <div id="wrap">
+        <header style="width: 100%; height: 273px; background:#060032;"></header>
+
+       <section id="product_view">
+            <div class="container">
+                <div class="product_view">
+                    <div class="view_main_wrap">
+                        <!-- 상품 top -->
+                        <div class="view_top_wrap">
+                            <div class="slide_wrap">
+                                <div class="img">
+                                    <img src="/images/view_sample1.png" alt="">
+                                </div>
+                                <div class="img_list">
+                                    <a href="javascript:;" class="on">
+                                        <img src="/images/view_list_sample1.png" alt="">
+                                    </a>
+                                    <a href="javascript:;">
+                                        <img src="/images/view_list_sample1.png" alt="">
+                                    </a>
+                                    <a href="javascript:;">
+                                        <img src="/images/view_list_sample1.png" alt="">
+                                    </a>
+                                    <a href="javascript:;">
+                                        <img src="/images/view_list_sample1.png" alt="">
+                                    </a>
+                                    
+                                </div>
+                            </div>
+                            <div class="view_txt_wrap">
+                                <p class="product_title">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</p>
+                                <a href="javascript:;" class="btn_wish"></a>
+                                <p class="sale_price">25,000원</p>
+                                <div class="price_wrap">
+                                    <p class="price">
+                                        <span>17,000</span>원
+                                    </p>
+                                    <p class="price_per">
+                                        <span>32</span>%
+                                    </p>
+                                </div>
+                                <div class="view_status">
+                                    <strong>택배</strong>
+                                    <p class="post_price">2,500원 <span>(총 구매금액 8만원 이상 무료배송)</span></p>
+                                    <p class="post_day"><span>10월 20일</span>도착예정</p>
+                                    <p class="tip">주문 시, 발송일자를 확인해주세요</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="view_tab_wrap">
+                            <div class="tab_box">
+                                <a href="javascript:;" class="on">상품상세</a>
+                                <a href="javascript:;">상품리뷰 (<span>10</span>)</a>
+                                <a href="javascript:;">상품문의 (<span>10</span>)</a>
+                                <a href="javascript:;">기본정보</a>
+                            </div>
+                        </div>
+
+                        <div class="view_detail_wrap">
+                            <div class="detail_wrap">
+                                <img src="/images/view_detail_sample.png" alt="">
+                            </div>
+                        </div>
+
+                        <div class="view_item_wrap" id="item_review">
+                            <div class="head">
+                                <h3 class="title">상품리뷰</h3>
+                            </div>
+                            <div class="review_wrap">
+                                <div class="review_list">
+                                    <p class="review_date">2021.10.21</p>
+                                    <a href="javascript:;" class="review_like">좋아요</a>
+                                    <p class="review_id">id1234**** <span class="sub">남성-(173cm, 76kg)</span></p>
+                                    <ul class="review_star_wrap">
+                                        <li class="reive_star"></li>
+                                        <li class="reive_star"></li>
+                                        <li class="reive_star"></li>
+                                        <li class="reive_star"></li>
+                                        <li class="reive_star"></li>
+                                    </ul>
+                                    <p class="review_option">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
+
+                                    <ul class="review_img_wrap">
+                                        <li class="review_img">
+                                            <a href="javascript:;">
+                                                <img src="/images/review_img_sample.png" alt="">
+                                            </a>
+                                        </li>
+                                        <li class="review_img">
+                                            <a href="javascript:;">
+                                                <img src="/images/review_img_sample.png" alt="">
+                                            </a>
+                                        </li>
+                                        <li class="review_img">
+                                            <a href="javascript:;">
+                                                <img src="/images/review_img_sample.png" alt="">
+                                            </a>
+                                        </li>
+                                        <li class="review_img">
+                                            <a href="javascript:;">
+                                                <img src="/images/review_img_sample.png" alt="">
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                    <div class="review_txt_wrap">
+                                      <p class="review_txt">
+                                        마음에들어요<br>
+                                        마음에들어요!
+                                      </p>
+                                    </div>
+                                </div>
+
+                                <div class="review_list">
+                                    <p class="review_date">2021.10.21</p>
+                                    <a href="javascript:;" class="review_like">좋아요</a>
+                                    <p class="review_id">id1234**** <span class="sub">남성-(173cm, 76kg)</span></p>
+                                    <ul class="review_star_wrap">
+                                        <li class="reive_star"></li>
+                                        <li class="reive_star"></li>
+                                        <li class="reive_star"></li>
+                                        <li class="reive_star"></li>
+                                        <li class="reive_star"></li>
+                                    </ul>
+                                    <p class="review_option">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
+
+                                    <ul class="review_img_wrap">
+                                        <li class="review_img">
+                                            <a href="javascript:;">
+                                                <img src="/images/review_img_sample.png" alt="">
+                                            </a>
+                                        </li>
+                                        <li class="review_img">
+                                            <a href="javascript:;">
+                                                <img src="/images/review_img_sample.png" alt="">
+                                            </a>
+                                        </li>
+                                        <li class="review_img">
+                                            <a href="javascript:;">
+                                                <img src="/images/review_img_sample.png" alt="">
+                                            </a>
+                                        </li>
+                                        <li class="review_img">
+                                            <a href="javascript:;">
+                                                <img src="/images/review_img_sample.png" alt="">
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                    <div class="review_txt_wrap">
+                                      <p class="review_txt">
+                                        마음에들어요<br>
+                                        마음에들어요!
+                                      </p>
+                                    </div>
+                                </div>
+
+                                <div class="review_list">
+                                    <p class="review_date">2021.10.21</p>
+                                    <a href="javascript:;" class="review_like">좋아요</a>
+                                    <p class="review_id">id1234**** <span class="sub">남성-(173cm, 76kg)</span></p>
+                                    <ul class="review_star_wrap">
+                                        <li class="reive_star on"></li>
+                                        <li class="reive_star on"></li>
+                                        <li class="reive_star on"></li>
+                                        <li class="reive_star"></li>
+                                        <li class="reive_star"></li>
+                                    </ul>
+                                    <p class="review_option">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
+
+                                    <ul class="review_img_wrap">
+                                        <li class="review_img">
+                                            <a href="javascript:;">
+                                                <img src="/images/review_img_sample.png" alt="">
+                                            </a>
+                                        </li>
+                                        <li class="review_img">
+                                            <a href="javascript:;">
+                                                <img src="/images/review_img_sample.png" alt="">
+                                            </a>
+                                        </li>
+                                        <li class="review_img">
+                                            <a href="javascript:;">
+                                                <img src="/images/review_img_sample.png" alt="">
+                                            </a>
+                                        </li>
+                                        <li class="review_img">
+                                            <a href="javascript:;">
+                                                <img src="/images/review_img_sample.png" alt="">
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                    <div class="review_txt_wrap">
+                                      <p class="review_txt">
+                                        마음에들어요<br>
+                                        마음에들어요!
+                                      </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 페이징 -->
+                            <div class="pagaing_wrap">
+                                <ul class="pagaing_left">
+                                    <li class="allPrev hide"><a href="javascript:;"></a></li>
+                                    <li class="prev hide"><a href="javascript:;"></a></li>
+                                </ul>
+                                
+                                <ul class="pagaing_num">
+                                    <li class="on"><a href="javascript:;">1</a></li>
+                                    <li><a href="javascript:;">2</a></li>
+                                    <li><a href="javascript:;">3</a></li>
+                                    <li><a href="javascript:;">4</a></li>
+                                    <li><a href="javascript:;">5</a></li>
+                                    <li><a href="javascript:;">6</a></li>
+                                    <li><a href="javascript:;">7</a></li>
+                                    <li><a href="javascript:;">8</a></li>
+                                    <li><a href="javascript:;">9</a></li>
+                                    <li><a href="javascript:;">10</a></li>
+                                </ul>
+        
+                                <ul class="pagaing_right">
+                                    <li class="next"><a href="javascript:;"></a></li>
+                                    <li class="allNext"><a href="javascript:;"></a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+	
+                        <div class="view_item_wrap" id="item_qna">
+                            <div class="head">
+                                <h3 class="title">상품문의</h3>
+                                <div class="view_qna_top">
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="qnaSecret" id="qnaSecret">
+                                        <label for="qnaSecret">비밀글 제외</label>
+                                    </div>
+                                    <div class="select">
+                                        <select name="qnaType" id="">
+                                        	<option value="INQUIRY_CODE_ALL">상품 전체</option>
+		                                    <option value="INQUIRY_CODE1">교환</option>
+		                                    <option value="INQUIRY_CODE2">반품</option>
+		                                    <option value="INQUIRY_CODE3">배송</option>
+		                                    <option value="INQUIRY_CODE4">변경</option>
+		                                    <option value="INQUIRY_CODE5">상품</option>
+		                                    <option value="INQUIRY_CODE6">취소</option>
+		                                </select>
+                                    </div>
+                                    <a href="javascript:popOpen('productQna', 'insert');" class="btn_qna">상품 문의하기</a>
+                                </div>
+                            </div>
+
+                            <div class="view_qna_wrap" id="view_qna" >
+                                <ul class="qna_list" th:if="${selectList != null and #lists.size(selectList) > 0}">
+	                                    <li class="line" th:each="list: ${selectList}" >
+	                                        <div class="line_box">
+	                                            <p class="line_type" th:text="${list.piCateName}">문의 카테고리 이름</p>
+	                                            
+	                                            <th:block th:switch="${list.piqSecret}">
+	                                            	<p class="line_title secret" th:case="Y">
+		                                            	<a href="javascript:;">비밀글 입니다.</a>
+		                                            </p>
+		                                            <p class="line_title" th:case="N">
+		                                            	<a href="javascript:;" th:text="${list.piqTitle}"></a>
+		                                            </p>
+	                                            </th:block>
+	                                            
+	                                            
+	                                            <p class="line_id" th:text="${#strings.substring(list.id, 0, #strings.length(list.id) - 4) + '****'}">
+	                                                id1234****
+	                                            </p>
+	                                            <p class="line_date" th:text="${list.piqCreateDate}">
+	                                                2021.10.20
+	                                            </p>
+	                                            
+	                                            <th:block th:if="${list.proudctQnaA != null}">
+	                                            	 <p class="line_status complete">
+		                                                답변
+		                                            </p>
+	                                            </th:block>
+	                                            <th:block th:unless="${list.proudctQnaA != null}">
+	                                            	 <p class="line_status">
+		                                                대기
+		                                            </p>
+	                                            </th:block>
+	                                        </div>
+	
+	                                        <div class="line_qna_box">
+	                                            <div class="line_q_box">
+	                                                <div class="text_box">
+	                                                    <p th:text="${list.piqContent}">상품에 문제가있습니다.</p>
+	                                                </div>
+	                                                <ul class="btn_box">
+	                                                    <li>
+	                                                        <a href="javascript:;" th:onclick="|javascript:qnaModifyView(${list.piqCode})|">수정</a>
+	                                                    </li>
+	                                                    <li>
+	                                                    	<a href="javascript:;" th:onclick="|javascript:qnaDelete(${list.piqCode})|">삭제</a>
+	                                                    </li>
+	                                                </ul>
+	                                            </div>
+	                                            <div class="line_q_box">
+	                                            <th:block th:if="${list.proudctQnaA != null}">
+	                                            	<div class="text_box">
+	                                               	    <p th:text="${list.proudctQnaA.piaContent}"></p>
+	                                                </div>
+	                                                <p class="text_date" th:text="${list.proudctQnaA.piaCreateDate}"></p>
+	                                            </th:block>
+	                                            <th:block th:if="${list.proudctQnaA == null}">
+	                                            	<div class="text_box">
+	                                               	    <p>문의 답변 대기중입니다.</p>
+	                                                </div>
+	                                            </th:block>
+	                                            </div>
+	                                        </div>
+	                                    </li>
+                                </ul>
+                                <div th:unless="${selectList != null and #lists.size(selectList) > 0}">nodate</div>
+                                
+                                <!-- 페이징 -->
+	                            <div class="pagaing_wrap" >
+	                                <ul class="pagaing_left">
+	                                    <li class="allPrev hide"><a href="javascript:;"></a></li>
+	                                    <li class="prev hide"><a href="javascript:;"></a></li>
+	                                </ul>
+	                                
+	                                <ul class="pagaing_num">
+	                                	<li th:text="${pageInfo.page}"></li>
+	                                </ul>
+	        
+	                                <ul class="pagaing_right">
+	                                    <li class="next"><a href="javascript:;"></a></li>
+	                                    <li class="allNext"><a href="javascript:;"></a></li>
+	                                </ul>
+	                            </div>
+                            </div>
+                            
+                            
+                        </div>
+
+                        <div class="view_item_wrap" id="item_info">
+                            <div class="head">
+                                <h3 class="title">배송/교환/반품 정보</h3>
+                            </div>
+
+                            <div class="view_info_wrap">
+                                <dl>
+                                    <dt>배송</dt>
+                                    <dd>배송기간은 주문일로부터 2일~5일(주말/공휴일 제외)이 소요됩니다.</dd>
+                                    <dd>각 공급사마다 배송비가 차등 부과되며, 배송비 부과 기준에 따라 별도의 배송비가 책정될 수도 있습니다.</dd>
+                                    <dd>직접수령은 불가합니다. 온라인 주문/배송만 가능합니다.</dd>
+                                    <dd>묶음배송은 불가합니다. 각 주문건별로 별도로 배송됩니다.</dd>
+                                    <dd>주문 후 상품준비기간(영업일 기준 1일~3일)동안 간혹 예기치 못한 재고부족으로 인한 품절 및 출고 지연이 발생될 수 있습니다.</dd>
+                                </dl>
+
+                                <dl>
+                                    <dt>교환/반품/환불</dt>
+                                    <dd>교환/반품 신청은 배송완료 후 7일 이내 가능합니다.</dd>
+                                    <dd>변심반품/교환 제품의 하자나 불량이 아닌 변심건의 경우 왕복배송비(6,000원)를 고객부담으로 하며, 제품 및 포장 상태가 재판매 가능하여야 합니다.</dd>
+                                    <dd>환불승인 후 영업일 기준 3~7일 이내 환불 및 취소여부 확인 가능합니다.</dd>
+                                    <dd>상품 불량확정 시 배송비를 포함한 전액이 환불됩니다.</dd>
+                                    <dd>상품가치가 훼손된 경우 교환/반품이 불가합니다. (제품포장 개봉 및 주문제작상품 / 밀봉포장상품 및 스티커부착 상품 / 텍 제거상품 / 식품 등)</dd>
+                                    <dd>출고 이후 환불요청 시 상품 회수 후 처리됩니다.</dd>
+                                    <dd>교환/환불에 대한 브랜드 개별기준이 있는 경우에는 해당 내용이 우선 적용 됩니다.</dd>
+                                </dl>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="view_sub_wrap">
+                        <div class="box_wrap">
+                            <div class="option_wrap">
+                                <select name="" id="" class="select">
+                                    <option value="">상품명</option>
+                                </select>
+                                <select name="" id="" class="select" disabled>
+                                    <option value="">옵션</option>
+                                </select>
+                            </div>
+
+                            <div class="select_list_wrap">
+                                <div class="list">
+                                    <p class="title">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
+                                    <a href="javascript:;" class="close"></a>
+                                    <div class="list_bot">
+                                        <div class="list_num_wrap">
+                                            <a href="javascript:;" class="minus"></a>
+                                            <input type="number" name="" id="" value="10" class="num" readonly>
+                                            <a href="javascript:;" class="plus"></a>
+                                        </div>
+                                        <p class="price">
+                                            <span>85,000</span>원
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="list">
+                                    <p class="title">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
+                                    <a href="javascript:;" class="close"></a>
+                                    <div class="list_bot">
+                                        <div class="list_num_wrap">
+                                            <a href="javascript:;" class="minus"></a>
+                                            <input type="text" name="" id="" value="1" class="num" readonly>
+                                            <a href="javascript:;" class="plus"></a>
+                                        </div>
+                                        <p class="price">
+                                            <span>85,000</span>원
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="list_total_wrap">
+                                <p class="title">총 <span>6</span>개 상품구매</p>
+                                <p class="price"><span>102,000</span>원</p>
+                            </div>
+
+                            <div class="list_btn_wrap">
+                                <button type="button" class="buy">구매하기</button>
+                                <button type="button" class="cart">장바구니</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </section>
+    </div>
+    
+    <!-- 팝업 영역 -->
+    <!-- 상품문의 등록 or 수정(공용) S -->
+    <div class="layout_wrap" id="productQna">
+        <div class="dim"></div>
+        <div class="layout_box">
+            <div class="layout_head">
+                <h3 class="title">상품문의 등록</h3>
+                <a href="javascript:popClose('productQna');" class="pop_close"></a>
+            </div>
+            <div class="layout_body">
+                <div class="layout_qna_wrap">
+                	<input type="hidden" name="qnaType">
+                    <dl>
+                        <dt>공개 여부*</dt>
+                        <dd>
+                            <div class="select">
+                                <select name="piqSecret" id="">
+                                    <option value="N">공개</option>
+                                    <option value="Y">비공개</option>
+                                </select>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>문의 유형*</dt>
+                        <dd>
+                            <div class="select">
+                                <select name="piCateCode" id="">
+                                    <option value="INQUIRY_CODE1">교환</option>
+                                    <option value="INQUIRY_CODE2">반품</option>
+                                    <option value="INQUIRY_CODE3">배송</option>
+                                    <option value="INQUIRY_CODE4">변경</option>
+                                    <option value="INQUIRY_CODE5">상품</option>
+                                    <option value="INQUIRY_CODE6">취소</option>
+                                </select>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>제목*</dt>
+                        <dd>
+                            <div class="input">
+                                <input type="text" name="piqTitle">
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>내용*</dt>
+                        <dd>
+                            <div class="textarea">
+                                <textarea name="piqContent" id="" cols="30" rows="10"></textarea>
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="layout_btn_wrap">
+                    <a href="javascript:qnaInsert();" class="active">등록하기</a>
+                    <a href="javascript:qnaModify();" class="active">수정하기</a>
+                    <a href="javascript:;">취소하기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 상품문의 등록 or 수정(공용) E -->
+
+</body>
+</html>
