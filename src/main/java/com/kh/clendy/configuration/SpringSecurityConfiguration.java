@@ -18,7 +18,7 @@ import com.kh.clendy.member.model.service.MemberService;
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
    
    private MemberService memberService;
-   
+     
    @Autowired 
    public SpringSecurityConfiguration(MemberService memberService) {
       this.memberService = memberService;
