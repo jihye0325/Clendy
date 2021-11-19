@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/mypage/myBoard.css" rel="stylesheet"></link>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <title>내가 쓴 글</title>
+<body>
+    <div class="outer">
+        <div class="menu">
+            <input type="radio" class="selectType" name="selectType" id="pQna" onclick="selectType(event)" value="pQna">
+            <label for="pQna" class="radio">상품문의</label>
+            <input type="radio" class="selectType" name="selectType" id="review" onclick="selectType(event)" value="review">
+            <label for="review" class="radio">리뷰</label>
+            <input type="radio" class="selectType" name="selectType" id="qna" onclick="selectType(event)" value="qna">
+            <label for="qna" class="radio">1:1 문의</label>
+            <input type="radio" class="selectType" name="selectType" id="ex_ref" onclick="selectType(event)" value="ex_ref">
+            <label for="ex_ref" class="radio">교환/환불</label>
+            
+        </div>
+
+        <div class="board_area" id="pQna_List">
+            <div class="title">상품문의</div>
+
+            <div class="board_list">
+                <ul class="board_header">
+                    <li class="b_no">글번호</li>
+                    <li class="b_category">카테고리</li>
+                    <li class="b_title">제목</li>
+                    <li class="b_date">등록일</li>
+                    <li class="b_status">상태</li>
+                </ul>
+
+                <ul class="board_content">
+                    <li class="b_no">1</li>
+                    <li class="b_category">주문</li>
+                    <li class="b_title">주문 문의합니다.</li>
+                    <li class="b_date">2021.10.19</li>
+                    <li class="b_status">답변 대기</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="board_area" id="review_List" style="display: none;">
+            <div class="title">리뷰</div>
+
+            <div class="board_list">
+                <ul class="board_header">
+                    <li class="b_no">글번호</li>
+                    <li class="b_title">제목</li>
+                    <li class="b_date">등록일</li>
+                </ul>
+
+                <ul class="board_content">
+                    <li class="b_no">1</li>
+                    <li class="b_title">주문 문의합니다.</li>
+                    <li class="b_date">2021.10.19</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="board_area" id="qna_List" style="display: none;">
+            <div class="title">1:1 문의</div>
+
+            <div class="board_list">
+                <ul class="board_header">
+                    <li class="b_no">글번호</li>
+                    <li class="b_category">카테고리</li>
+                    <li class="b_title">제목</li>
+                    <li class="b_date">등록일</li>
+                    <li class="b_status">상태</li>
+                </ul>
+
+                <ul class="board_content">
+                    <li class="b_no">1</li>
+                    <li class="b_category">주문</li>
+                    <li class="b_title">주문 문의합니다.</li>
+                    <li class="b_date">2021.10.19</li>
+                    <li class="b_status">답변 대기</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="board_area" id="ex_ref_List" style="display: none;">
+            <div class="title">교환내역</div>
+
+            <div class="board_list">
+                <ul class="board_header">
+                    <li class="b_orderno">주문번호</li>
+                    <li class="b_pname">상품명</li>
+                    <li class="b_date">등록일</li>
+                    <li class="b_status">상태</li>
+                </ul>
+
+                <ul class="board_content">
+                    <li class="b_orderno">2021121034234</li>
+                    <li class="b_pname">2WAY 스웻 후드 집업</li>
+                    <li class="b_date">2021.10.19</li>
+                    <li class="b_status">교환 요청</li>
+                </ul>
+            </div>
+
+            <div class="title refund">환불내역</div>
+
+            <div class="board_list">
+                <ul class="board_header">
+                    <li class="b_orderno">주문번호</li>
+                    <li class="b_pname">상품명</li>
+                    <li class="b_date">등록일</li>
+                    <li class="b_status">상태</li>
+                </ul>
+
+                <ul class="board_content">
+                    <li class="b_orderno">2021121034234</li>
+                    <li class="b_pname">2WAY 스웻 후드 집업</li>
+                    <li class="b_date">2021.10.19</li>
+                    <li class="b_status">환불 요청</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectType(e)  {
+            var type = e.target.value;
+            
+            console.log(e);
+            if(type == 'pQna'){
+                $('#pQna_List').show();
+                $("#review_List").hide();
+                $("#qna_List").hide();
+                $("#ex_ref_List").hide();
+            } else if(type == 'review'){
+                $('#pQna_List').hide();
+                $("#review_List").show();
+                $("#qna_List").hide();
+                $("#ex_ref_List").hide();
+            }  else if(type =='qna') {
+                $('#pQna_List').hide();
+                $("#review_List").hide();
+                $("#qna_List").show();
+                $("#ex_ref_List").hide();
+            } else {
+                $('#pQna_List').hide();
+                $("#review_List").hide();
+                $("#qna_List").hide();
+                $("#ex_ref_List").show();
+            }
+        }
+    </script>
+    <script>
+        const boardlist = document.querySelectorAll(".board_list");
+
+        for(var i = 0; i < boardlist.length; i++) {
+            var item = boardlist.item(i);
+
+            item.addEventListener('mouseover', function(){
+
+            if(event.target.classList.contains('board_content'))
+            event.target.classList.add('onmouseover');
+            else if(event.target.parentNode.classList.contains('board_content'))
+            event.target.parentNode.classList.add('onmouseover');
+            });
+
+            item.addEventListener('mouseout', function(){
+            
+            if(event.target.classList.contains('board_content'))
+            event.target.classList.remove('onmouseover');
+            else if(event.target.parentNode.classList.contains('board_content'))
+            event.target.parentNode.classList.remove('onmouseover');
+            });   
+        }
+    </script>
+</body>
+</head>

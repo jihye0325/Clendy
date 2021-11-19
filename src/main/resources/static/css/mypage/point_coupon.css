@@ -1,0 +1,160 @@
+div {
+    borde: 1px solid black;
+}
+
+.outer {
+    margin:auto;
+    width: 900px;
+    text-align: center;
+}
+
+.point_area {
+    width: 700px;
+    margin:auto;
+    margin-top: 60px;
+}
+
+#title {
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.point_title {
+    display: flex;
+    padding-left: 30px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid black;
+}
+
+.point_title div:first-child {
+    font-weight: bold;
+    font-size: large;
+    margin-right: 10px;
+}
+
+#point {
+    font-size: large;
+}
+
+ul li {
+    borde: 1px solid black;
+    margin: 0px;
+    padding: 0px;
+}
+
+.point_list>ul {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+    padding: 0;
+    margin-top: 25px;
+}
+
+.point_header {
+    border-top : 1px solid gray;
+    border-bottom: 1px solid gray;
+    height: 30px;
+    line-height: 30px;
+    font-weight: bold;
+}
+
+.status {
+    width: 80px;
+}
+
+.point {
+    width: 180px;
+}
+
+.info {
+    width: 170px;
+}
+
+.date {
+    width: 150px;
+}
+
+.coupon_area {
+    width: 700px;
+    margin:auto;
+    margin-top: 100px;
+}
+
+.coupon_title {
+    display: flex;
+    padding-left: 30px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid black;
+}
+
+.coupon_title div:first-child {
+    font-weight: bold;
+    font-size: large;
+    margin-right: 10px;
+}
+
+label {
+    font-size: small;
+    font-weight: bold;
+    color: gray;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+/* 라디오 버튼 숨기기 */
+input[type=radio] {
+    display: none;
+    margin: 10px;
+}
+
+.able_coupon_list>ul {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+    padding: 0;
+    margin-top: 25px;
+}
+
+.disable_coupon_list>ul {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+    padding: 0;
+    margin-top: 25px;
+}
+
+.use_coupon_list>ul {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+    padding: 0;
+    margin-top: 25px;
+}
+
+.coupon_header {
+    border-top : 1px solid gray;
+    border-bottom: 1px solid gray;
+    height: 30px;
+    line-height: 30px;
+    font-weight: bold;
+}
+
+.c_no {
+    width: 70px;
+}
+
+.c_name {
+    width: 180px;
+}
+
+.c_info {
+    width: 180px;
+}
+
+.c_price {
+    width: 70px;
+}
+
+.c_date {
+    width: 120px;
+}

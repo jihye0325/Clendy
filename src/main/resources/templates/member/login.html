@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/member/login.css" rel="stylesheet"></link>
+    <title>로그인</title>
+</head>
+<body>
+	<!-- Spring Security의 formlogin 하는 경우 username, password로 꺼내므로 사용자 입력 양식의 name 속성 조심
+		 인증이 획득되지 않고 요청을 하면 로그인 페이지로 이동함! -->
+    <div class="title">
+        <img class="logo" src="/images/hanger.png">
+        <div>Clendy 로그인</div>
+    </div>
+
+    <div class="login_area">
+        <form th:action="@{/member/login}" method="post">
+            <div class="id_area">
+                <span>아이디</span><br>
+                <input type="text" name="username" class="id" maxlength="15" placeholder="아이디를 입력해주세요" required>
+            </div>
+
+            <div class="pwd_area">
+                <span>비밀번호</span><br>
+                <input type="password" name="password" maxlength="8" placeholder="비밀번호를 입력해주세요" required>
+                <img class="pwd_img" src="/images/show.png">
+            </div>
+
+            <div class="login_btn">
+                <button type="submit">로그인</button>
+            </div>
+
+            <div class="login_option">
+                <div class="remember"> 
+                    <input type="checkbox" name="remember" id="remember">
+                    <label for="remember">아이디 기억하기</label>
+                </div>
+
+                <div class="find">
+                    <span><a href="">아이디 찾기</a></span>
+                    <span>|</span>
+                    <span><a href="">비밀번호 찾기</a></span>
+                </div>
+            </div>
+        </form>
+
+        <div class="login_api">
+            <button type="button" name="kakao">
+                <img class="api_img" src="/images/kakao.png" width="30px">
+                <a href="">카카오 로그인</a>
+            </button><br>
+            <button type="button" name="naver">
+                <img class="api_img" src="/images/naver.png" width="40px">
+                <a href="">네이버 로그인</a>
+            </button>
+        </div>
+    </div>
+    
+</body>
+</html>

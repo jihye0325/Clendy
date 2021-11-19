@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/mypage/wishlist.css" rel="stylesheet"></link>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <title>위시리스트</title>
+</head>
+<body>
+    <div class="outer">
+        <div class="title">
+            <span>위시리스트</span><br>
+            <input type="radio" class="selectType" name="selectType" id="outer" onclick="selectType(event)" value="outer">
+            <label for="outer">아우터</label>
+            <input type="radio" class="selectType" name="selectType" id="top" onclick="selectType(event)" value="top">
+            <label for="top">상의</label>
+            <input type="radio" class="selectType" name="selectType" id="bottom" onclick="selectType(event)" value="bottom">
+            <label for="bottom">하의</label>
+            <input type="radio" class="selectType" name="selectType" id="onepiece" onclick="selectType(event)" value="onepiece">
+            <label for="onepiece">원피스</label>
+            <input type="radio" class="selectType" name="selectType" id="acc" onclick="selectType(event)" value="acc">
+            <label for="acc">ACC</label>
+        </div>
+
+        <div class="outer_div" id="outerWishList">
+            <ul class="wish_list">
+                <li>
+                    <div class="product">
+                        <img src="resources/images/pimg1.png">
+                        <div class="p_info">
+                            <div class="brand">아우터</div>
+                            <div class="name">2WAY 스웻 후드 집업</div>
+                            <div class="price">39,000원</div>
+                            <button type="button" id="delete">삭제</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="top_div" id="topWishList" style="display: none;">
+            <ul class="wish_list">
+                <li>
+                    <div class="product">
+                        <img src="resources/images/pimg1.png">
+                        <div class="p_info">
+                            <div class="brand">상의</div>
+                            <div class="name">2WAY 스웻 후드 집업</div>
+                            <div class="price">39,000원</div>
+                            <button type="button" id="delete">삭제</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="bottom_div" id="bottomWishList" style="display: none;">
+            <ul class="wish_list">
+                <li>
+                    <div class="product">
+                        <img src="resources/images/pimg1.png">
+                        <div class="p_info">
+                            <div class="brand">하의</div>
+                            <div class="name">2WAY 스웻 후드 집업</div>
+                            <div class="price">39,000원</div>
+                            <button type="button" id="delete">삭제</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="onepiece_div" id="onepieceWishList" style="display: none;">
+            <ul class="wish_list">
+                <li>
+                    <div class="product">
+                        <img src="resources/images/pimg1.png">
+                        <div class="p_info">
+                            <div class="brand">원피스</div>
+                            <div class="name">2WAY 스웻 후드 집업</div>
+                            <div class="price">39,000원</div>
+                            <button type="button" id="delete">삭제</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="acc_div" id="accWishList" style="display: none;">
+            <ul class="wish_list">
+                <li>
+                    <div class="product">
+                        <img src="resources/images/pimg1.png">
+                        <div class="p_info">
+                            <div class="brand">ACC</div>
+                            <div class="name">2WAY 스웻 후드 집업</div>
+                            <div class="price">39,000원</div>
+                            <button type="button" id="delete">삭제</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function selectType(e)  {
+            var type = e.target.value;
+            
+            console.log(e);
+            if(type == 'outer'){
+                $('#outerWishList').show();
+                $("#topWishList").hide();
+                $("#bottomWishList").hide();
+                $("#onepieceWishList").hide();
+                $("#accWishList").hide();
+            } else if(type == 'top'){
+                $('#outerWishList').hide();
+                $("#topWishList").show();
+                $("#bottomWishList").hide();
+                $("#onepieceWishList").hide();
+                $("#accWishList").hide();
+            } else if(type == 'bottom'){
+                $('#outerWishList').hide();
+                $("#topWishList").hide();
+                $("#bottomWishList").show();
+                $("#onepieceWishList").hide();
+                $("#accWishList").hide(); 
+            } else if(type == "onepiece"){
+                $('#outerWishList').hide();
+                $("#topWishList").hide();
+                $("#bottomWishList").hide();
+                $("#onepieceWishList").show();
+                $("#accWishList").hide(); 
+            } else {
+                $('#outerWishList').hide();
+                $("#topWishList").hide();
+                $("#bottomWishList").hide();
+                $("#onepieceWishList").hide();
+                $("#accWishList").show(); 
+            }
+        }
+    </script>
+</body>
+</html>

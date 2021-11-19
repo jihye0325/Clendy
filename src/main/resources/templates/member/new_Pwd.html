@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/member/new_Pwd.css" rel="stylesheet"></link>
+    <title>Clendy 비밀번호 재설정</title>
+</head>
+<body>
+    <div class="title">
+        <img class="logo" src="resources/images/hanger.png">
+        <div>Clendy 비밀번호 재설정</div>
+    </div>
+
+    <div class="input_area">
+        <form>
+            <div class="tempPwd_area">
+                <span>임시 비밀번호</span><br>
+                <input type="password" name="tempPwd" placeholder="임시 비밀번호를 입력해주세요" required>
+                <span id="tempPwdResult">!임시 비밀번호를 확인해주세요</span>
+            </div>
+
+            <div class="newPwd_area">
+                <span>신규 비밀번호</span><br>
+                <input type="password" name="newPwd" placeholder="신규 비밀번호를 입력해주세요" required>
+            </div>
+
+            <div class="newPwdChek_area">
+                <span>신규 비밀번호 확인</span><br>
+                <input type="password" name="newPwdChek" placeholder="신규 비밀번호 재입력" required>
+                <span id="newPwdCheckResult">!비밀번호가 일치하지 않습니다.</span>
+            </div>
+
+            <button type="submit" name="pwdSet">비밀번호 재설정</button>
+        </form>
+
+
+</body>
+</html>

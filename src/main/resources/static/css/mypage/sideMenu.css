@@ -1,0 +1,22 @@
+.sideMenu {
+    position: fixed;
+    top: 200px;
+}
+
+ul {
+    list-style: none;
+}
+
+li{
+    margin-bottom: 5px;
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+}
+
+ul :hover{
+    cursor: pointer;
+    background-color: #060032;
+    color: white;
+}

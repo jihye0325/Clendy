@@ -1,0 +1,96 @@
+div {
+    borde: 1px solid black;
+}
+
+.outer{
+    width: 800px;
+    margin: auto;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: x-large;
+    margin-bottom: 60px;
+}
+
+/* 라디오 버튼 숨기기 */
+input[type=radio] {
+    display: none;
+    margin: 10px;
+}
+
+label {
+    cursor: pointer;
+}
+
+.selectType:checked + .radio {
+    border-bottom: 1px solid black;
+}
+
+.title {
+    font-size: large;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+ul li {
+    borde: 1px solid black;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    line-height: 40px;
+}
+
+.onmouseover {
+    background: #bebdca;
+	cursor: pointer;
+}
+
+.board_list ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 0px;
+    height: 40px;
+    margin: 0px;
+}
+
+.board_header {
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    height: 30px;
+    line-height: 30px;
+}
+
+.b_no {
+    width: 80px;
+}
+
+.b_category {
+    width: 80px;
+}
+
+.b_title {
+    width: 400px;
+}
+
+.b_date {
+    width: 90px;
+}
+
+.b_status {
+    width: 80px;
+}
+
+.b_orderno {
+    width: 120px;
+}
+
+.b_pname {
+    width:200px
+}
+
+.refund {
+    margin-top: 40px;
+}

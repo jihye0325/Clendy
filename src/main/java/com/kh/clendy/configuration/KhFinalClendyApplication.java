@@ -11,5 +11,4 @@ public class KhFinalClendyApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(KhFinalClendyApplication.class, args);
 	}
-
 }
