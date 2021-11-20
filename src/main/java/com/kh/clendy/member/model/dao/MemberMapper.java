@@ -3,6 +3,7 @@ package com.kh.clendy.member.model.dao;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.clendy.member.model.vo.Member;
+import com.kh.clendy.member.model.vo.MemberRole;
 
 
 @Mapper
@@ -11,6 +12,10 @@ public interface MemberMapper {
 	// DB에서 id, pwd를 비교하는 것이 아니라 BCryptEncoder 객체가 가진 matches 메소드를 통해 비교함
 	// salt가 첨가되므로 매번 다른 문자열이 나옴
 	Member findMemberById(String username);
+
+	void insertMember(Member member);
+
+	void insertMemberRole(MemberRole memberRole);
 	
 	
 	

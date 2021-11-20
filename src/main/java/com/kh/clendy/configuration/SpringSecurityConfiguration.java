@@ -23,7 +23,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
    public SpringSecurityConfiguration(MemberService memberService) {
       this.memberService = memberService;
    }
-   
+      
    /* 암호화에 사용 */
    @Bean
    public PasswordEncoder passwordEncoder() {

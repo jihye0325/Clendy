@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.clendy.member.model.dao.MemberMapper">
+<mapper namespace="com.kh.clendy.mypage.model.dao.MypageMapper">
 	<resultMap type="com.kh.clendy.member.model.vo.Member" id="loginMemberResultMap">
 		<id property="user_no" column="USER_NO"/>
 		<result property="id" column="ID"/>
@@ -30,8 +30,9 @@
 		<result property="auth_name" column="AUTH_NAME"/>
 		<result property="auth_desc" column="AUTH_DESC"/>	
 	</resultMap>
-	
-	<select id="findMemberById" resultMap="loginMemberResultMap">
+
+	<!-- id로 유저정보 조회 -->
+	<select id="selectMember" parameterType="String" resultMap="loginMemberResultMap">
 			SELECT
 			        A.USER_NO
 			      , A.ID
@@ -55,58 +56,21 @@
 			  FROM MEMBER A
 			  LEFT JOIN MEMBER_ROLE B ON(A.USER_NO = B.USER_NO)
 			  LEFT JOIN AUTHORITY C ON(B.AUTH_CODE = C.AUTH_CODE)
-			WHERE A.ID = #{ userId }
+			WHERE A.ID = #{ id }
 	</select>
 	
-	<insert id="insertMember" parameterType="com.kh.clendy.member.model.vo.Member">
-		INSERT 
-	    	INTO MEMBER 
-		(
-		    USER_NO
-		  , ID
-		  , PASSWORD
-		  , USER_NAME
-		  , EMAIL
-		  , PHONE
-		  , ADDRESS
-		  , GENDER
-		  , HEIGHT
-		  , WEIGHT
-		  , SIGN_DATE
-		  , MODIFY_DATE
-		  , USER_STATUS
-		  , TEMP_PWD_YN
-		) 
-		VALUES
-		(
-		    SEQ_USER_NO.NEXTVAL
-		  , #{ id }
-		  , #{ password }
-		  , #{ user_name } 
-		  , #{ email }
-		  , #{ phone }
-		  , #{ address }
-		  , #{ gender }
-		  , #{ height }
-		  , #{ weight }
-		  , SYSDATE
-		  , SYSDATE
-		  , DEFAULT
-		  , DEFAULT
-		 )	
-	</insert>
+	<!-- 
+	<! Member_Role 테이블에서 삭제 > 
+	<delete id="deleteMemberRole" parameterType="_int">
+		DELETE
+	    	FROM MEMBER_ROLE
+	   	   WHERE USER_NO = #{ id } 
+	</delete>
 	
-	<insert id="insertMemberRole" parameterType="com.kh.clendy.member.model.vo.MemberRole">
-		INSERT 
-	    	INTO MEMBER_ROLE 
-		(
-	    	USER_NO
-	  	  , AUTH_CODE
-		) 
-		VALUES
-		(
-			SEQ_USER_NO.CURRVAL
-		  , #{ auth_code } 
-		)
-	</insert>
+	<! Member 테이블에서 삭제 > 
+	<delete id="deleteMember" parameterType="_int">
+		DELETE 
+   	 		FROM MEMBER
+   		  WHERE ID = #{ id }
+	</delete> -->
 </mapper>

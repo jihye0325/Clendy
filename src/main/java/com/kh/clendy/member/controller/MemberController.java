@@ -3,9 +3,11 @@ package com.kh.clendy.member.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.clendy.member.model.service.MemberService;
+import com.kh.clendy.member.model.vo.Member;
 
 @Controller
 @RequestMapping("/member")
@@ -21,10 +23,16 @@ public class MemberController {
 	@GetMapping("/login")
 	public void loginForm() {}
 	
-	@GetMapping("/memberJoinForm")
-	public void JoinForm() {}
+	@GetMapping("/signUp")
+	public void signUpForm() {}
 	
-
+	@PostMapping("/signUp")	
+	public String signUp(Member member) {
+		
+		memberService.signUp(member);
+		
+		return "redirect:/";
+	}
 	
 	
 	

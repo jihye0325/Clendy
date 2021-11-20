@@ -12,8 +12,8 @@ public class Member {
 	private String phone;
 	private String address;
 	private String gender;
-	private int height;
-	private int weight;
+	private String height;
+	private String weight;
 	private Date sign_date;
 	private Date modify_date;
 	private String user_status;
@@ -24,7 +24,7 @@ public class Member {
 	public Member() {}
 
 	public Member(int user_no, String id, String password, String user_name, String email, String phone, String address,
-			String gender, int height, int weight, Date sign_date, Date modify_date, String user_status,
+			String gender, String height, String weight, Date sign_date, Date modify_date, String user_status,
 			String temp_pwd_yn, List<MemberRole> memberRoleList) {
 		super();
 		this.user_no = user_no;
@@ -108,19 +108,19 @@ public class Member {
 		this.gender = gender;
 	}
 
-	public int getHeight() {
+	public String getHeight() {
 		return height;
 	}
 
-	public void setHeight(int height) {
+	public void setHeight(String height) {
 		this.height = height;
 	}
 
-	public int getWeight() {
+	public String getWeight() {
 		return weight;
 	}
 
-	public void setWeight(int weight) {
+	public void setWeight(String weight) {
 		this.weight = weight;
 	}
 
@@ -172,5 +172,5 @@ public class Member {
 				+ ", user_status=" + user_status + ", temp_pwd_yn=" + temp_pwd_yn + ", memberRoleList=" + memberRoleList
 				+ "]";
 	}
-	
+
 }
