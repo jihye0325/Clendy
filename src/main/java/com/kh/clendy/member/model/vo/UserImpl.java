@@ -16,8 +16,8 @@ public class UserImpl extends User{
 	private String phone;
 	private String address;
 	private String gender;
-	private int height;
-	private int weight;
+	private String height;
+	private String weight;
 	private Date sign_date;
 	private Date modify_date;
 	private String user_status;
@@ -28,7 +28,7 @@ public class UserImpl extends User{
 	public UserImpl(String username, String password, Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, authorities);
 	}
-	
+
 	// member 객체에서 전달받아서 설정
 	public void setDetails(Member member) {
 		this.user_no = member.getUser_no();
@@ -80,11 +80,11 @@ public class UserImpl extends User{
 		return gender;
 	}
 
-	public int getHeight() {
+	public String getHeight() {
 		return height;
 	}
 
-	public int getWeight() {
+	public String getWeight() {
 		return weight;
 	}
 

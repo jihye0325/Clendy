@@ -8,15 +8,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.clendy.member.model.dao.MemberMapper;
 import com.kh.clendy.member.model.vo.Authority;
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.member.model.vo.MemberRole;
 import com.kh.clendy.member.model.vo.UserImpl;
-
-
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -62,6 +62,22 @@ public class MemberServiceImpl implements MemberService{
 		
 		return user;
 	}
+
+	// Member, Member_Role에 insert 처리 			// ++ 추천인 로직 
+	@Transactional
+	@Override
+	public void signUp(Member member) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		member.setPassword(passwordEncoder.encode(member.getPassword()));
+		memberMapper.insertMember(member);
+		
+		MemberRole memberRole = new MemberRole();
+		memberRole.setAuth_code(1);
+		memberMapper.insertMemberRole(memberRole);
+		
+	}
+	
+	
 
 	
 	
