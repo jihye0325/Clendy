@@ -1,0 +1,154 @@
+div { 
+    borde: 1px solid black;
+}
+
+span { 
+    borde: 1px solid black;
+}
+
+.outer {
+    width: 600px;
+    margin: auto;
+    
+}
+
+.title {
+    font-size: x-large;
+    font-weight: bold;
+    padding: 10px;
+    border-bottom: 2px solid black;
+    margin-bottom: 20px;
+}
+
+.product {
+    border: 1px solid lightgray;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    margin: 0px;
+    padding: 0px;
+}
+
+li {
+    margin: 0px;
+    padding: 0px;
+    borde: 1px solid black;
+}
+
+.ul_header {
+    height: 40px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid lightgray;
+    line-height: 40px;
+}
+
+.ul_content {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+#order_no {
+    width: 120px;
+}
+
+#p_info {
+    display: flex;
+    width: 300px;
+}
+
+img {
+    width: 100px;
+}
+
+#p_price {
+    width: 110px;
+    text-align: center;
+}
+
+.ul_content li {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#p_info div{
+    margin-left: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#pname {
+    color: gray;
+    font-weight: bold;
+}
+
+.input_area {
+    margin-top: 20px;
+    border: 1px solid lightgray;
+    padding: 15px;
+}
+
+.option_area {
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.select_area {
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.reason_area {
+    margin-left: 20px;
+}
+
+#required {
+    color: red;
+    margin-right: 25px;
+}
+
+.reason_area {
+    display: flex;
+}
+
+.reason_area div {
+    margin-right: 40px;
+    text-align: center;
+}
+
+.reason_area div span:last-child {
+    font-size: small;
+}
+
+textarea {
+    resize: none;
+    width: 400px;
+    height: 80px;   
+}
+
+.exchange_rule {
+    border-top: 2px solid black;
+    padding-top: 10px;
+    margin-top: 30px;
+    color:red;
+    font-size: small;
+    font-weight: bold;
+}
+
+.btn_area {
+    margin-top: 30px;
+    text-align: center;
+}
+
+button {
+    background-color: #060032;
+    color: white;
+    border: none;
+    font-size: large;
+    font-weight: bold;
+    width: 120px;
+    height: 40px;
+}

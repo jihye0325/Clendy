@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/mypage/point_coupon.css" rel="stylesheet"></link>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <title>적립금 / 쿠폰</title>
+</head>
+<body>
+    <div class="outer">
+        <div clss="title">
+            <span id="title">적립금 / 쿠폰</span>
+        </div>
+
+        <div class="point_area">
+            <div class="point_title">
+                <div>적립금</div><div id="point">3,600원</div>
+            </div>
+            
+            <div class="point_list">
+                <ul class="point_header">
+                    <li class="status">상태</li>
+                    <li class="point">적립금</li>
+                    <li class="info">적립 내용</li>
+                    <li class="date">적용 일시</li>
+                </ul>
+
+                <ul class="point_content">
+                    <li class="status">차감</li>
+                    <li class="point">-10,000</li>
+                    <li class="info">적립금 결제</li>
+                    <li class="date">2021.10.19</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="coupon_area">
+            <div class="coupon_title">
+                <div>쿠폰</div>
+                <input type="radio" class="selectType" name="selectType" id="able" onclick="selectType(event)" value="able">
+                <label for="able">사용가능/</label>
+                <input type="radio" class="selectType" name="selectType" id="disable" onclick="selectType(event)" value="disable">
+                <label for="disable">사용만료/</label>
+                <input type="radio" class="selectType" name="selectType" id="use" onclick="selectType(event)" value="use">
+                <label for="use">사용완료</label>
+            </div>
+            
+            <div class="able_coupon_list">
+                <ul class="coupon_header">
+                    <li class="c_no">쿠폰번호</li>
+                    <li class="c_name">쿠폰명</li>
+                    <li class="c_info">쿠폰내용</li>
+                    <li class="c_price">할인금액</li>
+                    <li class="c_date">유효기간</li>
+                </ul>
+
+                <ul class="coupon_content">
+                    <li class="c_no">43</li>
+                    <li class="c_name">[브랜드]사용 가능</li>
+                    <li class="c_info">어그 상품 할인</li>
+                    <li class="c_price">10,000원</li>
+                    <li class="c_date">2021.10.19</li>
+                </ul>
+            </div>
+
+            <div class="disable_coupon_list" style="display: none;">
+                <ul class="coupon_header">
+                    <li class="c_no">쿠폰번호</li>
+                    <li class="c_name">쿠폰명</li>
+                    <li class="c_info">쿠폰내용</li>
+                    <li class="c_price">할인금액</li>
+                    <li class="c_date">유효기간</li>
+                </ul>
+
+                <ul class="coupon_content">
+                    <li class="c_no">43</li>
+                    <li class="c_name">[브랜드]사용 만료</li>
+                    <li class="c_info">어그 상품 할인</li>
+                    <li class="c_price">10,000원</li>
+                    <li class="c_date">2021.10.19</li>
+                </ul>
+            </div>
+
+            <div class="use_coupon_list" style="display: none;">
+                <ul class="coupon_header">
+                    <li class="c_no">쿠폰번호</li>
+                    <li class="c_name">쿠폰명</li>
+                    <li class="c_info">쿠폰내용</li>
+                    <li class="c_price">할인금액</li>
+                    <li class="c_date">유효기간</li>
+                </ul>
+
+                <ul class="coupon_content">
+                    <li class="c_no">43</li>
+                    <li class="c_name">[브랜드]사용 완료</li>
+                    <li class="c_info">어그 상품 할인</li>
+                    <li class="c_price">10,000원</li>
+                    <li class="c_date">2021.10.19</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectType(e)  {
+            var type = e.target.value;
+            
+            console.log(e);
+            if(type == 'able'){
+                $('.able_coupon_list').show();
+                $(".disable_coupon_list").hide();
+                $(".use_coupon_list").hide();
+            } else if(type == 'disable'){
+                $('.able_coupon_list').hide();
+                $(".disable_coupon_list").show();
+                $(".use_coupon_list").hide();
+            }  else {
+                $('.able_coupon_list').hide();
+                $(".disable_coupon_list").hide();
+                $(".use_coupon_list").show();
+            }
+        }
+    </script>
+</body>
+</html>

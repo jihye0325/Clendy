@@ -32,7 +32,7 @@
 	</resultMap>
 
 	<!-- id로 유저정보 조회 -->
-	<select id="selectMember" parameterType="String" resultMap="loginMemberResultMap">
+	<select id="selectMember" parameterType="_int" resultMap="loginMemberResultMap">
 			SELECT
 			        A.USER_NO
 			      , A.ID
@@ -52,25 +52,36 @@
 			      , B.AUTH_CODE REF_AUTHORITY_CODE
 			      , C.AUTH_CODE REF_AUTHORITY_CODE2
 			      , C.AUTH_NAME 
-			      , C.AUTH_DESC
+			      , C.AUTH_DESC 
 			  FROM MEMBER A
 			  LEFT JOIN MEMBER_ROLE B ON(A.USER_NO = B.USER_NO)
 			  LEFT JOIN AUTHORITY C ON(B.AUTH_CODE = C.AUTH_CODE)
-			WHERE A.ID = #{ id }
+			WHERE A.USER_NO = #{ user_no }
 	</select>
 	
-	<!-- 
-	<! Member_Role 테이블에서 삭제 > 
+	<!-- Member 테이블 수정 -->
+	<update id="modifyMember" parameterType="com.kh.clendy.member.model.vo.Member">
+			UPDATE MEMBER
+		    	SET PASSWORD = #{ password }
+		      , EMAIL = #{ email }
+		      , PHONE = #{ phone }
+		      , ADDRESS = #{ address }
+		      , HEIGHT = #{ height }
+		      , WEIGHT = #{ weight }
+		    WHERE USER_NO = #{ user_no }
+	</update>
+	
+	<!-- Member_Role 테이블에서 삭제 --> 
 	<delete id="deleteMemberRole" parameterType="_int">
 		DELETE
 	    	FROM MEMBER_ROLE
-	   	   WHERE USER_NO = #{ id } 
+	   	   WHERE USER_NO = #{ user_no }
 	</delete>
 	
-	<! Member 테이블에서 삭제 > 
+	<!-- Member 테이블에서 삭제 --> 
 	<delete id="deleteMember" parameterType="_int">
 		DELETE 
    	 		FROM MEMBER
-   		  WHERE ID = #{ id }
-	</delete> -->
+   		  WHERE USER_NO = #{ user_no }
+	</delete>
 </mapper>

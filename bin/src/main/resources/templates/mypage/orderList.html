@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/mypage/orderList.css" rel="stylesheet"></link>
+    <title>주문내역</title>
+</head>
+<body>
+    <div class="outer">
+        <div class="title">주문내역</div>
+    
+        <div class="info">
+            <p>
+            주문취소는 결제완료 상태일때만 가능하며 판매자가 배송을 시작하면 주문취소할 수 없습니다.<br>
+            교환/환불 신청은 주문일로부터 7일이내에 가능합니다.<br>
+            주문일로부터 7일이 지나면 자동으로 구매확정 됩니다.
+            </p>
+        </div>
+
+        <div class="order_list">
+            <ul class="ul_header">
+                <li class="pname">상품명</li>
+                <li class="price">주문금액(수량)</li>
+                <li class="order_no">주문번호</li>
+                <li class="date">주문일자</li>
+                <li class="pstatus">주문상태</li>
+            </ul>
+
+            <ul class="ul_content">
+                <li class="pname">
+                    <div>
+                        <img src="resources/images/pimg1.png">
+                        <div class="p_info">
+                            <div id="bname">토피</div>
+                            <div id="pname">2WAY 스웻 후드 집업</div>
+                            <div id="option">옵션 : M</div>
+                        </div>
+                    </div>
+                </li>
+                <li class="price">
+                    <span>39,000원</span><br>
+                    <span>1개</span>
+                </li>
+                <li class="order_no">
+                    <span>20211210241421</span><br>
+                    <button type="button" id="order_address">배송지</button>
+                </li>
+                <li class="date">2021.12.10</li>
+                <li class="pstatus">
+                    <div class="status_box">
+                        <div class="status_info">
+                            <div id="status">결제완료</div>
+                            <button id="decide_btn">주문취소</button>
+                        </div>
+
+                        <div class="review_info">
+                            <button id="review_btn">리뷰등록</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

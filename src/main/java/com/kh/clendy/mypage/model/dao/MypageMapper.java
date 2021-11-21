@@ -7,10 +7,12 @@ import com.kh.clendy.member.model.vo.Member;
 @Mapper
 public interface MypageMapper {
 
-	Member selectMember(String id);
-	
-	int deleteMemberRole(Member member);
+	Member selectMember(int user_no);
 
-	int deleteMember(Member member);
+	int modifyMember(Member m);
+	
+	int deleteMemberRole(int user_no);
+
+	int deleteMember(int user_no);
 
 }
