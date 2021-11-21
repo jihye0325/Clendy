@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ</title>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<style>
+#wrapper {display: flex;}
+#title, h6{ display: inline-block; margin-right: 15px; }
+ul, li{list-style: none; padding-left: 0;}
+a{text-decoration: none;}
+/* sidebar */
+#sidebar{    width: 160px;    padding-left :10%;}
+#sidebar li{ width: 70px; height: 40px; }
+#sidebar a {  color:black; width: 70px; height: 30px; display: inline-block; padding:5px; }
+.sideA:hover{ background-color: #060032; color:white; }
+#sidebar a:hover:not(.current){ background-color: #060032; color:white; }
+#sidebar .current{background-color: #060032; color:white;}
+/* content */
+#content{  margin : 0px auto auto 11%; width: 850px;}
+/* searchArea */
+#searchArea{ display: flex; justify-content: right;}
+#searchFAQ{ width: 300px; height: 23px; display: inline-block; margin: 5px;}
+#finding{ width: 23px; height:23px; transform: translateY(30%); cursor: pointer;} 
+#category{ margin-top : 40px;}
+#categoryUl{ display: table; width: 100%; min-width: 850px; border: 1px solid #ddd;  border-left: none;  box-sizing: border-box;}
+#categoryUl li{display: table-cell;   width: 9.09%;}
+#categoryUl label { border-left: 1px solid #ddd; width: 100%; height: 30px; display: table; text-align: center; line-height:30px; cursor: pointer;}
+#categoryUl label:hover{ font-weight: bold; background-color: lightgrey;}
+/* FAQ area */
+.title ul{ height: 30px; border-top: 1px solid lightgray; margin: 0; border-bottom: 1px solid lightgray;}
+.title li{ font-weight: bold; display: table-cell;  text-align: center; line-height: 30px; }
+.FAQ_num { width : 120px; text-align: center;}
+.FAQ_content{ width : 720px; cursor: pointer;}
+.question{ height: 40px; }
+.question ul { border-bottom: 1px solid lightgray; margin : 0;}
+.question li{ display: table-cell; height: 40px; line-height: 40px;}
+.answer-wrapper { display : none; border-bottom: 1px solid lightgray;}
+.answer{ padding-left: 119px;}
+/* btn */
+.btnArea{ display: flex; justify-content: flex-end; width: 850px; padding-bottom: 15px;}
+.mOrd{ margin-right: 5px; border:0; background-color: lightgray; width : 40px; height : 25px;}
+/* insert btn */
+#insertBtn{ display: flex; justify-content: flex-end; padding-top:15px; padding-bottom: 15px;}
+#insertFAQ{ width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer; }
+</style>
+</head>
+<body>
+    <div id="header"></div>
+
+    <div id="wrapper">
+        <div id="sidebar">
+            <ul>
+                <li><a class="sideA current" href="FAQ.html">FAQ</a></li>
+                <li><a class="sideA" href="#">공지사항</a></li>
+                <li><a class="sideA" href="#">1:1문의</a></li>
+            </ul>
+        </div>
+        <div id="content">
+            <h3 id="title">FAQ</h3><h6>자주 묻는 질문</h6>
+            <div id="searchArea">
+                <input type="text" id="searchFAQ" name="searchFAQ" placeholder="제목, 내용 검색"><img id="finding" src="resources/magnifying-glass-navy.png" alt="돋보기">
+            </div>   
+            <div id="category">
+                <ul id="categoryUl">
+                    <li><label>주문</label></li>
+                    <li><label>배송</label></li>
+                    <li><label>교환/반품</label></li>
+                    <li><label>적립금/쿠폰</label></li>
+                    <li><label>회원관련</label></li>
+                </ul>
+            </div> 
+            <div id="FAQList">
+                <div class="title"><ul><li class="FAQ_num">번호</li><li class="FAQ_content">내용</li></ul></div>
+                <div class="question"><ul><li class="FAQ_num">1</li><li class="FAQ_content">질문1</li></ul></div>
+                <div class="answer-wrapper"><p class="answer">질문답변 1</p>
+                    <div class="btnArea">
+                    <button class="mOrd">수정</button>
+                    <button class="mOrd">삭제</button>
+                    </div>
+                </div>
+                <div class="question"><ul><li class="FAQ_num">2</li><li class="FAQ_content">질문2</li></ul></div>
+                <div class="answer-wrapper"><p class="answer">질문답변 2</p>
+                    <div class="btnArea">
+                    <button class="mOrd">수정</button>
+                    <button class="mOrd">삭제</button>
+                    </div>
+                </div>
+                <div class="question"><ul><li class="FAQ_num">3</li><li class="FAQ_content">질문3</li></ul></div>
+                <div class="answer-wrapper"><p class="answer">질문답변 3</p>
+                    <div class="btnArea">
+                    <button class="mOrd">수정</button>
+                    <button class="mOrd">삭제</button>
+                    </div>
+                </div>
+                <div class="question"><ul><li class="FAQ_num">4</li><li class="FAQ_content">질문4</li></ul></div>
+                <div class="answer-wrapper"><p class="answer">질문답변4</p>
+                    <div class="btnArea">
+                    <button class="mOrd">수정</button>
+                    <button class="mOrd">삭제</button>
+                    </div>
+                </div>
+                <div class="question"><ul><li class="FAQ_num">5</li><li class="FAQ_content">질문5</li></ul></div>
+                <div class="answer-wrapper"><p class="answer">질문답변5</p>
+                    <div class="btnArea">
+                    <button class="mOrd">수정</button>
+                    <button class="mOrd">삭제</button>
+                    </div>
+                </div>    
+                <div id="insertBtn">
+                <button id="insertFAQ">등록</button>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+    <div id="footer"></div>
+
+    <script>
+        $(".question").click(function(){
+            if($(this).next().css('display') == 'none'){
+                $(this).next().slideUp();
+                $(this).next().slideDown();
+            }else{
+                $(this).next().slideUp();
+            }  
+        });
+    </script>    
+</body>
+</html>

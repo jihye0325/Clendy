@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1:1문의 등록</title>
+    <style>
+        #wrapper {display: flex;}
+        #content-title, h6{ display: inline-block; margin-right: 15px; }
+        ul, li{list-style: none; padding-left: 0;}
+        a{text-decoration: none;}
+        /* sidebar */
+        #sidebar{    width: 160px;    padding-left :10%;}
+        #sidebar li{ width: 70px; height: 40px; }
+        #sidebar a {  color:rgb(75, 64, 64); width: 70px; height: 30px; display: inline-block; padding:5px; }
+        .sideA:hover{ background-color: #060032; color:white; }
+        #sidebar a:hover:not(.current){ background-color: #060032; color:white; }
+        #sidebar .current{background-color: #060032; color:white;}
+        /* content */
+        #content{  margin : 0px auto auto 11%; width: 850px;}      
+        /* question-detail */
+        .detail-title{border-top: 1px solid lightgray; border-bottom: 1px solid lightgray;}
+        .title-wrapper{ margin:5px; display: inline-block;}
+        .category-wrapper{margin:5px;}
+        .title{font-weight: bold; margin:5px;}
+        .name, .enroll-date, .category{ margin-left : 20px;}
+        .question-content { width : 850px; height: 300px; border-bottom: 1px solid lightgray; margin-bottom: 30px;}
+        /* btn-area */
+        .btn-area{ display:flex; justify-content: center; padding-top:15px; padding-bottom: 15px;}
+        .insert, .to-list{width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer; margin :5px; }
+        </style>
+    </head>
+    <body>
+        <div class="header"></div>
+    
+        <div id="wrapper">
+            <div id="sidebar">
+                <ul>
+                    <li><a class="sideA " href="#">FAQ</a></li>
+                    <li><a class="sideA " href="#">공지사항</a></li>
+                    <li><a class="sideA current" href="#">1:1문의</a></li>
+                </ul>
+            </div>
+            <div id="content">
+                <h3 id="content-title">1:1문의</h3><h6>1:1 Q&A</h6>
+            
+                <div class="question-detail">
+                    <div class="detail-title">
+                        <div class="title-wrapper"><label class="title">제목</label><input class="name" type="text" maxlength="20" required></div>
+                        <div class="category-wrapper"><label class="title">카테고리</label>
+                            <select>
+                            <option value="order">주문</option>
+                            <option value="delivery">배송</option>
+                            <option value="change">교환/반품</option>
+                            <option value="coupon">적립금/쿠폰</option>
+                            <option value="user">회원관련</option>
+                          </select></div>
+                    </div>
+                    <div class="question-content">
+    
+                    </div>
+                </div>
+    
+                <div class="btn-area">
+                    <input type="button" class="to-list" value="목록">
+                    <input type="button" class="insert" value="등록">
+                </div>
+                
+            </div>
+    
+        </div>
+    
+        
+        <div class="footer"></div>
+    
+</body>
+</html>

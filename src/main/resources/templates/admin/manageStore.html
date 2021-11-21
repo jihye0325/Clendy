@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>입점승인/승인</title>
+    <style>
+        #wrapper {display: flex;}
+        #content-title, h6{ display: inline-block; margin-right: 15px; }
+        ul, li{list-style: none; padding-left: 0;}
+        a{text-decoration: none;}
+        /* sidebar */
+        #sidebar{    width: 160px;    padding-left :10%;}
+        #sidebar li{ width: 70px; height: 40px; }
+        #sidebar a {  color:black; width: 110px; height: 30px; display: inline-block; padding:5px; }
+        .sideA:hover{ background-color: #060032; color:white; }
+        #sidebar a:hover:not(.current){ background-color: #060032; color:white; }
+        #sidebar .current{background-color: #060032; color:white;}
+        /* content */
+        #content{  margin : 0px auto auto 11%; width: 850px;}    
+        /* board-list */
+        .board-wrapper{margin-top: 30px;}
+        .list-th ul{ height: 30px; border-top: 1px solid lightgray; margin: 0; border-bottom: 1px solid lightgray;}
+        .list-th li{ font-weight: bold; display: table-cell;  text-align: center; line-height: 30px; }
+        .list-num { width : 60px; text-align: center;}
+        .list-name{width : 300px; text-align: center;}
+        .list-sales{ width : 150px; text-align: center;}
+        .list-commission{ width: 140px; text-align: center;}
+        .list-date { width : 120px; text-align:center;}
+        .list-join-or-cancel{width : 80px; text-align: center; }
+        .list-btn{ display:inline-block; text-decoration: underline; cursor: pointer;}
+        .board-list li{ display: table-cell; height: 25px; line-height: 10px; border-bottom: 1px solid lightgray;}
+        /* paging */
+        .board-paging li{display: table-cell; }
+        .board-paging {
+            height: 50px;
+            line-height: 50px;
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            width: 480px;
+            margin: 70px auto;
+        }
+        
+        .board-paging a {
+            text-decoration: none;
+            color: #282A35;
+            display: block;
+            text-align: center;
+            border: 1px solid #dae0e9;
+            margin-left: -1px;
+            width: 37px;
+            height: 37px;
+            line-height : 37px;
+            font-size: 12px;
+        }
+        
+        .board-paging a:hover {background-color: #060032; color: white;}
+        .board-paging a.current-page {
+            border: 1px solid #060032;
+            background: #060032;
+            color: #fff;
+        }
+        </style>
+</head>
+<body>
+    <div class="header"></div>
+
+    <div id="wrapper">
+        <div id="sidebar">
+            <ul>
+                <li><a class="sideA " href="#">판매자관리</a></li>
+                <li><a class="sideA current" href="#">입점승인/취소</a></li>
+                <li><a class="sideA " href="#">정산</a></li>
+                <li><a class="sideA " href="#">쿠폰관리</a></li>
+            </ul>
+        </div>
+        <div id="content">
+            <h3 id="content-title">입점 승인</h3><h6>Join Store</h6>
+        
+            <div class="board-wrapper">
+                <div class="list-th">
+                    <ul><li class="list-num">번호</li><li class="list-name">이름</li><li class="list-sales">대표자</li><li class="list-commission">사업자등록번호</li><li class="list-date">신청일</li><li class="list-join-or-cancel"> 입점승인</li></ul></div>
+                <div class="board-list">
+                    <ul><li class="list-num">1</li><li class="list-name">스토어이름1</li><li class="list-sales ">대표자명</li><li class="list-commission">111-11-11111</li><li class="list-date">2021.11.20</li><li class="list-join-or-cancel"><a class="list-btn ">승인</a></li></ul>    
+                    <ul><li class="list-num">2</li><li class="list-name">스토어이름2</li><li class="list-sales ">대표자명</li><li class="list-commission">222-22-22222</li><li class="list-date">2021.11.20</li><li class="list-join-or-cancel"><a class="list-btn ">승인</a></li></ul>   
+                    <ul><li class="list-num">3</li><li class="list-name">스토어이름3</li><li class="list-sales ">대표자명3</li><li class="list-commission">333-33-33333</li><li class="list-date">2021.11.20</li><li class="list-join-or-cancel"><a class="list-btn ">승인</a></li></ul>   
+                    <ul><li class="list-num">4</li><li class="list-name">스토어이름4</li><li class="list-sales ">대표자명4</li><li class="list-commission">444-44-44444</li><li class="list-date">2021.11.20</li><li class="list-join-or-cancel"><a class="list-btn ">승인</a></li></ul>   
+                    <ul><li class="list-num">5</li><li class="list-name">스토어이름5</li><li class="list-sales ">대표자명5</li><li class="list-commission">555-55-55555</li><li class="list-date">2021.11.20</li><li class="list-join-or-cancel"><a class="list-btn ">승인</a></li></ul>    
+                </div>
+            </div>
+
+            <div class="board-paging join">
+                <ul>
+                    <li><a href="#">&lt;&lt;</a></li>
+                    <li><a href="#">&lt;</a></li>
+                    <li><a href="#" class="current-page">1</a></li>
+                    <li><a href="#" >2</a></li>
+                    <li><a href="#" >3</a></li>
+                    <li><a href="#" >4</a></li>
+                    <li><a href="#" >5</a></li>
+                    <li><a href="#" >6</a></li>
+                    <li><a href="#" >7</a></li>
+                    <li><a href="#" >8</a></li>
+                    <li><a href="#" >9</a></li>
+                    <li><a href="#" >10</a></li>
+                    <li><a href="#">&gt;</a></li>
+                    <li><a href="#">&gt;&gt;</a></li>
+                </ul>
+            </div>
+
+            <h3 id="content-title">입점 취소</h3><h6>cancel Store</h6>
+        
+            <div class="board-wrapper">
+                <div class="list-th">
+                    <ul><li class="list-num">번호</li><li class="list-name">이름</li><li class="list-sales">대표자</li><li class="list-commission">사업자등록번호</li><li class="list-date">신청일</li><li class="list-join-or-cancel"> 입점승인</li></ul></div>
+                <div class="board-list">
+                    <ul><li class="list-num">1</li><li class="list-name">스토어이름1</li><li class="list-sales ">대표자명</li><li class="list-commission">111-11-11111</li><li class="list-date">2021.11.20</li><li class="list-join-or-cancel"><a class="list-btn ">승인</a></li></ul>    
+                    <ul><li class="list-num">2</li><li class="list-name">스토어이름2</li><li class="list-sales ">대표자명</li><li class="list-commission">222-22-22222</li><li class="list-date">2021.11.20</li><li class="list-join-or-cancel"><a class="list-btn ">승인</a></li></ul>   
+                    <ul><li class="list-num">3</li><li class="list-name">스토어이름3</li><li class="list-sales ">대표자명3</li><li class="list-commission">333-33-33333</li><li class="list-date">2021.11.20</li><li class="list-join-or-cancel"><a class="list-btn ">승인</a></li></ul>   
+                    <ul><li class="list-num">4</li><li class="list-name">스토어이름4</li><li class="list-sales ">대표자명4</li><li class="list-commission">444-44-44444</li><li class="list-date">2021.11.20</li><li class="list-join-or-cancel"><a class="list-btn ">승인</a></li></ul>   
+                    <ul><li class="list-num">5</li><li class="list-name">스토어이름5</li><li class="list-sales ">대표자명5</li><li class="list-commission">555-55-55555</li><li class="list-date">2021.11.20</li><li class="list-join-or-cancel"><a class="list-btn ">승인</a></li></ul>    
+                </div>
+            </div>
+
+            <div class="board-paging join">
+                <ul>
+                    <li><a href="#">&lt;&lt;</a></li>
+                    <li><a href="#">&lt;</a></li>
+                    <li><a href="#" class="current-page">1</a></li>
+                    <li><a href="#" >2</a></li>
+                    <li><a href="#" >3</a></li>
+                    <li><a href="#" >4</a></li>
+                    <li><a href="#" >5</a></li>
+                    <li><a href="#" >6</a></li>
+                    <li><a href="#" >7</a></li>
+                    <li><a href="#" >8</a></li>
+                    <li><a href="#" >9</a></li>
+                    <li><a href="#" >10</a></li>
+                    <li><a href="#">&gt;</a></li>
+                    <li><a href="#">&gt;&gt;</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    
+    <div class="footer"></div>
+    
+</body>
+</html>
