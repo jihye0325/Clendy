@@ -1,0 +1,59 @@
+div{
+    borde : 1px solid black;
+}
+
+span{
+    borde : 1px solid black;
+    font-weight: bold;
+}
+
+.title {
+    display: flex;
+    width: 600px;
+    font-size: 40px;
+    justify-content: center;
+    margin: auto;
+    color: #060032;
+    padding: 10px;
+    border-bottom: 4px solid #060032;
+    margin-bottom: 40px;
+}
+
+.logo {
+    margin-right: 15px;
+    width: 48px;
+}
+
+.input_area {
+    width: 300px;
+    margin: auto;
+}
+
+input {
+    width: 292px;
+    height: 30px;
+    margin-top: 10px;
+}
+
+.newPwd_area {
+    margin-top: 10px;
+}
+
+.newPwdChek_area {
+    margin-top: 10px;
+}
+
+button {
+    margin-top: 20px;
+    width: 300px;
+    height: 30px;
+    background-color: #060032;
+    border: none;
+    color: white;
+    font-weight: bold;
+}
+
+div span:last-child {
+    color: red;
+    font-size: x-small;
+}

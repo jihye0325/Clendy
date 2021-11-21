@@ -7,16 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/mypage/modify.css" rel="stylesheet"></link>
     <title>회원정보</title>
-    <!-- 회원정보 수정 후 알림창 
+    <!-- 회원정보 수정 후 알림창 -->
     <script>
-		const successMessage = '[[${ successMessage }]]';
+		const msg = '[[${ msg }]]';
 		
-		if(successMessage){
-			alert(successMessage);
+		if(msg){
+			alert(msg);
 		}
-	</script> -->
+	</script>
 </head>
 <body>
+	<div th:replace="mypage/sideMenu.html"></div>
     <div class=content>
         <div class="title">
             <img class="logo" src="/images/hanger.png">
@@ -24,18 +25,19 @@
         </div>
 
         <div class="joinForm">
-            <form>
+            <form th:action="@{/mypage/modify}" name="modify" method="post">
                 <div class="id_area">
                     <span>아이디</span>
                     <div class="id_view area">
-                        <input type="text" name="id" value="ㅇㅇ" readonly>
+                        <input type="text" name="id" th:value="${ m.id }" readonly>
+                       
                     </div>
                 </div>
 
                 <div class="pwd_area">
                     <span>현재 비밀번호</span><span class="required">*</span>
                     <div class="pwd_input area">
-                        <input type="password" name="pwd" maxlength="8" placeholder="비밀번호를 입력하세요" required>
+                        <input type="password" name="originPwd" maxlength="8" placeholder="비밀번호를 입력하세요" required>
                         <img class="pwd_img" src="/images/show.png">
                     </div>
                 </div>
@@ -43,7 +45,7 @@
                 <div class="newPwd_area">
                     <span>새로운 비밀번호</span><span class="required">*</span>
                     <div class="newPwd_input area">
-                        <input type="password" name="newPwd" maxlength="8" placeholder="비밀번호(영문,숫자,특수문자 조합 최소 8자리)" required>
+                        <input type="password" name="password" maxlength="8" placeholder="비밀번호(영문,숫자,특수문자 조합 최소 8자리)" required>
                         <img class="pwd_img" src="/images/show.png">
                     </div>
                 </div>
@@ -51,7 +53,7 @@
                 <div class="newPwdCheck_area">
                     <span>새로운 비밀번호 확인</span><span class="required">*</span>
                     <div class="newPwdCheck_input area">
-                        <input type="password" name="newPwdCheck" maxlength="8" placeholder="비밀번호 재입력" required>
+                        <input type="password" name="pwdCheck" maxlength="8" placeholder="비밀번호 재입력" required>
                         <img class="pwd_img" src="/images/show.png">
                     </div>
                 </div>
@@ -59,28 +61,28 @@
                 <div class="name_area">
                     <span>이름</span>
                     <div class="name_view area">
-                        <input type="text" name="name" value="지혜" readonly>
+                        <input type="text" name="user_name" th:value="${ m.user_name }" readonly>
                     </div>
                 </div>
 
                 <div class="email_area">
                     <span>이메일</span><span class="required">*</span>
                     <div class="email_input area">
-                        <input type="email" name="email" value="a1234@gmail.com" required>
+                        <input type="email" name="email" th:value="${ m.email }" required>
                     </div>
                 </div>
 
                 <div class="phone_area">
                     <span>휴대폰 번호</span><span class="required">*</span>
                     <div class="phone_input area">
-                        <input type="tel" name="phone" value="01012345678"placeholder="(-)없이 입력" required>
+                        <input type="tel" name="phone" th:value="${ m.phone }" placeholder="(-)없이 입력" required>
                     </div>
                 </div>
-
+					
                 <div class="postcodify_area">
                     <span>우편번호</span>
                     <div class="postcodify_input area">
-                        <input type="text" name="address" value="012345" class="postcodify_postcode5" readonly>
+                        <input type="text" name="address" th:value="${ m.address }" class="postcodify_postcode5" readonly>
                         <button id="postcodify_search_button" type="button">검색</button>
                     </div>
                 </div>
@@ -101,39 +103,46 @@
 
                 <div class="gender_area">
                     <span>성별</span>
-                    <div>여</div>
+                    <div th:text="${ m.gender }"></div>
                 </div>
 
                 <div class="bodySize_area">
                     <span>Body Size(선택사항)</span>
                     <div class="bodySize_input_area">
-                        <span>키</span><input type="number" id="height" name="height" placeholder="(cm)">
-                        <span>몸무게</span><input type="number" id="weight" name="weight" placeholder="(kg)">
+                        <span>키</span><input type="number" id="height" name="height" th:value="${ m.height }" placeholder="(cm)">
+                        <span>몸무게</span><input type="number" id="weight" name="weight" th:value="${ m.weight }" placeholder="(kg)">
                     </div>
                 </div>
                 
-                <div class="recommender_area">
-                    <span>추천인</span>
-                    <div class="recommender_input area">
-                        <input type="text" name="recommender" value="abc1234" readonly>
-                    </div>
-                </div>
-
+               	<div class="btn_area">
+            		<button id="modify" type="submit">수정</button>
+            		<button id="delete" type="button" onclick="confirmDelete()">회원탈퇴</button>
+        		</div>		
             </form>
         </div>
-
-        <div class="btn_area">
-            <button id="modify" type="submit">수정</button>
-            <button id="delete" type="button" onclick="confirmDelete()">회원탈퇴</button>
-        </div>
     </div>
+    
+    
+    <!-- 주소입력 : jQuery와 postcodify 로딩 -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+	
+	<!-- '검색' 단추 누르면 팝업 레이어 열리도록 설정 -->
+    <script> $(function() { $("#postcodify_search_button").postcodifyPopUp(); }); </script>
     
     <!-- 회원탈퇴 : 탈퇴 의사 확인 후 탈퇴 -->	
     <!-- **비밀번호 확인로직** -->
     <script>
     	function confirmDelete(){
-    		if(confirm("정말 탈퇴하시겠습니까?"))
-    			location.href = '/mypage/deleteMember';
+    		if(confirm("정말 탈퇴하시겠습니까?")){
+    			var popupWidth = 500;
+    			var popupHeight = 300;
+
+    			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+    			var popupY= (window.screen.height / 2) - (popupHeight / 2);
+    			
+    			window.open("/mypage/confirmPwd", "비밀번호 확인", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);	
+    		}
     	}
     </script>
 </body>

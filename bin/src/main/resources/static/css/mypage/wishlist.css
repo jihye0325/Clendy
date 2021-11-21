@@ -1,0 +1,72 @@
+div {
+    borde: 1px solid black;
+}
+
+.outer {
+    width: 950px;
+    margin: auto;
+}
+
+.title{
+    width: 950px;
+    margin: auto;
+    font-size: x-large;
+    font-weight: bold;
+    padding-bottom: 20px;
+    border-bottom: 3px solid black;
+    margin-bottom: 30px;
+}
+
+label {
+    font-size: small;
+    color: gray;
+    cursor: pointer;
+}
+
+/* 라디오 버튼 숨기기 */
+input[type=radio] {
+    display: none;
+    margin: 10px;
+}
+
+ul {
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+    gap: 15px;
+    list-style: none;
+    padding: 0px;
+}
+
+img {
+    cursor: pointer;
+}
+
+.p_info {
+    cursor: pointer;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 5px;
+}
+
+.p_info div {
+    margin-bottom: 5px;
+}
+
+.product {
+    display: flex;
+}
+
+.brand {
+    font-weight: bold;
+}
+
+.name {
+    color: gray;
+    font-weight: bold;
+}
+
+#delete {
+    background-color: white;
+    border: 1px solid lightgray;
+    float: right;
+}
