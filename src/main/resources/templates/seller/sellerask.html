@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문의게시판</title>
+<style>
+#wrapper {display: flex;}
+#content-title, h6{ display: inline-block; margin-right: 15px; }
+ul, li{list-style: none; padding-left: 0;}
+a{text-decoration: none;}
+
+/* content */
+#content{  margin : 0px auto auto 11%; width: 850px;}    
+
+/* board-list */
+.board-wrapper{margin-top: 60px;}
+.list-th ul{ height: 30px; border-top: 1px solid lightgray; margin: 0; border-bottom: 1px solid lightgray;}
+.list-th li{ font-weight: bold; display: table-cell;  text-align: center; line-height: 30px; }
+.list-num { width : 130px; text-align: center;}
+.list-title{ width : 590px; }
+.list-date { width : 120px; text-align:center;}
+.cursor {cursor: pointer; }
+.board-list li{ display: table-cell; height: 40px; line-height: 40px; border-bottom: 1px solid lightgray;}
+/* btn*/
+.btn-area{display: flex; justify-content: flex-end; padding-top:15px; padding-bottom: 15px;}
+.insert-btn{width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer;}
+/* pageing */
+.board-paging li{display: table-cell; }
+.board-paging {
+	height: 50px;
+	line-height: 50px;
+	display: flex;
+	justify-content: center;
+	list-style: none;
+	width: 480px;
+	margin: 30px auto;
+}
+
+.board-paging a {
+	text-decoration: none;
+	color: #282A35;
+	display: block;
+	text-align: center;
+	border: 1px solid #dae0e9;
+    margin-left: -1px;
+	width: 37px;
+	height: 37px;
+	line-height : 37px;
+    font-size: 12px;
+}
+
+.board-paging a:hover {background-color: #060032; color: white;}
+.board-paging a.current-page {
+	border: 1px solid #060032;
+    background: #060032;
+    color: #fff;
+}
+</style>
+</head>
+<body>
+    <div th:replace="common/header.html"></div>
+
+    <div id="wrapper">
+        <div id="content">
+            <h3 id="content-title">문의게시판</h3><h6>QnA</h6>
+        
+            <div class="board-wrapper">
+                <div class="list-th">
+                    <ul><li class="list-num">번호</li><li class="list-title">제목</li><li class="list-date">등록일</li></ul></div>
+                
+            </div>
+
+            <div class="btn-area"><button class="insert-btn">등록</button></div>
+
+            <div class="board-paging">
+                <ul>
+                    <li><a href="#">&lt;&lt;</a></li>
+                    <li><a href="#">&lt;</a></li>
+                    <li><a href="#" class="current-page">1</a></li>
+                    <li><a href="#" >2</a></li>
+                    <li><a href="#" >3</a></li>
+                    <li><a href="#" >4</a></li>
+                    <li><a href="#" >5</a></li>
+                    <li><a href="#" >6</a></li>
+                    <li><a href="#" >7</a></li>
+                    <li><a href="#" >8</a></li>
+                    <li><a href="#" >9</a></li>
+                    <li><a href="#" >10</a></li>
+                    <li><a href="#">&gt;</a></li>
+                    <li><a href="#">&gt;&gt;</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    
+     <div th:replace="common/footer.html"></div>
+</body>
+</html>
