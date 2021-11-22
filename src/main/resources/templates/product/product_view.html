@@ -8,9 +8,13 @@
     <title>상품 상세 페이지</title>
     <link rel="stylesheet" th:href="@{https://unpkg.com/swiper/swiper-bundle.min.css}">
     <link rel="stylesheet" th:href="@{/css/product_style.css}">
+    <script th:inline="javascript">
+    	// pNo전달위해 
+    	let pNoNumber = [[${pNo}]];
+    </script>
     <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
     <script th:src="@{/js/product_common.js}"></script> <!-- 상품 페이지 공통js -->
-    <script th:src="@{/js/product.js}"></script>	      <!-- 상품 상세js -->
+    <script th:src="@{/js/product.js}" th:inline="javascript"></script>	      <!-- 상품 상세js -->
     <script th:src="@{/js/product_qna.js}"></script>	  <!-- 상품 상세 상품문의 js -->
 </head>
 <body>
@@ -25,34 +29,26 @@
                         <div class="view_top_wrap">
                             <div class="slide_wrap">
                                 <div class="img">
-                                    <img src="/images/view_sample1.png" alt="">
+                                    <img th:src="@{${info.imageList[0].route} + ${info.imageList[0].imgrName}}" alt="">
                                 </div>
                                 <div class="img_list">
-                                    <a href="javascript:;" class="on">
-                                        <img src="/images/view_list_sample1.png" alt="">
+                                    <a href="javascript:;" class="on" th:each="image : ${info.imageList}">
+                                        <img th:src="${image.route} + ${image.imgrName}" alt="">
                                     </a>
-                                    <a href="javascript:;">
-                                        <img src="/images/view_list_sample1.png" alt="">
-                                    </a>
-                                    <a href="javascript:;">
-                                        <img src="/images/view_list_sample1.png" alt="">
-                                    </a>
-                                    <a href="javascript:;">
-                                        <img src="/images/view_list_sample1.png" alt="">
-                                    </a>
-                                    
                                 </div>
                             </div>
                             <div class="view_txt_wrap">
-                                <p class="product_title">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</p>
-                                <a href="javascript:;" class="btn_wish"></a>
-                                <p class="sale_price">25,000원</p>
-                                <div class="price_wrap">
-                                    <p class="price">
-                                        <span>17,000</span>원
+                                <p class="product_title" th:text="${info.pName}">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</p>
+                                
+                                <a href="javascript:;" th:onclick="|javascript:wishListHandler(1, ${info.pNo})|" class="btn_wish" th:classappend="${info.wishLike == 1} ? 'on'"></a>
+                                
+                                <p class="sale_price" th:text="|${#numbers.formatInteger(info.pPrice, 3, 'COMMA')}원|">25,000원</p>
+                                <div class="price_wrap" >
+                                    <p class="price" th:with="perwon = ${info.pPrice - (info.pPrice * (info.pDiscount / 100.0))}">
+                                        <span th:text="${#numbers.formatInteger(perwon, 3, 'COMMA')}">17,000</span>원
                                     </p>
                                     <p class="price_per">
-                                        <span>32</span>%
+                                        <span th:text="${info.pDiscount}">32</span>%
                                     </p>
                                 </div>
                                 <div class="view_status">
@@ -72,7 +68,6 @@
                                 <a href="javascript:;">기본정보</a>
                             </div>
                         </div>
-
                         <div class="view_detail_wrap">
                             <div class="detail_wrap">
                                 <img src="/images/view_detail_sample.png" alt="">
@@ -333,27 +328,24 @@
 	                                        </div>
 	                                    </li>
                                 </ul>
-                                <div th:unless="${selectList != null and #lists.size(selectList) > 0}">nodate</div>
+                                <div class="nodata" th:unless="${selectList != null and #lists.size(selectList) > 0}"></div>
                                 
-                                <!-- 페이징 -->
-	                            <div class="pagaing_wrap" >
-	                                <ul class="pagaing_left">
-	                                    <li class="allPrev hide"><a href="javascript:;"></a></li>
-	                                    <li class="prev hide"><a href="javascript:;"></a></li>
-	                                </ul>
-	                                
-	                                <ul class="pagaing_num">
-	                                	<li th:text="${pageInfo.page}"></li>
-	                                </ul>
-	        
-	                                <ul class="pagaing_right">
-	                                    <li class="next"><a href="javascript:;"></a></li>
-	                                    <li class="allNext"><a href="javascript:;"></a></li>
-	                                </ul>
-	                            </div>
                             </div>
                             
-                            
+                            <!-- 페이징 -->
+                            <div class="pagaing_wrap">
+                                <ul class="pagaing_left">
+                                    <li class="allPrev hide"><a href="javascript:;"></a></li>
+                                    <li class="prev hide"><a href="javascript:;"></a></li>
+                                </ul>
+                                <ul class="pagaing_num">
+                                </ul>
+        
+                                <ul class="pagaing_right">
+                                    <li class="next"><a href="javascript:;"></a></li>
+                                    <li class="allNext"><a href="javascript:;"></a></li>
+                                </ul>
+                            </div>
                         </div>
 
                         <div class="view_item_wrap" id="item_info">
@@ -500,8 +492,8 @@
                     </dl>
                 </div>
                 <div class="layout_btn_wrap">
-                    <a href="javascript:qnaInsert();" class="active">등록하기</a>
-                    <a href="javascript:qnaModify();" class="active">수정하기</a>
+                    <a href="javascript:;" th:onclick="|javascript:qnaInsert(${info.pNo})|" class="active">등록하기</a>
+                    <a href="javascript:;" th:onclick="|javascript:qnaModify(${info.pNo})|" class="active">수정하기</a>
                     <a href="javascript:;">취소하기</a>
                 </div>
             </div>

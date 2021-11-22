@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,7 +15,11 @@
             <div class="container">
                 <div class="product_list">
                     <div class="p_header">
-                        <h2 class="proudct_title">남성</h2>
+                    	<th:block th:switch="${type}">
+	                        <h2 class="proudct_title" th:case="man">남성</h2>
+	                        <h2 class="proudct_title" th:case="woman">여성</h2>
+	                        <h2 class="proudct_title" th:case="public">공용</h2>
+                    	</th:block>
                         <ul>
                             <li class="on"><a href="javascript:;">인기순</a></li>
                             <li><a href="javascript:;">최신순</a></li>
@@ -34,7 +38,27 @@
                     </div>
 
                     <div class="product_items">
-                        <div class="item">
+                    
+                    	 <div class="item" th:each="list : ${productList}">
+                            <a th:href="@{'/product/view/' + ${list.pNo}}">
+                                <div class="photo">
+                                    <img src="/images/product_sam1.png" alt="">
+                                </div>
+                                <p class="title" th:text="${list.pName}">남성용 여름 캐주얼 셔츠 보카시 투버튼 7부 셔츠</p>
+                                <div class="price_wrap">
+                                    <p class="price" th:with="perwon = ${list.pPrice - (list.pPrice * (list.pDiscount / 100.0))}">
+                                        <span class="won" th:text="${#numbers.formatInteger(perwon, 3, 'COMMA')}">17,000</span>원
+                                    </p>
+                                    <p class="price_sale" th:text="|${#numbers.formatInteger(list.pPrice, 3, 'COMMA')}원|">25,000원</p>
+                                </div>
+                                <div class="product_status">
+                                    <p>리뷰 10</p>
+                                    <p>구매 20</p>
+                                </div>
+                            </a>    
+                        </div>
+                    
+                       <!--  <div class="item">
                             <a href="javascript:;">
                                 <div class="photo">
                                     <img src="/images/product_sam1.png" alt="">
@@ -52,240 +76,40 @@
                                     <p>구매 20</p>
                                 </div>
                             </a>    
-                        </div>
+                        </div> -->
 
-                        <div class="item">
-                            <a href="javascript:;">
-                                <div class="photo">
-                                    <img src="/images/product_sam1.png" alt="">
-                                </div>
-                                <p class="title">남성용 여름 캐주얼 셔츠 보카시 투버튼 7부 셔츠</p>
-                                <div class="price_wrap">
-                                    <p class="price">
-                                        <span class="won">17,000</span>
-                                        원
-                                    </p>
-                                    <p class="price_sale">25,000원</p>
-                                </div>
-                                <div class="product_status">
-                                    <p>리뷰 10</p>
-                                    <p>구매 20</p>
-                                </div>
-                            </a>    
-                        </div>
-                        <div class="item">
-                            <a href="javascript:;">
-                                <div class="photo">
-                                    <img src="/images/product_sam1.png" alt="">
-                                </div>
-                                <p class="title">남성용 여름 캐주얼 셔츠 보카시 투버튼 7부 셔츠</p>
-                                <div class="price_wrap">
-                                    <p class="price">
-                                        <span class="won">17,000</span>
-                                        원
-                                    </p>
-                                    <p class="price_sale">25,000원</p>
-                                </div>
-                                <div class="product_status">
-                                    <p>리뷰 10</p>
-                                    <p>구매 20</p>
-                                </div>
-                            </a>    
-                        </div>
-                        <div class="item">
-                            <a href="javascript:;">
-                                <div class="photo">
-                                    <img src="/images/product_sam1.png" alt="">
-                                </div>
-                                <p class="title">남성용 여름 캐주얼 셔츠 보카시 투버튼 7부 셔츠</p>
-                                <div class="price_wrap">
-                                    <p class="price">
-                                        <span class="won">17,000</span>
-                                        원
-                                    </p>
-                                    <p class="price_sale">25,000원</p>
-                                </div>
-                                <div class="product_status">
-                                    <p>리뷰 10</p>
-                                    <p>구매 20</p>
-                                </div>
-                            </a>    
-                        </div>
-                        <div class="item">
-                            <a href="javascript:;">
-                                <div class="photo">
-                                    <img src="/images/product_sam1.png" alt="">
-                                </div>
-                                <p class="title">남성용 여름 캐주얼 셔츠 보카시 투버튼 7부 셔츠</p>
-                                <div class="price_wrap">
-                                    <p class="price">
-                                        <span class="won">17,000</span>원
-                                    </p>
-                                    <p class="price_sale">25,000원</p>
-                                </div>
-                                <div class="product_status">
-                                    <p>리뷰 10</p>
-                                    <p>구매 20</p>
-                                </div>
-                            </a>    
-                        </div>
-                        
-                        <div class="item">
-                            <a href="javascript:;">
-                                <div class="photo">
-                                    <img src="/images/product_sam1.png" alt="">
-                                </div>
-                                <p class="title">남성용 여름 캐주얼 셔츠 보카시 투버튼 7부 셔츠</p>
-                                <div class="price_wrap">
-                                    <p class="price">
-                                        <span class="won">17,000</span>원
-                                    </p>
-                                    <p class="price_sale">25,000원</p>
-                                </div>
-                                <div class="product_status">
-                                    <p>리뷰 10</p>
-                                    <p>구매 20</p>
-                                </div>
-                            </a>    
-                        </div>
-
-                        <div class="item">
-                            <a href="javascript:;">
-                                <div class="photo">
-                                    <img src="/images/product_sam1.png" alt="">
-                                </div>
-                                <p class="title">남성용 여름 캐주얼 셔츠 보카시 투버튼 7부 셔츠</p>
-                                <div class="price_wrap">
-                                    <p class="price">
-                                        <span class="won">17,000</span>원
-                                    </p>
-                                    <p class="price_sale">25,000원</p>
-                                </div>
-                                <div class="product_status">
-                                    <p>리뷰 10</p>
-                                    <p>구매 20</p>
-                                </div>
-                            </a>    
-                        </div>
-
-                        <div class="item">
-                            <a href="javascript:;">
-                                <div class="photo">
-                                    <img src="/images/product_sam1.png" alt="">
-                                </div>
-                                <p class="title">남성용 여름 캐주얼 셔츠 보카시 투버튼 7부 셔츠</p>
-                                <div class="price_wrap">
-                                    <p class="price">
-                                        <span class="won">17,000</span>원
-                                    </p>
-                                    <p class="price_sale">25,000원</p>
-                                </div>
-                                <div class="product_status">
-                                    <p>리뷰 10</p>
-                                    <p>구매 20</p>
-                                </div>
-                            </a>    
-                        </div>
-
-                        <div class="item">
-                            <a href="javascript:;">
-                                <div class="photo">
-                                    <img src="/images/product_sam1.png" alt="">
-                                </div>
-                                <p class="title">남성용 여름 캐주얼 셔츠 보카시 투버튼 7부 셔츠</p>
-                                <div class="price_wrap">
-                                    <p class="price">
-                                        <span class="won">17,000</span>원
-                                    </p>
-                                    <p class="price_sale">25,000원</p>
-                                </div>
-                                <div class="product_status">
-                                    <p>리뷰 10</p>
-                                    <p>구매 20</p>
-                                </div>
-                            </a>    
-                        </div>
-
-                        <div class="item">
-                            <a href="javascript:;">
-                                <div class="photo">
-                                    <img src="/images/product_sam1.png" alt="">
-                                </div>
-                                <p class="title">남성용 여름 캐주얼 셔츠 보카시 투버튼 7부 셔츠</p>
-                                <div class="price_wrap">
-                                    <p class="price">
-                                        <span class="won">17,000</span>원
-                                    </p>
-                                    <p class="price_sale">25,000원</p>
-                                </div>
-                                <div class="product_status">
-                                    <p>리뷰 10</p>
-                                    <p>구매 20</p>
-                                </div>
-                            </a>    
-                        </div>
-
-                        <div class="item">
-                            <a href="javascript:;">
-                                <div class="photo">
-                                    <img src="/images/product_sam1.png" alt="">
-                                </div>
-                                <p class="title">남성용 여름 캐주얼 셔츠 보카시 투버튼 7부 셔츠</p>
-                                <div class="price_wrap">
-                                    <p class="price">
-                                        <span class="won">17,000</span>원
-                                    </p>
-                                    <p class="price_sale">25,000원</p>
-                                </div>
-                                <div class="product_status">
-                                    <p>리뷰 10</p>
-                                    <p>구매 20</p>
-                                </div>
-                            </a>    
-                        </div>
-
-                        <div class="item">
-                            <a href="javascript:;">
-                                <div class="photo">
-                                    <img src="/images/product_sam1.png" alt="">
-                                </div>
-                                <p class="title">남성용 여름 캐주얼 셔츠 보카시 투버튼 7부 셔츠</p>
-                                <div class="price_wrap">
-                                    <p class="price">
-                                        <span class="won">17,000</span>원
-                                    </p>
-                                    <p class="price_sale">25,000원</p>
-                                </div>
-                                <div class="product_status">
-                                    <p>리뷰 10</p>
-                                    <p>구매 20</p>
-                                </div>
-                            </a>    
-                        </div>
                     </div>
 
-                    <div class="pagaing_wrap">
+                    <div class="pagaing_wrap" th:if="${#lists.size(productList) > 0}">
                         <ul class="pagaing_left">
-                            <li class="allPrev hide"><a href="javascript:;"></a></li>
-                            <li class="prev hide"><a href="javascript:;"></a></li>
+                            <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
+                            	<a th:href="@{'/product/list/' + ${type}(page=1)}" th:if="${pi.page > 1}"></a>
+	                            <a href="javascript:;" th:unless="${pi.page > 1}"></a>
+                            </li>
+                            <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
+	                            <a th:href="@{'/product/list/' + ${type}(page=${pi.page - 1})}" th:if="${pi.page > 1}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page > 1}"></a>
+                            </li>
                         </ul>
                         
                         <ul class="pagaing_num">
-                            <li class="on"><a href="javascript:;">1</a></li>
-                            <li><a href="javascript:;">2</a></li>
-                            <li><a href="javascript:;">3</a></li>
-                            <li><a href="javascript:;">4</a></li>
-                            <li><a href="javascript:;">5</a></li>
-                            <li><a href="javascript:;">6</a></li>
-                            <li><a href="javascript:;">7</a></li>
-                            <li><a href="javascript:;">8</a></li>
-                            <li><a href="javascript:;">9</a></li>
-                            <li><a href="javascript:;">10</a></li>
+                        	<th:block th:each="pd : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+                        		<li th:classappend="${pi.page == pdStat.current} ? 'on'">
+                        			<a th:href="@{'/product/list/' + ${type}(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+                        		</li>
+                        	</th:block>
+                            
                         </ul>
 
-                        <ul class="pagaing_right">
-                            <li class="next"><a href="javascript:;"></a></li>
-                            <li class="allNext"><a href="javascript:;"></a></li>
+                        <ul class="pagaing_right" >
+                            <li class="next" th:classappend="${pi.page == pi.endPage} ? 'hide'">
+                            	<a th:href="@{'/product/list/' + ${type} (page=${pi.page} + 1)}" th:if="${pi.page < pi.endPage}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+                            </li>
+                            <li class="allNext"  th:classappend="${pi.page == pi.endPage} ? 'hide'">
+                            	<a th:href="@{'/product/list/' + ${type} (page=${pi.endPage})}" th:if="${pi.page < pi.endPage}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+                            </li>
                         </ul>
                     </div>
                 </div>

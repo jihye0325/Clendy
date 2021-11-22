@@ -266,6 +266,7 @@ margin-right: 15px;}
 .product_view .view_main_wrap .view_item_wrap .review_wrap .review_list .review_txt_wrap .review_txt{font-size: 15px; line-height: 22px;}
 
 .product_view .view_main_wrap .view_item_wrap .view_qna_wrap{}
+.product_view .view_main_wrap .view_item_wrap .view_qna_wrap .nodata{text-align:center; min-height:510px; box-sizing:border-box; background:url(../images/ico_nodata.png) no-repeat 50% 50%; border-bottom:1px solid #e6e6e6;}
 .product_view .view_main_wrap .view_item_wrap .view_qna_wrap .qna_list{min-height:510px;}
 .product_view .view_main_wrap .view_item_wrap .view_qna_wrap .qna_list .line{border-bottom:1px solid #e6e6e6;}
 .product_view .view_main_wrap .view_item_wrap .view_qna_wrap .qna_list .line .line_box{display: flex; height: 50px; line-height: 50px;}

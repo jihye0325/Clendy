@@ -29,13 +29,13 @@ function productQnaText(){
 }
 
 // 상품문의 등록
-function qnaInsert(){
+function qnaInsert(pNo){
    const piqSecret = $("#productQna [name=piqSecret]").val();
    const piCateCode = $("#productQna [name=piCateCode]").val();
    const piqTitle = $("#productQna [name=piqTitle]").val();
    const piqContent = $("#productQna [name=piqContent]").val();
    
-   const insertData = {'piqSecret': piqSecret, 'piCateCode': piCateCode, 'piqTitle': piqTitle, 'piqContent': piqContent};
+   const insertData = {'pNo': pNo, 'piqSecret': piqSecret, 'piCateCode': piCateCode, 'piqTitle': piqTitle, 'piqContent': piqContent};
    // console.log(insertData);
    
    $.ajax({
@@ -176,14 +176,13 @@ function qnaAllSelectList (page){
    
    // console.log(page, qnaType, secretCheck);
    
-   let dataLimit = {"page": page, "qnaType": qnaType, "secretCheck": secretCheck};
+   let dataLimit = {"page": page, "qnaType": qnaType, "secretCheck": secretCheck, "pNo": pNoNumber};
    
    $.ajax({
        type : "post",
        url : "/product/qnaAllSelectList",
        contentType : "application/json; charset=utf-8",
        data : JSON.stringify(dataLimit),
-       // dataType : "json",
    }).done(function(fragment,){
         //console.log(fragment)
    		$('#view_qna').replaceWith(fragment);
