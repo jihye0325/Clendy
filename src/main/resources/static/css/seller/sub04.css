@@ -1,0 +1,27 @@
+.info_title{padding:70px 0 20px 0;}
+
+.content_right{width:1250px; margin:0 auto; padding:0;}
+
+.p_regist{width:100%;}
+.p_regist > tbody > tr > th, .p_regist > tbody > tr > td{padding:30px 0;}
+.p_regist > tbody > tr > th{}
+.p_regist > tbody > tr > td > div > select{height:50px;}
+.p_regist > tbody > tr > td > input[type="text"]{height:50px;}
+.p_regist > tbody > tr > .select_box{display:flex;}
+.p_regist > tbody > tr > .select_box > div{width:240px;}
+
+.option_box{}
+.option_box > .option_content{width:100%;}
+.option_box > .option_content th,
+.option_box > .option_content td{text-align:left; padding:15px 0;}
+.option_box > .option_content td > input{height:40px;}
+
+.thumbnail > div{display:flex; justify-content: space-between;}
+.thumbnail > div > div{position:relative; display:flex; align-items:center; justify-content:center; width:240px; height:240px; border:1px solid #000;} 
+.thumbnail > div > div > input[type="file"]{display:none;} 
+.thumbnail > div > div > label{width:100%; height:100%; position:relative; top:0; left:0; right:0; bottom:0;}
+.thumbnail > div > div > label > span{font-size: 24px; font-weight:bold; position: absolute; top:50%; transform: translate(-50%, -50%); left:50%;}
+
+.detail{}
+.detail > .text-area_box > textarea{width:100%; height:600px; padding:10px; font-size: 16px;}
+
