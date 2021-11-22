@@ -3,28 +3,28 @@
     top: 200px;
 }
 
-ul {
+.menuList {
     list-style: none;
 }
 
-li{
+.menuList li {
     margin-bottom: 5px;
     font-size: large;
     font-weight: bold;
     text-align: center;
 }
 
-a:link{
+.menuList a:link{
 	color: black;
     text-decoration: none;
 }
 
-a:visited{
+.menuList a:visited{
     color: black;
     text-decoration: none;
 }
 
-ul :hover{
+.sideMenu li :hover{
     background-color: #060032;
     color: white;
     cursor: pointer;

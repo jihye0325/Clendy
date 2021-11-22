@@ -14,7 +14,7 @@ div {
     margin-bottom: 60px;
 }
 
-/* ���� ��ư ����� */
+/* 라디오 버튼 숨기기 */
 input[type=radio] {
     display: none;
     margin: 10px;
@@ -24,6 +24,7 @@ label {
     cursor: pointer;
 }
 
+/* 라디오박스인 라벨 선택시 밑줄 */
 .selectType:checked + .radio {
     border-bottom: 1px solid black;
 }
@@ -34,7 +35,7 @@ label {
     margin-bottom: 20px;
 }
 
-ul li {
+.board_list li {
     borde: 1px solid black;
     padding: 0px;
     margin: 0px;
