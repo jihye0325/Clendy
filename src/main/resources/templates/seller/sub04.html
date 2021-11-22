@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -13,6 +13,7 @@
 </head>
 
 <body>
+<div th:replace="common/header.html"></div>
 
     <div id="wrap">
         <aside>
@@ -89,7 +90,7 @@
     </div>
     </div>
 
-
+<div th:replace="common/footer.html"></div>
 
 </body>
 
