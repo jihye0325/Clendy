@@ -26,7 +26,7 @@ a{ text-decoration: none; color:white; }
 #review:hover { color : #26C826; } 
 #cs:hover { color : #3877F1; }
 #mypage:hover { color : #DF65F3; }
-#nav-wrapper{ text-align: center; padding-bottom: 10px; padding-top: 30px;}
+#nav-wrapper{ text-align: center; padding-bottom: 10px; padding-top: 30px; margin-bottom:70px;}
 .nav{ font-weight: bold; font-size: 20px; margin: 30px;}
 
 </style>
@@ -35,24 +35,24 @@ a{ text-decoration: none; color:white; }
     <div class="wrapper">
         <div id="top">
             <div class="btnArea">
-                <a class="btn" id="login" href="">로그인</a>
-                <a class="btn" id="join" href="">회원가입</a>
+                <a class="btn" id="login" href="/member/login">로그인</a>
+                <a class="btn" id="join" href="/member/signUp">회원가입</a>
             </div>
             <div class="logoArea">
-                <a id="logoA" href="menubar.html" ><img id="logo" src="resources/logo-white.png" alt="logo"></a>
+                <a id="logoA" href="menubar.html" ><img id="logo" src="/images/logo-white.png" alt="logo"></a>
                 <div class="searchArea">
                     <input id="searchItem" type="text" placeholder="상품명,카테고리 검색"></input>
-                    <span id="img-wrapper"><img id="finding" src="resources/magnifying-glass-white.png" alt="돋보기"></span>
+                    <span id="img-wrapper"><img id="finding" src="/images/magnifying-glass-white.png" alt="돋보기"></span>
                 </div>
             </div>
         </div>
         <div id="nav-wrapper">
-            <a class="nav" id="unisex" href>공용</a>
-            <a class="nav" id="men" href>남성</a>
-            <a class="nav" id="women" href>여성</a>
-            <a class="nav" id="review" href>리뷰</a>
-            <a class="nav" id="cs" href>고객센터</a>
-            <a class="nav" id="mypage" href>마이페이지</a>
+            <a class="nav" id="unisex" href="">공용</a>
+            <a class="nav" id="men" href="">남성</a>
+            <a class="nav" id="women" href="">여성</a>
+            <a class="nav" id="review" href="">리뷰</a>
+            <a class="nav" id="cs" href="/CScenter/board">고객센터</a>
+            <a class="nav" id="mypage" href="/mypage">마이페이지</a>
         </div>
     </div>
 </body>
