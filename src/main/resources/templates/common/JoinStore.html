@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,9 +13,9 @@
         });
     </script> -->
 <style>
-#content{ margin-left: 250px; margin-right: 250px; }
+#content{ margin-left: 580px; margin-right: 250px; }
 #title, h6{ display: inline-block; margin-right: 15px; } 
-label{margin: 20px;}
+#noticeTop, #noticeBottom, #numNorice label{margin: 20px;}
 /* notice */
 #noticeTop{ margin-bottom: 40px; }       
 #noticeBottom{ margin-top: 40px; }
@@ -34,7 +34,7 @@ input[type=checkbox]{ width:25px; height:15px; margin:5px;}
 </style>
 </head>
 <body>
-    <div id="header"></div>
+    <div th:replace="common/header.html"></div>
 
     <div id="content">
         <h3 id="title">입점신청</h3><h6>Join Store</h6>
@@ -81,6 +81,6 @@ input[type=checkbox]{ width:25px; height:15px; margin:5px;}
         </div>
     </div>
 
-    <div id="footer"></div>
+    <div th:replace="common/footer.html"></div>
 </body>
 </html>
