@@ -8,6 +8,7 @@
     <title>로그인</title>
 </head>
 <body>
+	<div th:replace="common/header.html"></div>
 	<!-- Spring Security의 formlogin 하는 경우 username, password로 꺼내므로 사용자 입력 양식의 name 속성 조심
 		 인증이 획득되지 않고 요청을 하면 로그인 페이지로 이동함! -->
     <div class="title">
@@ -59,6 +60,6 @@
             </button>
         </div>
     </div>
-    
+    <div th:replace="common/footer.html"></div>
 </body>
 </html>

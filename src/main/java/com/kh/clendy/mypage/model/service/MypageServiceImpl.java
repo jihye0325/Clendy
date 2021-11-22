@@ -1,11 +1,14 @@
 package com.kh.clendy.mypage.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.mypage.model.dao.MypageMapper;
+import com.kh.clendy.mypage.model.vo.Point;
 
 @Service	
 public class MypageServiceImpl implements MypageService {
@@ -57,6 +60,14 @@ public class MypageServiceImpl implements MypageService {
 			result = 1;
 		
 		return result;
+	}
+
+	// 포인트 리스트 불러오기
+	@Override
+	public List<Point> selectPoint() {
+		List<Point> point_list = mypageMapper.selectPoint();
+		
+		return point_list;
 	}
 
 
