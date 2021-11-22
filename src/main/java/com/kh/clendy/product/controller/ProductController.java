@@ -69,6 +69,7 @@ public class ProductController {
 	public String productViewWish(@RequestBody Map<String, Integer> returnMap) {
 		
 		int result = productService.productViewWish(returnMap);
+		System.out.println(result);
 		
 		String msg = "fail";
 		

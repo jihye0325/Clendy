@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.clendy.product.model.dao.ProductMapper;
 import com.kh.clendy.product.model.vo.PageInfo;
 import com.kh.clendy.product.model.vo.Product;
+import com.kh.clendy.product.model.vo.ProductReview;
 
 @Service
 @Transactional
@@ -77,8 +78,6 @@ public class ProductServiceImpl implements ProductService{
 		return result;
 	}
 
-	
 
-	
 
 }

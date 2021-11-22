@@ -47,6 +47,7 @@ private ProductQnaService productQnaService;
 	@PostMapping("/paging")
 	@ResponseBody
 	public PageInfo commonPaging(@RequestBody Map<String, Object> mapReturn){
+		// System.out.println(mapReturn);
 
 		PageInfo pageInfo = productQnaService.commonPaging(mapReturn);
 
