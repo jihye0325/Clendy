@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    .searcharea{
+        outline: 1px dotted red;
+        
+        }
+
+    .searchdiv{
+        float: right;
+    }
+
+    .searcharea::after{
+        content: '';
+        clear:both;
+        display:block;
+    }
+     .searchbar{
+        outline: 1px dotted red;
+        width: 125px;
+        height: 40px;
+     }
+    .searchbutton{
+        outline: 1px dotted red;
+     }
+     .header{
+        width: 100%; height: 273px; background:#060032;
+     }
+     .footer{
+        width: 100%;
+        background-color: black;
+        height: 200px;
+    }
+
+    .reviewBoard{
+        margin-left: 100px;
+        outline: 1px dotted red;
+        width: 1050px;
+        height: 800px;
+    }
+    .wrapper{
+        width: 100%;
+    }
+
+    .container{
+        width: 1400px;
+        margin: 0 auto;
+        padding: 70px 0;
+    }
+
+    </style>
+</head>
+
+<body>
+    <header class="header"></header>
+    <div class="wrapper">
+        <div class="container">
+    <div>
+        <h1>구매 후기 모아보기</h1>
+    </div>
+    
+    <div class="reviewBoard">
+        <form class="searcharea">
+            <div class="searchdiv">
+                <input class="searchbar" type="text" title="검색">
+                <button class = "searchButton" type="submit"><img src="sample/image/돋보기.png" style="width:40px; height:40px; vertical-align: middle;"></button>
+            </div>
+        </form>
+        <ul style="list-style: none;">
+            <li><div style="height: 300px; outline: 1px dotted red; padding-right: 20px;"></div></li>
+        </ul>
+       
+    </div>
+</div>
+</div>
+    <footer class="footer">
+    </footer>
+</body>
+</html>
