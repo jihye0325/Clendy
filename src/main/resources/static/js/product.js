@@ -127,9 +127,36 @@ $(function(){
 
        optionNumChange();
    });
-   
-   
-   
 
 }); 
+
+// 상품정보 위시리스트
+function wishListHandler(userNo, pNo){
+
+	let wishList = {"userNo": userNo, "pNo": pNo};
+	
+	$.ajax({
+		type : "post",
+		url : "/product/wishStatus",
+		contentType : "application/json; charset=utf-8",
+		data: JSON.stringify(wishList),
+		dataType : "text",
+		success : function(data){
+			// console.log(data);
+			if(data == 'insert'){
+				$(".view_txt_wrap .btn_wish").addClass("on");
+			}else if(data == 'delete'){
+				$(".view_txt_wrap .btn_wish").removeClass("on");			
+			
+			}
+			
+			
+		},
+		error : function(error){
+			console.log(error);
+		}
+	});
+
+
+}
 

@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.clendy.product.model.dao.ProductMapper;
 import com.kh.clendy.product.model.vo.PageInfo;
-import com.kh.clendy.product.model.vo.ProductQnaQ;
+import com.kh.clendy.product.model.vo.Product;
 
 @Service
 @Transactional
@@ -23,85 +23,62 @@ public class ProductServiceImpl implements ProductService{
 		this.productMapper = productMapper;
 	}
 
-	// 상품 문의 등록(ajax)
+	// 상품 목록
 	@Override
-	public int qnaInsert(ProductQnaQ productQnaQ) {
-		return productMapper.qnaInsert(productQnaQ);
-	}
-
-	// 상품 문의 정보(ajax)
-	@Override
-	public ProductQnaQ qnaModifyView(int piqCode) {
-		return productMapper.qnaModifyView(piqCode);
-	}
-
-	// 상품 문의 수정
-	@Override
-	public int qnaModify(ProductQnaQ productQnaQ) {
-		return productMapper.qnaModify(productQnaQ);
-	}
-
-	// 상품문의 삭제(ajax)
-	@Override
-	public int qnaDelete(int piqCode) {
+	public Map<String, Object> productSelectList(int page) {
 		
-		int result1 = productMapper.qnaDelete(piqCode);
+		// 상품 목록 갯수
+		int listCount = productMapper.productGetListCount();
 		
-		int qnaACount = productMapper.qnaACount(piqCode);
-		System.out.println(qnaACount);
-		int result2 = 0;
-		if(qnaACount > 0) {
-			result2 = productMapper.qnaADelete(qnaACount);
-		}
+		// 페이징
+		PageInfo pageInfo = new PageInfo(page, listCount, 10, 12);
 		
-		return result1 > 0  ? 1 : 0; 
-	}
-
-	// 상품문의 목록
-	@Override
-	public Map<String, Object> qnaAllSelectList(Map<String, Object> mapReturn) {
-		
-		// 상품문의 게시글 등록 갯수
-		int listCount = productMapper.qnaGetListCount(mapReturn);
-		// System.out.println("listCount : " + listCount);
-		
-		int page = Integer.parseInt(mapReturn.get("page") + "");
-		// System.out.println("page : " + page);
-		
-		PageInfo pageInfo = new PageInfo(page, listCount, 10, 10);
-		// System.out.println("pageInfo : " + pageInfo);
-		
+		// 상품 목록 호출에 필요한 값
 		int startRow = (pageInfo.getPage() - 1) * pageInfo.getBoardLimit() + 1;
 		int endRow = startRow + pageInfo.getBoardLimit() - 1;
-		mapReturn.put("startRow", startRow);
-		mapReturn.put("endRow", endRow);
-		// System.out.println(mapReturn);
 		
-		List<ProductQnaQ> selectList = productMapper.qnaAllSelectList(mapReturn);
-		// System.out.println(selectList);
+		Map<String, Object> mapMapper = new HashMap<>();
+		mapMapper.put("page", page);
+		mapMapper.put("startRow", startRow);
+		mapMapper.put("endRow", endRow);
 		
-		Map<String, Object> mapList = new HashMap<>();
-		mapList.put("selectList", selectList);
-		mapList.put("pageInfo", pageInfo);
+		// 상품 목록
+		List<Product> productList = productMapper.productSelectList(mapMapper);
 		
-		return mapList;
+		Map<String, Object> mapReturn = new HashMap<>();
+		mapReturn.put("productList", productList);
+		mapReturn.put("pageInfo", pageInfo);
+		
+		return mapReturn;
 	}
 
-	// 페이징
+	// 상품 상세 정보
 	@Override
-	public PageInfo commonPaging(Map<String, Object> mapReturn) {
-		
-		// 상품문의 게시글 등록 갯수
-		int listCount = productMapper.qnaGetListCount(mapReturn);
-		// System.out.println("listCount : " + listCount);
-		
-		int page = Integer.parseInt(mapReturn.get("page") + "");
-		// System.out.println("page : " + page);
-		
-		PageInfo pageInfo = new PageInfo(page, listCount, 10, 10);
-		// System.out.println("pageInfo : " + pageInfo);
-		
-		return pageInfo;
+	public Product productViewInfo(Map<String, Object> mapInfo) {
+		return productMapper.productViewInfo(mapInfo);
 	}
+	
+	// 상품 상세 위시리스트 기능
+	@Override
+	public int productViewWish(Map<String, Integer> returnMap) {
+		
+		int result = 0;
+		// 위시리스트 누름 여부
+		// (0 : insert, 1: delete)
+		int isWish = productMapper.productViewIsWish(returnMap);
+		
+		// 위시리스트 추가/삭제
+		if(isWish == 0) {
+			result = productMapper.productViewInsertWish(returnMap) == 1 ? 0 : -1;
+		}else if(isWish == 1) {
+			result = productMapper.productViewDeleteWish(returnMap) == 1 ? 1 : -1;
+		}
+		
+		return result;
+	}
+
+	
+
+	
 
 }
