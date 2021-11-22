@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -67,14 +67,14 @@
         </style>
 </head>
 <body>
-    <div class="header"></div>
+    <div th:replace="common/header.html"></div>
 
     <div id="wrapper">
         <div id="sidebar">
             <ul>
-                <li><a class="sideA " href="FAQ.html">FAQ</a></li>
-                <li><a class="sideA " href="#">공지사항</a></li>
-                <li><a class="sideA current" href="#">1:1문의</a></li>
+                <li><a class="sideA " href="/CScenter/FAQ">FAQ</a></li>
+                <li><a class="sideA current" href="/CScenter/board">공지사항</a></li>
+                <li><a class="sideA" href="/CScenter/personalQ">1:1문의</a></li>>
             </ul>
         </div>
         <div id="content">
@@ -122,6 +122,6 @@
     </div>
 
     
-    <div class="footer"></div>
+   <div th:replace="common/footer.html"></div>
 </body>
 </html>

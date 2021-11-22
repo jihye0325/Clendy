@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,7 +28,7 @@ a{text-decoration: none;}
 .list-title{ width : 590px; }
 .list-date { width : 120px; text-align:center;}
 .cursor {cursor: pointer; }
-.board-list li{ display: table-cell; height: 25px; line-height: 10px; border-bottom: 1px solid lightgray;}
+.board-list li{ display: table-cell; height: 40px; line-height: 40px; border-bottom: 1px solid lightgray;}
 /* btn*/
 .btn-area{display: flex; justify-content: flex-end; padding-top:15px; padding-bottom: 15px;}
 .insert-btn{width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer;}
@@ -66,14 +66,14 @@ a{text-decoration: none;}
 </style>
 </head>
 <body>
-    <div class="header"></div>
+    <div th:replace="common/header.html"></div>
 
     <div id="wrapper">
         <div id="sidebar">
             <ul>
-                <li><a class="sideA " href="#">FAQ</a></li>
-                <li><a class="sideA current" href="#">공지사항</a></li>
-                <li><a class="sideA" href="#">1:1문의</a></li>
+                <li><a class="sideA " href="/CScenter/FAQ">FAQ</a></li>
+                <li><a class="sideA current" href="/CScenter/board">공지사항</a></li>
+                <li><a class="sideA" href="/CScenter/personalQ">1:1문의</a></li>
             </ul>
         </div>
         <div id="content">
@@ -121,6 +121,6 @@ a{text-decoration: none;}
     </div>
 
     
-    <div class="footer"></div>
+     <div th:replace="common/footer.html"></div>
 </body>
 </html>

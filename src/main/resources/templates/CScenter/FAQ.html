@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -48,20 +48,20 @@ a{text-decoration: none;}
 </style>
 </head>
 <body>
-    <div id="header"></div>
+    <div th:replace="common/header.html"></div>
 
     <div id="wrapper">
         <div id="sidebar">
             <ul>
-                <li><a class="sideA current" href="FAQ.html">FAQ</a></li>
-                <li><a class="sideA" href="#">공지사항</a></li>
-                <li><a class="sideA" href="#">1:1문의</a></li>
+                <li><a class="sideA " href="/CScenter/FAQ">FAQ</a></li>
+                <li><a class="sideA current" href="/CScenter/board">공지사항</a></li>
+                <li><a class="sideA" href="/CScenter/personalQ">1:1문의</a></li>
             </ul>
         </div>
         <div id="content">
             <h3 id="title">FAQ</h3><h6>자주 묻는 질문</h6>
             <div id="searchArea">
-                <input type="text" id="searchFAQ" name="searchFAQ" placeholder="제목, 내용 검색"><img id="finding" src="resources/magnifying-glass-navy.png" alt="돋보기">
+                <input type="text" id="searchFAQ" name="searchFAQ" placeholder="제목, 내용 검색"><img id="finding" src="images/magnifying-glass-navy.png" alt="돋보기">
             </div>   
             <div id="category">
                 <ul id="categoryUl">
@@ -116,7 +116,7 @@ a{text-decoration: none;}
         </div>
     </div>    
 
-    <div id="footer"></div>
+    <div th:replace="common/footer.html"></div>
 
     <script>
         $(".question").click(function(){
