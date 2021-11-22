@@ -1,5 +1,6 @@
 package com.kh.clendy.mypage.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.member.model.vo.UserImpl;
 import com.kh.clendy.mypage.model.service.MypageService;
+import com.kh.clendy.mypage.model.vo.Point;
 
 @Controller
 @RequestMapping("/mypage")
@@ -123,6 +125,25 @@ public class MypageController {
 		}
 	}
 	
+	// 적립금/쿠폰 화면
+	@GetMapping("/point_coupon")
+	public ModelAndView point_coupon(ModelAndView mv) {
+		// 적립금 불러오기
+		//List<Point> point_list = mypageService.selectPoint();
+		
+		//mv.addObject("point_list", point_list);
+		//mv.setViewName("mypage/point_coupon");
+		return mv;
+	}
+	
+	// 위시리스트 화면
+	@GetMapping("/wishlist")
+	public void wishlist() {}
+	
+	// 내가 쓴 글 화면 
+	@GetMapping("/myBoard")
+	public void myBoard() {}
+	
 	// 주문내역 화면
 	@GetMapping("/orderList")
 	public void orderList() {}
@@ -130,16 +151,5 @@ public class MypageController {
 	// 장바구니 화면
 	@GetMapping("/cart")
 	public void cart() {}
-	
-	// 위시리스트 화면
-	@GetMapping("/wishlist")
-	public void wishlist() {}
-	
-	// 적립금/쿠폰 화면
-	@GetMapping("/point_coupon")
-	public void point_coupon() {}
-	
-	// 내가 쓴 글 화면 
-	@GetMapping("/myBoard")
-	public void myBoard() {}
+		
 }
