@@ -122,4 +122,24 @@ public class MypageController {
 			return "redirect:/mypage/confirmPwd";
 		}
 	}
+	
+	// 주문내역 화면
+	@GetMapping("/orderList")
+	public void orderList() {}
+	
+	// 장바구니 화면
+	@GetMapping("/cart")
+	public void cart() {}
+	
+	// 위시리스트 화면
+	@GetMapping("/wishlist")
+	public void wishlist() {}
+	
+	// 적립금/쿠폰 화면
+	@GetMapping("/point_coupon")
+	public void point_coupon() {}
+	
+	// 내가 쓴 글 화면 
+	@GetMapping("/myBoard")
+	public void myBoard() {}
 }

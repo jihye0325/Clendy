@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/mypage/cart.css" rel="stylesheet"></link>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <title>장바구니</title>
 </head>
 <body>
@@ -18,7 +19,7 @@
             <div class="cart">
                 <div class="cart_list">
                     <ul class="cart_header">
-                        <li class="allCheck"><input type="checkbox"></li>
+                        <li class="allCheck"><input type="checkbox" id="allCheck" onclick="selectAll(this)"></li>
                         <li class="pname">상품명</li>
                         <li class="price">판매가</li>
                         <li class="amount">수량</li>
@@ -28,16 +29,18 @@
 
                     <!-- 반복문으로 리스트 불러오기 --> 
                     <ul class="cart_ul">
-                        <li class="check"><input type="checkbox"></li>
+                        <li class="check"><input type="checkbox" name="pcheck"></li>
+                        <a>
                         <li class="pname">
                             <div class="img_area">
-                                <img src="resources/images/pimg1.png">
+                                <img src="/images/sampleimg1.png">
                             </div>
                             <div class="p_info">
                                 <div id="bname">토피</div>
                                 <div id="pname">2WAY 스웻 후드 집업</div>
                             </div>
                         </li>
+                        </a>
                         <li class="price">39,000</li>
                         <li class="amount">
                             <button type="button" id="minus">-</button>
@@ -67,5 +70,16 @@
             </div>
         </form>
     </div>
+    
+        <!-- 체크박스 전체 선택 -->
+    <script>
+    	function selectAll(selectAll){
+    		const checkboxes = document.getElementsByName('pcheck');
+    		
+    		checkboxes.forEach((checkbox) => {
+    			checkbox.checked = selectAll.checked;
+    		})
+    	}
+    </script> 
 </body>
 </html>
