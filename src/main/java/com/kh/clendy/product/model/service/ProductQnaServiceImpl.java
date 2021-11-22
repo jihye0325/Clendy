@@ -82,7 +82,7 @@ public class ProductQnaServiceImpl implements ProductQnaService{
 		int result1 = productQnaMapper.qnaDelete(piqCode);
 		
 		int qnaACount = productQnaMapper.qnaACount(piqCode);
-		System.out.println(qnaACount);
+		// System.out.println(qnaACount);
 		int result2 = 0;
 		if(qnaACount > 0) {
 			result2 = productQnaMapper.qnaADelete(qnaACount);

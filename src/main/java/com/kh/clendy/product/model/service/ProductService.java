@@ -11,5 +11,6 @@ public interface ProductService {
 	Product productViewInfo(Map<String, Object> mapInfo);
 
 	int productViewWish(Map<String, Integer> returnMap);
+
 	
 }
