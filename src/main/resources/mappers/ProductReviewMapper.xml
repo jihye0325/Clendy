@@ -138,5 +138,34 @@
 		     JOIN MEMBER M ON(POR.USER_NO = M.USER_NO)
 		     WHERE RV.R_NO = #{ rNo }
 	</select>
+	
+	<select id="reviewLikeGetCount" parameterType="map" resultType="_int">
+		SELECT
+		       COUNT(*) AS COUNT
+		  FROM REVIEW_LIKE
+		 WHERE R_NO = #{rNo}
+		   AND USER_NO = #{loginUno}
+	</select>
+	
+	<delete id="reviewLikeDelete" parameterType="map">
+		DELETE 
+		  FROM REVIEW_LIKE
+		 WHERE R_NO = #{rNo}
+		   AND USER_NO = #{loginUno}
+	</delete>
+	
+	<insert id="reviewLikeInsert" parameterType="map">
+		INSERT 
+		  INTO REVIEW_LIKE
+		  (
+		  		R_NO
+		  	  , USER_NO
+		  )
+		VALUES
+		  (
+		  		#{rNo}
+		  	  , #{loginUno}
+		  )
+	</insert>
 
 </mapper>

@@ -6,6 +6,7 @@ import java.util.List;
 import com.kh.clendy.member.model.vo.Member;
 
 public class ProductReview {
+	private int loginUno;
 	private int rNo;
 	private int orderCode;
 	private String rTitle;
@@ -22,6 +23,14 @@ public class ProductReview {
 	private int likeCount;
 	
 	public ProductReview() { }
+
+	public int getLoginUno() {
+		return loginUno;
+	}
+
+	public void setLoginUno(int loginUno) {
+		this.loginUno = loginUno;
+	}
 
 	public int getrNo() {
 		return rNo;
@@ -137,10 +146,11 @@ public class ProductReview {
 
 	@Override
 	public String toString() {
-		return "ProductReview [rNo=" + rNo + ", orderCode=" + orderCode + ", rTitle=" + rTitle + ", score=" + score
-				+ ", openSize=" + openSize + ", rContent=" + rContent + ", pColor=" + pColor + ", pSize=" + pSize
-				+ ", rCreateDate=" + rCreateDate + ", rModifyDate=" + rModifyDate + ", imageList=" + imageList
-				+ ", member=" + member + ", product=" + product + ", likeCount=" + likeCount + "]";
+		return "ProductReview [loginUno=" + loginUno + ", rNo=" + rNo + ", orderCode=" + orderCode + ", rTitle="
+				+ rTitle + ", score=" + score + ", openSize=" + openSize + ", rContent=" + rContent + ", pColor="
+				+ pColor + ", pSize=" + pSize + ", rCreateDate=" + rCreateDate + ", rModifyDate=" + rModifyDate
+				+ ", imageList=" + imageList + ", member=" + member + ", product=" + product + ", likeCount="
+				+ likeCount + "]";
 	}
-
 }
+	

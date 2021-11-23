@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.clendy.member.model.vo.UserImpl;
 import com.kh.clendy.product.model.service.ProductQnaService;
 import com.kh.clendy.product.model.vo.PageInfo;
 import com.kh.clendy.product.model.vo.ProductQnaQ;
@@ -30,10 +32,14 @@ private ProductQnaService productQnaService;
 	@PostMapping("/qnaAllSelectList")
 	@ResponseBody
 	public ModelAndView qnaAllSelectList(@RequestBody Map<String, Object> mapReturn, ModelAndView mv){
-		
-		// System.out.println(mapReturn);
 	
+		// System.out.println(mapReturn);
 		List<ProductQnaQ> selectList = productQnaService.qnaAllSelectList(mapReturn);
+		// System.out.println(selectList);
+		
+		for(ProductQnaQ pq : selectList) {
+			pq.setLoginUno((int)mapReturn.get("loginUno"));
+		}
 		 
 		 mv.addObject("selectList", selectList);
 		 mv.setViewName("product/product_view :: #view_qna");
@@ -90,10 +96,10 @@ private ProductQnaService productQnaService;
 	@ResponseBody
 	public String qnaModify(@RequestBody ProductQnaQ qnaModifyView) {
 	
-		// System.out.println(qnaModifyView);
+		System.out.println(qnaModifyView);
 		
 		int result = productQnaService.qnaModify(qnaModifyView);
-		
+		System.out.println(result);
 		String msg = "";
 		
 		if(result > 0) {

@@ -6,13 +6,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+	<!-- default header name is X-CSRF-TOKEN -->
+	<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 
     <title>상품 상세 페이지</title>
     <link rel="stylesheet" th:href="@{https://unpkg.com/swiper/swiper-bundle.min.css}">
     <link rel="stylesheet" th:href="@{/css/product_style.css}">
+    <style>
+    	#nav-wrapper{margin-bottom:0 !important;}
+    </style>
     <script th:inline="javascript">
     	// pNo전달위해 
     	let pNoNumber = Number([[${pNo}]]);
+    	let loginUno = Number([[${modelMap.loginUno}]]);
+    	console.log(loginUno);
     </script>
     <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
     <script th:src="@{/js/product_common.js}"></script> <!-- 상품 페이지 공통js -->
@@ -31,26 +39,32 @@
                         <div class="view_top_wrap">
                             <div class="slide_wrap">
                                 <div class="img">
-                                    <img th:src="@{${info.imageList[0].route} + ${info.imageList[0].imgrName}}" alt="">
+                                    <img th:src="@{${modelMap.info.imageList[0].route} + ${modelMap.info.imageList[0].imgrName}}" alt="">
                                 </div>
                                 <div class="img_list">
-                                    <a href="javascript:;" class="on" th:each="image : ${info.imageList}">
+                                    <a href="javascript:;" class="on" th:each="image : ${modelMap.info.imageList}">
                                         <img th:src="${image.route} + ${image.imgrName}" alt="">
                                     </a>
                                 </div>
                             </div>
                             <div class="view_txt_wrap">
-                                <p class="product_title" th:text="${info.pName}">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</p>
+                                <p class="product_title" th:text="${modelMap.info.pName}">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</p>
                                 
-                                <a href="javascript:;" th:onclick="|javascript:wishListHandler(1, ${info.pNo})|" class="btn_wish" th:classappend="${info.wishLike == 1} ? 'on'"></a>
+                                <th:block sec:authorize="isAuthenticated()">
+						       		<a href="javascript:;" th:onclick="|javascript:wishListHandler(${modelMap.loginUno} , ${modelMap.info.pNo})|" class="btn_wish" th:classappend="${modelMap.info.wishLike == 1} ? 'on'"></a>
+						       </th:block>
+                                <th:block sec:authorize="isAnonymous()">
+						       		 <a href="javascript:;" th:onclick="|javascript:wishListHandler(1 , ${modelMap.info.pNo})|" class="btn_wish" th:classappend="${modelMap.info.wishLike == 1} ? 'on'"></a>
+						       </th:block>
+                               
                                 
-                                <p class="sale_price" th:text="|${#numbers.formatInteger(info.pPrice, 3, 'COMMA')}원|">25,000원</p>
+                                <p class="sale_price" th:text="|${#numbers.formatInteger(modelMap.info.pPrice, 3, 'COMMA')}원|">25,000원</p>
                                 <div class="price_wrap" >
-                                    <p class="price" th:with="perwon = ${info.pPrice - (info.pPrice * (info.pDiscount / 100.0))}">
+                                    <p class="price" th:with="perwon = ${modelMap.info.pPrice - (modelMap.info.pPrice * (modelMap.info.pDiscount / 100.0))}">
                                         <span th:text="${#numbers.formatInteger(perwon, 3, 'COMMA')}">17,000</span>원
                                     </p>
                                     <p class="price_per">
-                                        <span th:text="${info.pDiscount}">32</span>%
+                                        <span th:text="${modelMap.info.pDiscount}">32</span>%
                                     </p>
                                 </div>
                                 <div class="view_status">
@@ -84,7 +98,7 @@
                             <div class="review_wrap" id="review_board">
                             	<div class="review_list" th:if="${reviewList != null and #lists.size(reviewList) > 0}" th:each="review : ${reviewList}" >
                                     <p class="review_date">2021.10.21</p>
-                                    <a href="javascript:;" class="review_like" th:classappend="${review.likeCount} == 1 ? 'on'">좋아요</a>
+                                    <a href="javascript:;" th:onclick="|javascript:reviewLike(${review.rNo}, ${review.loginUno});|" class="review_like" th:classappend="${review.likeCount} == 1 ? 'on'">좋아요</a>
                                     <p class="review_id">
                                     	<span th:text="${#strings.substring(review.member.id, 0, #strings.length(review.member.id) - 4) + '****'}">id1234****</span>
 	                                    <span class="sub" th:text="|${review.member.gender}성-|">남성</span>
@@ -140,9 +154,11 @@
                             </div>
 
                         </div>
-	
+						
                         <div class="view_item_wrap" id="item_qna">
+                        
                             <div class="head">
+                            	
                                 <h3 class="title">상품문의</h3>
                                 <div class="view_qna_top">
                                     <div class="checkbox">
@@ -163,23 +179,21 @@
                                     <a href="javascript:popOpen('productQna', 'insert');" class="btn_qna">상품 문의하기</a>
                                 </div>
                             </div>
-
-                            <div class="view_qna_wrap" id="view_qna" >
-                                <ul class="qna_list" th:if="${selectList != null and #lists.size(selectList) > 0}">
+	
+                            <div class="view_qna_wrap" id="view_qna">
+                                <ul class="qna_list" th:if="${selectList != null and #lists.size(selectList) > 0}" >
 	                                    <li class="line" th:each="list: ${selectList}" >
 	                                        <div class="line_box">
 	                                            <p class="line_type" th:text="${list.piCateName}">문의 카테고리 이름</p>
-	                                            
 	                                            <th:block th:switch="${list.piqSecret}">
-	                                            	<p class="line_title secret" th:case="Y">
-		                                            	<a href="javascript:;">비밀글 입니다.</a>
+	                                            	<p class="line_title" th:case="Y" th:classappend="${list.userNo != list.loginUno} ? 'secret'">
+		                                            	<a href="javascript:;" th:if="${list.userNo != list.loginUno}">비밀글 입니다.</a>
+		                                            	<a href="javascript:;" th:unless="${list.userNo != list.loginUno}" th:text="${list.piqTitle}"></a>
 		                                            </p>
 		                                            <p class="line_title" th:case="N">
 		                                            	<a href="javascript:;" th:text="${list.piqTitle}"></a>
 		                                            </p>
 	                                            </th:block>
-	                                            
-	                                            
 	                                            <p class="line_id" th:text="${#strings.substring(list.id, 0, #strings.length(list.id) - 4) + '****'}">
 	                                                id1234****
 	                                            </p>
@@ -188,27 +202,24 @@
 	                                            </p>
 	                                            
 	                                            <th:block th:if="${list.proudctQnaA != null}">
-	                                            	 <p class="line_status complete">
-		                                                답변
-		                                            </p>
+	                                            	 <p class="line_status complete">답변</p>
 	                                            </th:block>
 	                                            <th:block th:unless="${list.proudctQnaA != null}">
-	                                            	 <p class="line_status">
-		                                                대기
+	                                            	 <p class="line_status">대기
 		                                            </p>
 	                                            </th:block>
 	                                        </div>
-	
 	                                        <div class="line_qna_box">
 	                                            <div class="line_q_box">
 	                                                <div class="text_box">
 	                                                    <p th:text="${list.piqContent}">상품에 문제가있습니다.</p>
 	                                                </div>
+	                                                
 	                                                <ul class="btn_box">
-	                                                    <li>
+	                                                    <li th:if="${list.userNo == list.loginUno}">
 	                                                        <a href="javascript:;" th:onclick="|javascript:qnaModifyView(${list.piqCode})|">수정</a>
 	                                                    </li>
-	                                                    <li>
+	                                                    <li th:if="${list.userNo == list.loginUno}">
 	                                                    	<a href="javascript:;" th:onclick="|javascript:qnaDelete(${list.piqCode})|">삭제</a>
 	                                                    </li>
 	                                                </ul>
@@ -218,6 +229,7 @@
 	                                            	<div class="text_box">
 	                                               	    <p th:text="${list.proudctQnaA.piaContent}"></p>
 	                                                </div>
+	                                                
 	                                                <p class="text_date" th:text="${list.proudctQnaA.piaCreateDate}"></p>
 	                                            </th:block>
 	                                            <th:block th:if="${list.proudctQnaA == null}">
@@ -396,8 +408,8 @@
                     </dl>
                 </div>
                 <div class="layout_btn_wrap">
-                    <a href="javascript:;" th:onclick="|javascript:qnaInsert(${info.pNo})|" class="active">등록하기</a>
-                    <a href="javascript:;" th:onclick="|javascript:qnaModify(${info.pNo})|" class="active">수정하기</a>
+                    <a href="javascript:;" class="active">등록하기</a>
+                    <a href="javascript:;" class="active">수정하기</a>
                     <a href="javascript:;">취소하기</a>
                 </div>
             </div>

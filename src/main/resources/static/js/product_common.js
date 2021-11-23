@@ -4,7 +4,9 @@
 	1. 페이징
 	2. 팝업 열기, 닫기
 */
-
+// csrf 변수
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
 
 // 페이징 공통
 function pagingHandler(id, cmObject){
@@ -14,6 +16,9 @@ function pagingHandler(id, cmObject){
 		contentType : "application/json; charset=utf-8",
         data : JSON.stringify(cmObject),
         dataType : "json",
+        beforeSend : function(xhr){
+			xhr.setRequestHeader(header, token);
+		},
         success : function(data){
            paging(id, data, "qnaAllSelectList");
         },
@@ -75,13 +80,13 @@ function popOpen(id, parameter, piqCode){
        $('#productQna').removeClass("qnaModify");
        $('#productQna').addClass("qnaInsert");
        $('#productQna .layout_head .title').text("상품문의 등록");
-       // $("#productQna.qnaInsert a.active").attr("href","javascript:qnaInsert()");
+       $("#productQna.qnaInsert a.active").attr("href","javascript:qnaInsert("+ pNoNumber +")");
        
    }else if(parameter == "modify"){
        $('#productQna').removeClass("qnaInsert");
        $('#productQna').addClass("qnaModify");
        $('#productQna .layout_head .title').text("상품문의 수정");
-       // $("#productQna.qnaModify a.active").attr("href","javascript:qnaModify("+ piqCode +")");
+       $("#productQna.qnaModify a.active").attr("href","javascript:qnaModify("+ piqCode +")");
    }
    
    $('#' + id).addClass("show");

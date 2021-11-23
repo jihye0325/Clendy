@@ -1,6 +1,6 @@
 $(function(){
 	// console.log(pNoNumber)
-    reviewSelect(pNoNumber, 1);
+    reviewSelect(pNoNumber, loginUno);
 })
 
 function reviewSelect(pNo, userNo, page){
@@ -8,7 +8,6 @@ function reviewSelect(pNo, userNo, page){
         page = 1;
     }
 
-    // userNo는 임시로 사용
     let dataLimit = {"pNo" : pNo, "userNo": userNo, "page" : page};
     // console.log(dataLimit);
    
@@ -17,9 +16,13 @@ function reviewSelect(pNo, userNo, page){
         url : "/product/reviewAllSelectList",
         contentType : "application/json; charset=utf-8",
         data : JSON.stringify(dataLimit),
+        beforeSend : function(xhr){
+			xhr.setRequestHeader(header, token);
+		},
     }).done(function(fragment){
             $('#review_board').replaceWith(fragment);
     		reviewPagingHandler(pNo, page);
+    		tabCount(pNoNumber);
     })
     
 };
@@ -33,6 +36,9 @@ function reviewPagingHandler(pNo, page){
 		contentType : "application/json; charset=utf-8",
         data : JSON.stringify(dataLimit),
         dataType : "json",
+        beforeSend : function(xhr){
+			xhr.setRequestHeader(header, token);
+		},
         success : function(data){
            paging("item_review", data, "reviewSelect");
         },
@@ -50,6 +56,9 @@ function reviewView(rNo){
 		url : "/product/reviewView/" + rNo,
 		contentType : "application/json; charset=utf-8",
 		data : JSON.stringify(dataLimit),
+		beforeSend : function(xhr){
+			xhr.setRequestHeader(header, token);
+		},
 		success : function(data){
 			popOpen("review_view");
 			console.log(data);
@@ -78,14 +87,36 @@ function reviewView(rNo){
 			id.find(".review_option").text(data.pColor + " / " + data.pSize);
 			id.find(".review_txt_box").text(data.rContent);
 			
-			
-			
 		},
 		error : function(error){
 		
 		}
 	});
+}
 
-
+function reviewLike(rNo, loginUno){
+	let dataLimit = {"rNo" : rNo, "loginUno" : loginUno};
+	$.ajax({
+		type : "post",
+		url : "/product/reviewLike",
+		contentType : "application/json; charset=utf-8",
+		data : JSON.stringify(dataLimit),
+		beforeSend : function(xhr){
+			xhr.setRequestHeader(header, token);
+		},
+		success : function(data){
+			// console.log(data);
+			if(data == 'insert'){
+				$('.review_list .review_like').addClass('on');
+			}else if(data == 'delete'){
+				$('.review_list .review_like').removeClass('on');
+			}else{
+				alert("좋아요 작동에 실패하였습니다.")
+			}
+		},
+		error : function(error){
+			console.log(error);
+		}
+	})
 }
 

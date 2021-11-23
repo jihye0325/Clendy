@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.clendy.member.model.vo.UserImpl;
 import com.kh.clendy.product.model.service.ProductService;
 import com.kh.clendy.product.model.vo.Product;
 
@@ -49,16 +51,26 @@ public class ProductController {
 	// 상품 상세(상품번호)
 	@GetMapping("/view/{pNo}")
 	public String productViewPage(@PathVariable String pNo, Model model) {
-		int userNo = 1; // 유저번호 임시 지정
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int userNo = user.getUser_no();
+		
 		
 		Map<String, Object> mapInfo = new HashMap<>();
 		mapInfo.put("pNo", pNo);
 		mapInfo.put("userNo", userNo);
 		
 		Product productInfo = productService.productViewInfo(mapInfo);
+				
 		// System.out.println(productInfo);
 		
-		model.addAttribute("info", productInfo);
+		Map<String, Object> modelMap = new HashMap<>();
+		modelMap.put("info", productInfo);
+		modelMap.put("loginUno", userNo);
+		
+		// model.addAttribute("loginUno", userNo);
+		// model.addAttribute("info", productInfo);
+		model.addAttribute("modelMap", modelMap);
+		// System.out.println(userNo);
 		
 		return "product/product_view";
 	}
@@ -67,9 +79,9 @@ public class ProductController {
 	@PostMapping("/wishStatus")
 	@ResponseBody
 	public String productViewWish(@RequestBody Map<String, Integer> returnMap) {
-		
+		// System.out.println(returnMap);
 		int result = productService.productViewWish(returnMap);
-		System.out.println(result);
+		// System.out.println(result);
 		
 		String msg = "fail";
 		
@@ -79,6 +91,17 @@ public class ProductController {
 		}
 		
 		return msg;
+	}
+	
+	// 상품 상세 - 탭메뉴 갯수
+	@PostMapping("/tabCount")
+	@ResponseBody
+	public Map<String, Object> productTabCount(@RequestParam int pNo){
+
+		Map<String, Object> productTabCount = productService.productTabCount(pNo);
+		System.out.println(productTabCount);
+		
+		return productTabCount;
 	}
 	
 }

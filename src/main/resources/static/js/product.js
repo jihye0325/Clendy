@@ -1,4 +1,6 @@
 $(function(){
+	tabCount(pNoNumber);
+
     // 상품문의 상세 이벤트
    $(document).on("click", ".qna_list .line .line_box > p.line_title a",function(){
        if(!$(this).parent().hasClass("secret")){
@@ -132,7 +134,6 @@ $(function(){
 
 // 상품정보 위시리스트
 function wishListHandler(userNo, pNo){
-
 	let wishList = {"userNo": userNo, "pNo": pNo};
 	
 	$.ajax({
@@ -141,6 +142,9 @@ function wishListHandler(userNo, pNo){
 		contentType : "application/json; charset=utf-8",
 		data: JSON.stringify(wishList),
 		dataType : "text",
+		beforeSend : function(xhr){
+			xhr.setRequestHeader(header, token);
+		},
 		success : function(data){
 			// console.log(data);
 			if(data == 'insert'){
@@ -149,8 +153,6 @@ function wishListHandler(userNo, pNo){
 				$(".view_txt_wrap .btn_wish").removeClass("on");			
 			
 			}
-			
-			
 		},
 		error : function(error){
 			console.log(error);
@@ -158,5 +160,26 @@ function wishListHandler(userNo, pNo){
 	});
 
 
+}
+
+// 탭메뉴 갯수
+function tabCount(pNo){
+	$.ajax({
+		type : "post",
+		url : "/product/tabCount",
+		data: {"pNo" : pNo},
+		dataType : "json",
+		beforeSend : function(xhr){
+			xhr.setRequestHeader(header, token);
+		},
+		success : function(data){
+			$('.view_tab_wrap .tab_box a').eq(1).find('span').text(data.REVIEW_COUNT);
+			$('.view_tab_wrap .tab_box a').eq(2).find('span').text(data.INQUIRY_COUNT);
+			
+		},
+		error : function(error){
+			console.log(error);
+		}
+	})
 }
 

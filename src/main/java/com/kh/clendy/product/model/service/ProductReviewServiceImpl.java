@@ -59,4 +59,23 @@ public class ProductReviewServiceImpl implements ProductReviewService{
 		return productReviewMapper.reviewView(rNo);
 	}
 
+	// 상품 상세 리뷰 좋아요
+	@Override
+	public int reviewLike(Map<String, Object> returnMap) {
+		// 1. 리뷰 좋아요 눌렀는지 확인
+		int reviewLikeCount = productReviewMapper.reviewLikeGetCount(returnMap);
+		// System.out.println("reviewLikeCount : " + reviewLikeCount);
+		
+		int result = 0;
+		if(reviewLikeCount == 1) {
+			//삭제
+			result = productReviewMapper.reviewLikeDelete(returnMap) > 0 ? 1 : -1;
+		}else {
+			// 추가
+			result = productReviewMapper.reviewLikeInsert(returnMap) > 0 ? 2 : -1;
+		}
+		
+		return result;
+	}
+
 }

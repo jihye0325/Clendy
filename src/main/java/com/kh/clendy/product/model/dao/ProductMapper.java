@@ -28,6 +28,8 @@ public interface ProductMapper {
 	// 위시리스트 삭제
 	int productViewDeleteWish(Map<String, Integer> returnMap);
 
+	Map<String, Object> productTabCount(int pNo);
+
 	
 
 	

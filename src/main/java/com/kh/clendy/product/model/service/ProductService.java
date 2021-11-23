@@ -12,5 +12,7 @@ public interface ProductService {
 
 	int productViewWish(Map<String, Integer> returnMap);
 
+	Map<String, Object> productTabCount(int pNo);
+
 	
 }

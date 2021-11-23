@@ -8,6 +8,7 @@ public class ProductQnaQ {
 	private String piCateName;
 	private int pNo;
 	private int userNo;
+	private int loginUno;
 	private String id;
 	private String piqTitle;
 	private String piqContent;
@@ -29,30 +30,6 @@ public class ProductQnaQ {
 
 	public String getPiCateCode() {
 		return piCateCode;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public ProductQnaA getProudctQnaA() {
-		return proudctQnaA;
-	}
-
-	public void setProudctQnaA(ProductQnaA proudctQnaA) {
-		this.proudctQnaA = proudctQnaA;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getPiqSecret() {
-		return piqSecret;
-	}
-
-	public void setPiqSecret(String piqSecret) {
-		this.piqSecret = piqSecret;
 	}
 
 	public void setPiCateCode(String piCateCode) {
@@ -83,6 +60,22 @@ public class ProductQnaQ {
 		this.userNo = userNo;
 	}
 
+	public int getLoginUno() {
+		return loginUno;
+	}
+
+	public void setLoginUno(int loginUno) {
+		this.loginUno = loginUno;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getPiqTitle() {
 		return piqTitle;
 	}
@@ -97,6 +90,14 @@ public class ProductQnaQ {
 
 	public void setPiqContent(String piqContent) {
 		this.piqContent = piqContent;
+	}
+
+	public String getPiqSecret() {
+		return piqSecret;
+	}
+
+	public void setPiqSecret(String piqSecret) {
+		this.piqSecret = piqSecret;
 	}
 
 	public Date getPiqCreateDate() {
@@ -123,12 +124,22 @@ public class ProductQnaQ {
 		this.piqDelStatus = piqDelStatus;
 	}
 
+	public ProductQnaA getProudctQnaA() {
+		return proudctQnaA;
+	}
+
+	public void setProudctQnaA(ProductQnaA proudctQnaA) {
+		this.proudctQnaA = proudctQnaA;
+	}
+
 	@Override
 	public String toString() {
 		return "ProductQnaQ [piqCode=" + piqCode + ", piCateCode=" + piCateCode + ", piCateName=" + piCateName
-				+ ", pNo=" + pNo + ", userNo=" + userNo + ", id=" + id + ", piqTitle=" + piqTitle + ", piqContent="
-				+ piqContent + ", piqSecret=" + piqSecret + ", piqCreateDate=" + piqCreateDate + ", piqModifyDate="
-				+ piqModifyDate + ", piqDelStatus=" + piqDelStatus + ", proudctQnaA=" + proudctQnaA + "]";
+				+ ", pNo=" + pNo + ", userNo=" + userNo + ", loginUno=" + loginUno + ", id=" + id + ", piqTitle="
+				+ piqTitle + ", piqContent=" + piqContent + ", piqSecret=" + piqSecret + ", piqCreateDate="
+				+ piqCreateDate + ", piqModifyDate=" + piqModifyDate + ", piqDelStatus=" + piqDelStatus
+				+ ", proudctQnaA=" + proudctQnaA + "]";
 	}
-
 }
+
+	

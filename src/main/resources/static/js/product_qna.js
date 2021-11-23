@@ -35,7 +35,7 @@ function qnaInsert(pNo){
    const piqTitle = $("#productQna [name=piqTitle]").val();
    const piqContent = $("#productQna [name=piqContent]").val();
    
-   const insertData = {'pNo': pNo, 'piqSecret': piqSecret, 'piCateCode': piCateCode, 'piqTitle': piqTitle, 'piqContent': piqContent};
+   const insertData = {'userNo' : loginUno,'pNo': pNo, 'piqSecret': piqSecret, 'piCateCode': piCateCode, 'piqTitle': piqTitle, 'piqContent': piqContent};
    // console.log(insertData);
    
    $.ajax({
@@ -44,6 +44,9 @@ function qnaInsert(pNo){
        dataType : "text",
        contentType : "application/json; charset=utf-8",
        data : JSON.stringify(insertData),
+       beforeSend : function(xhr){
+			xhr.setRequestHeader(header, token);
+		},
        success : function(data){
            popClose('productQna');
            alert("상품 문의글이 등록되었습니다.");
@@ -67,6 +70,9 @@ function qnaModifyView(piqCode){
        type : "post",
        data : {"piqCode": piqCode},
        url : "/product/qnaModifyView",
+       beforeSend : function(xhr){
+			xhr.setRequestHeader(header, token);
+		},
        success : function(data){
            // console.log(data);
            
@@ -114,13 +120,16 @@ function qnaModify(piqCode){
        dataType : "text",
        contentType : "application/json; charset=utf-8",
        data : JSON.stringify(insertData),
+       beforeSend : function(xhr){
+			xhr.setRequestHeader(header, token);
+		},
        success : function(data){
-           // console.log(data);
+           console.log(data);
            
            if(data == 'success'){
                popClose('productQna');
                alert("상품 문의글이 수정 되었습니다.");
-           }else{
+           }else if(data == 'fail'){
                popClose('productQna');
                alert("상품 문의글이 수정 실패 하였습니다.");
            }
@@ -144,6 +153,9 @@ function qnaDelete(piqCode){
               dataType : "text",
            contentType : "application/json; charset=utf-8",
            data : JSON.stringify(piqCode),
+           beforeSend : function(xhr){
+				xhr.setRequestHeader(header, token);
+			},
            success : function(data){
                // console.log(data);
                
@@ -168,6 +180,8 @@ function qnaDelete(piqCode){
 
 // 상품문의 목록(ajax)
 function qnaAllSelectList (page){
+	
+
    if(page == undefined){
    		page = 1
    }
@@ -176,13 +190,16 @@ function qnaAllSelectList (page){
    
    // console.log(page, qnaType, secretCheck);
    
-   let dataLimit = {"page": page, "qnaType": qnaType, "secretCheck": secretCheck, "pNo": pNoNumber};
+   let dataLimit = {"page": page, "qnaType": qnaType, "secretCheck": secretCheck, "pNo": pNoNumber, "loginUno" : loginUno };
    
    $.ajax({
        type : "post",
        url : "/product/qnaAllSelectList",
        contentType : "application/json; charset=utf-8",
        data : JSON.stringify(dataLimit),
+       beforeSend : function(xhr){
+			xhr.setRequestHeader(header, token);
+		}
    }).done(function(fragment,){
         //console.log(fragment)
    		$('#view_qna').replaceWith(fragment);
@@ -190,5 +207,6 @@ function qnaAllSelectList (page){
    
    //페이징 전달
    pagingHandler("item_qna",dataLimit);
+   tabCount(pNoNumber);
 }
 
