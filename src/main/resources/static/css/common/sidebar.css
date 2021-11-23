@@ -1,0 +1,8 @@
+
+/* sidebar */
+#sidebar{    width: 160px;    padding-left :10%;}
+#sidebar li{ width: 70px; height: 40px; }
+#sidebar a {  color:black; width: 70px; height: 30px; display: inline-block; padding:5px; }
+#sidebar a:hover{ background-color: #060032; color:white; }
+#sidebar a:hover:not(.current){ background-color: #060032; color:white; }
+#sidebar .current{background-color: #060032; color:white;}
