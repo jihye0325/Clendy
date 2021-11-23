@@ -18,6 +18,6 @@ public interface MypageMapper {
 
 	int deleteMember(int user_no);
 
-	List<Point> selectPoint();
+	List<Point> selectPoint(int user_no);
 
 }

@@ -14,8 +14,8 @@
         <div class="menu">
             <input type="radio" class="selectType" name="selectType" id="pQna" onclick="selectType(event)" value="pQna" checked>
             <label for="pQna" class="radio">상품문의</label>
-            <input type="radio" class="selectType" name="selectType" id="review" onclick="selectType(event)" value="review">
-            <label for="review" class="radio">리뷰</label>
+            <input type="radio" class="selectType" name="selectType" id="reviewList" onclick="selectType(event)" value="reviewList">
+            <label for="reviewList" class="radio">리뷰</label>
             <input type="radio" class="selectType" name="selectType" id="qna" onclick="selectType(event)" value="qna">
             <label for="qna" class="radio">1:1 문의</label>
             <input type="radio" class="selectType" name="selectType" id="ex_ref" onclick="selectType(event)" value="ex_ref">
@@ -135,7 +135,7 @@
                 $("#review_List").hide();
                 $("#qna_List").hide();
                 $("#ex_ref_List").hide();
-            } else if(type == 'review'){
+            } else if(type == 'reviewList'){
                 $('#pQna_List').hide();
                 $("#review_List").show();
                 $("#qna_List").hide();

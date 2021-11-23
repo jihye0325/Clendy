@@ -43,6 +43,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
          // .csrf().disable()   /* 일단 비활성화 -> 이후에 변경 */
          .authorizeRequests()   /* 요청에 대한 권한 체크 */ 
             .antMatchers("/mypage/**").authenticated()   // "/mypage/**" 요청은 인증되어야함
+            .antMatchers("/member/new_Pwd").authenticated()
             .anyRequest().permitAll()   /* 그 외의 요청들은 모두 허가함 - 게스트 사용자 접근 가능 */
          .and()
             .formLogin()   /* 로그인 설정 */

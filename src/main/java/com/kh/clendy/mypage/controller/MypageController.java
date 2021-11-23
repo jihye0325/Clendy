@@ -64,10 +64,27 @@ public class MypageController {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		if(encoder.matches(originPwd,user.getPassword())) {
 			System.out.println("비밀번호 일치");
+			System.out.println(m.getPassword());
 			
-			//새로운 비밀번호로 등록
-			m.setPassword(encoder.encode(m.getPassword()));
-	
+			// 새로운 비밀번호 입력 O
+			if(m.getPassword() != "") {
+				m.setPassword(encoder.encode(m.getPassword()));
+				
+				int result =  mypageService.modifyMember(m);
+				
+				if(result > 0 ) {
+					redirectAttr.addFlashAttribute("msg", "회원정보 수정 성공했습니다. 새로운 비밀번호로 로그인하세요.");
+					SecurityContextHolder.clearContext();
+					return "redirect:/";
+				}
+				else {
+					redirectAttr.addFlashAttribute("msg", "회원정보 수정 실패했습니다.");
+					return "redirect:/mypage/modify";
+				}
+				
+			} 
+			
+			m.setPassword(encoder.encode(originPwd));
 			int result =  mypageService.modifyMember(m);
 			
 			if(result > 0 ) {
@@ -112,10 +129,10 @@ public class MypageController {
 			else {
 				System.out.println("탈퇴 실패");
 				redirectAttr.addFlashAttribute("msg", "탈퇴에 실패하셨습니다.");
-				
+				return "redirect:/mypage/modify";
 			}
 			
-			return "redirect:/";
+			return "redirect:/member/deletePage";
 			
 		} else {
 			System.out.println("불일치");
@@ -128,12 +145,18 @@ public class MypageController {
 	// 적립금/쿠폰 화면
 	@GetMapping("/point_coupon")
 	public ModelAndView point_coupon(ModelAndView mv) {
-		// 적립금 불러오기
-		//List<Point> point_list = mypageService.selectPoint();
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
 		
-		//mv.addObject("point_list", point_list);
-		//mv.setViewName("mypage/point_coupon");
+		// 적립금 리스트 불러오기
+		List<Point> point_list = mypageService.selectPoint(user_no);
+		
+		mv.addObject("point_list", point_list);
+		mv.setViewName("mypage/point_coupon");
 		return mv;
+		
+		// 사용가능 쿠폰 리스트 불러오기
+		
 	}
 	
 	// 위시리스트 화면

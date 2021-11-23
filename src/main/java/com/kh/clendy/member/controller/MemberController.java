@@ -34,6 +34,8 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	@GetMapping("/deletePage")
+	public void deletePage() {}
 	
 	
 	

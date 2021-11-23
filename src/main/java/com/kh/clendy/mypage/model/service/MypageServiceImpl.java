@@ -62,10 +62,12 @@ public class MypageServiceImpl implements MypageService {
 		return result;
 	}
 
-	// 포인트 리스트 불러오기
+	// 적립금 리스트 불러오기
 	@Override
-	public List<Point> selectPoint() {
-		List<Point> point_list = mypageMapper.selectPoint();
+	public List<Point> selectPoint(int user_no) {
+		List<Point> point_list = mypageMapper.selectPoint(user_no);
+		
+		System.out.println(point_list);
 		
 		return point_list;
 	}

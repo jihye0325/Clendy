@@ -6,6 +6,7 @@ div {
     margin:auto;
     width: 900px;
     text-align: center;
+    min-height: 700px;
 }
 
 .point_area {
@@ -101,7 +102,7 @@ label {
     cursor: pointer;
 }
 
-/* ¶óµð¿À ¹öÆ° ¼û±â±â */
+/* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ */
 input[type=radio] {
     display: none;
     margin: 10px;
