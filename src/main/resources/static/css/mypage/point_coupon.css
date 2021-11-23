@@ -31,10 +31,12 @@ div {
     font-weight: bold;
     font-size: large;
     margin-right: 10px;
+    align-self: end;
 }
 
 #point {
-    font-size: large;
+    font-size: x-large;
+    font-weight: bold;
 }
 
 ul li {
@@ -102,7 +104,7 @@ label {
     cursor: pointer;
 }
 
-/* ���� ��ư ����� */
+/* 라디오 버튼 숨기기 */
 input[type=radio] {
     display: none;
     margin: 10px;
@@ -145,7 +147,7 @@ input[type=radio] {
 }
 
 .c_name {
-    width: 180px;
+    width: 150px;
 }
 
 .c_info {

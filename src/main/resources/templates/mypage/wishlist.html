@@ -16,12 +16,10 @@
             <span>위시리스트</span><br>
             <input type="radio" class="selectType" name="selectType" id="outer" onclick="selectType(event)" value="outer">
             <label for="outer">아우터</label>
-            <input type="radio" class="selectType" name="selectType" id="top" onclick="selectType(event)" value="top">
-            <label for="top">상의</label>
+            <input type="radio" class="selectType" name="selectType" id="top_product" onclick="selectType(event)" value="top_product">
+            <label for="top_product">상의</label>
             <input type="radio" class="selectType" name="selectType" id="bottom" onclick="selectType(event)" value="bottom">
             <label for="bottom">하의</label>
-            <input type="radio" class="selectType" name="selectType" id="onepiece" onclick="selectType(event)" value="onepiece">
-            <label for="onepiece">원피스</label>
             <input type="radio" class="selectType" name="selectType" id="acc" onclick="selectType(event)" value="acc">
             <label for="acc">ACC</label>
         </div>
@@ -80,24 +78,6 @@
             </ul>
         </div>
 
-        <div class="onepiece_div" id="onepieceWishList" style="display: none;">
-            <ul class="wish_list">
-                <li>
-                	<a href="">
-                    <div class="product">
-                        <img src="/images/sampleimg1.png">
-                        <div class="p_info">
-                            <div class="brand">원피스</div>
-                            <div class="name">2WAY 스웻 후드 집업</div>
-                            <div class="price">39,000원</div>
-                            <button type="button" id="delete">삭제</button>
-                        </div>
-                    </div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
         <div class="acc_div" id="accWishList" style="display: none;">
             <ul class="wish_list">
                 <li>
@@ -129,7 +109,7 @@
                 $("#bottomWishList").hide();
                 $("#onepieceWishList").hide();
                 $("#accWishList").hide();
-            } else if(type == 'top'){
+            } else if(type == 'top_product'){
                 $('#outerWishList').hide();
                 $("#topWishList").show();
                 $("#bottomWishList").hide();
@@ -140,12 +120,6 @@
                 $("#topWishList").hide();
                 $("#bottomWishList").show();
                 $("#onepieceWishList").hide();
-                $("#accWishList").hide(); 
-            } else if(type == "onepiece"){
-                $('#outerWishList').hide();
-                $("#topWishList").hide();
-                $("#bottomWishList").hide();
-                $("#onepieceWishList").show();
                 $("#accWishList").hide(); 
             } else {
                 $('#outerWishList').hide();

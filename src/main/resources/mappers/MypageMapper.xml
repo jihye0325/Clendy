@@ -47,6 +47,17 @@
 		<id property="point_code" column="POINT_CODE"/>
 		<result property="point_content" column="POINT_CONTENT"/>
 	</resultMap>
+	
+	<!-- coupon -->
+	<resultMap type="com.kh.clendy.mypage.model.vo.Coupon" id="couponResultMap">
+		<id property="cou_no" column="COU_NO"/>
+		<result property="cou_name" column="COU_NAME"/>
+		<result property="cou_condition" column="COU_CONDITION"/>
+		<result property="cou_price" column="COU_PRICE"/>
+		<result property="start_date" column="START_DATE"/>
+		<result property="expire_date" column="EXPIRE_DATE"/>
+		<result property="cou_status" column="COU_STATUS"/>
+	</resultMap>
 
 	<!-- id로 유저정보 조회 -->
 	<select id="selectMember" parameterType="_int" resultMap="loginMemberResultMap">
@@ -112,14 +123,49 @@
 		  ORDER BY POINT_DATE DESC
 	</select>
 	
+	<!-- 사용가능 쿠폰리스트 불러오기 -->
+	<select id="selectCou_List" parameterType="_int" resultMap="couponResultMap">
+		SELECT 
+		        *
+		    FROM COUPON
+		  WHERE EXPIRE_DATE >= SYSDATE
+		    AND COU_NO NOT IN (SELECT 
+		                            COU_NO
+		                            FROM USE_COUPON
+		                           WHERE USER_NO = #{ user_no })
+		    ORDER BY COU_NO
+	</select>
 	
+	<!-- 사용만료 쿠폰리스트 불러오기 -->
+	<select id="selectDisable_Cou_List" parameterType="_int" resultMap="couponResultMap">
+		SELECT 
+		        *
+		    FROM COUPON
+		  WHERE SYSDATE > EXPIRE_DATE
+            AND COU_STATUS = 'Y'
+		    AND COU_NO NOT IN (SELECT 
+		                            COU_NO
+		                            FROM USE_COUPON
+		                           WHERE USER_NO = #{ user_no })
+		    ORDER BY COU_NO
+	</select>
 	
+	<!-- 사용완료 쿠폰리스트 불러오기 -->
+	<select id="selectUse_Cou_List" parameterType="_int" resultMap="couponResultMap">
+		SELECT 
+		        *
+		    FROM COUPON
+		  WHERE COU_NO IN (SELECT 
+		                           COU_NO
+		                          FROM USE_COUPON
+		                         WHERE USER_NO = #{ user_no })
+		    ORDER BY COU_NO
+	</select>
 	
+	<!-- 위시리스트 불러오기 -->
+	<select id="selectWishlist">
 	
-	
-	
-	
-	
+	</select>
 	
 	
 	

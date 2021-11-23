@@ -18,7 +18,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.member.model.vo.UserImpl;
 import com.kh.clendy.mypage.model.service.MypageService;
+import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.mypage.model.vo.Point;
+import com.kh.clendy.mypage.model.vo.Wishlist;
 
 @Controller
 @RequestMapping("/mypage")
@@ -153,15 +155,34 @@ public class MypageController {
 		
 		mv.addObject("point_list", point_list);
 		mv.setViewName("mypage/point_coupon");
-		return mv;
 		
 		// 사용가능 쿠폰 리스트 불러오기
+		List<Coupon> cou_list = mypageService.selectCou_List(user_no);
+		mv.addObject("cou_list", cou_list);
 		
+		// 사용만료 쿠폰 리스트 불러오기
+		List<Coupon> disable_cou_list = mypageService.selectDisable_Cou_List(user_no);
+		mv.addObject("disable_cou_list", disable_cou_list);
+		
+		// 사용완료 쿠폰 리스트 불러오기
+		List<Coupon> use_cou_list = mypageService.selectUse_Cou_List(user_no);
+		mv.addObject("use_cou_list", use_cou_list);
+		
+		return mv;
 	}
 	
 	// 위시리스트 화면
 	@GetMapping("/wishlist")
-	public void wishlist() {}
+	public ModelAndView wishlist(ModelAndView mv) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		
+		// 위시리스트 불러오기
+		List<Wishlist> wish_list = mypageService.selectWishlist(user_no);
+		mv.addObject("wish_list", wish_list);
+		System.out.println(wish_list);
+		return mv;
+	}
 	
 	// 내가 쓴 글 화면 
 	@GetMapping("/myBoard")
