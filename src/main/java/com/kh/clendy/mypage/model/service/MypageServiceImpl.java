@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.mypage.model.dao.MypageMapper;
+import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.mypage.model.vo.Point;
+import com.kh.clendy.mypage.model.vo.Wishlist;
 
 @Service	
 public class MypageServiceImpl implements MypageService {
@@ -71,6 +73,48 @@ public class MypageServiceImpl implements MypageService {
 		
 		return point_list;
 	}
+
+	// 사용가능 쿠폰 리스트
+	@Override
+	public List<Coupon> selectCou_List(int user_no) {
+		List<Coupon> cou_list = mypageMapper.selectCou_List(user_no);
+		return cou_list;
+	}
+
+	// 사용만료 쿠폰 리스트
+	@Override
+	public List<Coupon> selectDisable_Cou_List(int user_no) {
+		List<Coupon> disable_cou_list = mypageMapper.selectDisable_Cou_List(user_no);
+		return disable_cou_list;
+	}
+
+	// 사용완료 쿠폰 리스트
+	@Override
+	public List<Coupon> selectUse_Cou_List(int user_no) {
+		List<Coupon> use_cou_list = mypageMapper.selectUse_Cou_List(user_no);
+		return use_cou_list;
+	}
+
+	// 위시리스트 불러오기
+	@Override
+	public List<Wishlist> selectWishlist(int user_no) {
+		List<Wishlist> wish_list = mypageMapper.selectWishlist(user_no);
+		return wish_list;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 }
