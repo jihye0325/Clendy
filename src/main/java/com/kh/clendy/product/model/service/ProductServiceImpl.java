@@ -78,6 +78,11 @@ public class ProductServiceImpl implements ProductService{
 		return result;
 	}
 
+	@Override
+	public Map<String, Object> productTabCount(int pNo) {
+		return productMapper.productTabCount(pNo); 
+	}
+
 
 
 }

@@ -142,4 +142,24 @@
 		   AND P_NO = #{pNo}
 	</delete>
 	
+	<select id="productTabCount" parameterType="_int" resultType="map">
+		SELECT
+       (SELECT
+               COUNT(*)
+          FROM PRODUCT_INQUIRY_Q
+          WHERE PRODUCT_INQUIRY_Q.P_NO = #{ pNo }
+            AND P_I_Q_DEL_STATUS = 'N') AS INQUIRY_COUNT
+       , (SELECT
+                 COUNT(*)
+          FROM REVIEW
+          JOIN PRODUCT_ORDER ON(REVIEW.ORDER_CODE = PRODUCT_ORDER.ORDER_CODE)
+          JOIN ORDER_OPTION ON(PRODUCT_ORDER.ORDER_CODE = ORDER_OPTION.ORDER_CODE)
+          JOIN PRODUCT_OPTION ON(ORDER_OPTION.P_OPTION_NO = PRODUCT_OPTION.P_OPTION_NO)
+          JOIN PRODUCT ON(PRODUCT_OPTION.P_NO = PRODUCT.P_NO) 
+          WHERE PRODUCT.P_NO = #{ pNo }
+       ) AS REVIEW_COUNT
+          FROM DUAL
+	
+	</select>
+	
 </mapper>
