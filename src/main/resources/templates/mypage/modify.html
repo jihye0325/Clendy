@@ -44,17 +44,17 @@
                 </div>
                 
                 <div class="newPwd_area">
-                    <span>새로운 비밀번호</span><span class="required">*</span>
+                    <span>새로운 비밀번호</span>
                     <div class="newPwd_input area">
-                        <input type="password" name="password" maxlength="8" placeholder="비밀번호(영문,숫자,특수문자 조합 최소 8자리)" required>
+                        <input type="password" name="password" maxlength="8" placeholder="비밀번호(영문,숫자,특수문자 조합 최소 8자리)">
                         <img class="pwd_img" src="/images/show.png">
                     </div>
                 </div>
 
                 <div class="newPwdCheck_area">
-                    <span>새로운 비밀번호 확인</span><span class="required">*</span>
+                    <span>새로운 비밀번호 확인</span>
                     <div class="newPwdCheck_input area">
-                        <input type="password" name="pwdCheck" maxlength="8" placeholder="비밀번호 재입력" required>
+                        <input type="password" name="pwdCheck" maxlength="8" placeholder="비밀번호 재입력">
                         <img class="pwd_img" src="/images/show.png">
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                 <div class="postcodify_area">
                     <span>우편번호</span>
                     <div class="postcodify_input area">
-                        <input type="text" name="address" th:value="${ m.address }" class="postcodify_postcode5" readonly>
+                        <input type="text" name="address" th:value="${#strings.arraySplit(m.address, ',')[0]}" class="postcodify_postcode5" readonly>
                         <button id="postcodify_search_button" type="button">검색</button>
                     </div>
                 </div>
@@ -91,14 +91,14 @@
                 <div class="postcodify2_area">
                     <span>도로명주소</span>
                     <div class="postcodify2_input area">
-                        <input type="text" name="address" value="서울특별시" class="postcodify_address" readonly>
+                        <input type="text" name="address" th:value="${#strings.arraySplit(m.address, ',')[1]}" class="postcodify_address" readonly>
                     </div>
                 </div>
 
                 <div class="postcodify3_area">
                     <span>상세주소</span>
                     <div class="postcodify3_input area">
-                        <input type="text" name="address" value="101동" class="postcodify_details">
+                        <input type="text" name="address"  th:value="${#strings.arraySplit(m.address, ',')[2]}" class="postcodify_details">
                     </div>
                 </div>
 

@@ -5,6 +5,7 @@ div {
 .outer {
     width: 950px;
     margin: auto;
+    min-height: 500px;
 }
 
 .title{

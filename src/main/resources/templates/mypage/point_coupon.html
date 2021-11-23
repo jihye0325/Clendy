@@ -18,7 +18,7 @@
 
         <div class="point_area">
             <div class="point_title">
-                <div>적립금</div><div id="point">3,600원</div>
+                <div>적립금</div><div id="point">**적립금 합계넣어야함</div>
             </div>
             
             <div class="point_list">
@@ -28,12 +28,14 @@
                     <li class="info">적립 내용</li>
                     <li class="date">적용 일시</li>
                 </ul>
-
-                <ul class="point_content">
-                    <li class="status">차감</li>
-                    <li class="point">-10,000</li>
-                    <li class="info">적립금 결제</li>
-                    <li class="date">2021.10.19</li>
+			
+                <ul class="point_content" th:each="p : ${point_list}">
+                    <li class="status" th:if="${p.point_category.point_code} == 1 or ${p.point_category.point_code} == 2" th:text="적립" style="color: blue;"></li>
+                    <li class="status" th:if="${p.point_category.point_code} == 3" th:text="차감" style="color: red;"></li>
+                    <li class="point" th:text="${p.point}" th:if="${p.point_category.point_code} == 1 or ${p.point_category.point_code} == 2" style="color: blue;"></li>
+                    <li class="point" th:text="${p.point}" th:if="${p.point_category.point_code} == 3" style="color: red;"></li>
+                    <li class="info" th:text="${p.point_category.point_content}"></li>
+                    <li class="date" th:text="${#dates.format(p.point_date, 'yyyy-MM-dd')}"></li>
                 </ul>
             </div>
         </div>
@@ -53,7 +55,7 @@
                 <ul class="coupon_header">
                     <li class="c_no">쿠폰번호</li>
                     <li class="c_name">쿠폰명</li>
-                    <li class="c_info">쿠폰내용</li>
+                    <li class="c_info">사용조건</li>
                     <li class="c_price">할인금액</li>
                     <li class="c_date">유효기간</li>
                 </ul>

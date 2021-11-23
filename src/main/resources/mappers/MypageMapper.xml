@@ -30,6 +30,23 @@
 		<result property="auth_name" column="AUTH_NAME"/>
 		<result property="auth_desc" column="AUTH_DESC"/>	
 	</resultMap>
+	
+	<!-- point -->
+	<resultMap type="com.kh.clendy.mypage.model.vo.Point" id="pointResultMap">
+		<id property="point_no" column="POINT_NO"/>
+		<result property="order_code" column="ORDER_CODE"/>
+		<result property="point_code" column="POINT_CODE"/>
+		<result property="point" column="POINT"/>
+		<result property="point_date" column="POINT_DATE"/>
+		<result property="user_no" column="USER_NO"/>
+		<association property="point_category" resultMap="point_categoryResultMap"/>
+	</resultMap>
+	
+	<!-- point_category -->
+	<resultMap type="com.kh.clendy.mypage.model.vo.Point_Category" id="point_categoryResultMap">
+		<id property="point_code" column="POINT_CODE"/>
+		<result property="point_content" column="POINT_CONTENT"/>
+	</resultMap>
 
 	<!-- id로 유저정보 조회 -->
 	<select id="selectMember" parameterType="_int" resultMap="loginMemberResultMap">
@@ -84,4 +101,26 @@
    	 		FROM MEMBER
    		  WHERE USER_NO = #{ user_no }
 	</delete>
+	
+	<!-- 적립금 리스트 불러오기 -->
+	<select id="selectPoint" parameterType="_int" resultMap="pointResultMap">
+		SELECT
+		        *
+		    FROM POINT 
+		    JOIN POINT_CATEGORY USING(POINT_CODE)
+		   WHERE USER_NO = #{ user_no }
+		  ORDER BY POINT_DATE DESC
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

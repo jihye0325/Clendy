@@ -8,6 +8,7 @@ span {
 
 .outer {
     width: 1000px;
+    min-height : 400px;
     margin: auto;
     
 }
@@ -25,6 +26,7 @@ span {
     font-size: small;
     font-weight: bold;
     color: gray;
+    margin-bottom: 10px;
 }
 
 .order_list {
@@ -152,16 +154,16 @@ img{
     cursor: pointer;
 }
 
-a {
+.pname a {
 	cursor:pointer;
 }
 
-a:link{
+.pname a:link{
 	color: black;
     text-decoration: none;
 }
 
-a:visited{
+.pname a:visited{
     color: black;
     text-decoration: none;
 }
