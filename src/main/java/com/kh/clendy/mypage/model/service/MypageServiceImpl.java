@@ -11,6 +11,7 @@ import com.kh.clendy.mypage.model.dao.MypageMapper;
 import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.mypage.model.vo.Point;
 import com.kh.clendy.mypage.model.vo.Wishlist;
+import com.kh.clendy.product.model.vo.ProductQnaQ;
 
 @Service	
 public class MypageServiceImpl implements MypageService {
@@ -99,7 +100,16 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public List<Wishlist> selectWishlist(int user_no) {
 		List<Wishlist> wish_list = mypageMapper.selectWishlist(user_no);
+		System.out.println(wish_list);
 		return wish_list;
+	}
+
+	// 내가 쓴 글 -상품문의글 리스트
+	@Override
+	public List<ProductQnaQ> selectP_Qna_List(int user_no) {
+		List<ProductQnaQ> p_qna_list = mypageMapper.selectP_Qna_List(user_no);
+		System.out.println(p_qna_list);
+		return p_qna_list;
 	}
 	
 	
