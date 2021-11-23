@@ -8,6 +8,7 @@
     <title>회원가입</title>
 </head>
 <body>
+	<div th:replace="common/header.html"></div>
     <div class="title">
         <img class="logo" src="/images/hanger.png">
         <div>Clendy 회원가입</div>
@@ -87,9 +88,9 @@
             <div class="gender_area">
                 <span>성별</span><span class="required">*</span>
                 <div class="gender_input_area">
-                    <input type="radio" id="male" name="gender" value="M" checked>
+                    <input type="radio" id="male" name="gender" value="남" checked>
                     <label for="male">남</label>
-                    <input type="radio" id="female" name="gender" value="F">
+                    <input type="radio" id="female" name="gender" value="여">
                     <label for="female">여</label>
                 </div>
             </div>
@@ -137,6 +138,7 @@
         	</div>
         </form>
     </div>
+	<div th:replace="common/footer.html"></div>
     
     <!-- 주소입력 : jQuery와 postcodify 로딩 -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>

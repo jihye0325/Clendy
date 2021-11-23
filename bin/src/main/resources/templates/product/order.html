@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 주문 페이지</title>
+     <link rel="stylesheet" th:href="@{/css/product_style.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    
+    <script src="https://d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+</head>
+<body>
+    <div id="wrap">
+         <div th:replace="common/header.html"></div>
+
+        <section id="order">
+            <div class="container">
+                <div class="order">
+                    <div class="order_wrap">
+                        <div class="order_view">
+                            <h2>주문결제</h2>
+                            <div class="item">
+                                <h3 class="order_title">배송정보</h3>
+                                <div class="post_wrap">
+                                    <div class="radio_wrap">
+                                        <div class="radio_item">
+                                            <input type="radio" name="post_info" id="basic" value="basic" checked>
+                                            <label for="basic">기본배송지</label>
+                                        </div>
+                                        <div class="radio_item">
+                                            <input type="radio" name="post_info" id="directly" value="directly">
+                                            <label for="directly">직접입력</label>
+                                        </div>
+                                    </div>
+                                    <div class="post_info_wrap">
+                                        <div class="exist_box">
+                                            <h4 class="name">홍길동</h4>
+                                            <p class="address">(30130) 세종특별자치시 한누리대로 161(나성동)</p>
+                                            <p class="tel">010-1234-5678</p>
+                                        </div>   
+                                        <div class="new_exist_box"  style="display:none;">
+                                            <dl>
+                                                <dt>이름</dt>
+                                                <dd>
+                                                    <input type="text" name="" id="" class="name">
+                                                </dd>
+                                                <dt>주소</dt>
+                                                <dd>
+                                                    <input type="text" name="" id="" class="add1 postcodify_postcode5" readonly>
+                                                    <a href="javascript:;" class="add_btn">주소찾기</a>
+                                                    <input type="text" name="" id="" class="add2 postcodify_address">
+                                                    <input type="text" name="" id="" class="add3 postcodify_details">
+                                                </dd>
+                                                <dt>연락처</dt>
+                                                <dd>
+                                                    <div class="post_tel_wrap">
+                                                        <select name="" id="">
+                                                            <option value="010">010</option>
+                                                            <option value="011">011</option>
+                                                            <option value="016">016</option>
+                                                            <option value="017">017</option>
+                                                            <option value="019">019</option>
+                                                        </select>
+                                                        <span>-</span>
+                                                        <input type="text" name="" id="">
+                                                        <span>-</span>
+                                                        <input type="text" name="" id="">
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                        </div>    
+                                    </div>
+
+                                    <div class="post_request">
+                                        <select name="post_request" id="post_request">
+                                            <option value="">배송요청사항 선택</option>
+                                            <option value="직접 수령하겠습니다.">직접 수령하겠습니다.</option>
+                                            <option value="문 앞에 놓아주세요">문 앞에 놓아주세요</option>
+                                            <option value="경비실에 맡겨주세요">경비실에 맡겨주세요</option>
+                                            <option value="배송 전 휴대폰으로 연락주세요">배송 전 휴대폰으로 연락주세요</option>
+                                            <option value="파손위험이 있는 상품이니 조심히 다뤄주세요">파손위험이 있는 상품이니 조심히 다뤄주세요</option>
+                                            <option value="edit">직접 입력</option>
+                                        </select>
+                                        <input type="text" name="post_edit" id="post_edit" style="display:none;">
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <h3 class="order_title">주문내역</h3>
+                                <div class="order_list_wrap">
+                                    <div class="order_list">
+                                        <h4 class="mall_name">일번 쇼핑몰</h4>
+                                        <div class="order_list">
+                                            <div class="list">
+                                               <div class="list_left">
+                                                   <div class="img">
+                                                       <img src="/images/order_sample1.png" alt="">
+                                                   </div>
+                                                   <p class="title">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</p>
+                                                   <p class="option">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
+                                                   <div class="list_quan">
+                                                       <input type="text" name="" id="">
+                                                       개
+                                                   </div>
+                                               </div>
+                                               <div class="list_center">
+                                                   <p><span>31,500</span>원</p>
+                                               </div>
+                                               <div class="list_right">
+                                                   <p class="post_price"><span>2,500</span>원</p>
+                                                   <a href="javascript:;" class="post_tip">배송비</a>
+                                               </div>
+                                            </div>
+
+                                            <div class="list">
+                                                <div class="list_left">
+                                                    <div class="img">
+                                                        <img src="/images/order_sample1.png" alt="">
+                                                    </div>
+                                                    <p class="title">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</p>
+                                                    <p class="option">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
+                                                    <div class="list_quan">
+                                                        <input type="text" name="" id="">
+                                                        개
+                                                    </div>
+                                                </div>
+                                                <div class="list_center">
+                                                    <p><span>31,500</span>원</p>
+                                                </div>
+                                                <div class="list_right">
+                                                    <p class="post_price"><span>2,500</span>원</p>
+                                                    <a href="javascript:;" class="post_tip">배송비</a>
+                                                </div>
+ 
+                                             </div>
+                                        </div>
+
+                                        <h4 class="mall_name">이번 쇼핑몰</h4>
+                                        <div class="order_list">
+                                            <div class="list">
+                                               <div class="list_left">
+                                                   <div class="img">
+                                                    <img src="/images/order_sample1.png" alt="">
+                                                   </div>
+                                                   <p class="title">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</p>
+                                                   <p class="option">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
+                                                   <div class="list_quan">
+                                                       <input type="text" name="" id="">
+                                                       개
+                                                   </div>
+                                               </div>
+                                               <div class="list_center">
+                                                   <p><span>31,500</span>원</p>
+                                               </div>
+                                               <div class="list_right">
+                                                   <p class="post_price"><span>2,500</span>원</p>
+                                                   <a href="javascript:;" class="post_tip">배송비</a>
+                                               </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <h3 class="order_title">할인/포인트</h3>
+                                <div class="sale_wrap">
+                                    <dl>
+                                        <dt>쿠폰할인</dt>
+                                        <dd>
+                                            <p class="coupon_txt">
+                                                <span>0</span>원
+                                            </p>
+                                            <a href="javascript:;" class="btn_coupon">쿠폰적용</a>
+                                        </dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>포인트사용</dt>
+                                        <dd>
+                                            <div class="input_box">
+                                                <input type="text" name="" id="" value="0">
+                                                <span>원</span>
+                                            </div>
+                                            <p class="point_txt">
+                                               사용가능포인트<span>3,000</span>P
+                                            </p>
+                                        </dd>
+                                    </dl>
+
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <h3 class="order_title">결제방식</h3>
+                                <div class="pay_wrap">
+                                    <a href="javascript:;" class="on">신용카드</a>
+                                    <a href="javascript:;">간편결제</a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="order_status">
+                            <div class="item">
+                                <h3>결제 금액</h3>
+                                <div>
+                                    <p class="title">상품금액</p>
+                                    <p class="txt"><span>121,500</span>원</p>
+                                </div>
+                                <div>
+                                    <p class="title">배송비</p>
+                                    <p><span>2,500</span>원</p>
+                                </div>
+                                <div>
+                                    <p class="title">상품금액</p>
+                                    <p class="txt">(-)<span>0</span>원</p>
+                                </div>
+                                <div>
+                                    <p class="title">상품금액</p>
+                                    <p class="txt">(-)<span>0</span>원</p>
+                                </div>
+                                <div>
+                                    <p class="title">총 결제금액</p>
+                                    <p class="txt"><span>124,000</span>원</p>
+                                </div>
+
+                                <div class="btn_wrap">
+                                    <button type="button">결제하기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div th:replace="common/footer.html"></div>
+        
+    </div>
+
+    <script>
+        $(function(){
+            // 배송정보 이벤트
+            $("input[name=post_info]").change(function(){
+               let value = $(this).val();
+
+               if(value == 'basic'){
+                   $('.new_exist_box').css("display","none");
+                   $('.exist_box').css("display","block");
+               }else if(value == 'directly'){
+                   $('.exist_box').css("display","none");
+                   $('.new_exist_box').css("display","block");
+               }
+
+            });
+
+            // 배송요청사항 이벤트
+            $("#post_request").change(function(){
+                if($(this).val() == 'edit'){
+                    $('#post_edit').css('display','block');
+                }else{
+                    $('#post_edit').css('display','none');
+                }
+            })
+
+            // 주소찾기 API
+            $(".add_btn").postcodifyPopUp();
+
+            // 결제방식 이벤트
+            $('.pay_wrap a').click(function(){
+                $('.pay_wrap a').removeClass("on");
+                $(this).addClass("on");
+            })
+
+
+            // 우측 결제내역 이벤트
+            let currentScroll = $(document).scrollTop();
+
+            let orderTop = $('.order .order_wrap').offset().top;
+
+            $(document).scroll(function(){
+                currentScroll = $(document).scrollTop();
+                optionScroll(currentScroll);
+            });
+
+            optionScroll(currentScroll);
+
+            // 우측 결제내역 스크롤 이벤트
+            function optionScroll(currentScroll){
+                if(orderTop <= currentScroll){
+                    $(".order .order_wrap .order_status").addClass("fixed");
+                }else{
+                    $(".order .order_wrap .order_status").removeClass("fixed");
+                }
+            }
+            
+         
+
+
+        })
+
+    </script>
+</body>
+</html>

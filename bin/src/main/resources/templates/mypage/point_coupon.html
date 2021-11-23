@@ -9,6 +9,8 @@
     <title>적립금 / 쿠폰</title>
 </head>
 <body>
+    <div th:replace="common/header.html"></div>
+	<div th:replace="mypage/sideMenu.html"></div>
     <div class="outer">
         <div clss="title">
             <span id="title">적립금 / 쿠폰</span>
@@ -16,7 +18,7 @@
 
         <div class="point_area">
             <div class="point_title">
-                <div>적립금</div><div id="point">3,600원</div>
+                <div>적립금</div><div id="point" th:text="|${#aggregates.sum(point_list.![point])}원|"></div>
             </div>
             
             <div class="point_list">
@@ -26,12 +28,14 @@
                     <li class="info">적립 내용</li>
                     <li class="date">적용 일시</li>
                 </ul>
-
-                <ul class="point_content">
-                    <li class="status">차감</li>
-                    <li class="point">-10,000</li>
-                    <li class="info">적립금 결제</li>
-                    <li class="date">2021.10.19</li>
+			
+                <ul class="point_content" th:each="p : ${point_list}">
+                    <li class="status" th:if="${p.point_category.point_code} == 1 or ${p.point_category.point_code} == 2" th:text="적립" style="color: blue;"></li>
+                    <li class="status" th:if="${p.point_category.point_code} == 3" th:text="차감" style="color: red;"></li>
+                    <li class="point" th:text="${p.point}" th:if="${p.point_category.point_code} == 1 or ${p.point_category.point_code} == 2" style="color: blue;"></li>
+                    <li class="point" th:text="${p.point}" th:if="${p.point_category.point_code} == 3" style="color: red;"></li>
+                    <li class="info" th:text="${p.point_category.point_content}"></li>
+                    <li class="date" th:text="${#dates.format(p.point_date, 'yyyy-MM-dd')}"></li>
                 </ul>
             </div>
         </div>
@@ -51,17 +55,17 @@
                 <ul class="coupon_header">
                     <li class="c_no">쿠폰번호</li>
                     <li class="c_name">쿠폰명</li>
-                    <li class="c_info">쿠폰내용</li>
+                    <li class="c_info">쿠폰사용조건(금액)</li>
                     <li class="c_price">할인금액</li>
                     <li class="c_date">유효기간</li>
                 </ul>
 
-                <ul class="coupon_content">
-                    <li class="c_no">43</li>
-                    <li class="c_name">[브랜드]사용 가능</li>
-                    <li class="c_info">어그 상품 할인</li>
-                    <li class="c_price">10,000원</li>
-                    <li class="c_date">2021.10.19</li>
+                <ul class="coupon_content" th:each="cou : ${cou_list}">
+                    <li class="c_no" th:text="${cou.cou_no}"></li>
+                    <li class="c_name" th:text="${cou.cou_name}"></li>
+                    <li class="c_info" th:text="|${cou.cou_condition}원 이상 구매|"></li>
+                    <li class="c_price" th:text="|${cou.cou_price}원|"></li>
+                    <li class="c_date" th:text="${#dates.format(cou.expire_date, 'yyyy-MM-dd')}"></li>
                 </ul>
             </div>
 
@@ -69,17 +73,17 @@
                 <ul class="coupon_header">
                     <li class="c_no">쿠폰번호</li>
                     <li class="c_name">쿠폰명</li>
-                    <li class="c_info">쿠폰내용</li>
+                    <li class="c_info">쿠폰사용조건(금액)</li>
                     <li class="c_price">할인금액</li>
                     <li class="c_date">유효기간</li>
                 </ul>
 
-                <ul class="coupon_content">
-                    <li class="c_no">43</li>
-                    <li class="c_name">[브랜드]사용 만료</li>
-                    <li class="c_info">어그 상품 할인</li>
-                    <li class="c_price">10,000원</li>
-                    <li class="c_date">2021.10.19</li>
+                <ul class="coupon_content" th:each="disable : ${disable_cou_list}">
+                    <li class="c_no" th:text="${disable.cou_no}"></li>
+                    <li class="c_name" th:text="${disable.cou_name}"></li>
+                    <li class="c_info" th:text="|${disable.cou_condition}원 이상 구매|"></li>
+                    <li class="c_price" th:text="|${disable.cou_price}원|"></li>
+                    <li class="c_date" th:text="${#dates.format(disable.expire_date, 'yyyy-MM-dd')}"></li>
                 </ul>
             </div>
 
@@ -87,21 +91,22 @@
                 <ul class="coupon_header">
                     <li class="c_no">쿠폰번호</li>
                     <li class="c_name">쿠폰명</li>
-                    <li class="c_info">쿠폰내용</li>
+                    <li class="c_info">쿠폰사용조건(금액)</li>
                     <li class="c_price">할인금액</li>
                     <li class="c_date">유효기간</li>
                 </ul>
 
-                <ul class="coupon_content">
-                    <li class="c_no">43</li>
-                    <li class="c_name">[브랜드]사용 완료</li>
-                    <li class="c_info">어그 상품 할인</li>
-                    <li class="c_price">10,000원</li>
-                    <li class="c_date">2021.10.19</li>
+                <ul class="coupon_content" th:each="use : ${use_cou_list}">
+                    <li class="c_no" th:text="${use.cou_no}"></li>
+                    <li class="c_name" th:text="${use.cou_name}"></li>
+                    <li class="c_info" th:text="|${use.cou_condition}원 이상 구매|"></li>
+                    <li class="c_price" th:text="|${use.cou_price}원|"></li>
+                    <li class="c_date" th:text="${#dates.format(use.expire_date, 'yyyy-MM-dd')}"></li>
                 </ul>
             </div>
         </div>
     </div>
+	<div th:replace="common/footer.html"></div>
 
     <script>
         function selectType(e)  {

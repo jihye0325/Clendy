@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.clendy.product.model.dao.ProductReviewMapper">
+
+	<resultMap id="productReviewResultMap" type="com.kh.clendy.product.model.vo.ProductReview">
+		<id property="rNo" column="R_NO"/>
+		<result property="orderCode" column="ORDER_CODE"/>
+		<result property="rTitle" column="R_TITLE"/>
+		<result property="score" column="SCORE"/>
+		<result property="openSize" column="OPEN_SIZE"/>
+		<result property="rContent" column="R_CONTENT"/>
+		<result property="rCreateDate" column="R_CREATE_DATE"/>
+		<result property="rModifyDate" column="R_MODIFY_DATE"/>
+		<result property="likeCount" column="LIKE_COUNT"/>
+		<result property="pColor" column="P_COLOR"/>
+		<result property="pSize" column="P_SIZE"/>
+		<association property="member" resultMap="memberResultMap"/>
+		<collection property="imageList" resultMap="productImageResultMap"/>
+	</resultMap>
+
+	<resultMap id="memberResultMap" type="com.kh.clendy.member.model.vo.Member">
+		<id property="user_no" column="USER_NO"/>
+		<result property="id" column="ID"/>
+		<result property="gender" column="GENDER"/>
+		<result property="height" column="HEIGHT"/>
+		<result property="weight" column="WEIGHT"/>
+	</resultMap>
+	
+	<!-- ProductImage 맵 -->
+	<resultMap id="productImageResultMap" type="com.kh.clendy.product.model.vo.ProductImage">
+		<result property="imgNo" column="IMG_NO"/>
+		<result property="route" column="ROUTE"/>
+		<result property="imgName" column="IMG_NAME"/>
+		<result property="imgrName" column="IMG_R_NAME"/>
+		<result property="imgLevel" column="IMG_LEVEL"/>
+		<result property="imgStatus" column="IMG_STATUS"/>
+	</resultMap>
+
+	<select id="reviewGetListCount" parameterType="map" resultType="_int">
+		SELECT
+		       COUNT(*)
+		  FROM REVIEW
+		  JOIN PRODUCT_ORDER USING(ORDER_CODE)
+		  JOIN ORDER_OPTION USING(ORDER_CODE)
+		  JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+		  JOIN PRODUCT USING(P_NO)
+		  WHERE P_NO = #{ pNo }
+	</select>
+	
+	<select id="reviewAllSelectList" parameterType="map" resultMap="productReviewResultMap">
+		SELECT
+		      *
+		      FROM(
+		      SELECT 
+		       ROWNUM AS ROWN
+		    ,  REVIEW_TABLE.*
+		     FROM(
+		        SELECT
+		       RV.R_NO
+		     , RV.ORDER_CODE
+		     , RV.R_TITLE
+		     , RV.SCORE
+		     , RV.OPEN_SIZE
+		     , RV.R_CONTENT
+		     , RV.R_CREATE_DATE
+		     , RV.R_MODIFY_DATE
+		     , RIMG.IMG_NO
+		     , ROUTE
+		     , IMG_NAME
+		     , IMG_R_NAME
+		     , IMG_LEVEL
+		     , IMG_STATUS
+		     , M.USER_NO
+		     , M.ID
+		     , M.GENDER
+		     , M.HEIGHT
+		     , M.WEIGHT
+		     , PDT.P_NAME
+		     , POP.P_COLOR
+		     , POP.P_SIZE
+		     , (SELECT
+		               COUNT(*)
+		               FROM REVIEW_LIKE
+		              WHERE REVIEW_LIKE.USER_NO = M.USER_NO
+		                AND REVIEW_LIKE.R_NO = RV.R_NO
+		     ) AS LIKE_COUNT
+		     FROM REVIEW RV
+		     LEFT JOIN REVIEW_IMAGE RIMG ON(RV.R_NO = RIMG.R_NO)
+		     JOIN IMAGE IMG ON(RIMG.IMG_NO = IMG.IMG_NO)
+		     JOIN PRODUCT_ORDER POR ON(POR.ORDER_CODE = RV.ORDER_CODE)
+		     JOIN ORDER_OPTION OOP ON(OOP.ORDER_CODE = POR.ORDER_CODE)
+		     JOIN PRODUCT_OPTION POP ON(POP.P_OPTION_NO = OOP.P_OPTION_NO)
+		     JOIN PRODUCT PDT ON(POP.P_NO = PDT.P_NO)
+		     JOIN MEMBER M ON(POR.USER_NO = M.USER_NO)
+		     WHERE PDT.P_NO = #{ pNo }
+		     ORDER BY R_NO DESC) REVIEW_TABLE
+		     )
+		     WHERE ROWN BETWEEN 1 AND 4
+	</select>
+	
+	<select id="reviewView" parameterType="_int" resultMap="productReviewResultMap">
+		SELECT
+		       RV.R_NO
+		     , RV.ORDER_CODE
+		     , RV.R_TITLE
+		     , RV.SCORE
+		     , RV.OPEN_SIZE
+		     , RV.R_CONTENT
+		     , RV.R_CREATE_DATE
+		     , RV.R_MODIFY_DATE
+		     , RIMG.IMG_NO
+		     , ROUTE
+		     , IMG_NAME
+		     , IMG_R_NAME
+		     , IMG_LEVEL
+		     , IMG_STATUS
+		     , M.USER_NO
+		     , M.ID
+		     , M.GENDER
+		     , M.HEIGHT
+		     , M.WEIGHT
+		     , PDT.P_NAME
+		     , POP.P_COLOR
+		     , POP.P_SIZE
+		     , (SELECT
+		               COUNT(*)
+		               FROM REVIEW_LIKE
+		              WHERE REVIEW_LIKE.USER_NO = M.USER_NO
+		                AND REVIEW_LIKE.R_NO = RV.R_NO
+		     ) AS LIKE_COUNT
+		     FROM REVIEW RV
+		     LEFT JOIN REVIEW_IMAGE RIMG ON(RV.R_NO = RIMG.R_NO)
+		     JOIN IMAGE IMG ON(RIMG.IMG_NO = IMG.IMG_NO)
+		     JOIN PRODUCT_ORDER POR ON(POR.ORDER_CODE = RV.ORDER_CODE)
+		     JOIN ORDER_OPTION OOP ON(OOP.ORDER_CODE = POR.ORDER_CODE)
+		     JOIN PRODUCT_OPTION POP ON(POP.P_OPTION_NO = OOP.P_OPTION_NO)
+		     JOIN PRODUCT PDT ON(POP.P_NO = PDT.P_NO)
+		     JOIN MEMBER M ON(POR.USER_NO = M.USER_NO)
+		     WHERE RV.R_NO = #{ rNo }
+	</select>
+	
+	<select id="reviewLikeGetCount" parameterType="map" resultType="_int">
+		SELECT
+		       COUNT(*) AS COUNT
+		  FROM REVIEW_LIKE
+		 WHERE R_NO = #{rNo}
+		   AND USER_NO = #{loginUno}
+	</select>
+	
+	<delete id="reviewLikeDelete" parameterType="map">
+		DELETE 
+		  FROM REVIEW_LIKE
+		 WHERE R_NO = #{rNo}
+		   AND USER_NO = #{loginUno}
+	</delete>
+	
+	<insert id="reviewLikeInsert" parameterType="map">
+		INSERT 
+		  INTO REVIEW_LIKE
+		  (
+		  		R_NO
+		  	  , USER_NO
+		  )
+		VALUES
+		  (
+		  		#{rNo}
+		  	  , #{loginUno}
+		  )
+	</insert>
+
+</mapper>

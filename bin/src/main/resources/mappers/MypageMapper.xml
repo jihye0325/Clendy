@@ -30,9 +30,37 @@
 		<result property="auth_name" column="AUTH_NAME"/>
 		<result property="auth_desc" column="AUTH_DESC"/>	
 	</resultMap>
+	
+	<!-- point -->
+	<resultMap type="com.kh.clendy.mypage.model.vo.Point" id="pointResultMap">
+		<id property="point_no" column="POINT_NO"/>
+		<result property="order_code" column="ORDER_CODE"/>
+		<result property="point_code" column="POINT_CODE"/>
+		<result property="point" column="POINT"/>
+		<result property="point_date" column="POINT_DATE"/>
+		<result property="user_no" column="USER_NO"/>
+		<association property="point_category" resultMap="point_categoryResultMap"/>
+	</resultMap>
+	
+	<!-- point_category -->
+	<resultMap type="com.kh.clendy.mypage.model.vo.Point_Category" id="point_categoryResultMap">
+		<id property="point_code" column="POINT_CODE"/>
+		<result property="point_content" column="POINT_CONTENT"/>
+	</resultMap>
+	
+	<!-- coupon -->
+	<resultMap type="com.kh.clendy.mypage.model.vo.Coupon" id="couponResultMap">
+		<id property="cou_no" column="COU_NO"/>
+		<result property="cou_name" column="COU_NAME"/>
+		<result property="cou_condition" column="COU_CONDITION"/>
+		<result property="cou_price" column="COU_PRICE"/>
+		<result property="start_date" column="START_DATE"/>
+		<result property="expire_date" column="EXPIRE_DATE"/>
+		<result property="cou_status" column="COU_STATUS"/>
+	</resultMap>
 
 	<!-- id로 유저정보 조회 -->
-	<select id="selectMember" parameterType="String" resultMap="loginMemberResultMap">
+	<select id="selectMember" parameterType="_int" resultMap="loginMemberResultMap">
 			SELECT
 			        A.USER_NO
 			      , A.ID
@@ -52,25 +80,93 @@
 			      , B.AUTH_CODE REF_AUTHORITY_CODE
 			      , C.AUTH_CODE REF_AUTHORITY_CODE2
 			      , C.AUTH_NAME 
-			      , C.AUTH_DESC
+			      , C.AUTH_DESC 
 			  FROM MEMBER A
 			  LEFT JOIN MEMBER_ROLE B ON(A.USER_NO = B.USER_NO)
 			  LEFT JOIN AUTHORITY C ON(B.AUTH_CODE = C.AUTH_CODE)
-			WHERE A.ID = #{ id }
+			WHERE A.USER_NO = #{ user_no }
 	</select>
 	
-	<!-- 
-	<! Member_Role 테이블에서 삭제 > 
+	<!-- Member 테이블 수정 -->
+	<update id="modifyMember" parameterType="com.kh.clendy.member.model.vo.Member">
+			UPDATE MEMBER
+		    	SET PASSWORD = #{ password }
+		      , EMAIL = #{ email }
+		      , PHONE = #{ phone }
+		      , ADDRESS = #{ address }
+		      , HEIGHT = #{ height }
+		      , WEIGHT = #{ weight }
+		    WHERE USER_NO = #{ user_no }
+	</update>
+	
+	<!-- Member_Role 테이블에서 삭제 --> 
 	<delete id="deleteMemberRole" parameterType="_int">
 		DELETE
 	    	FROM MEMBER_ROLE
-	   	   WHERE USER_NO = #{ id } 
+	   	   WHERE USER_NO = #{ user_no }
 	</delete>
 	
-	<! Member 테이블에서 삭제 > 
+	<!-- Member 테이블에서 삭제 --> 
 	<delete id="deleteMember" parameterType="_int">
 		DELETE 
    	 		FROM MEMBER
-   		  WHERE ID = #{ id }
-	</delete> -->
+   		  WHERE USER_NO = #{ user_no }
+	</delete>
+	
+	<!-- 적립금 리스트 불러오기 -->
+	<select id="selectPoint" parameterType="_int" resultMap="pointResultMap">
+		SELECT
+		        *
+		    FROM POINT 
+		    JOIN POINT_CATEGORY USING(POINT_CODE)
+		   WHERE USER_NO = #{ user_no }
+		  ORDER BY POINT_DATE DESC
+	</select>
+	
+	<!-- 사용가능 쿠폰리스트 불러오기 -->
+	<select id="selectCou_List" parameterType="_int" resultMap="couponResultMap">
+		SELECT 
+		        *
+		    FROM COUPON
+		  WHERE EXPIRE_DATE >= SYSDATE
+		    AND COU_NO NOT IN (SELECT 
+		                            COU_NO
+		                            FROM USE_COUPON
+		                           WHERE USER_NO = #{ user_no })
+		    ORDER BY COU_NO
+	</select>
+	
+	<!-- 사용만료 쿠폰리스트 불러오기 -->
+	<select id="selectDisable_Cou_List" parameterType="_int" resultMap="couponResultMap">
+		SELECT 
+		        *
+		    FROM COUPON
+		  WHERE SYSDATE > EXPIRE_DATE
+            AND COU_STATUS = 'Y'
+		    AND COU_NO NOT IN (SELECT 
+		                            COU_NO
+		                            FROM USE_COUPON
+		                           WHERE USER_NO = #{ user_no })
+		    ORDER BY COU_NO
+	</select>
+	
+	<!-- 사용완료 쿠폰리스트 불러오기 -->
+	<select id="selectUse_Cou_List" parameterType="_int" resultMap="couponResultMap">
+		SELECT 
+		        *
+		    FROM COUPON
+		  WHERE COU_NO IN (SELECT 
+		                           COU_NO
+		                          FROM USE_COUPON
+		                         WHERE USER_NO = #{ user_no })
+		    ORDER BY COU_NO
+	</select>
+	
+	<!-- 위시리스트 불러오기 -->
+	<select id="selectWishlist">
+	
+	</select>
+	
+	
+	
 </mapper>

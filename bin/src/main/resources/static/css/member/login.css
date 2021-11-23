@@ -20,6 +20,7 @@ span{
 
 .login_area {
     width: 450px;
+    height: 500px;
     margin: auto;
     margin-top: 30px;
     padding-left: 70px;
@@ -124,7 +125,7 @@ a :hover {
     text-decoration: none;
 }
 
-/* Ã¼Å©¹Ú½º »ö»ó º¯°æ */
+/* Ã¼Å©ï¿½Ú½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
 input[type="checkbox"] {
     cursor: pointer;
     -webkit-appearance: none;

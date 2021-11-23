@@ -6,6 +6,7 @@ div {
     margin:auto;
     width: 900px;
     text-align: center;
+    min-height: 700px;
 }
 
 .point_area {
@@ -30,10 +31,12 @@ div {
     font-weight: bold;
     font-size: large;
     margin-right: 10px;
+    align-self: end;
 }
 
 #point {
-    font-size: large;
+    font-size: x-large;
+    font-weight: bold;
 }
 
 ul li {
@@ -101,7 +104,7 @@ label {
     cursor: pointer;
 }
 
-/* ¶óµğ¿À ¹öÆ° ¼û±â±â */
+/* ë¼ë””ì˜¤ ë²„íŠ¼ ìˆ¨ê¸°ê¸° */
 input[type=radio] {
     display: none;
     margin: 10px;
@@ -144,7 +147,7 @@ input[type=radio] {
 }
 
 .c_name {
-    width: 180px;
+    width: 150px;
 }
 
 .c_info {

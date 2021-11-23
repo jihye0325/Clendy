@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항</title>
+	<style>
+	#wrapper {display: flex;}
+	#content-title, h6{ display: inline-block; margin-right: 15px; }
+	ul, li{list-style: none; padding-left: 0;}
+	a{text-decoration: none;}
+	/* content */
+	#content{  margin : 0px auto auto 11%; width: 850px;}    
+	
+	/* board-list */
+	.board-wrapper{margin-top: 60px;}
+	.list-th ul{ height: 30px; border-top: 1px solid lightgray; margin: 0; border-bottom: 1px solid lightgray;}
+	.list-th li{ font-weight: bold; display: table-cell;  text-align: center; line-height: 30px; }
+	.list-num { width : 130px; text-align: center;}
+	.list-title{ width : 590px; }
+	.list-date { width : 120px; text-align:center;}
+	.cursor {cursor: pointer; }
+	.board-list li{ display: table-cell; height: 40px; line-height: 40px; border-bottom: 1px solid lightgray;}
+	/* btn*/
+	.btn-area{display: flex; justify-content: flex-end; padding-top:15px; padding-bottom: 15px;}
+	.insert-btn{width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer;}
+	</style>
+	<link rel="stylesheet" href="/css/common/paging.css">
+	<link rel="stylesheet" href="/css/common/sidebar.css">
+</head>
+<body>
+    <div th:replace="common/header.html"></div>
+
+    <div id="wrapper">
+        <div id="sidebar">
+            <ul>
+                <li><a class="sideA " href="/CScenter/FAQ">FAQ</a></li>
+                <li><a class="sideA current" href="/CScenter/board">공지사항</a></li>
+                <li><a class="sideA" href="/CScenter/personalQ">1:1문의</a></li>
+            </ul>
+        </div>
+        <div id="content">
+            <h3 id="content-title">공지사항</h3><h6>Notice</h6>
+        
+            <div class="board-wrapper">
+                <div class="list-th">
+                    <ul><li class="list-num">번호</li><li class="list-title">제목</li><li class="list-date">등록일</li></ul></div>
+                <div class="board-list">
+                    <ul><li class="list-num">1</li><li class="list-title cursor">공지사항1</li><li class="list-date">2021.11.20</li></ul>    
+                    <ul><li class="list-num">2</li><li class="list-title cursor">공지사항2</li><li class="list-date">2021.11.20</li></ul>   
+                    <ul><li class="list-num">3</li><li class="list-title cursor">공지사항3</li><li class="list-date">2021.11.20</li></ul>   
+                    <ul><li class="list-num">4</li><li class="list-title cursor">공지사항4</li><li class="list-date">2021.11.20</li></ul>   
+                    <ul><li class="list-num">5</li><li class="list-title cursor">공지사항5</li><li class="list-date">2021.11.20</li></ul>   
+                    <ul><li class="list-num">6</li><li class="list-title cursor">공지사항6</li><li class="list-date">2021.11.20</li></ul>   
+                    <ul><li class="list-num">7</li><li class="list-title cursor">공지사항7</li><li class="list-date">2021.11.20</li></ul>   
+                    <ul><li class="list-num">8</li><li class="list-title cursor">공지사항8</li><li class="list-date">2021.11.20</li></ul>   
+                    <ul><li class="list-num">9</li><li class="list-title cursor">공지사항9</li><li class="list-date">2021.11.20</li></ul>   
+                    <ul><li class="list-num">10</li><li class="list-title cursor">공지사항10</li><li class="list-date">2021.11.20</li></ul>   
+                </div>
+            </div>
+
+            <div class="btn-area"><button class="insert-btn">등록</button></div>
+
+            <div class="board-paging">
+                <ul>
+                    <li><a href="#">&lt;&lt;</a></li>
+                    <li><a href="#">&lt;</a></li>
+                    <li><a href="#" class="current-page">1</a></li>
+                    <li><a href="#" >2</a></li>
+                    <li><a href="#" >3</a></li>
+                    <li><a href="#" >4</a></li>
+                    <li><a href="#" >5</a></li>
+                    <li><a href="#" >6</a></li>
+                    <li><a href="#" >7</a></li>
+                    <li><a href="#" >8</a></li>
+                    <li><a href="#" >9</a></li>
+                    <li><a href="#" >10</a></li>
+                    <li><a href="#">&gt;</a></li>
+                    <li><a href="#">&gt;&gt;</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    
+     <div th:replace="common/footer.html"></div>
+</body>
+</html>

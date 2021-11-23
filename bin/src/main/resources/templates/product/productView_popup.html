@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>각종 팝업</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+</head>
+<body>
+    
+    <!-- 상품문의 등록 or 수정(공용) S -->
+    <div class="layout_wrap" id="productQna">
+        <div class="dim"></div>
+        <div class="layout_box">
+            <div class="layout_head">
+                <h3 class="title">상품문의 등록</h3>
+                <a href="javascript:popClose('productQna');" class="pop_close"></a>
+            </div>
+            <div class="layout_body">
+                <div class="layout_qna_wrap">
+                	<input type="hidden" name="qnaType">
+                    <dl>
+                        <dt>공개 여부*</dt>
+                        <dd>
+                            <div class="select">
+                                <select name="piqSecret" id="">
+                                    <option value="N">공개</option>
+                                    <option value="Y">비공개</option>
+                                </select>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>문의 유형*</dt>
+                        <dd>
+                            <div class="select">
+                                <select name="piCateCode" id="">
+                                    <option value="INQUIRY_CODE1">교환</option>
+                                    <option value="INQUIRY_CODE2">반품</option>
+                                    <option value="INQUIRY_CODE3">배송</option>
+                                    <option value="INQUIRY_CODE4">변경</option>
+                                    <option value="INQUIRY_CODE5">상품</option>
+                                    <option value="INQUIRY_CODE6">취소</option>
+                                </select>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>제목*</dt>
+                        <dd>
+                            <div class="input">
+                                <input type="text" name="piqTitle">
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>내용*</dt>
+                        <dd>
+                            <div class="textarea">
+                                <textarea name="piqContent" id="" cols="30" rows="10"></textarea>
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="layout_btn_wrap">
+                    <a href="javascript:qnaInsert();" class="active">등록하기</a>
+                    <a href="javascript:qnaModify();" class="active">수정하기</a>
+                    <a href="javascript:;">취소하기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 상품문의 등록 or 수정(공용) E -->
+
+    <!-- 각종알림(공용) S -->
+    <div class="layout_wrap">
+        <div class="dim"></div>
+        <div class="layout_box">
+            <div class="alert_wrap">
+                <h3 class="layout_title">쿠폰 적용 완료되었습니다.</h3>
+                <p class="auto_text">(3초후에 자동으로 사라집니다)</p>
+                <a href="javascript:;" class="alert_btn">확인</a>
+            </div>
+        </div>
+    </div>
+    <!-- 각종알림(공용) E -->
+
+    <!-- 상품 리뷰 상세 S -->
+    <div class="layout_wrap">
+        <div class="dim"></div>
+        <div class="layout_box">
+            <div class="layout_head">
+                <h3 class="title">상품 리뷰 상세</h3>
+                <a href="javascript:;" class="pop_close"></a>
+            </div>
+            <div class="layout_body type02">
+              <div class="layout_review">
+                <div class="slide_wrap">
+
+                    <div class="slide_page"></div>
+
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                                <img src="./images/slide_sample.png" alt="">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="./images/slide_sample.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="review_info_wrap">
+                    <p class="review_id">id1234**** <span class="info">남성-(173cm, 76kg)</span></p>
+                    <p class="review_date">2021.10.21</p>
+                    <div class="review_star">
+                        <div class="star on"></div>
+                        <div class="star on"></div>
+                        <div class="star on"></div>
+                        <div class="star"></div>
+                        <div class="star"></div>
+                    </div>
+                    <p class="review_option">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
+                    <div class="review_txt_box">
+                        <p>가나다람ㄴ암낭망남ㄴ암ㅇ남ㅇ낭ㅁ난ㅇㅁ</p>
+                        <p>가나다람ㄴ암낭망남ㄴ암ㅇ남ㅇ낭ㅁ난ㅇㅁ</p>
+                    </div>
+
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+          pagination: {
+            loop: true,
+            el: ".slide_page",
+            type: "fraction",
+          },
+        });
+      </script>
+    <!-- 상품 리뷰 상세 E -->
+   
+</body>
+</html>
