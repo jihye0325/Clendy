@@ -16,6 +16,9 @@ public interface ProductReviewService {
 
 	// 상품 상세 리뷰 상세
 	ProductReview reviewView(int rNo);
+
+	// 상품 상세 리뷰 좋아요
+	int reviewLike(Map<String, Object> returnMap);
 	
 	
 }

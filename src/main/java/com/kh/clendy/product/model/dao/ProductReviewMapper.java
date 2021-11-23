@@ -15,4 +15,10 @@ public interface ProductReviewMapper {
 	List<ProductReview> reviewAllSelectList(Map<String, Object> mapReturn);
 
 	ProductReview reviewView(int rNo);
+
+	int reviewLikeGetCount(Map<String, Object> returnMap);
+
+	int reviewLikeDelete(Map<String, Object> returnMap);
+
+	int reviewLikeInsert(Map<String, Object> returnMap);
 }

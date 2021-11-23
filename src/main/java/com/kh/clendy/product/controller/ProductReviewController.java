@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.clendy.member.model.vo.UserImpl;
 import com.kh.clendy.product.model.service.ProductReviewService;
 import com.kh.clendy.product.model.vo.PageInfo;
 import com.kh.clendy.product.model.vo.ProductReview;
@@ -61,6 +63,29 @@ public class ProductReviewController {
 		ProductReview productReview = productReviewService.reviewView(rNo);
 		
 		return productReview;
+	}
+	
+	// 리뷰 좋아요 기능
+	@PostMapping("/reviewLike")
+	@ResponseBody
+	public String reviewLike(@RequestBody Map<String, Object> returnMap) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int loginUno = user.getUser_no();
+		
+		returnMap.put("loginUno", loginUno);
+		
+		int result = productReviewService.reviewLike(returnMap);
+		
+		String msg = "";
+		if(result == -1) { 
+			msg = "error";
+		}else if(result == 1) {
+			msg = "delete";
+		}else if(result == 2) {
+			msg = "insert";
+		}
+		
+		return msg;
 	}
 	
 	

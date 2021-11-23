@@ -44,7 +44,6 @@
 
 	<!-- 상품 문의 등록
 		성공시 1, 실패시 0 리턴
-		임시 사용 : 회원번호(추후 수정해야함)
 	 -->
 	<insert id="qnaInsert" parameterType="com.kh.clendy.product.model.vo.ProductQnaQ">
 		INSERT
@@ -65,8 +64,8 @@
 		  (
 		       SEQ_PRD_INQUIRY_Q_CODE.NEXTVAL
 		     , #{ piCateCode }
-		     , #{pNo}
-		     , 1
+		     , #{ pNo }
+		     , #{ userNo }
 		     , #{ piqTitle }
 		     , #{ piqContent }
 		     , #{ piqSecret }

@@ -33,7 +33,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
    /* 정적 리소스는 권한 없이도 접근 가능하게끔 무시할 경로 작성 */
    @Override
    public void configure(WebSecurity web) {
-      web.ignoring().antMatchers("/css/**", "/js/**", "/images/**", "/product/**");
+      web.ignoring().antMatchers("/css/**", "/js/**", "/images/**");
    }
    
    /* HTTP 요청에 대한 설정 */
@@ -44,6 +44,11 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
          .authorizeRequests()   /* 요청에 대한 권한 체크 */ 
             .antMatchers("/mypage/**").authenticated()   // "/mypage/**" 요청은 인증되어야함
             .antMatchers("/member/new_Pwd").authenticated()
+            .antMatchers("/product/view/**").authenticated()
+            .antMatchers("/product/qnaDelete").authenticated()
+            .antMatchers("/product/qnaModify").authenticated()
+            .antMatchers("/product/tabCount").authenticated()
+            /* 상품 정보 인증 관련*/
             .anyRequest().permitAll()   /* 그 외의 요청들은 모두 허가함 - 게스트 사용자 접근 가능 */
          .and()
             .formLogin()   /* 로그인 설정 */
