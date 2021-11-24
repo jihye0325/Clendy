@@ -1,6 +1,8 @@
 package com.kh.clendy.product.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kh.clendy.member.model.vo.UserImpl;
 import com.kh.clendy.product.model.service.ProductService;
 import com.kh.clendy.product.model.vo.Product;
+import com.kh.clendy.product.model.vo.ProductOption;
 
 @Controller
 @RequestMapping("/product/")
@@ -50,7 +53,7 @@ public class ProductController {
 	
 	// 상품 상세(상품번호)
 	@GetMapping("/view/{pNo}")
-	public String productViewPage(@PathVariable String pNo, Model model) {
+	public String productViewPage(@PathVariable int pNo, Model model) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int userNo = user.getUser_no();
 		
@@ -60,20 +63,44 @@ public class ProductController {
 		mapInfo.put("userNo", userNo);
 		
 		Product productInfo = productService.productViewInfo(mapInfo);
-				
-		// System.out.println(productInfo);
 		
 		Map<String, Object> modelMap = new HashMap<>();
 		modelMap.put("info", productInfo);
 		modelMap.put("loginUno", userNo);
 		
-		// model.addAttribute("loginUno", userNo);
-		// model.addAttribute("info", productInfo);
 		model.addAttribute("modelMap", modelMap);
-		// System.out.println(userNo);
 		
 		return "product/product_view";
 	}
+	
+	// 상품 상세 - 옵션
+	@PostMapping("/options")
+	@ResponseBody
+	public Map<String, List<ProductOption>> productOptionSelect(@RequestBody Map<String, Object> returnMap){
+		// 상품 옵션
+		List<ProductOption> optionList = productService.productOptionSelect((int)returnMap.get("pNo"));
+		
+		Map<String, List<ProductOption>> optionMap = new HashMap<>();
+		
+		// key 가공
+		for(ProductOption po : optionList) {
+			optionMap.put(po.getpColor(), new ArrayList<>());
+		}
+		
+		// value 가공
+		List<ProductOption> poList = new ArrayList<>();
+		for(ProductOption po : optionList) {
+			if(optionMap.containsKey(po.getpColor())) {
+				List<ProductOption> list = optionMap.get(po.getpColor());
+				list.add(po);
+				optionMap.put(po.getpColor(), list);
+			}
+		}
+		
+		
+		return optionMap;
+		
+	};
 	
 	// 상품 상세 - 위시리스트
 	@PostMapping("/wishStatus")
@@ -99,7 +126,6 @@ public class ProductController {
 	public Map<String, Object> productTabCount(@RequestParam int pNo){
 
 		Map<String, Object> productTabCount = productService.productTabCount(pNo);
-		System.out.println(productTabCount);
 		
 		return productTabCount;
 	}
