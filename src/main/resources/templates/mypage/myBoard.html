@@ -35,7 +35,7 @@
                     <li class="b_status">상태</li>
                 </ul>
 
-                <ul class="board_content" th:each="p : ${p_qna_list}" th:onclick="location.href='@{/mypage/modify}'">
+                <ul class="board_content" th:each="p : ${p_qna_list}" th:onclick="|location.href='@{/mypage/modify}'|">
                     <li class="b_no" th:text="${p.piqCode}"></li>
                     <li class="b_category" th:text="${p.piCateName}"></li>
                     <li class="b_title" th:text="${p.piqTitle}"></li>
