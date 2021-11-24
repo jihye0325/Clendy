@@ -62,8 +62,7 @@
 	<!-- Wish List -->
 	<resultMap id="wishListResultMap" type="com.kh.clendy.mypage.model.vo.Wishlist">
 		<id property="user_no" column="USER_NO"/>
-		<id property="p_no" column="P_NO"/>
-		<association property="product" resultMap="productListResultMap"/>
+		<collection property="product_list" resultMap="productListResultMap"/>
 	</resultMap>
 	
 	<!-- Product -->
@@ -225,16 +224,94 @@
 		    ORDER BY COU_NO
 	</select>
 	
-	<!-- 위시리스트 불러오기 -->
-	<select id="selectWishlist" parameterType="_int" resultMap="wishListResultMap">
+	<!-- 위시리스트 불러오기 (아우터)-->
+	<select id="selectOuterlist" parameterType="_int" resultMap="wishListResultMap">
 		SELECT 
-		        *
+		        USER_NO
+              , P_NO
+              , P_NAME
+              , P_PRICE
+              , P_STATUS
+              , CATEGORY_NAME
+              , ROUTE
+              , IMG_NAME
+              , IMG_R_NAME
 		    FROM WISHLIST
 		    JOIN PRODUCT USING (P_NO)
 		    JOIN PRODUCT_CATEGORY USING(CATEGORY_CODE)
 		    JOIN PRODUCT_IMAGE USING(P_NO)
 		    JOIN IMAGE USING(IMG_NO)
 		   WHERE USER_NO = #{ user_no }
+             AND CATEGORY_NAME = '아우터'
+		     AND IMG_LEVEL = 0
+		     AND P_STATUS = 'Y'
+	</select>
+	
+		<!-- 위시리스트 불러오기 (상의)-->
+	<select id="selectToplist" parameterType="_int" resultMap="wishListResultMap">
+		SELECT 
+		        USER_NO
+              , P_NO
+              , P_NAME
+              , P_PRICE
+              , P_STATUS
+              , CATEGORY_NAME
+              , ROUTE
+              , IMG_NAME
+              , IMG_R_NAME
+		    FROM WISHLIST
+		    JOIN PRODUCT USING (P_NO)
+		    JOIN PRODUCT_CATEGORY USING(CATEGORY_CODE)
+		    JOIN PRODUCT_IMAGE USING(P_NO)
+		    JOIN IMAGE USING(IMG_NO)
+		   WHERE USER_NO = #{ user_no }
+             AND CATEGORY_NAME = '상의'
+		     AND IMG_LEVEL = 0
+		     AND P_STATUS = 'Y'
+	</select>
+	
+		<!-- 위시리스트 불러오기 (하의)-->
+	<select id="selectBottomlist" parameterType="_int" resultMap="wishListResultMap">
+		SELECT 
+		        USER_NO
+              , P_NO
+              , P_NAME
+              , P_PRICE
+              , P_STATUS
+              , CATEGORY_NAME
+              , ROUTE
+              , IMG_NAME
+              , IMG_R_NAME
+		    FROM WISHLIST
+		    JOIN PRODUCT USING (P_NO)
+		    JOIN PRODUCT_CATEGORY USING(CATEGORY_CODE)
+		    JOIN PRODUCT_IMAGE USING(P_NO)
+		    JOIN IMAGE USING(IMG_NO)
+		   WHERE USER_NO = #{ user_no }
+             AND CATEGORY_NAME = '하의'
+		     AND IMG_LEVEL = 0
+		     AND P_STATUS = 'Y'
+	</select>
+	
+		<!-- 위시리스트 불러오기 (ACC)-->
+	<select id="selectAcclist" parameterType="_int" resultMap="wishListResultMap">
+		SELECT 
+		        USER_NO
+              , P_NO
+              , P_NAME
+              , P_PRICE
+              , P_STATUS
+              , CATEGORY_NAME
+              , ROUTE
+              , IMG_NAME
+              , IMG_R_NAME
+		    FROM WISHLIST
+		    JOIN PRODUCT USING (P_NO)
+		    JOIN PRODUCT_CATEGORY USING(CATEGORY_CODE)
+		    JOIN PRODUCT_IMAGE USING(P_NO)
+		    JOIN IMAGE USING(IMG_NO)
+		   WHERE USER_NO = #{ user_no }
+             AND CATEGORY_NAME = 'ACC'
 		     AND IMG_LEVEL = 0
 		     AND P_STATUS = 'Y'
 	</select>
