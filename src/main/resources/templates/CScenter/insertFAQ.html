@@ -28,7 +28,7 @@
 
     <h2>FAQ 등록</h2>
     
-    <form action="@{/CScenter/FAQ/insert}" method="post">
+    <form th:action="@{/CScenter/FAQ/insert}" method="post">
     <div class="FAQ_detail">
         <ul><li class="title">제목/질문 : </li><li><input type="text" class="question" name="q_title" id="question" maxlength="100" required></li></ul>
         <ul><li class="title">카테고리 : </li>

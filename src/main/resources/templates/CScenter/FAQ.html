@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ</title>
     <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <!-- csrf 토큰 -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 	<style>
 	#wrapper {display: flex;}
 	#title, h6{ display: inline-block; margin-right: 15px; }
@@ -59,7 +62,7 @@
                 <a id="insertFAQ" href="/CScenter/insertFAQ">등록</a>
             </div>
             <div id="searchArea">
-            	<form action="/CScenter/faq/search" method="post">
+            	<form action="/CScenter/FAQ/search" method="post">
                 <input type="text" id="searchFAQ" name="searchFAQ" placeholder="제목, 내용 검색"><img id="finding" src="/images/magnifying-glass-navy.png" alt="돋보기">
             	</form>
             </div>   
@@ -84,8 +87,8 @@
 	                	<li class="FAQ_content cursor"><span th:text="${faq.q_title}"></span></li></ul></div>
 	                <div class="answer-wrapper"><p class="answer" th:text="${faq.q_answer}"></p>
 	                    <div class="btnArea">
-	                    <button class="mOrd modify">수정</button>
-	                    <button class="mOrd delete">삭제</button>
+	                    <button type="button" class="mOrd modify">수정</button>
+	                    <button type="button" class="mOrd delete">삭제</button>
 	                    </div>
 	                </div>
 	                </form>
@@ -135,8 +138,8 @@
 			                    '<div class="question"><ul><li class="FAQ_num">'+ i++ +'</li>'+
 			                    '<li class="FAQ_content cursor"><span>'+data[index].q_title+ '</span></li></ul></div>'+
 		                		'<div class="answer-wrapper"><p class="answer">'+ data[index].q_answer+'</p>' +
-			                    '<div class="btnArea"><button class="mOrd modify">수정</button>'+
-			                    '<button class="mOrd delete">삭제</button></div></div></form>';             
+			                    '<div class="btnArea"><button type="button" class="mOrd modify">수정</button>'+
+			                    '<button type="button" class="mOrd delete">삭제</button></div></div></form>';             
 					}
 
 					$(".qna-detail-wrapper").html(html);
@@ -151,20 +154,43 @@
     	});
     	
     	/* faq 삭제 */
-    	$(".delete").click(function(){
-    		var q_no = $(this).parent().prev().prev().val();
+    	$(document).on('click', '.delete', function(){
+    		var q_no = $(this).parent().parent().prev().prev().val();
+    		var token = $("meta[name='_csrf']").attr("content");
+    		var header = $("meta[name='_csrf_header']").attr("content");
     		console.log(q_no);
+    		
+    		$.ajax({
+				url : "/CScenter/FAQ/delete",
+				type : "post",
+				data : {q_no:q_no},
+				beforeSend : function(xhr)
+	            {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+					xhr.setRequestHeader(header, token);
+	            },
+
+			 	success : function(result){
+				if( result == 0){
+					alert("게시글 삭제에 실패하였습니다.");
+					
+				}else{
+					alert("게시글 삭제에 성공하였습니다.");
+					location.reload();
+				}
+			},
+			error : function(e){
+				console.log(e);
+			}
+			});
     	});
     	
     	/* faq 수정 - textarea 로 변경 */
-    	$(".modify").click(function(){
+    	$(document).on('click', '.modify', function(){
     		var question = $(this).parent().parent().prev().children().children().children();
             var answer = $(this).parent().prev();
             var questionBefore = question.text();
             var answerBefore = answer.text();
-            var question_wrapper = $(this).parent().pre();
             
-            console.log(question_wrapper);
             
             $(this).parent().html("<input type='submit' class='complete' style='margin-right: 5px; border:0; background-color: lightgray; width : 65px; height : 25px;' value='수정완료'>");
             
