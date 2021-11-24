@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.clendy.sellerProduct.model.dao.SellerProductMapper">
+	<resultMap type="com.kh.clendy.sellerProduct.model.vo.SellerProduct" id="productResultMap">
+		<id property="pNo" column="P_NO"/>
+		<result property="pName" column="P_NAME"/>
+		<result property="pPrice" column="P_PRICE"/>
+		<result property="pDiscount" column="P_DISCOUNT"/>
+		<result property="pAbleCoupon" column="P_ABLE_COUPON"/>
+		<result property="pDetailImage" column="P_DETAIL_IMAGE"/>
+		<result property="categoryCode" column="CATEGORY_CODE"/>
+		<result property="sellerCode" column="SELLER_CODE"/>
+		<result property="pStatus" column="P_STATUS"/>
+	</resultMap>
+	
+	<resultMap type="com.kh.clendy.sellerProduct.model.vo.SellerProductCategory" id="categoryResultMap">
+		<id property="categoryCode" column="CATEGORY_CODE"/>
+		<result property="categoryName" column="CATEGORY_NAME"/>
+		<result property="refcategoryCode" column="REF_CATEGORY_CODE"/>
+	</resultMap>
+	
+	<insert id="registNewProduct" parameterType="com.kh.clendy.sellerProduct.model.vo.SellerProduct">
+		insert into
+		(
+			p_no
+		,	p_name
+		,	p_price
+		,	p_discount
+		,	p_able_coupon
+		,	p_detail_image
+		,	category_code
+		,	seller_code
+		,	p_status
+		)
+		values
+		(
+			seq_p_no.nextval
+		,	#{ pNo }
+		,	#{ pPrice }
+		,	#{ pDiscount }
+		,	#{ pAbleCoupon }
+		,	default
+		,	#{ categoryCode }
+		,	seq_seller_code.nextval
+		,	default
+		)
+	</insert>
+	
+	<insert id="thumbnailUpload">
+		insert into
+		(
+			
+		)
+		values(
+		
+		)
+	</insert>
+	
+	<select id="findAllCategory" resultMap="categoryResultMap">
+		select
+				category_code
+			,	category_name
+			,	ref_category_code
+			from product_category
+	</select>
+</mapper>
