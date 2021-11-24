@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.clendy.CScenter.model.service.BoardServiceImpl;
 import com.kh.clendy.CScenter.model.service.FAQServiceImpl;
@@ -25,13 +26,11 @@ public class CScenterController {
 	
 	private FAQServiceImpl faqService;
 	private BoardServiceImpl boardService;
-	private MessageSource messageSource;
+
 	
 	@Autowired
-	public CScenterController(FAQServiceImpl faqService, MessageSource messageSource,
-							  BoardServiceImpl boardService) {
+	public CScenterController(FAQServiceImpl faqService, BoardServiceImpl boardService) {
 		this.faqService = faqService;
-		this.messageSource = messageSource;
 		this.boardService = boardService;
 	}
 	
@@ -52,9 +51,21 @@ public class CScenterController {
 		return faqService.selectFAQByCategory(categoryCode);
 	}
 	
+	/* faq 검색 */
+	@PostMapping("/FAQ/search")
+	public String searchFAQByKeyword(String keyword, Model model) {
+		
+		List<FAQ> resultList = faqService.searchFAQByKeyword(keyword);
+				
+		model.addAttribute("faqList",resultList);
+		
+		return "/CScenter/FAQ";
+	}
+	
+	
 	/* faq 수정 */
 	@PostMapping("/FAQ/modify")
-	public String updateQna(FAQ newFaq, Model model) {
+	public String updateQna(FAQ newFaq, Model model, RedirectAttributes redirectAttr) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		
@@ -62,9 +73,9 @@ public class CScenterController {
 		
 		int result = faqService.updateFAQ(newFaq);
 		if(result>0) {
-			model.addAttribute("message", "수정완료");
+			redirectAttr.addFlashAttribute("msg", "FAQ가 수정되었습니다.");
 		}else {
-			model.addAttribute("message", "수정실패");
+			redirectAttr.addFlashAttribute("msg", "FAQ 수정에 실패하였습니다.");
 		}
 		
 		return "redirect:/CScenter/FAQ";
@@ -81,27 +92,31 @@ public class CScenterController {
 	@GetMapping("insertFAQ")
 	public void toInsertFAQ() {}
 	
+	/* faq 등록 */
 	@PostMapping("/FAQ/insert")
-	public String insertFAQ(FAQ newFAQ, Model model) {
+	public String insertFAQ(FAQ newFAQ, Model model, RedirectAttributes redirectAttr) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		
 		int result = faqService.insertFAQ(newFAQ);
 		if(result>0) {
-			model.addAttribute("message", "등록완료");
+			redirectAttr.addFlashAttribute("msg", "새로운 FAQ가 등록 되었습니다.");
 		}else {
-			model.addAttribute("message", "등록실패");
+			redirectAttr.addFlashAttribute("msg", "FAQ 등록에 실패하였습니다.");
 		}
 		
 		return "redirect:/CScenter/FAQ";
 	}
 	
-	/*------------------ 공지사항 ----------------*/
+	
+	/*--------------------------------- 공지사항 ---------------------------------*/
 	
 	/**/
 	@GetMapping("/board")
 	public void toBoard() {}
 	
+	
+	/*--------------------------------- 1:1 문의 ---------------------------------*/
 	@GetMapping("/personalQ")
 	public void toPersonalQ() {}
 

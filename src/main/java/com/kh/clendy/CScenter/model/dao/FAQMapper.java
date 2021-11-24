@@ -13,7 +13,7 @@ public interface FAQMapper {
 
 	List<FAQ> selectFAQByCategory(int categoryCode);
 	
-	List<FAQ> searchFAQ(String keyword);
+	List<FAQ> searchFAQByKeyword(String keyword);
 	
 	int insertFAQ(FAQ newfaq);
 	
