@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쿠폰등록</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function(){
+          $('.datepicker').datepicker();
+        })
+      </script>
+    <style>
+        ul, li{list-style: none; padding-left: 0;}
+        li{display: table-cell; }
+        .title{width : 120px; text-align: center; font-weight: bold;}
+        .price, .condition{width : 80px;}
+        .make-btn{width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer; margin : 5px auto;}
+        .datepicker { width : 120px; }
+    </style>
+</head>
+<body>
+    <h3>쿠폰등록</h3>
+    <div class="coupon-detail">
+            <ul><li class="title" maxlength='30'>이름 : </li><li><input type="text" class="name" name="name" id="name" required></li></ul>
+            <ul><li class="title">금액 : </li><li><input type="number" class="price" name="price" id="price">원</li></ul>
+            <ul><li class="title">사용가능조건 : </li><li><input type="number" class="condition" name="condition" id="condition" required>원 이상 결제 시</li></ul>
+            <ul><li class="title">시작일 : </li><li><input type="text" name="start_date" class="datepicker" id="start_date"></li></ul>
+            <ul><li class="title">만료일 : </li><li><input type="text" name="end_date" class="datepicker" id="end_date"></li></ul>
+    </div>
+    <input type="submit" class="make-btn" value="등록">
+</body>
+
+</html>

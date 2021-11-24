@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/mypage/reviewDetail.css" rel="stylesheet"></head>
+    <title>리뷰 상세페이지</title>
+</head>
+<body>
+    <div th:replace="common/header.html"></div>
+    <div class="outer">
+        <div class="title">리뷰 상세페이지</div>
+        <div class="product">
+            <img src="resources/images/pimg1.png">
+            <div class="product_info">
+                <div id="brand">토피</div>
+                <div id="pname">2WAY 스웻 후드 집업</div>
+                <div id="option">옵션 : M</div>
+            </div>
+        </div>
+        <div class="like_cnt">
+            <span>좋아요 5000</span>
+        </div>
+
+        <div class="content">
+            <div class="title_date_area">
+                <div class="title_area">
+                    <span>제목</span>
+                    <span class="btitle">후드 집업 리뷰</span>
+                </div>
+                
+                <div class="date_area">
+                    <div class="create_date">
+                        <span>작성일</span>
+                        <span id="c_date">| 2021.12.10</span>
+                    </div>
+    
+                    <div class="modify_date">
+                        <span>수정일</span>
+                        <span id="m_date">| 2021.12.10</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="score">
+                <span>별점</span>
+                <img src="resources/images/star_yes.png"> 
+                <img src="resources/images/star_yes.png"> 
+                <img src="resources/images/star_yes.png"> 
+                <img src="resources/images/star_yes.png">        
+            </div>
+            
+            <div class="size">
+                <span>사이즈공개</span>
+                <input type="checkbox" id="size_yn" checked>
+                <span id="size_info">남/180cm/75kg</span>
+            </div>
+            
+            <div class="content_area">
+                <div class="img_box">
+                    <div class="img_area" id="img1"><img src="resources/images/pimg1.png"></div>
+                    <div class="img_area" id="img2"><img src="resources/images/pimg1.png"></div>
+                    <div class="img_area" id="img3"><img src="resources/images/pimg1.png"></div>
+                </div>
+
+                <textarea class="bcontent" readonly>사이즈가 적당합니다.</textarea>
+            </div>
+
+        </div>
+
+        <div class="btn_area">
+            <button type="button">이전화면</button>
+            <button type="submit">수정</button>
+            <button type="button">삭제</button>
+        </div>
+    </div>
+	<div th:replace="common/footer.html"></div>
+</body>
+</html>

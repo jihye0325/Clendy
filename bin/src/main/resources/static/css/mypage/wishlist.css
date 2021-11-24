@@ -5,6 +5,7 @@ div {
 .outer {
     width: 950px;
     margin: auto;
+    min-height: 500px;
 }
 
 .title{
@@ -23,13 +24,13 @@ label {
     cursor: pointer;
 }
 
-/* ¶óµğ¿À ¹öÆ° ¼û±â±â */
+/* ì²´í¬ë°•ìŠ¤ ìƒ‰ìƒ ë³€ê²½ */
 input[type=radio] {
     display: none;
     margin: 10px;
 }
 
-ul {
+.wish_list {
     display: grid;
     grid-template-columns: repeat(3, 300px);
     gap: 15px;
@@ -37,12 +38,7 @@ ul {
     padding: 0px;
 }
 
-img {
-    cursor: pointer;
-}
-
 .p_info {
-    cursor: pointer;
     margin-top: auto;
     margin-bottom: auto;
     margin-left: 5px;
@@ -69,4 +65,22 @@ img {
     background-color: white;
     border: 1px solid lightgray;
     float: right;
+}
+
+button {
+	cursor:pointer;
+}
+
+a {
+	cursor:pointer;
+}
+
+a:link{
+	color: black;
+    text-decoration: none;
+}
+
+a:visited{
+    color: black;
+    text-decoration: none;
 }

@@ -96,16 +96,6 @@ input {
     width: 80px;
 }
 
-.recommender_area {
-    margin-top: 20px;
-}
-
-.recommender_input input{
-    background-color: #E5E5E5;
-    border: none;
-    font-size: large;
-}
-
 .btn_area{
     margin-top: 50px;
     text-align: center;
