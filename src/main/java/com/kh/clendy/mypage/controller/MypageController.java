@@ -1,5 +1,6 @@
 package com.kh.clendy.mypage.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -19,9 +21,9 @@ import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.member.model.vo.UserImpl;
 import com.kh.clendy.mypage.model.service.MypageService;
 import com.kh.clendy.mypage.model.vo.Coupon;
+import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Point;
 import com.kh.clendy.mypage.model.vo.Wishlist;
-import com.kh.clendy.product.model.vo.ProductQnaQ;
 
 @Controller
 @RequestMapping("/mypage")
@@ -111,6 +113,7 @@ public class MypageController {
 	@GetMapping("/confirmPwd")
 	public void confirmPwd() {}
 	
+	// 회원 탈퇴
 	@PostMapping("/deleteMember")
 	public String deleteMember(RedirectAttributes redirectAttr, @RequestParam String password) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -204,23 +207,46 @@ public class MypageController {
 		return mv;
 	}
 	
-	// 내가 쓴 글 화면 
-	@GetMapping("/myBoard")
-	public ModelAndView myBoard(ModelAndView mv) {
+	// 위시리스트 삭제
+	@PostMapping("/deleteWish")
+	@ResponseBody
+	public int deleteWish(@RequestParam int p_no) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
-		// 상품 문의글 리스트 
-		List<ProductQnaQ> p_qna_list = mypageService.selectP_Qna_List(user_no); 
-		mv.addObject("p_qna_list", p_qna_list);
-		// 리뷰 리스트
 		
-		// 1:1 문의 리스트
+		HashMap<String, Integer> userMap = new HashMap<>();
+		userMap.put("user_no", user_no);
+		userMap.put("p_no", p_no);
 		
-		// 교환/환불 리스트
+		int result = mypageService.deleteWish(userMap);
 		
+		return result;
+	}
 		
-		mv.setViewName("mypage/myBoard");
-		return mv;
+	// 리뷰 화면
+	@GetMapping("/insertReview")
+	public ModelAndView insertReview(ModelAndView mv) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		Member m = mypageService.selectMember(user_no);
+		// *** 리뷰 등록 클릭시 주문옵션번호(order_option_code)가 넘어오게 구현해야함 ***
+		int order_option_code = 2;
+		// 상품정보 조회
+		Order_Option order_option = mypageService.selectProduct(order_option_code);
+		System.out.println(order_option);
+		System.out.println(m);
+		
+		mv.addObject("m", m);
+		mv.addObject("order_option", order_option);
+		mv.setViewName("/mypage/insertReview");
+		return mv;		
+	}
+	
+	// 리뷰 등록
+	@PostMapping("/insertReview")
+	public String insertReview() {
+		
+		return "redirect:/mypage/insertReview";
 	}
 	
 	// 주문내역 화면

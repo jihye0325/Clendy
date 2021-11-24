@@ -1,5 +1,6 @@
 package com.kh.clendy.mypage.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.mypage.model.dao.MypageMapper;
 import com.kh.clendy.mypage.model.vo.Coupon;
+import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Point;
+import com.kh.clendy.mypage.model.vo.Product;
 import com.kh.clendy.mypage.model.vo.Wishlist;
 import com.kh.clendy.product.model.vo.ProductQnaQ;
 
@@ -124,28 +127,18 @@ public class MypageServiceImpl implements MypageService {
 		return acc_list;
 	}
 	
-	// 내가 쓴 글 -상품문의글 리스트
+	// 위시리스트 삭제
 	@Override
-	public List<ProductQnaQ> selectP_Qna_List(int user_no) {
-		List<ProductQnaQ> p_qna_list = mypageMapper.selectP_Qna_List(user_no);
-		System.out.println(p_qna_list);
-		return p_qna_list;
+	public int deleteWish(HashMap<String, Integer> userMap) {
+		return mypageMapper.deleteWish(userMap);
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
+	// 리뷰등록시 상품정보 조회
+	@Override
+	public Order_Option selectProduct(int order_option_code) {
+		return mypageMapper.selectProduct(order_option_code);
+	}
+	
 
 }

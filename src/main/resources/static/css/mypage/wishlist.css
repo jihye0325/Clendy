@@ -18,13 +18,31 @@ div {
     margin-bottom: 30px;
 }
 
-label {
+.title label {
     font-size: small;
     color: gray;
     cursor: pointer;
 }
 
-/* 체크박스 색상 변경 */
+.title input[type=radio]:checked + label{
+	color: black;
+	font-size : medium;
+	font-weight : bold;
+}
+
+.nowish{
+	width: 100px;
+	margin-bottom: 20px;
+}
+
+.null {
+	width: 950px;
+	text-align: center;
+	font-size: x-large;
+	align-self: center;
+}
+
+/* 라디오 버튼 숨기기 */
 input[type=radio] {
     display: none;
     margin: 10px;
@@ -39,6 +57,27 @@ input[type=radio] {
 
 .wish_list {
 	list-style:none;
+}
+
+.top_div {
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+    gap: 15px;
+    padding: 0px;
+}
+
+.bottom_div {
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+    gap: 15px;
+    padding: 0px;
+}
+
+.acc_div {
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+    gap: 15px;
+    padding: 0px;
 }
 
 .p_info {
@@ -68,18 +107,4 @@ input[type=radio] {
     width: 40px;
 	height: 20px;
 	cursor:pointer;
-}
-
-a {
-	cursor:pointer;
-}
-
-a:link{
-	color: black;
-    text-decoration: none;
-}
-
-a:visited{
-    color: black;
-    text-decoration: none;
 }
