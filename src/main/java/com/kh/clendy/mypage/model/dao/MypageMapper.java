@@ -1,12 +1,15 @@
 package com.kh.clendy.mypage.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.mypage.model.vo.Coupon;
+import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Point;
+import com.kh.clendy.mypage.model.vo.Product;
 import com.kh.clendy.mypage.model.vo.Wishlist;
 import com.kh.clendy.product.model.vo.ProductQnaQ;
 
@@ -37,7 +40,8 @@ public interface MypageMapper {
 
 	Wishlist selectAcclist(int user_no);
 	
-	List<ProductQnaQ> selectP_Qna_List(int user_no);
+	int deleteWish(HashMap<String, Integer> userMap);
 
+	Order_Option selectProduct(int order_option_code);
 
 }

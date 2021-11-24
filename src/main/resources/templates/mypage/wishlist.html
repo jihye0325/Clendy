@@ -5,7 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/mypage/wishlist.css" rel="stylesheet"></link>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <!-- csrf 토큰 -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>위시리스트</title>
 </head>
 <body>
@@ -14,7 +17,7 @@
     <div class="outer">
         <div class="title">
             <span>위시리스트</span><br>
-            <input type="radio" class="selectType" name="selectType" id="outer" onclick="selectType(event)" value="outer">
+            <input type="radio" class="selectType" name="selectType" id="outer" onclick="selectType(event)" value="outer" checked>
             <label for="outer">아우터</label>
             <input type="radio" class="selectType" name="selectType" id="top_product" onclick="selectType(event)" value="top_product">
             <label for="top_product">상의</label>
@@ -25,72 +28,100 @@
         </div>
 
         <div class="outer_div" id="outerWishList">
+        	<th:block th:if="${outer_list != null}">
             <ul class="wish_list" th:each="outer : ${outer_list.product_list}">
                 <li>
                     <div class="product">
-                        <img src="/images/sampleimg1.png" th:onclick="|location.href='@{/mypage/modify}'|">
+                        <img th:src="@{${outer.imageList[0].route} + ${outer.imageList[0].imgrName}}" th:onclick="|location.href='@{/mypage/modify}'|">
                         <div class="p_info">
                             <div class="name" th:text="${outer.p_name}" th:onclick="|location.href='@{/mypage/modify}'|"></div>
                             <div class="price" th:text="|${outer.p_price}원|"></div>
                         </div>
-                        <button type="button" id="delete">삭제</button>
+                        <button type="button" id="delete" th:value="${outer.p_no}">삭제</button>
                     </div>
                 </li>
             </ul>
+            </th:block>
+            <th:block th:if="${outer_list == null}">
+            	<div class="null">
+            	    <img class="nowish" src="/images/nowish.png"><br>
+            		<span>위시리스트에 담긴 상품이 없습니다.</span>
+            	</div>
+            </th:block>
         </div>
 
         <div class="top_div" id="topWishList" style="display: none;">
-            <ul class="wish_list">
+        	<th:block th:if="${top_list != null}">
+            <ul class="wish_list" th:each="top : ${top_list.product_list}">
                 <li>
                     <div class="product">
                         <img src="/images/sampleimg1.png">
                         <div class="p_info">
-                            <div class="brand">상의</div>
-                            <div class="name">2WAY 스웻 후드 집업</div>
-                            <div class="price">39,000원</div>
-                            <button type="button" id="delete">삭제</button>
+                            <div class="name" th:text="${top.p_name}"></div>
+                            <div class="price" th:text="|${top.p_price}원|"></div>
                         </div>
+                        <button type="button" id="delete" th:value="${top.p_no}">삭제</button>
                     </div>
                 </li>
             </ul>
+            </th:block>
+            <th:block th:if="${top_list == null}">
+            	<div class="null">
+            	    <img class="nowish" src="/images/nowish.png"><br>
+            		<span>위시리스트에 담긴 상품이 없습니다.</span>
+            	</div>
+            </th:block>
         </div>
 
         <div class="bottom_div" id="bottomWishList" style="display: none;">
-            <ul class="wish_list">
+        	<th:block th:if="${bottom_list != null}">
+            <ul class="wish_list" th:each="bottom : ${bottom_list.product_list}">
                 <li>
-                	<a href="">
                     <div class="product">
                         <img src="/images/sampleimg1.png">
                         <div class="p_info">
-                            <div class="brand">하의</div>
-                            <div class="name">2WAY 스웻 후드 집업</div>
-                            <div class="price">39,000원</div>
-                            <button type="button" id="delete">삭제</button>
+                            <div class="name" th:text="${bottom.p_name}"></div>
+                            <div class="price" th:text="|${bottom.p_price}원|"></div>
                         </div>
+                        <button type="button" id="delete" th:value="${bottom.p_no}">삭제</button>
                     </div>
-                    </a>
                 </li>
             </ul>
+            </th:block>
+            <th:block th:if="${bottom_list == null}">
+            	<div class="null">
+            	    <img class="nowish" src="/images/nowish.png"><br>
+            		<span>위시리스트에 담긴 상품이 없습니다.</span>
+            	</div>
+            </th:block>
         </div>
 
         <div class="acc_div" id="accWishList" style="display: none;">
-            <ul class="wish_list">
+        	<th:block th:if="${acc_list != null}">
+            <ul class="wish_list" th:each="acc : ${acc_list.product_list}">
                 <li>	
                     <div class="product" >
                         <img src="/images/sampleimg1.png">
                         <div class="p_info">
-                            <div class="brand">ACC</div>
-                            <div class="name">2WAY 스웻 후드 집업</div>
-                            <div class="price">39,000원</div>
-                            <button type="button" id="delete">삭제</button>
+                            <div class="name" th:text="${acc.p_name}"></div>
+                            <div class="price" th:text="|${acc.p_price}원|"></div>
                         </div>
+                        <button type="button" id="delete" th:value="${acc.p_no}">삭제</button>
                     </div>
                 </li>
             </ul>
+            </th:block>
+            <th:block th:if="${acc_list == null}">
+            	<div class="null">
+            	    <img class="nowish" src="/images/nowish.png"><br>
+            		<span>위시리스트에 담긴 상품이 없습니다.</span>
+            	</div>
+            </th:block>
         </div>
     </div>
 	<div th:replace="common/footer.html"></div>
 
+	<!-- 카테고리 전환 -->
     <script>
         function selectType(e)  {
             var type = e.target.value;
@@ -123,5 +154,47 @@
             }
         }
     </script>
+    
+    <!-- 위시리스트 삭제 -->
+    <script>
+    	$(function(){
+    		$(document).on("click", '#delete', function(){
+    			if(!confirm("위시리스트에서 삭제하시겠습니까?")) return;
+    			var p_no = $(this).val();
+        		var token = $("meta[name='_csrf']").attr("content");
+        		var header = $("meta[name='_csrf_header']").attr("content"); 
+    			
+    			$.ajax({
+    				url : "/mypage/deleteWish",
+    				type : "post",
+    				data : {p_no:p_no},  
+    				/* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+    				beforeSend : function(xhr)		
+    				{
+    					xhr.setRequestHeader(header, token);    					
+    				},
+    				success : function(result){
+    					if(result > 0) {
+    						alert("위시리스트에서 삭제되었습니다.");
+    						location.reload();
+    				}	else 
+    						alert("위시리스트 삭제에 실패했습니다.");
+    				},
+    				error : function(e){
+    					console.log(e);
+    				}
+    			});
+    		});    		
+    	});
+    </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
