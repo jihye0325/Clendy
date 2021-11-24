@@ -101,21 +101,8 @@
 	<!-- faq 삭제 -->
 	<delete id="deleteFAQ" parameterType="_int">
 	DELETE 
-	  FOMR FAQ
+	  FROM FAQ
 	 WHERE Q_NO = #{q_no} 
 	</delete>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 </mapper>
