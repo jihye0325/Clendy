@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.clendy.product.model.dao.ProductQnaMapper">
+	
+	<!-- 상품 문의 resultMap -->
+	<resultMap id="productQnaQresultMap" type="com.kh.clendy.product.model.vo.ProductQnaQ">
+		<id property="piqCode" column="P_I_Q_CODE"/>
+		<result property="piCateCode" column="P_I_CATE_CODE"/>
+		<result property="piCateName" column="P_I_CATE_NAME"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="userNo" column="USER_NO"/>
+		<result property="piqTitle" column="P_I_Q_TITLE"/>
+		<result property="piqContent" column="P_I_Q_CONTENT"/>
+		<result property="piqSecret" column="P_I_Q_SECRET"/>
+		<result property="piqCreateDate" column="P_I_Q_CREATE_DATE"/>
+		<result property="piqModifyDate" column="P_I_Q_MODIFY_DATE"/>
+		<result property="piqDelStatus" column="P_I_Q_DEL_STATUS"/>
+	</resultMap>
+	
+	<!-- 상품 목록 resultMap -->
+	<resultMap id="productQnaListQresultMap" type="com.kh.clendy.product.model.vo.ProductQnaQ">
+		<id property="piqCode" column="P_I_Q_CODE"/>
+		<result property="piCateCode" column="P_I_CATE_CODE"/>
+		<result property="piCateName" column="P_I_CATE_NAME"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="userNo" column="USER_NO"/>
+		<result property="id" column="ID"/>
+		<result property="piqTitle" column="P_I_Q_TITLE"/>
+		<result property="piqContent" column="P_I_Q_CONTENT"/>
+		<result property="piqSecret" column="P_I_Q_SECRET"/>
+		<result property="piqCreateDate" column="P_I_Q_CREATE_DATE"/>
+		<result property="piqModifyDate" column="P_I_Q_MODIFY_DATE"/>
+		<result property="piqDelStatus" column="P_I_Q_DEL_STATUS"/>
+		<association property="proudctQnaA" resultMap="productQnaAresultMap"/>
+	</resultMap>
+	
+	<!-- 상품 목록 문의 답변 resultMap -->
+	<resultMap id="productQnaAresultMap" type="com.kh.clendy.product.model.vo.ProductQnaA">
+		<id property="piaCode" column="P_I_A_CODE"/>
+		<result property="piaContent" column="P_I_A_CONTENT"/>
+		<result property="piaCreateDate" column="P_I_A_CREATE_DATE"/>
+		<result property="piaDelStatus" column="P_I_A_DEL_STATUS"/>
+	</resultMap>
+
+	<!-- 상품 문의 등록
+		성공시 1, 실패시 0 리턴
+	 -->
+	<insert id="qnaInsert" parameterType="com.kh.clendy.product.model.vo.ProductQnaQ">
+		INSERT
+		  INTO PRODUCT_INQUIRY_Q
+		  (
+		       P_I_Q_CODE
+		     , P_I_CATE_CODE
+		     , P_NO
+		     , USER_NO
+		     , P_I_Q_TITLE
+		     , P_I_Q_CONTENT
+		     , P_I_Q_SECRET
+		     , P_I_Q_CREATE_DATE
+		     , P_I_Q_MODIFY_DATE
+		     , P_I_Q_DEL_STATUS
+		  )
+		  VALUES
+		  (
+		       SEQ_PRD_INQUIRY_Q_CODE.NEXTVAL
+		     , #{ piCateCode }
+		     , #{ pNo }
+		     , #{ userNo }
+		     , #{ piqTitle }
+		     , #{ piqContent }
+		     , #{ piqSecret }
+		     , SYSDATE
+		     , SYSDATE
+		     , DEFAULT
+		  )
+	</insert>
+	
+	<!-- 상품 문의 정보 -->
+	<select id="qnaModifyView" resultMap="productQnaQresultMap" parameterType="_int">
+		SELECT
+		       PIQ.P_I_Q_CODE
+		     , PIQ.P_I_CATE_CODE
+		     , PIC.P_I_CATE_NAME
+		     , PIQ.P_NO
+		     , PIQ.USER_NO
+		     , PIQ.P_I_Q_TITLE
+		     , PIQ.P_I_Q_CONTENT
+		     , PIQ.P_I_Q_SECRET
+		     , PIQ.P_I_Q_CREATE_DATE
+		     , PIQ.P_I_Q_MODIFY_DATE
+		     , PIQ.P_I_Q_DEL_STATUS
+		     FROM PRODUCT_INQUIRY_Q PIQ
+		     JOIN PRODUCT_INQUIRY_CATEGORY PIC ON(PIQ.P_I_CATE_CODE = PIC.P_I_CATE_CODE)
+		    WHERE PIQ.P_I_Q_DEL_STATUS = 'N'
+		      AND PIQ.P_I_Q_CODE = #{ piqCode }
+	</select>
+	
+	<!-- 상품 문의 수정 -->
+	<update id="qnaModify" parameterType="com.kh.clendy.product.model.vo.ProductQnaQ">
+		UPDATE 
+		       PRODUCT_INQUIRY_Q
+		   SET P_I_Q_SECRET = #{ piqSecret }
+		     , P_I_CATE_CODE = #{ piCateCode }
+		     , P_I_Q_TITLE = #{ piqTitle }
+		     , P_I_Q_CONTENT = #{ piqContent }
+		     , P_I_Q_MODIFY_DATE = SYSDATE
+		 WHERE P_I_Q_DEL_STATUS = 'N'
+		   AND P_I_Q_CODE = #{ piqCode }
+	</update>
+	
+	<!-- 상품문의 삭제  -->
+	<update id="qnaDelete" parameterType="_int">
+		UPDATE 
+			   PRODUCT_INQUIRY_Q
+		   SET P_I_Q_DEL_STATUS = 'Y'
+		 WHERE P_I_Q_CODE = #{ piqCode }
+	</update>
+	
+	<!-- 상품문의 답변 있는지 -->
+	<select id="qnaACount" parameterType="_int" resultType="_int">
+		SELECT
+       NVL(MAX(P_I_A_CODE), 0) AS P_I_A_CODE
+       FROM PRODUCT_INQUIRY_A
+       WHERE P_I_A_DEL_STATUS = 'N'
+         AND P_I_Q_CODE = ${ piqCode }
+	</select>
+	
+	<!-- 상품문의 답글 삭제  -->
+	<update id="qnaADelete" parameterType="_int">
+		UPDATE 
+			   PRODUCT_INQUIRY_A
+		   SET P_I_A_DEL_STATUS = 'Y'
+		 WHERE P_I_A_CODE = #{ qnaACount }
+	</update>
+	
+	<!-- 상품문의 게시글 등록갯수 -->
+	<select id="qnaGetListCount" parameterType="java.util.HashMap" resultType="_int">
+		SELECT
+		       COUNT(*) AS COUNT
+		  FROM PRODUCT_INQUIRY_Q
+		 WHERE P_I_Q_DEL_STATUS = 'N'
+		 	<if test="!qnaType.equals('INQUIRY_CODE_ALL')">
+		 		AND P_I_CATE_CODE = #{ qnaType }
+		 	</if>
+		 	<if test="secretCheck == true">
+		 		AND P_I_Q_SECRET = 'N'
+		 	</if>
+		 	AND P_NO = #{pNo}
+	</select>
+	
+	<!-- qnaAllSelectList -->
+	<select id="qnaAllSelectList" parameterType="map" resultMap="productQnaListQresultMap">
+		SELECT
+             *
+             FROM( SELECT
+		                   ROWNUM AS ROWN
+		                   , PDL.*
+		                   FROM(
+		                    SELECT
+		                           PIQ.P_I_Q_CODE
+		                         , PIQ.P_I_CATE_CODE
+		                         , PIC.P_I_CATE_NAME
+		                         , PIQ.P_NO
+		                         , PIQ.USER_NO
+		                         , M.ID
+		                         , PIQ.P_I_Q_TITLE
+		                         , PIQ.P_I_Q_CONTENT
+		                         , PIQ.P_I_Q_SECRET
+		                         , PIQ.P_I_Q_CREATE_DATE
+		                         , PIQ.P_I_Q_MODIFY_DATE
+		                         , PIQ.P_I_Q_DEL_STATUS
+		                         , PIA.P_I_A_CODE
+                                 , PIA.P_I_A_CONTENT
+                                 , PIA.P_I_A_CREATE_DATE
+                                 , PIA.P_I_A_DEL_STATUS
+		                         FROM PRODUCT_INQUIRY_Q PIQ
+		                         JOIN PRODUCT_INQUIRY_CATEGORY PIC ON (PIQ.P_I_CATE_CODE = PIC.P_I_CATE_CODE)
+		                         JOIN MEMBER M ON(PIQ.USER_NO = M.USER_NO)
+		                         LEFT JOIN PRODUCT_INQUIRY_A PIA ON (PIQ.P_I_Q_CODE = PIA.P_I_Q_CODE)
+		                        WHERE P_I_Q_DEL_STATUS = 'N'
+		                        <if test="!qnaType.equals('INQUIRY_CODE_ALL')">
+							 		AND PIQ.P_I_CATE_CODE = #{ qnaType }
+							 	</if>
+							 	<if test="secretCheck == true">
+							 		AND PIQ.P_I_Q_SECRET = 'N'
+							 	</if>
+							 	  AND P_NO = #{pNo} 
+							 	ORDER BY PIQ.P_I_Q_CODE DESC
+		                        
+		                   ) PDL)
+		                   WHERE ROWN BETWEEN #{ startRow } AND #{ endRow }
+	</select>
+	
+	
+</mapper>

@@ -8,6 +8,8 @@
     <title>주문내역</title>
 </head>
 <body>
+    <div th:replace="common/header.html"></div>
+ 	<div th:replace="mypage/sideMenu.html"></div>
     <div class="outer">
         <div class="title">주문내역</div>
     
@@ -30,14 +32,16 @@
 
             <ul class="ul_content">
                 <li class="pname">
-                    <div>
-                        <img src="resources/images/pimg1.png">
+                	<a href="/">
+                    <div class="pname_area">
+                        <img src="/images/sampleimg1.png">
                         <div class="p_info">
                             <div id="bname">토피</div>
                             <div id="pname">2WAY 스웻 후드 집업</div>
                             <div id="option">옵션 : M</div>
                         </div>
                     </div>
+                    </a>
                 </li>
                 <li class="price">
                     <span>39,000원</span><br>
@@ -63,5 +67,6 @@
             </ul>
         </div>
     </div>
+	<div th:replace="common/footer.html"></div>
 </body>
 </html>

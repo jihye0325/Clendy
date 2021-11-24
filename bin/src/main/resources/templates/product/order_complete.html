@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 주문 완료 페이지</title>
+    <link rel="stylesheet" th:href="@{/css/product_style.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="wrap">
+        <div th:replace="common/header.html"></div>
+
+        <section id="order">
+            <div class="container">
+                <div class="order">
+                    <div class="order_wrap">
+                        <div class="order_view">
+                            <h2 class="type02">배송정보</h2>
+
+                            <div class="item">
+                                <div class="order_complete">
+                                    <div class="box">
+                                        <strong class="box_title">감사합니다.</strong>
+                                        <p>주문이 완료되었습니다.</p>
+                                    </div>
+                                    <a href="javascript:;">주문내역조회</a>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <h3 class="order_title">배송정보</h3>
+                                <div class="post_wrap type02">
+                                    <div class="post_info_wrap">
+                                        <div class="exist_box">
+                                            <h4 class="name">홍길동</h4>
+                                            <p class="address">(30130) 세종특별자치시 한누리대로 161(나성동)</p>
+                                            <p class="tel">010-1234-5678</p>
+                                        </div>   
+                                    </div>
+                                    
+                                    <p class="post_complete">
+                                        문 앞에 놓아주세요.
+                                    </p>
+
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <h3 class="order_title">주문내역</h3>
+                                <div class="order_list_wrap">
+                                    <div class="order_list">
+                                        <h4 class="mall_name">일번 쇼핑몰</h4>
+                                        <div class="order_list">
+                                            <div class="list">
+                                               <div class="list_left">
+                                                   <div class="img">
+                                                       <a href="javascript:;">
+                                                            <img src="/images/order_sample1.png" alt="">
+                                                        </a>
+                                                   </div>
+                                                   <p class="title"><a href="javascript:;">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</a></p>
+                                                   <p class="option">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
+                                                   <div class="list_quan">
+                                                       <input type="text" name="" id="">
+                                                       개
+                                                   </div>
+                                               </div>
+                                               <div class="list_center">
+                                                   <p><span>31,500</span>원</p>
+                                               </div>
+                                               <div class="list_right">
+                                                   <p class="post_price"><span>2,500</span>원</p>
+                                                   <a href="javascript:;" class="post_tip">배송비</a>
+                                               </div>
+                                            </div>
+
+                                            <div class="list">
+                                                <div class="list_left">
+                                                    <div class="img">
+                                                        <a href="javascript:;">
+                                                            <img src="/images/order_sample1.png" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <p class="title"><a href="javascript:;">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</a></p>
+                                                    <p class="option">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
+                                                    <div class="list_quan">
+                                                        <input type="text" name="" id="">
+                                                        개
+                                                    </div>
+                                                </div>
+                                                <div class="list_center">
+                                                    <p><span>31,500</span>원</p>
+                                                </div>
+                                                <div class="list_right">
+                                                    <p class="post_price"><span>2,500</span>원</p>
+                                                    <a href="javascript:;" class="post_tip">배송비</a>
+                                                </div>
+ 
+                                             </div>
+                                        </div>
+
+                                        <h4 class="mall_name">이번 쇼핑몰</h4>
+                                        <div class="order_list">
+                                            <div class="list">
+                                               <div class="list_left">
+                                                   <div class="img">
+                                                        <a href="javascript:;">
+                                                            <img src="/images/order_sample1.png" alt="">
+                                                        </a>
+                                                   </div>
+                                                   <p class="title"><a href="javascript:;">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</a></p>
+                                                   <p class="option">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
+                                                   <div class="list_quan">
+                                                       <input type="text" name="" id="">
+                                                       개
+                                                   </div>
+                                               </div>
+                                               <div class="list_center">
+                                                   <p><span>31,500</span>원</p>
+                                               </div>
+                                               <div class="list_right">
+                                                   <p class="post_price"><span>2,500</span>원</p>
+                                                   <a href="javascript:;" class="post_tip">배송비</a>
+                                               </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order_status">
+                            <div class="item">
+                                <h3>결제 금액</h3>
+                                <div>
+                                    <p class="title">상품금액</p>
+                                    <p class="txt"><span>121,500</span>원</p>
+                                </div>
+                                <div>
+                                    <p class="title">배송비</p>
+                                    <p><span>2,500</span>원</p>
+                                </div>
+                                <div>
+                                    <p class="title">상품금액</p>
+                                    <p class="txt">(-)<span>0</span>원</p>
+                                </div>
+                                <div>
+                                    <p class="title">상품금액</p>
+                                    <p class="txt">(-)<span>0</span>원</p>
+                                </div>
+                                <div>
+                                    <p class="title">총 결제금액</p>
+                                    <p class="txt"><span>124,000</span>원</p>
+                                </div>
+
+                                <div class="line">
+                                    <p class="title">신용카드</p>
+                                    <p class="txt"><span>124,000</span>원</p>
+                                </div>
+
+                                <div>
+                                    <p class="title">결제정보</p>
+                                    <p class="txt">
+                                        <span class="card_num">비씨카드 1234567*******4122</span>
+                                        <span class="bold">일시불</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div th:replace="common/footer.html"></div>
+    </div>
+
+    <script>
+        $(function(){
+             // 우측 결제내역 이벤트
+             let currentScroll = $(document).scrollTop();
+
+            let orderTop = $('.order .order_wrap').offset().top;
+
+            $(document).scroll(function(){
+                currentScroll = $(document).scrollTop();
+                optionScroll(currentScroll);
+            });
+
+            optionScroll(currentScroll);
+
+            // 우측 결제내역 스크롤 이벤트
+            function optionScroll(currentScroll){
+                if(orderTop <= currentScroll){
+                    $(".order .order_wrap .order_status").addClass("fixed");
+                }else{
+                    $(".order .order_wrap .order_status").removeClass("fixed");
+                }
+            }
+
+        })
+
+    </script>
+</body>
+</html>

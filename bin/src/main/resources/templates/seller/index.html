@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>판매자 페이지</title>
+
+    <link rel="stylesheet" href="/css/seller/reset.css" type="text/css">
+    <link rel="stylesheet" href="/css/seller/layout.css">
+</head>
+<body>
+<div th:replace="common/header.html"></div>
+
+    <div id="wrap">
+        <aside>
+            <div class="left_content">
+                <ul>
+                    <li><a href="">내 정보</a></li>
+                    <li><a href="">상품정보 리스트</a></li>
+                    <li><a href="">문의내용 리스트</a></li>
+                    <li><a href="">주무내역 조회</a></li>
+                    <li><a href="">상품배송 현황</a></li>
+                    <li><a href="">반송요청</a></li>
+                    <li><a href="">교환요청</a></li>
+                </ul>
+            </div>
+        </aside>
+        <div class="wrap">
+<div class="content_right">
+    <div class="table_title">
+        <span class="info_title" style="margin-bottom:20px;">
+            내 정보
+        </span>
+    </div>
+    
+    <div class="seller_info">
+        <span class="info_title">판매자이름</span>
+        <button>퇴점신청</button>
+        <table>
+            <tbody>
+                <tr>
+                    <th>주소</th>
+                    <td>
+                        <div><input type="text" value="서울특별시 강남구" readonly></div>
+                        <button>수정</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>전화번호</th>
+                    <td>
+                        <div><input type="text" value="010-1234-5678" readonly></div>
+                        <button>수정</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td>
+                        <div><input type="text" value="gogo@kh.or.kr" readonly></div>
+                        <button>수정</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>계좌번호</th>
+                    <td>
+                        <div><input type="text" value="우리 은행 0000-1234-5678" readonly></div>
+                        <button>수정</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="calculate">
+        <span class="info_title">정산</span>
+        <button>정산신청</button>
+
+        <div class="calculate_table">
+            <div>
+                <p>총 매출액</p>
+                <span>10,0000</span>
+            </div>
+            <div>
+                <p>정산가능 금액</p>
+                <span>1234512345</span>
+            </div>
+            <div>
+                <p>총 정산액</p>
+                <span>123124125</span>
+            </div>
+        </div>
+
+        <div class="table_wrap">
+            <table>
+                <thead>
+                    <th>번호</th>
+                    <th>매출액</th>
+                    <th>수수료</th>
+                    <th>정산 금액</th>
+                    <th>정산신청일</th>
+                    <th>정산승인일</th>
+                    <th>정산상태</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>1234,5678</td>
+                        <td>12345,6789</td>
+                        <td>12345,678</td>
+                        <td>2021.10.19</td>
+                        <td>2021.10.19</td>
+                        <td>정산중</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>1234,5678</td>
+                        <td>12345,6789</td>
+                        <td>12345,678</td>
+                        <td>2021.10.19</td>
+                        <td>2021.10.19</td>
+                        <td>정산중</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>1234,5678</td>
+                        <td>12345,6789</td>
+                        <td>12345,678</td>
+                        <td>2021.10.19</td>
+                        <td>2021.10.19</td>
+                        <td>정산중</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>1234,5678</td>
+                        <td>12345,6789</td>
+                        <td>12345,678</td>
+                        <td>2021.10.19</td>
+                        <td>2021.10.19</td>
+                        <td>정산중</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>1234,5678</td>
+                        <td>12345,6789</td>
+                        <td>12345,678</td>
+                        <td>2021.10.19</td>
+                        <td>2021.10.19</td>
+                        <td>정산중</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>1234,5678</td>
+                        <td>12345,6789</td>
+                        <td>12345,678</td>
+                        <td>2021.10.19</td>
+                        <td>2021.10.19</td>
+                        <td>정산중</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+<div th:replace="common/footer.html"></div>
+    
+
+</body>
+</html>
