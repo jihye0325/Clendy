@@ -153,6 +153,7 @@ public class MypageController {
 		
 		// 적립금 리스트 불러오기
 		List<Point> point_list = mypageService.selectPoint(user_no);
+		System.out.println(point_list);
 		
 		mv.addObject("point_list", point_list);
 		
