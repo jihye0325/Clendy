@@ -29,8 +29,15 @@ public interface MypageMapper {
 
 	List<Coupon> selectUse_Cou_List(int user_no);
 
-	List<Wishlist> selectWishlist(int user_no);
+	Wishlist selectOuterlist(int user_no);
 
+	Wishlist selectToplist(int user_no);
+
+	Wishlist selectBottomlist(int user_no);
+
+	Wishlist selectAcclist(int user_no);
+	
 	List<ProductQnaQ> selectP_Qna_List(int user_no);
+
 
 }

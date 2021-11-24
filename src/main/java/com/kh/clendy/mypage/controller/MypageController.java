@@ -179,10 +179,25 @@ public class MypageController {
 	public ModelAndView wishlist(ModelAndView mv) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
-		// 위시리스트 불러오기
-		List<Wishlist> wish_list = mypageService.selectWishlist(user_no);
-		mv.addObject("wish_list", wish_list);
-		System.out.println(wish_list);
+		// 위시리스트 불러오기(아우터)
+		Wishlist outer_list = mypageService.selectOuterlist(user_no);
+		mv.addObject("outer_list", outer_list);
+		System.out.println(outer_list);
+		
+		// 위시리스트 불러오기(상의)
+		Wishlist top_list = mypageService.selectToplist(user_no);
+		mv.addObject("top_list", top_list);
+		System.out.println(top_list);
+		
+		// 위시리스트 불러오기(하의)
+		Wishlist bottom_list = mypageService.selectBottomlist(user_no);
+		mv.addObject("bottom_list", bottom_list);
+		System.out.println(bottom_list);
+		
+		// 위시리스트 불러오기(ACC)
+		Wishlist acc_list = mypageService.selectAcclist(user_no);
+		mv.addObject("acc_list", acc_list);
+		System.out.println(acc_list);
 		
 		mv.setViewName("mypage/wishlist");
 		
