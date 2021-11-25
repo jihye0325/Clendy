@@ -13,76 +13,83 @@
 		<result property="user_no" column="USER_NO"/>
 	</resultMap>
 	
-	<!-- board 전체 조회 -->
-	<select id="selectAllFAQ" resultMap="BoardResultMap">
+	<!-- board 목록 개수 - 페이징 처리 -->
+	<select id="boardGetListCount" resultType="_int">
 		SELECT
-				Q_NO
-			  , Q_TITLE
-			  ,	Q_ANSWER
-			  , Q_ENROLL_DATE
-			  , Q_MODIFY_DATE
-			  , F.QC_NO
-			  , QC_NAME
-			  , USER_NO
-		 FROM FAQ F, Q_CATEGORY Q
-        WHERE F.QC_NO = Q.QC_NO 
+				COUNT(*) AS COUNT
+		   FROM BOARD
+		  WHERE B_STATUS = 'Y'
+	</select>
+	<!-- board 전체 조회 -->
+	<select id="selectAllBoard" parameterType="_int" resultMap="BoardResultMap">
+		 SELECT
+            *
+            FROM(
+            SELECT
+       ROWNUM ROWN
+     , TBL.*    
+    FROM( SELECT
+		        B_NO
+		      , B_TITLE
+		      , B_CONTENT
+		      , B_ENROLL_DATE
+		      , B_MODIFY_DATE
+		      , USER_NO
+		   FROM BOARD
+		  ORDER BY B_NO DESC) TBL)
+          WHERE ROWN BETWEEN #{startRow} AND #{endRow}
 	</select>
 	
 	<!-- board 상세 조회 -->
-	<select id="selectFAQByCategory" parameterType="_int" resultMap="BoardResultMap">
+	<select id="selectOneBoard" parameterType="_int" resultMap="BoardResultMap">
 		SELECT
-				Q_NO
-			  , Q_TITLE
-			  ,	Q_ANSWER
-			  , Q_ENROLL_DATE
-			  , Q_MODIFY_DATE
-			  , f.QC_NO
-			  , QC_NAME
-			  , USER_NO
-		 FROM FAQ F, Q_CATEGORY Q
-        WHERE F.QC_NO = Q.QC_NO
-          AND Q.qc_no = #{categoryCode}
+		        B_NO
+		      , B_TITLE
+		      , B_CONTENT
+		      , B_ENROLL_DATE
+		      , B_MODIFY_DATE
+		      , USER_NO
+		   FROM BOARD
+		  WHERE B_NO = #{b_no}
 	</select>
 	
 	<!-- board 등록 -->
-	<insert id="insertFAQ" parameterType="com.kh.clendy.CScenter.model.vo.Board">
+	<insert id="insertBoard" parameterType="com.kh.clendy.CScenter.model.vo.Board">
 		INSERT 
-		INTO FAQ
+		INTO BOARD
 		(
-			Q_NO
-		  , Q_TITLE
-		  , Q_ANSWER
-		  , Q_ENROLL_DATE
-		  , Q_MODIFY_DATE
-		  , QC_NO
-		  , USER_NO
+			B_NO
+		  , B_TITLE
+		  , B_CONTENT
+		  , B_ENROLL_DATE
+		  , B_MODIFY_DATE
+	      , USER_NO
 		)
 		VALUES (
-			SEQ_Q_NO.NEXTVAL
-		  ,	#{q_title}
-		  , #{q_answer}
+			SEQ_B_NO.NEXTVAL
+		  ,	#{b_title}
+		  , #{b_content}
 		  , SYSDATE
 		  , NULL
-		  , #{qc_no}
 		  , #{user_no}
 		)
 	</insert>
 	
 	<!-- board 수정 -->
-	<update id="updateFAQ" parameterType="com.kh.clendy.CScenter.model.vo.Board">
-	UPDATE FAQ
+	<update id="updateBoard" parameterType="com.kh.clendy.CScenter.model.vo.Board">
+	UPDATE BOARD
 	   SET 
-	  	  Q_TITLE = #{q_title}
-		, Q_ANSWER = #{q_answer}
-		, Q_MODIFY_DATE = SYSDATE
-    WHERE Q_NO = #{q_no} 	
+	  	  B_TITLE = #{b_title}
+		, B_CONTENT = #{b_content}
+		, B_MODIFY_DATE = SYSDATE
+    WHERE B_NO = #{b_no} 	
 	</update>
 	
 	<!-- board 삭제 -->
-	<delete id="deleteFAQ" parameterType="_int">
+	<delete id="deleteBoard" parameterType="_int">
 	DELETE 
-	  FROM FAQ
-	 WHERE Q_NO = #{q_no} 
+	  FROM BOARD
+	 WHERE B_NO = #{b_no} 
 	</delete>
 
 

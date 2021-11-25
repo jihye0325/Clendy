@@ -24,6 +24,8 @@
 			  , USER_NO
 		 FROM FAQ F, Q_CATEGORY Q
         WHERE F.QC_NO = Q.QC_NO 
+          AND Q_STATUS ='Y'
+        ORDER BY Q_NO
 	</select>
 	
 	<!-- faq 카테고리 별 조회 -->
@@ -39,7 +41,9 @@
 			  , USER_NO
 		 FROM FAQ F, Q_CATEGORY Q
         WHERE F.QC_NO = Q.QC_NO
-          AND Q.qc_no = #{categoryCode}
+          AND Q.QC_NO = #{categoryCode}
+          AND Q_STATUS ='Y'
+        ORDER BY Q_NO
 	</select>
 	
 	<!-- faq 검색-->
@@ -57,6 +61,8 @@
         WHERE F.QC_NO = Q.QC_NO 
           AND (Q_TITLE LIKE '%' || #{keyword} || '%'
            OR  Q_ANSWER LIKE '%' || #{keyword} || '%')
+           AND Q_STATUS ='Y'
+        ORDER BY Q_NO
 	</select>
 	
 	<!-- faq 등록 -->
@@ -71,6 +77,7 @@
 		  , Q_MODIFY_DATE
 		  , QC_NO
 		  , USER_NO
+		  , Q_STATUS
 		)
 		VALUES (
 			SEQ_Q_NO.NEXTVAL
@@ -80,6 +87,7 @@
 		  , NULL
 		  , #{qc_no}
 		  , #{user_no}
+		  , 'Y'
 		)
 	</insert>
 	
@@ -94,10 +102,11 @@
 	</update>
 	
 	<!-- faq 삭제 -->
-	<delete id="deleteFAQ" parameterType="_int">
-	DELETE 
-	  FROM FAQ
+	<update id="deleteFAQ" parameterType="_int">
+	UPDATE FAQ 
+	  SET 
+	  		Q_STATUS ='N'
 	 WHERE Q_NO = #{q_no} 
-	</delete>
+	</update>
 	
 </mapper>

@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"
+     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="/js/jquery-3.6.0.min.js"></script> 
     <title>공지사항</title>
 	<style>
 	#wrapper {display: flex;}
@@ -12,7 +14,6 @@
 	a{text-decoration: none;}
 	/* content */
 	#content{  margin : 0px auto auto 11%; width: 850px;}    
-	
 	/* board-list */
 	.board-wrapper{margin-top: 60px;}
 	.list-th ul{ height: 30px; border-top: 1px solid lightgray; margin: 0; border-bottom: 1px solid lightgray;}
@@ -25,6 +26,34 @@
 	/* btn*/
 	.btn-area{display: flex; justify-content: flex-end; padding-top:15px; padding-bottom: 15px;}
 	.insert-btn{width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer;}
+	/* paging_wrap */
+	/* pagaing_wrap */
+	.pagaing_wrap{display: flex; justify-content: center; margin-top: 80px;}
+	.pagaing_wrap ul{display: flex; }
+	.pagaing_wrap ul li{width: 35px; height: 35px; box-sizing:border-box;}
+	.pagaing_wrap ul li a{display: block; width: 100%; height: 100%;}
+	
+	.pagaing_wrap ul.pagaing_left li.allPrev{margin-right: 3px;}
+	.pagaing_wrap ul.pagaing_left li a{background:#e6e6e6;}
+	.pagaing_wrap ul.pagaing_left li.allPrev a{background: url(../images/ico_allPrev.png) no-repeat 50% 50% #e6e6e6;}
+	.pagaing_wrap ul.pagaing_left li.prev a{background: url(../images/ico_prev.png) no-repeat 50% 50% #e6e6e6;}
+	.pagaing_wrap ul.pagaing_left li.allPrev.hide a{background: url(../images/ico_allPrev_hide.png) no-repeat 50% 50% #e6e6e6;}
+	.pagaing_wrap ul.pagaing_left li.prev.hide a{background: url(../images/ico_prev_hide.png) no-repeat 50% 50% #e6e6e6;}
+	
+	.pagaing_wrap ul.pagaing_num{margin: 0 17px;}
+	.pagaing_wrap ul.pagaing_num li{border:1px solid #e6e6e6; margin-right: 3px;}
+	.pagaing_wrap ul.pagaing_num li:last-child{margin-right: 0;}
+	.pagaing_wrap ul.pagaing_num li a{text-align: center; line-height: 35px; font-size: 13px;}
+	.pagaing_wrap ul.pagaing_num li.on{border-color:#060032;}
+	.pagaing_wrap ul.pagaing_num li.on a{color:#fff; background:#060032; font-weight: bold;}
+	
+	.pagaing_wrap ul.pagaing_right li.next{margin-right: 3px;}
+	.pagaing_wrap ul.pagaing_right li a{background:#e6e6e6;}
+	.pagaing_wrap ul.pagaing_right li.next a{background: url(../images/ico_next.png) no-repeat 50% 50% #e6e6e6;}
+	.pagaing_wrap ul.pagaing_right li.allNext a{background: url(../images/ico_allNext.png) no-repeat 50% 50% #e6e6e6;}
+	.pagaing_wrap ul.pagaing_right li.next.hide a{background: url(../images/ico_next_hide.png) no-repeat 50% 50% #e6e6e6;}
+	.pagaing_wrap ul.pagaing_right li.allNext.hide a{background: url(../images/ico_allNext_hide.png) no-repeat 50% 50% #e6e6e6;}
+
 	</style>
 	<link rel="stylesheet" href="/css/common/paging.css">
 	<link rel="stylesheet" href="/css/common/sidebar.css">
@@ -46,45 +75,58 @@
             <div class="board-wrapper">
                 <div class="list-th">
                     <ul><li class="list-num">번호</li><li class="list-title">제목</li><li class="list-date">등록일</li></ul></div>
-                <div class="board-list">
-                    <ul><li class="list-num">1</li><li class="list-title cursor">공지사항1</li><li class="list-date">2021.11.20</li></ul>    
-                    <ul><li class="list-num">2</li><li class="list-title cursor">공지사항2</li><li class="list-date">2021.11.20</li></ul>   
-                    <ul><li class="list-num">3</li><li class="list-title cursor">공지사항3</li><li class="list-date">2021.11.20</li></ul>   
-                    <ul><li class="list-num">4</li><li class="list-title cursor">공지사항4</li><li class="list-date">2021.11.20</li></ul>   
-                    <ul><li class="list-num">5</li><li class="list-title cursor">공지사항5</li><li class="list-date">2021.11.20</li></ul>   
-                    <ul><li class="list-num">6</li><li class="list-title cursor">공지사항6</li><li class="list-date">2021.11.20</li></ul>   
-                    <ul><li class="list-num">7</li><li class="list-title cursor">공지사항7</li><li class="list-date">2021.11.20</li></ul>   
-                    <ul><li class="list-num">8</li><li class="list-title cursor">공지사항8</li><li class="list-date">2021.11.20</li></ul>   
-                    <ul><li class="list-num">9</li><li class="list-title cursor">공지사항9</li><li class="list-date">2021.11.20</li></ul>   
-                    <ul><li class="list-num">10</li><li class="list-title cursor">공지사항10</li><li class="list-date">2021.11.20</li></ul>   
+                <div class="board-list" th:each="board, i : ${boardList}">
+                	<input type="hidden" name="b_no" id="b_no" th:value=${board.b_no}>
+                    <ul><li class="list-num" th:text="${i.count}"></li>
+                    <li class="list-title cursor" th:text="${board.b_title}" ></li>
+                    <li class="list-date" th:text="${#dates.format(board.b_enroll_date, 'yyyy-MM-dd')}"></li></ul>       
                 </div>
             </div>
-
+			<!--  <th:block sec:authorize="hasRole('ROLE_ADMIN')">-->
             <div class="btn-area"><button class="insert-btn">등록</button></div>
+			<!-- </th:block> -->
+			
+			<!-- 페이징 -->
+            <div class="pagaing_wrap" th:if="${#lists.size(boardList) > 0}">
+                        <ul class="pagaing_left">
+                            <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
+                            	<a th:href="@{'/board/' + (page=1)}" th:if="${pi.page > 1}"></a>
+	                            <a href="javascript:;" th:unless="${pi.page > 1}"></a>
+                            </li>
+                            <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
+	                            <a th:href="@{'/board/' + (page=${pi.page - 1})}" th:if="${pi.page > 1}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page > 1}"></a>
+                            </li>
+                        </ul>
+                        
+                        <ul class="pagaing_num">
+                        	<th:block th:each="pd : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+                        		<li th:classappend="${pi.page == pdStat.current} ? 'on'">
+                        			<a th:href="@{'/board/' + (page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+                        		</li>
+                        	</th:block>
+                            
+                        </ul>
 
-            <div class="board-paging">
-                <ul>
-                    <li><a href="#">&lt;&lt;</a></li>
-                    <li><a href="#">&lt;</a></li>
-                    <li><a href="#" class="current-page">1</a></li>
-                    <li><a href="#" >2</a></li>
-                    <li><a href="#" >3</a></li>
-                    <li><a href="#" >4</a></li>
-                    <li><a href="#" >5</a></li>
-                    <li><a href="#" >6</a></li>
-                    <li><a href="#" >7</a></li>
-                    <li><a href="#" >8</a></li>
-                    <li><a href="#" >9</a></li>
-                    <li><a href="#" >10</a></li>
-                    <li><a href="#">&gt;</a></li>
-                    <li><a href="#">&gt;&gt;</a></li>
-                </ul>
-            </div>
+                        <ul class="pagaing_right" >
+                            <li class="next" th:classappend="${pi.page == pi.endPage} ? 'hide'">
+                            	<a th:href="@{'/board/' + (page=${pi.page} + 1)}" th:if="${pi.page < pi.endPage}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+                            </li>
+                            <li class="allNext"  th:classappend="${pi.page == pi.endPage} ? 'hide'">
+                            	<a th:href="@{'/board/' + (page=${pi.endPage})}" th:if="${pi.page < pi.endPage}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+                            </li>
+                        </ul>
+                    </div>
         </div>
-
-    </div>
-
-    
-     <div th:replace="common/footer.html"></div>
+     </div>
+          <div th:replace="common/footer.html"></div>
+     
+     
+     
+     
+     
+     
 </body>
 </html>
