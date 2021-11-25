@@ -24,19 +24,19 @@
 	                        <h2 class="proudct_title" th:case="public">공용</h2>
                     	</th:block>
                         <ul>
-                            <li class="on"><a href="javascript:;">인기순</a></li>
-                            <li><a href="javascript:;">최신순</a></li>
-                            <li><a href="javascript:;">낮은 가격순</a></li>
-                            <li><a href="javascript:;">높은 가격순</a></li>
+                            <li th:classappend="${filter.align} == hot ? 'on'"><a th:href="@{/product/list/{type}(type=${type}, page=${param.page}, align='hot', category=${param.category})}">인기순</a></li>
+                            <li th:classappend="${filter.align} == latest ? 'on'"><a th:href="@{/product/list/{type}(type=${type}, page=${param.page}, align='latest', category=${param.category})}">최신순</a></li>
+                            <li th:classappend="${filter.align} == lowPrice ? 'on'"><a th:href="@{/product/list/{type}(type=${type}, page=${param.page}, align='lowPrice', category=${param.category})}">낮은 가격순</a></li>
+                            <li th:classappend="${filter.align} == highPrice ? 'on'"><a th:href="@{/product/list/{type}(type=${type}, page=${param.page}, align='highPrice', category=${param.category})}">높은 가격순</a></li>
                         </ul>
                     </div>
                     <div class="p_2step_box">
                         <ul>
-                            <li class="on"><a href="javascript:;">전체 (333)</a></li>
-                            <li><a href="javascript:;">아우터 (55)</a></li>
-                            <li><a href="javascript:;">상의 (55)</a></li>
-                            <li><a href="javascript:;">하의 (55)</a></li>
-                            <li><a href="javascript:;">ACC (55)</a></li>
+                            <li th:classappend="${filter.category} == all ? 'on'"><a th:href="@{/product/list/{type}(type=${type}, page=${param.page}, align=${param.align}, category='all')}">전체 (333)</a></li>
+                            <li th:classappend="${filter.category} == outer ? 'on'"><a th:href="@{/product/list/{type}(type=${type}, page=${param.page}, align=${param.align}, category='outer')}">아우터 (55)</a></li>
+                            <li th:classappend="${filter.category} == top ? 'on'"><a th:href="@{/product/list/{type}(type=${type}, page=${param.page}, align=${param.align}, category='top')}">상의 (55)</a></li>
+                            <li th:classappend="${filter.category} == under ? 'on'"><a th:href="@{/product/list/{type}(type=${type}, page=${param.page}, align=${param.align}, category='under')}">하의 (55)</a></li>
+                            <li th:classappend="${filter.category} == acc ? 'on'"><a th:href="@{/product/list/{type}(type=${type}, page=${param.page}, align=${param.align}, category='acc')}">ACC (55)</a></li>
                         </ul>
                     </div>
 

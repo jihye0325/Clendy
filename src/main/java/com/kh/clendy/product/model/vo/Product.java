@@ -16,6 +16,7 @@ public class Product {
 	private String pStatus;
 	private int wishLike;
 	private List<ProductImage> imageList;
+	private ProductFilter filter;
 	
 	public Product() {
 		imageList = new ArrayList<>();

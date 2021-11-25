@@ -60,11 +60,17 @@
             </div>
         </div>
         <div id="nav-wrapper">
-            <a class="nav white" id="unisex" href="/product/list/public">공용</a>
-            <a class="nav white" id="men" href="/product/list/man">남성</a>
-            <a class="nav white" id="women" href="/product/list/woman">여성</a>
-            <a class="nav white" id="review" href="/reviewboard">리뷰</a>
-            <a class="nav white" id="cs" href="/CScenter/FAQ">고객센터</a>
+
+            <!--  
+            	<a class="nav" id="unisex" href="/product/list/public">공용</a>
+            	<a class="nav" id="men" href="/product/list/man">남성</a>
+            	<a class="nav" id="women" href="/product/list/woman">여성</a>
+             -->
+            <a class="nav" id="unisex" th:href="@{/product/list/{type}(type='public', page=1, align='hot', category='all')}">공용</a>
+            <a class="nav" id="unisex" th:href="@{/product/list/{type}(type='man', page=1, align='hot', category='all')}">남성</a>
+            <a class="nav" id="unisex" th:href="@{/product/list/{type}(type='woman', page=1, align='hot', category='all')}">여성</a>
+            <a class="nav" id="review" href="/reviewboard">리뷰</a>
+            <a class="nav" id="cs" href="/CScenter/FAQ">고객센터</a>
             <!-- 권한에 따라 보이는 nav 달라짐 -->
             <th:block sec:authorize="!hasRole('ROLE_ADMIN') && !hasRole('ROLE_SELLER')">
             <a class="nav white" id="mypage" href="/mypage/modify">마이페이지</a>
