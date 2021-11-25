@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"
+     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,9 +30,18 @@
 input[type=checkbox]{ width:25px; height:15px; margin:5px;}
 #agree{ font-weight: bold; margin:0px}
 /* button */
+.notice { background-color : #26C826; color :White;}
 #btnArea{ text-align: center; margin:10px;}
 #apply{ background-color: #060032; color:white; border:0; width: 85px; height: 40px; font-size: 15px; margin: 10px; cursor: pointer;}
 </style>
+<!-- 등록 성공여부 알림창 -->
+	<script>
+		const msg = '[[${ msg }]]';
+		
+		if(msg){
+			alert(msg);
+		}
+	</script>
 </head>
 <body>
     <div th:replace="common/header.html"></div>
@@ -52,22 +62,23 @@ input[type=checkbox]{ width:25px; height:15px; margin:5px;}
                 <label>5. 입점 후 MD/배송/CS 업무를 진행해 주실 담당자가 지정되어 있어야 합니다.</label><br>
             </div>
         </div>
+        <form th:action="@{/common/joinStore}" method="post">
         <div id="insertInfo">
-            <label class="insertLabel"><span class="semiTitle">업체명</span><input type="text" id="seller_name" required></input></label><br>
-            <label class="insertLabel"><span class="semiTitle">대표자명/인원수</span><input type="text" id="rep_name" required> / <input type="text" id="rep_num"></label><br>
-            <label class="insertLabel"><span class="semiTitle">사업자 등록번호</span><input type="text" id="b_license" required></label><br>
-            <label class="insertLabel"><span class="semiTitle">통신판매업신고번호</span><input type="text" id="o_b_license" required></label><br>
-            <label class="insertLabel"><span class="semiTitle">전화번호</span><input type="text" id="phone" required></label><br>
-            <label class="insertLabel"><span class="semiTitle">이메일</span><input type="text" id="email" required></label><br>
-            <label class="insertLabel"><span class="semiTitle">업체주소</span><input type="text" id="address" required></label><br>
-            <label class="insertLabel"><span class="semiTitle">정산계좌</span> <select>
-                                                                                <option value="KB">국민은행</option>
-                                                                                <option value="NH">농협</option>
-                                                                                <option value="SH">신한은행</option>
-                                                                                <option value="WR">우리은행</option>
-                                                                                <option value="KAKAO">카카오뱅크</option>
+            <label class="insertLabel"><span class="semiTitle">업체명</span><input type="text" name="seller_name" id="seller_name" maxlength="20" required></input></label><br>
+            <label class="insertLabel"><span class="semiTitle">대표자명/인원수</span><input type="text" name="rep_name" id="rep_name" maxlength="10" required> / <input type="number" id="rep_num" required></label><br>
+            <label class="insertLabel"><span class="semiTitle">사업자 등록번호</span><input type="number" name="number" id="b_license" required></label><br>
+            <label class="insertLabel"><span class="semiTitle">통신판매업신고번호</span><input type="text" name="o_b_license" id="o_b_license" maxlength="25" required></label><br>
+            <label class="insertLabel"><span class="semiTitle">전화번호</span><input type="number" name="phone" id="phone" required></label><br>
+            <label class="insertLabel"><span class="semiTitle">이메일</span><input type="text" name="email" id="email" maxlength="30" required></label><br>
+            <label class="insertLabel"><span class="semiTitle">업체주소</span><input type="text" name="address" id="address" maxlength="100" required></label><br>
+            <label class="insertLabel"><span class="semiTitle">정산계좌</span> <select name="account_bank">
+                                                                                <option value="국민은행">국민은행</option>
+                                                                                <option value="농협">농협</option>
+                                                                                <option value="신한은행">신한은행</option>
+                                                                                <option value="우리은행">우리은행</option>
+                                                                                <option value="카카오뱅크">카카오뱅크</option>
                                                                               </select>
-                                                                <span> 계좌번호 </span><input type="text" id="account_num" required></label><br>
+                                                                <span> 계좌번호 </span><input type="number" name="account_num" id="account_num" required></label><br>
         </div>
         <div id="noticeBottom">
             <label>- 브랜드 정보를 가능한 상세하게 입력하셔야 빠른 처리가 가능하며 단순 입점 방식에 대한 문의는 답변드리지 않습니다.</label><br>
@@ -77,10 +88,35 @@ input[type=checkbox]{ width:25px; height:15px; margin:5px;}
             <br><input type="checkbox" id="admit" name="admit"><label id="agree" for="admit">개인정보 수집에 동의합니다.</label>
         </div>
         <div id="btnArea">
+        <th:block sec:authorize="isAnonymous()">
+        	<h2 class="notice">로그인 후 신청 가능합니다.</h2>
+        </th:block>
+        <th:block sec:authorize="isAuthenticated()">
             <button id="apply">입점신청</button>
+        </th:block>
         </div>
+        </form>
     </div>
 
     <div th:replace="common/footer.html"></div>
+    
+    <script>
+    /* 체크박스 check 확인 */
+    $("#apply").click(function(){
+    	if(!$("#admit").is(":checked")){
+    		alert("개인정보 수집에 동의해주세요.");
+    		return false;
+    	}
+    });
+    
+    </script>
+    
+    
+    
+    
+    
+    
+    
+    
 </body>
 </html>
