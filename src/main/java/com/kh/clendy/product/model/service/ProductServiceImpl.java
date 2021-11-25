@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.clendy.product.model.dao.ProductMapper;
 import com.kh.clendy.product.model.vo.PageInfo;
 import com.kh.clendy.product.model.vo.Product;
+import com.kh.clendy.product.model.vo.ProductOption;
 import com.kh.clendy.product.model.vo.ProductReview;
 
 @Service
@@ -81,6 +82,11 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Map<String, Object> productTabCount(int pNo) {
 		return productMapper.productTabCount(pNo); 
+	}
+
+	@Override
+	public List<ProductOption> productOptionSelect(int pNo) {
+		return productMapper.productOptionSelect(pNo);
 	}
 
 

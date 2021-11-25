@@ -44,22 +44,20 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
          .authorizeRequests()   /* 요청에 대한 권한 체크 */ 
             .antMatchers("/mypage/**").authenticated()   // "/mypage/**" 요청은 인증되어야함
             .antMatchers("/member/new_Pwd").authenticated()
-            .antMatchers("/product/view/**").authenticated()
-            .antMatchers("/product/qnaDelete").authenticated()
-            .antMatchers("/product/qnaModify").authenticated()
-            .antMatchers("/product/tabCount").authenticated()
             /* 상품 정보 인증 관련*/
+            .antMatchers("/product/**").authenticated()
+            .antMatchers("/product/view/**").authenticated()
             .anyRequest().permitAll()   /* 그 외의 요청들은 모두 허가함 - 게스트 사용자 접근 가능 */
          .and()
             .formLogin()   /* 로그인 설정 */
             .loginPage("/member/login")   /* 로그인 페이지 설정 */
-            .successForwardUrl("/mainpage/mainpage")    /* 로그인 성공 시 랜딩 페이지 설정 */
+            .successForwardUrl("/")    /* 로그인 성공 시 랜딩 페이지 설정 */
          .and() 
             .logout()   /* 로그아웃 설정 */
             .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout")) /* 로그아웃 요청 주소 */
             .deleteCookies("JSESSIONID")   /* JSESSIONID 쿠키 삭제 */
             .invalidateHttpSession(true)   /* 세션 만료 */
-            .logoutSuccessUrl("/product/list/public")      /* 로그아웃 성공 시 랜딩 페이지 */  
+            .logoutSuccessUrl("/")      /* 로그아웃 성공 시 랜딩 페이지 */  
          .and()
             .exceptionHandling()
             .accessDeniedPage("/common/denied");

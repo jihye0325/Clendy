@@ -10,7 +10,7 @@ public interface FAQService {
 	
 	List<FAQ> selectFAQByCategory(int categoryCode);
 	
-	List<FAQ> searchFAQByKeyword(String keyword);
+	List<FAQ> searchFAQ(String keyword);
 	
 	int insertFAQ(FAQ newfaq);
 	

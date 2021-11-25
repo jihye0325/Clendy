@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/mypage/sideMenu.css" rel="stylesheet"></link>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
     <title>사이드메뉴</title>
 </head>
 <body>
@@ -17,21 +16,7 @@
             <li><a class="side" href="/mypage/wishlist">위시리스트</a></li>
             <li><a class="side" href="/mypage/point_coupon">적립금/쿠폰</a></li>
             <li><a class="side" href="/mypage/myBoard">내가 쓴 글</a></li>
-            <li><a class="side" onclick="insertReview()" style="color:black">리뷰등록</a></li>
-            <li><a class="side" href="/mypage/detailReview">리뷰상세</a></li>
         </ul>
     </div>
-    
-    <script>
-    	function insertReview(){
-			var popupWidth = 900;
-			var popupHeight = 600;
-
-			var popupX = (window.screen.width / 2) - (popupWidth / 2);
-			var popupY= (window.screen.height / 2) - (popupHeight / 2);
-			
-    		window.open("/mypage/insertReview", "리뷰 등록", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
-    	}
-    </script>
 </body>
 </html>

@@ -35,6 +35,16 @@
 		<result property="imgStatus" column="IMG_STATUS"/>
 	</resultMap>
 	
+	<!-- 상품 옵션 -->
+	<resultMap id="productOptionResultMap" type="com.kh.clendy.product.model.vo.ProductOption">
+		<id property="pOptionNo" column="P_OPTION_NO"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="pColor" column="P_COLOR"/>
+		<result property="pSize" column="P_SIZE"/>
+		<result property="pStock" column="P_STOCK"/>
+		<result property="pPrice" column="P_PRICE"/>
+	</resultMap>
+	
 	<!-- 상품 목록 갯수 -->
 	<select id="productGetListCount" resultType="_int">
 		SELECT
@@ -159,7 +169,20 @@
           WHERE PRODUCT.P_NO = #{ pNo }
        ) AS REVIEW_COUNT
           FROM DUAL
+	</select>
 	
+	<select id="productOptionSelect" parameterType="_int" resultMap="productOptionResultMap">
+		SELECT
+		       P_OPTION_NO
+		     , P_NO
+		     , P_COLOR
+		     , P_SIZE
+		     , P_STOCK
+             , PRODUCT.P_PRICE
+		  FROM PRODUCT_OPTION
+          JOIN PRODUCT USING(P_NO)
+		 WHERE P_NO = #{ pNo }
+		 ORDER BY P_COLOR DESC, P_SIZE DESC
 	</select>
 	
 </mapper>

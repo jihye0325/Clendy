@@ -1,24 +1,14 @@
-package com.kh.clendy.sellerProduct.model.vo;
+package com.kh.clendy.product.model.vo;
 
-public class SellerProductOption {
+public class ProductOption {
 	private int pOptionNo;
 	private int pNo;
 	private String pColor;
 	private String pSize;
 	private int pStock;
-
-	public SellerProductOption() {
-		super();
-	}
-
-	public SellerProductOption(int pOptionNo, int pNo, String pColor, String pSize, int pStock) {
-		super();
-		this.pOptionNo = pOptionNo;
-		this.pNo = pNo;
-		this.pColor = pColor;
-		this.pSize = pSize;
-		this.pStock = pStock;
-	}
+	private int pPrice;
+	
+	public ProductOption() { }
 
 	public int getpOptionNo() {
 		return pOptionNo;
@@ -60,9 +50,19 @@ public class SellerProductOption {
 		this.pStock = pStock;
 	}
 
+	public int getpPrice() {
+		return pPrice;
+	}
+
+	public void setpPrice(int pPrice) {
+		this.pPrice = pPrice;
+	}
+
 	@Override
 	public String toString() {
-		return "SellerProductOption [pOptionNo=" + pOptionNo + ", pNo=" + pNo + ", pColor=" + pColor + ", pSize="
-				+ pSize + ", pStock=" + pStock + "]";
+		return "ProductOption [pOptionNo=" + pOptionNo + ", pNo=" + pNo + ", pColor=" + pColor + ", pSize=" + pSize
+				+ ", pStock=" + pStock + ", pPrice=" + pPrice + "]";
 	}
+
+	
 }

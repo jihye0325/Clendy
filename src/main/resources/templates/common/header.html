@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +9,6 @@
 *{ margin : 0; padding : 0; }
 a{ text-decoration: none; color:white; }
 .wrapper {background-color : #060032}
-.white{ color:white; padding-left:5px;}
 /* top */
 .logoArea{ height: 65px;}
 #logoA { width : 250px; padding-left: 40px; display: inline-block;}
@@ -20,7 +17,7 @@ a{ text-decoration: none; color:white; }
 .searchArea {display:inline-block;   top: 50%;  transform: translateY(-50%);}
 #searchItem{ resize: none; height: 30px; border : none;}
 #finding { width: 22px; transform: translateY(20%);}
-.header-btnArea .btn { padding-left: 10px;}
+.header-btnArea .btn { padding-left: 15px;}
 .header-btnArea{ text-align: right;  padding-top: 25px; padding-right: 39px;}
 /* nav */
 #unisex:hover { color: #F80E0E;}
@@ -31,29 +28,18 @@ a{ text-decoration: none; color:white; }
 #mypage:hover { color : #DF65F3; }
 #nav-wrapper{ text-align: center; padding-bottom: 10px; padding-top: 30px; margin-bottom:70px;}
 .nav{ font-weight: bold; font-size: 20px; margin: 30px;}
-</style>
 
+</style>
 </head>
 <body>
     <div class="wrapper">
         <div id="top">
             <div class="header-btnArea">
-            	<!-- 로그인 전 -->
-            	<th:block sec:authorize="isAnonymous()">
                 <a class="btn" id="login" href="/member/login">로그인</a>
                 <a class="btn" id="join" href="/member/signUp">회원가입</a>
-                </th:block>
-                <!-- 로그인 후 -->
-                <th:block sec:authorize="isAuthenticated()">
-			      <label class="white" sec:authentication="principal.user_name"></label><span class="white">님</span>
-			      <a class="btn" href='/mypage/cart'>장바구니</a>
-			      <a class="btn" href='/mypage/orderList'>주문조회</a>
-			      <a class="btn" href='/member/logout'>로그아웃</a>
-			   </th:block>
-                
             </div>
             <div class="logoArea">
-                <a id="logoA" href="/mainpage"><img id="logo" src="/images/logo-white.png" alt="logo"></a>
+                <a id="logoA" href="menubar.html" ><img id="logo" src="/images/logo-white.png" alt="logo"></a>
                 <div class="searchArea">
                     <input id="searchItem" type="text" placeholder="상품명,카테고리 검색"></input>
                     <span id="img-wrapper"><img id="finding" src="/images/magnifying-glass-white.png" alt="돋보기"></span>
@@ -64,31 +50,10 @@ a{ text-decoration: none; color:white; }
             <a class="nav" id="unisex" href="/product/list/public">공용</a>
             <a class="nav" id="men" href="/product/list/man">남성</a>
             <a class="nav" id="women" href="/product/list/woman">여성</a>
-            <a class="nav" id="review" href="/reviewboard">리뷰</a>
+            <a class="nav" id="review" href="/review">리뷰</a>
             <a class="nav" id="cs" href="/CScenter/FAQ">고객센터</a>
-            <!-- 권한에 따라 보이는 nav 달라짐 -->
-            <th:block sec:authorize="!hasRole('ROLE_ADMIN') && !hasRole('ROLE_SELLER')">
-            <a class="nav" id="mypage" href="/mypage/modify">마이페이지</a>
-        	</th:block>
-        	<th:block sec:authorize="hasRole('ROLE_ADMIN')">
-            <a class="nav" id="mypage" href="/admin/storeList">관리자페이지</a>
-            </th:block>
-            <th:block sec:authorize="hasRole('ROLE_SELLER')">
-            <a class="nav" id="mypage" href="/seller/index">판매자페이지</a>
-            </th:block>
+            <a class="nav" id="mypage" href="/mypage">마이페이지</a>
         </div>
     </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-

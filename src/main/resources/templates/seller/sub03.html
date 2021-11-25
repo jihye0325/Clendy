@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/css/seller/layout.css">
     <link rel="stylesheet" href="/css/seller/sub04.css">
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <style>
         .content_right {
@@ -23,7 +23,7 @@
 
 <body>
 <div th:replace="common/header.html"></div>
-	<form action="/seller/sub03" name="registNewProduct" method="post" enctype="mulipart/form-data">
+
     <div id="wrap">
         <div class="content_right">
             <div class="content">
@@ -38,14 +38,20 @@
                         <th>카테고리</th>
                         <td class="select_box">
                             <div style="margin-right:80px;">
-                                <select name="refcategoryCode" id="refcategoryCode" style="width:240px;">
-                                    <!-- ajax 조회 -->
+                                <select name="" id="" style="width:240px;">
+                                    <option value="">1depth</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                    <option value="">4</option>
                                 </select>
                             </div>
 
                             <div>
-                                <select name="categoryCode" id="categoryCode" style="width:240px;">
-                                    <!-- ajax 조회 -->
+                                <select name="" id="" style="width:240px;">
+                                    <option value="">1depth</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                    <option value="">4</option>
                                 </select>
                             </div>
                         </td>
@@ -54,34 +60,34 @@
                     <tr>
                         <th>상품명</th>
                         <td>
-                            <input type="text" name="pName" placeholder="상품명을 입력해주세요." required>
+                            <input type="text" placeholder="상품명을 입력해주세요.">
                         </td>
                     </tr>
                     <tr>
                         <th>판매가격</th>
                         <td>
-                            <input type="text" id="pPrice" name="pPrice" placeholder="원" required>
+                            <input type="text" placeholder="원">
                         </td>
                     </tr>
                     <tr>
                         <th>할인율</th>
                         <td>
-                            <input type="text" id="pDiscount" name="pDiscount" placeholder="20%">
+                            <input type="text" placeholder="20%">
                         </td>
                     </tr>
                     <tr>
                         <th>실제 판매가</th>
                         <td>
-                            <input type="text" id="prPrice" name="prPrice" placeholder="원">
+                            <input type="text" placeholder="원">
                         </td>
                     </tr>
                     <tr>
                         <th>쿠폰 적용 여부</th>
                         <td>
-                            <input type="radio" id="y" name="pAbleCoupon" value="Y">
-                            <label for="y">Y</label>
-                            <input type="radio" id="n" name="pAbleCoupon" value="N">
-                            <label for="n">N</label>
+                            <input type="radio" name="coupon">
+                            <label for="coupon">Y</label>
+                            <input type="radio" name="coupon">
+                            <label for="coupon">N</label>
                         </td>
                     </tr>
                 </table>
@@ -99,19 +105,19 @@
 
                         <tbody>
                             <tr>
-                                <td><input type="text" name="pSize"></td>
-                                <td><input type="text" name="pSize"></td>
-                                <td><input type="text" name="pSize"></td>
+                                <td><input type="text"></td>
+                                <td><input type="text"></td>
+                                <td><input type="text"></td>
                             </tr>
                             <tr>
-                                <td><input type="text" name="pColor"></td>
-                                <td><input type="text" name="pColor"></td>
-                                <td><input type="text" name="pColor"></td>
+                                <td><input type="text"></td>
+                                <td><input type="text"></td>
+                                <td><input type="text"></td>
                             </tr>
                             <tr>
-                                <td><input type="text" name="pStock"></td>
-                                <td><input type="text" name="pStock"></td>
-                                <td><input type="text" name="pStock"></td>
+                                <td><input type="text"></td>
+                                <td><input type="text"></td>
+                                <td><input type="text"></td>
                             </tr>
                             <tr>
                                 <td><input type="text"></td>
@@ -162,62 +168,12 @@
                 </div>
 
                 <div style="text-align:center; padding-top:50px;">
-                <button style="background: #060032; font-size: 20px; padding:16px 12px; color:#fff; text-align:center;" id="registBtn">상품등록</button>
+                <button style="background: #060032; font-size: 20px; padding:16px 12px; color:#fff; text-align:center;">상품등록</button>
             </div>
-            
             </div>
         </div>
     </div>
-    </form>
     <div th:replace="common/footer.html"></div>
-    <script>
-    	$(function(){
-    		$.ajax({
-    			url : "/seller/category",
-    			success : function(data){
-    				const categoryCode = $("#categoryCode");
-    				
-    				for(let index in data){
-    					categoryCode.append($("<option>").val(data[index].code).text(data[index].name));
-    				}
-    			},
-    			error : function(e){
-    				console.log(e);
-    			}
-    		})
-    	})
-    </script>
-    
-    <script>
-    $("#pDiscount").on('propertychange change keyup paste input', function(){
-    	
-		if($('#pPrice').val() != 0){
-
-		var pPrice = $('#pPrice').val();
-		pPrice = parseFloat(pPrice);
-		
-		var pDiscount = $('#pDiscount').val();
-		pDiscount = parseFloat(pDiscount);
-		
-		var prPrice;
-		
-		prPrice = pPrice * ((100-pDiscount)/100);
-		$('#prPrice').val(prPrice);
-		}
-	});
-    </script>
-    
-     <script>
-	  $("#file1").change(function(){
-	   if(this.files && this.files[0]) {
-	    var reader = new FileReader;
-	    reader.onload = function(data) {
-	     $(".select_img img").attr("src", data.target.result).width(500);        
-	    }
-	    reader.readAsDataURL(this.files[0]);
-	   }
-	  });
-	 </script>
 </body>
 
 </html>

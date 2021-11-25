@@ -1,21 +1,15 @@
 package com.kh.clendy.mypage.model.vo;
 
-import java.util.List;
-
-import com.kh.clendy.product.model.vo.Product;
-
 public class Wishlist {
 	private int user_no;
-	
-	// 상품정보
-	private List<Product> product_list;
+	private int p_no;
 	
 	public Wishlist() {}
 
-	public Wishlist(int user_no, List<Product> product_list) {
+	public Wishlist(int user_no, int p_no) {
 		super();
 		this.user_no = user_no;
-		this.product_list = product_list;
+		this.p_no = p_no;
 	}
 
 	public int getUser_no() {
@@ -26,19 +20,17 @@ public class Wishlist {
 		this.user_no = user_no;
 	}
 
-	public List<Product> getProduct_list() {
-		return product_list;
+	public int getP_no() {
+		return p_no;
 	}
 
-	public void setProduct_list(List<Product> product_list) {
-		this.product_list = product_list;
+	public void setP_no(int p_no) {
+		this.p_no = p_no;
 	}
 
 	@Override
 	public String toString() {
-		return "Wishlist [user_no=" + user_no + ", product_list=" + product_list + "]";
+		return "Wishlist [user_no=" + user_no + ", p_no=" + p_no + "]";
 	}
-
 	
-
 }

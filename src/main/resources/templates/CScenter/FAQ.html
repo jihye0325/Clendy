@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ</title>
     <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <!-- csrf 토큰 -->
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 	<style>
 	#wrapper {display: flex;}
 	#title, h6{ display: inline-block; margin-right: 15px; }
@@ -20,7 +16,7 @@
 	/* searchArea */
 	#searchArea{ display: flex; justify-content: right;}
 	#searchFAQ{ width: 300px; height: 23px; display: inline-block; margin: 5px;}
-	#finding{ background-color : white; width: 23px; height:23px;  cursor: pointer; border:0;} 
+	#finding{ width: 23px; height:23px; transform: translateY(30%); cursor: pointer;} 
 	#category{ margin-top : 40px; margin-bottom : 20px; }
 	#categoryUl{ display: table; width: 100%; min-width: 850px; border: 1px solid #ddd;  border-left: none;  box-sizing: border-box;}
 	#categoryUl li{display: table-cell;   width: 9.09%;}
@@ -36,7 +32,7 @@
 	.question ul { border-bottom: 1px solid lightgray; margin : 0;}
 	.question li{ display: table-cell; height: 40px; line-height: 40px;}
 	.answer-wrapper { display : none; border-bottom: 1px solid lightgray;}
-	.answer{ padding-left: 119px; margin:10px;}
+	.answer{ padding-left: 119px; margin-top:5px;}
 	/* btn */
 	.btnArea{ display: flex; justify-content: flex-end; width: 850px; padding-bottom: 15px;}
 	.mOrd{ margin-right: 5px; border:0; background-color: lightgray; width : 40px; height : 25px;}
@@ -45,14 +41,6 @@
 	#insertFAQ{ width: 55px; height: 30px; border: 0; background-color: #060032; color:white; text-align: center;  line-height: 30px; }
 	</style>
 	<link rel="stylesheet" href="/css/common/sidebar.css">
-	<!-- 수정, 등록 성공여부 알림창 -->
-	<script>
-		const msg = '[[${ msg }]]';
-		
-		if(msg){
-			alert(msg);
-		}
-	</script>
 </head>
 <body>
     <div th:replace="common/header.html"></div>
@@ -67,16 +55,12 @@
         </div>
         <div id="content">
             <h3 id="title">FAQ</h3><h6>자주 묻는 질문</h6>
-            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
             <div id="insertBtn">
                 <a id="insertFAQ" href="/CScenter/insertFAQ">등록</a>
             </div>
-            </th:block>
             <div id="searchArea">
-            	<form th:action="@{/CScenter/FAQ/search}" method="post">
-	                <input type="text" id="searchFAQ" name="keyword" placeholder="제목, 내용 검색">
-	                <button type="submit" id="finding">
-	                <img style="width :23px; "src="/images/magnifying-glass-navy.png"></button>
+            	<form action="/CScenter/faq/search" method="post">
+                <input type="text" id="searchFAQ" name="searchFAQ" placeholder="제목, 내용 검색"><img id="finding" src="/images/magnifying-glass-navy.png" alt="돋보기">
             	</form>
             </div>   
             
@@ -99,12 +83,10 @@
 	                <div class=" question"><ul><li class="FAQ_num" th:text= "${i.count}"></li>
 	                	<li class="FAQ_content cursor"><span th:text="${faq.q_title}"></span></li></ul></div>
 	                <div class="answer-wrapper"><p class="answer" th:text="${faq.q_answer}"></p>
-	                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
 	                    <div class="btnArea">
-	                    <button type="button" class="mOrd modify">수정</button>
-	                    <button type="button" class="mOrd delete">삭제</button>
+	                    <button class="mOrd modify">수정</button>
+	                    <button class="mOrd delete">삭제</button>
 	                    </div>
-	                    </th:block>
 	                </div>
 	                </form>
 	                </div>
@@ -123,27 +105,10 @@
             if($(this).next().css('display') == 'none'){
                 $(this).next().slideUp();
                 $(this).next().slideDown();
-            }else if($(this).next().css('display') == 'block'){
+            }else{
                 $(this).next().slideUp();
             }  
         });
-    	
-    	/* 검색시 검색keyword 체크*/
-    	$("#finding img").click(function(){
-    	if($("#searchFAQ").val() == ""){
-    		alert("검색어를 입력해주세요.");
-    		return false;
-    	}
-    });
-    	$("#searchFAQ").keydown(function(key) {
-    		if (key.keyCode == 13) {
-	    		if($("#searchFAQ").val() == ""){
-	        		alert("검색어를 입력해주세요.");
-	        		return false;
-	        	}
-    		}
-    	});
-
     	
     	/* 카테고리 별 faq 리스트 출력 */
     	$(document).on('click', '#categoryUl li', function(){
@@ -170,8 +135,8 @@
 			                    '<div class="question"><ul><li class="FAQ_num">'+ i++ +'</li>'+
 			                    '<li class="FAQ_content cursor"><span>'+data[index].q_title+ '</span></li></ul></div>'+
 		                		'<div class="answer-wrapper"><p class="answer">'+ data[index].q_answer+'</p>' +
-			                    '<div class="btnArea"><button type="button" class="mOrd modify">수정</button>'+
-			                    '<button type="button" class="mOrd delete">삭제</button></div></div></form>';             
+			                    '<div class="btnArea"><button class="mOrd modify">수정</button>'+
+			                    '<button class="mOrd delete">삭제</button></div></div></form>';             
 					}
 
 					$(".qna-detail-wrapper").html(html);
@@ -186,43 +151,20 @@
     	});
     	
     	/* faq 삭제 */
-    	$(document).on('click', '.delete', function(){
-    		var q_no = $(this).parent().parent().prev().prev().val();
-    		var token = $("meta[name='_csrf']").attr("content");
-    		var header = $("meta[name='_csrf_header']").attr("content");
+    	$(".delete").click(function(){
+    		var q_no = $(this).parent().prev().prev().val();
     		console.log(q_no);
-    		
-    		$.ajax({
-				url : "/CScenter/FAQ/delete",
-				type : "post",
-				data : {q_no:q_no},
-				beforeSend : function(xhr)
-	            {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-					xhr.setRequestHeader(header, token);
-	            },
-
-			 	success : function(result){
-				if( result == 0){
-					alert("게시글 삭제에 실패하였습니다.");
-					
-				}else{
-					alert("게시글 삭제에 성공하였습니다.");
-					location.reload();
-				}
-			},
-			error : function(e){
-				console.log(e);
-			}
-			});
     	});
     	
     	/* faq 수정 - textarea 로 변경 */
-    	$(document).on('click', '.modify', function(){
+    	$(".modify").click(function(){
     		var question = $(this).parent().parent().prev().children().children().children();
             var answer = $(this).parent().prev();
             var questionBefore = question.text();
             var answerBefore = answer.text();
+            var question_wrapper = $(this).parent().pre();
             
+            console.log(question_wrapper);
             
             $(this).parent().html("<input type='submit' class='complete' style='margin-right: 5px; border:0; background-color: lightgray; width : 65px; height : 25px;' value='수정완료'>");
             

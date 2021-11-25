@@ -199,3 +199,16 @@ input[type="checkbox"] {
     display: block;
   }
   
+a {
+	cursor:pointer;
+}
+
+a:link{
+	color: black;
+    text-decoration: none;
+}
+
+a:visited{
+    color: black;
+    text-decoration: none;
+}
