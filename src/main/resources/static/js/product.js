@@ -1,5 +1,6 @@
 let maxNumber;
 let optionNoArr = [];
+let dataSource;
 
 $(function(){
 	tabCount(pNoNumber);
@@ -17,7 +18,6 @@ $(function(){
            }	
        }
    });	
-
    
    let currentScroll = $(document).scrollTop();
 
@@ -108,7 +108,6 @@ $(function(){
            }else{
                $(".select_list_wrap .list").eq(i).find(".list_num_wrap .minus").removeClass("hide");
            }
-
            
            if(numValue >= maxNumber){
                //.select_list_wrap .list .list_num_wrap
@@ -117,6 +116,7 @@ $(function(){
                $(".select_list_wrap .list").eq(i).find(".list_num_wrap .plus").removeClass("hide");
            }
        }
+
    }
 
    // 우측 옵션 갯수 이벤트 
@@ -131,6 +131,7 @@ $(function(){
        }
 
        optionNumChange();
+       priceHanlder(dataSource);
    });
 
 }); 
@@ -154,7 +155,6 @@ function wishListHandler(userNo, pNo){
 				$(".view_txt_wrap .btn_wish").addClass("on");
 			}else if(data == 'delete'){
 				$(".view_txt_wrap .btn_wish").removeClass("on");			
-			
 			}
 		},
 		error : function(error){
@@ -178,6 +178,7 @@ function options(pNo){
 		success : function(data){
 			option(data);
 			priceHanlder(data);
+			dataSource = data;
 		},
 		error : function(error){
 			console.log(error);
@@ -202,15 +203,13 @@ function option(data){
 		}
 	}
 	
-	
-	
 	// 옵션 이벤트
 	$('select[name=optionColor]').change(function(){
 	
 		// 박스가 이미 추가되어있는지 확인
 		const boxSize = $(".select_list_wrap .list").length;
 		let optionNoArr = [];
-		console.log("boxSize : " + boxSize);
+		// console.log("boxSize : " + boxSize);
 		for(let i = 0; i < boxSize; i++){
 			let num = $(".select_list_wrap .list").eq(i).find("[name=pOptionNo]").val();
 			optionNoArr.push(Number(num));
@@ -273,7 +272,7 @@ function optionBox(data){
                                     <a href="javascript:;" class="plus"></a>
                                 </div>
                                 <p class="price">
-                                    <span>${product.pPrice}</span>원
+                                    <span>${(product.pPrice - (product.pPrice * product.pDiscount / 100)).toLocaleString('ko-KR')}</span>원
                                 </p>
                             </div>
                         </div>`;
@@ -313,21 +312,27 @@ function tabCount(pNo){
 // 옵션 목록 삭제
 $(document).on('click', '.list .close', function(){
 	$(this).parent('.list').remove();
+	priceHanlder(dataSource);
 })
 
 // 선택 상품 계산
 function priceHanlder(data){
-	let colorKey = $("select[name=optionColor]").val();
-	const keySize = Object.keys(data[colorKey]).length;
-
-	let count = 0;
-	let allPrice = 0;
+	// console.log(data);
+	const key = Object.keys(data)[0];
+	let onePrice = data[key][0].pPrice - (data[key][0].pPrice * data[key][0].pDiscount / 100);
+	let count = 0; // 총 물품 갯수
+	let allPrice = 0;	// 총 물품 가격
 	
 	let list = $(".select_list_wrap .list");
 	
+	for(let i = 0; i < list.length; i++){
+		count += Number(list.eq(i).find('.num').val());
+	}
 	
+	allPrice = onePrice * count;
 	
-	
+	$(".list_total_wrap .title span").text(count);
+	$(".list_total_wrap .price span").text(allPrice.toLocaleString('ko-KR'));
 }
 
 

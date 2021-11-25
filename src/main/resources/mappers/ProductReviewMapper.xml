@@ -95,7 +95,7 @@
 		     WHERE PDT.P_NO = #{ pNo }
 		     ORDER BY R_NO DESC) REVIEW_TABLE
 		     )
-		     WHERE ROWN BETWEEN 1 AND 4
+		     WHERE ROWN BETWEEN #{ startRow } AND #{ endRow }
 	</select>
 	
 	<select id="reviewView" parameterType="_int" resultMap="productReviewResultMap">
