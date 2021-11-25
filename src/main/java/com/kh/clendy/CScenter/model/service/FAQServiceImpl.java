@@ -13,7 +13,7 @@ import com.kh.clendy.CScenter.model.vo.FAQ;
 @Transactional
 public class FAQServiceImpl implements FAQService{
 	
-	private FAQMapper faqMapper;
+	private final FAQMapper faqMapper;
 	
 	@Autowired
 	public FAQServiceImpl(FAQMapper faqMapper) {

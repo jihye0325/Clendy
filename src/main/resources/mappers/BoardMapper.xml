@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.clendy.CScenter.model.dao.BoardMapper">
+	
+	<resultMap type="com.kh.clendy.CScenter.model.vo.Board" id="BoardResultMap">
+		<id property="q_no" column="Q_NO"/>
+		<result property="q_title" column="Q_TITLE"/>
+		<result property="q_answer" column="Q_ANSWER"/>
+		<result property="q_enroll_date" column="Q_ENROLL_DATE"/>
+		<result property="q_modify_date" column="Q_MODIFY_DATE"/>
+		<result property="qc_no" column="QC_NO"/>
+		<result property="qc_name" column="QC_NAME"/>
+		<result property="user_no" column="USER_NO"/>
+	</resultMap>
+	
+	<!-- board 전체 조회 -->
+	<select id="selectAllFAQ" resultMap="BoardResultMap">
+		SELECT
+				Q_NO
+			  , Q_TITLE
+			  ,	Q_ANSWER
+			  , Q_ENROLL_DATE
+			  , Q_MODIFY_DATE
+			  , F.QC_NO
+			  , QC_NAME
+			  , USER_NO
+		 FROM FAQ F, Q_CATEGORY Q
+        WHERE F.QC_NO = Q.QC_NO 
+	</select>
+	
+	<!-- board 상세 조회 -->
+	<select id="selectFAQByCategory" parameterType="_int" resultMap="BoardResultMap">
+		SELECT
+				Q_NO
+			  , Q_TITLE
+			  ,	Q_ANSWER
+			  , Q_ENROLL_DATE
+			  , Q_MODIFY_DATE
+			  , f.QC_NO
+			  , QC_NAME
+			  , USER_NO
+		 FROM FAQ F, Q_CATEGORY Q
+        WHERE F.QC_NO = Q.QC_NO
+          AND Q.qc_no = #{categoryCode}
+	</select>
+	
+	<!-- board 등록 -->
+	<insert id="insertFAQ" parameterType="com.kh.clendy.CScenter.model.vo.Board">
+		INSERT 
+		INTO FAQ
+		(
+			Q_NO
+		  , Q_TITLE
+		  , Q_ANSWER
+		  , Q_ENROLL_DATE
+		  , Q_MODIFY_DATE
+		  , QC_NO
+		  , USER_NO
+		)
+		VALUES (
+			SEQ_Q_NO.NEXTVAL
+		  ,	#{q_title}
+		  , #{q_answer}
+		  , SYSDATE
+		  , NULL
+		  , #{qc_no}
+		  , #{user_no}
+		)
+	</insert>
+	
+	<!-- board 수정 -->
+	<update id="updateFAQ" parameterType="com.kh.clendy.CScenter.model.vo.Board">
+	UPDATE FAQ
+	   SET 
+	  	  Q_TITLE = #{q_title}
+		, Q_ANSWER = #{q_answer}
+		, Q_MODIFY_DATE = SYSDATE
+    WHERE Q_NO = #{q_no} 	
+	</update>
+	
+	<!-- board 삭제 -->
+	<delete id="deleteFAQ" parameterType="_int">
+	DELETE 
+	  FROM FAQ
+	 WHERE Q_NO = #{q_no} 
+	</delete>
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

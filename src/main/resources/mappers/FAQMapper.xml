@@ -3,20 +3,14 @@
 <mapper namespace="com.kh.clendy.CScenter.model.dao.FAQMapper">
 
 	<resultMap type="com.kh.clendy.CScenter.model.vo.FAQ" id="FAQResultMap">
-		<id property="q_no" column="Q_NO"/>
-		<result property="q_title" column="Q_TITLE"/>
-		<result property="q_answer" column="Q_ANSWER"/>
-		<result property="q_enroll_date" column="Q_ENROLL_DATE"/>
-		<result property="q_modify_date" column="Q_MODIFY_DATE"/>
-		<result property="qc_no" column="QC_NO"/>
-		<result property="qc_name" column="QC_NAME"/>
+		<id property="b_no" column="B_NO"/>
+		<result property="b_title" column="B_TITLE"/>
+		<result property="b_content" column="B_CONTENT"/>
+		<result property="b_enroll_date" column="B_ENROLL_DATE"/>
+		<result property="b_modify_date" column="B_MODIFY_DATE"/>
 		<result property="user_no" column="USER_NO"/>
 	</resultMap>
-	<resultMap type="com.kh.clendy.CScenter.model.vo.QCategory" id="QCategoryResultMap">
-		<id property="qc_no" column="QC_NO"/>
-		<result property="qc_name" column="QC_NAME"/>
-	</resultMap>
-	
+
 	<!-- faq 전체 조회 -->
 	<select id="selectAllFAQ" resultMap="FAQResultMap">
 		SELECT
@@ -48,22 +42,21 @@
           AND Q.qc_no = #{categoryCode}
 	</select>
 	
-	<!-- 키워드 검색 -->
+	<!-- faq 검색-->
 	<select id="searchFAQByKeyword" parameterType="String" resultMap="FAQResultMap">
-		SELECT
+	SELECT
 				Q_NO
 			  , Q_TITLE
 			  ,	Q_ANSWER
 			  , Q_ENROLL_DATE
 			  , Q_MODIFY_DATE
-			  , Q.QC_NO
+			  , F.QC_NO
 			  , QC_NAME
 			  , USER_NO
-		 FROM FAQ Q, Q_CATEGORY C
-        WHERE Q.QC_NO = C.QC_NO
-           AND (Q_TITLE LIKE '%' || #{keyword} || '%'
-           OR Q_ANSWER LIKE '%' || #{keyword} || '%')
-                
+		 FROM FAQ F, Q_CATEGORY Q
+        WHERE F.QC_NO = Q.QC_NO 
+          AND (Q_TITLE LIKE '%' || #{keyword} || '%'
+           OR  Q_ANSWER LIKE '%' || #{keyword} || '%')
 	</select>
 	
 	<!-- faq 등록 -->
