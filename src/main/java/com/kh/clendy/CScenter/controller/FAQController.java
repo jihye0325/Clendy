@@ -17,27 +17,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.clendy.CScenter.model.service.BoardService;
 import com.kh.clendy.CScenter.model.service.FAQService;
+import com.kh.clendy.CScenter.model.vo.Board;
 import com.kh.clendy.CScenter.model.vo.FAQ;
 import com.kh.clendy.member.model.vo.UserImpl;
 
 @Controller
 @RequestMapping("/CScenter")
-public class CScenterController {
+public class FAQController {
 	
 	private FAQService faqService;
-	private BoardService boardService;
-
 	
 	@Autowired
-	public CScenterController(FAQService faqService, BoardService boardService) {
+	public FAQController(FAQService faqService) {
 		this.faqService = faqService;
-		this.boardService = boardService;
 	}
-	
-	/*-------------------------------- faq ----------------------------------------*/
-	
+		
 	/* faq 전체 조회 */
-	@GetMapping("FAQ")
+	@GetMapping("/FAQ")
 	public void toFAQ(Model model) {
 		List<FAQ> faqList = faqService.selectAllFAQ();	
 		
@@ -100,37 +96,12 @@ public class CScenterController {
 		
 		int result = faqService.insertFAQ(newFAQ);
 		if(result>0) {
-			redirectAttr.addFlashAttribute("msg", "새로운 FAQ가 등록 되었습니다.");
+			redirectAttr.addFlashAttribute("msg", "새로운 FAQ가 등록되었습니다.");
 		}else {
 			redirectAttr.addFlashAttribute("msg", "FAQ 등록에 실패하였습니다.");
 		}
 		
 		return "redirect:/CScenter/FAQ";
 	}
-	
-	
-	/*--------------------------------- 공지사항 ---------------------------------*/
-	
-	/* 공지사항 전체 조회 */
-	@GetMapping("/board")
-	public void toBoard(Model model, @RequestParam(defaultValue="1") int page) {
-		Map<String, Object> result = boardService.selectAllBoard(page);
-		System.out.println(result.get("pageInfo"));
-		
-		model.addAttribute("boardList", result.get("boardList"));
-		model.addAttribute("pi", result.get("pageInfo"));
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*--------------------------------- 1:1 문의 ---------------------------------*/
-	@GetMapping("/personalQ")
-	public void toPersonalQ() {}
 
 }
