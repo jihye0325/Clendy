@@ -1,9 +1,9 @@
 package com.kh.clendy.CScenter.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kh.clendy.CScenter.model.service.BoardServiceImpl;
-import com.kh.clendy.CScenter.model.service.FAQServiceImpl;
+import com.kh.clendy.CScenter.model.service.BoardService;
+import com.kh.clendy.CScenter.model.service.FAQService;
 import com.kh.clendy.CScenter.model.vo.FAQ;
 import com.kh.clendy.member.model.vo.UserImpl;
 
@@ -24,12 +24,12 @@ import com.kh.clendy.member.model.vo.UserImpl;
 @RequestMapping("/CScenter")
 public class CScenterController {
 	
-	private FAQServiceImpl faqService;
-	private BoardServiceImpl boardService;
+	private FAQService faqService;
+	private BoardService boardService;
 
 	
 	@Autowired
-	public CScenterController(FAQServiceImpl faqService, BoardServiceImpl boardService) {
+	public CScenterController(FAQService faqService, BoardService boardService) {
 		this.faqService = faqService;
 		this.boardService = boardService;
 	}
@@ -111,9 +111,22 @@ public class CScenterController {
 	
 	/*--------------------------------- 공지사항 ---------------------------------*/
 	
-	/**/
+	/* 공지사항 전체 조회 */
 	@GetMapping("/board")
-	public void toBoard() {}
+	public void toBoard(Model model, @RequestParam(defaultValue="1") int page) {
+		Map<String, Object> result = boardService.selectAllBoard(page);
+		System.out.println(result.get("pageInfo"));
+		
+		model.addAttribute("boardList", result.get("boardList"));
+		model.addAttribute("pi", result.get("pageInfo"));
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	/*--------------------------------- 1:1 문의 ---------------------------------*/

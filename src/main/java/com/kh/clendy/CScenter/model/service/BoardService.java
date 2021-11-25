@@ -1,12 +1,12 @@
 package com.kh.clendy.CScenter.model.service;
 
-import java.util.List;
+import java.util.Map;
 
 import com.kh.clendy.CScenter.model.vo.Board;
 
 public interface BoardService {
 
-	List<Board> selectAllBoard();
+	Map<String, Object> selectAllBoard(int page);
 	
 	Board selectOneBoard(int b_no);
 	
