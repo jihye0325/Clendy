@@ -1,5 +1,6 @@
 package com.kh.clendy.mypage.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.mypage.model.dao.MypageMapper;
 import com.kh.clendy.mypage.model.vo.Coupon;
+import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Point;
+import com.kh.clendy.mypage.model.vo.Product;
 import com.kh.clendy.mypage.model.vo.Wishlist;
+import com.kh.clendy.product.model.vo.ProductQnaQ;
 
 @Service	
 public class MypageServiceImpl implements MypageService {
@@ -95,26 +99,46 @@ public class MypageServiceImpl implements MypageService {
 		return use_cou_list;
 	}
 
-	// 위시리스트 불러오기
+	// 위시리스트 불러오기(아우터)
 	@Override
-	public List<Wishlist> selectWishlist(int user_no) {
-		List<Wishlist> wish_list = mypageMapper.selectWishlist(user_no);
-		return wish_list;
+	public Wishlist selectOuterlist(int user_no) {
+		Wishlist outer_list = mypageMapper.selectOuterlist(user_no);
+		return outer_list;
+	}
+
+	// 위시리스트 불러오기(상의)
+	@Override
+	public Wishlist selectToplist(int user_no) {
+		Wishlist top_list = mypageMapper.selectToplist(user_no);
+		return top_list;
+	}
+
+	// 위시리스트 불러오기(하의)
+	@Override
+	public Wishlist selectBottomlist(int user_no) {
+		Wishlist bottom_list = mypageMapper.selectBottomlist(user_no);
+		return bottom_list;
+	}
+
+	// 위시리스트 불러오기(acc)
+	@Override
+	public Wishlist selectAcclist(int user_no) {
+		Wishlist acc_list = mypageMapper.selectAcclist(user_no);
+		return acc_list;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	// 위시리스트 삭제
+	@Override
+	public int deleteWish(HashMap<String, Integer> userMap) {
+		return mypageMapper.deleteWish(userMap);
+	}
 
+
+	// 리뷰등록시 상품정보 조회
+	@Override
+	public Order_Option selectProduct(int order_option_code) {
+		return mypageMapper.selectProduct(order_option_code);
+	}
+	
 
 }

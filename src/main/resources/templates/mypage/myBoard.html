@@ -35,12 +35,13 @@
                     <li class="b_status">상태</li>
                 </ul>
 
-                <ul class="board_content">
-                    <li class="b_no">1</li>
-                    <li class="b_category">주문</li>
-                    <li class="b_title">주문 문의합니다.</li>
-                    <li class="b_date">2021.10.19</li>
-                    <li class="b_status">답변 대기</li>
+                <ul class="board_content" th:each="p : ${p_qna_list}" th:onclick="|location.href='@{/mypage/modify}'|">
+                    <li class="b_no" th:text="${p.piqCode}"></li>
+                    <li class="b_category" th:text="${p.piCateName}"></li>
+                    <li class="b_title" th:text="${p.piqTitle}"></li>
+                    <li class="b_date" th:text="${#dates.format(p.piqCreateDate, 'yyyy-MM-dd')}"></li>
+                    <li class="b_status" th:if="${p.productQnaA != null}" th:text="답변완료"></li>
+                    <li class="b_status" th:unless="${p.productQnaA != null}" th:text="답변대기"></li>
                 </ul>
             </div>
         </div>
@@ -56,9 +57,9 @@
                 </ul>
 
                 <ul class="board_content">
-                    <li class="b_no">1</li>
-                    <li class="b_title">주문 문의합니다.</li>
-                    <li class="b_date">2021.10.19</li>
+                    <li class="b_no"></li>
+                    <li class="b_title"></li>
+                    <li class="b_date"></li>
                 </ul>
             </div>
         </div>
@@ -76,11 +77,11 @@
                 </ul>
 
                 <ul class="board_content">
-                    <li class="b_no">1</li>
-                    <li class="b_category">주문</li>
-                    <li class="b_title">주문 문의합니다.</li>
-                    <li class="b_date">2021.10.19</li>
-                    <li class="b_status">답변 대기</li>
+                    <li class="b_no"></li>
+                    <li class="b_category"></li>
+                    <li class="b_title"></li>
+                    <li class="b_date"></li>
+                    <li class="b_status"></li>
                 </ul>
             </div>
         </div>
@@ -97,10 +98,10 @@
                 </ul>
 
                 <ul class="board_content">
-                    <li class="b_orderno">2021121034234</li>
-                    <li class="b_pname">2WAY 스웻 후드 집업</li>
-                    <li class="b_date">2021.10.19</li>
-                    <li class="b_status">교환 요청</li>
+                    <li class="b_orderno"></li>
+                    <li class="b_pname"></li>
+                    <li class="b_date"></li>
+                    <li class="b_status"></li>
                 </ul>
             </div>
 
@@ -115,10 +116,10 @@
                 </ul>
 
                 <ul class="board_content">
-                    <li class="b_orderno">2021121034234</li>
-                    <li class="b_pname">2WAY 스웻 후드 집업</li>
-                    <li class="b_date">2021.10.19</li>
-                    <li class="b_status">환불 요청</li>
+                    <li class="b_orderno"></li>
+                    <li class="b_pname"></li>
+                    <li class="b_date"></li>
+                    <li class="b_status"></li>
                 </ul>
             </div>
         </div>
