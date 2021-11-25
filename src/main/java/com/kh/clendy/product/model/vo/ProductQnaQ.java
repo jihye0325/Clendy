@@ -16,7 +16,7 @@ public class ProductQnaQ {
 	private Date piqCreateDate;
 	private Date piqModifyDate;
 	private String piqDelStatus;
-	private ProductQnaA proudctQnaA;
+	private ProductQnaA productQnaA;
 	
 	public ProductQnaQ() { 	}
 
@@ -124,12 +124,12 @@ public class ProductQnaQ {
 		this.piqDelStatus = piqDelStatus;
 	}
 
-	public ProductQnaA getProudctQnaA() {
-		return proudctQnaA;
+	public ProductQnaA getProductQnaA() {
+		return productQnaA;
 	}
 
-	public void setProudctQnaA(ProductQnaA proudctQnaA) {
-		this.proudctQnaA = proudctQnaA;
+	public void setProductQnaA(ProductQnaA productQnaA) {
+		this.productQnaA = productQnaA;
 	}
 
 	@Override
@@ -138,8 +138,13 @@ public class ProductQnaQ {
 				+ ", pNo=" + pNo + ", userNo=" + userNo + ", loginUno=" + loginUno + ", id=" + id + ", piqTitle="
 				+ piqTitle + ", piqContent=" + piqContent + ", piqSecret=" + piqSecret + ", piqCreateDate="
 				+ piqCreateDate + ", piqModifyDate=" + piqModifyDate + ", piqDelStatus=" + piqDelStatus
-				+ ", proudctQnaA=" + proudctQnaA + "]";
+				+ ", productQnaA=" + productQnaA + "]";
 	}
+
+	
+	
+
+	
 }
 
 	

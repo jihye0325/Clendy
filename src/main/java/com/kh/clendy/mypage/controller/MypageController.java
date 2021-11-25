@@ -21,7 +21,6 @@ import com.kh.clendy.mypage.model.service.MypageService;
 import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.mypage.model.vo.Point;
 import com.kh.clendy.mypage.model.vo.Wishlist;
-import com.kh.clendy.product.model.vo.ProductQnaQ;
 
 @Controller
 @RequestMapping("/mypage")
@@ -153,9 +152,9 @@ public class MypageController {
 		
 		// 적립금 리스트 불러오기
 		List<Point> point_list = mypageService.selectPoint(user_no);
-		System.out.println(point_list);
 		
 		mv.addObject("point_list", point_list);
+		mv.setViewName("mypage/point_coupon");
 		
 		// 사용가능 쿠폰 리스트 불러오기
 		List<Coupon> cou_list = mypageService.selectCou_List(user_no);
@@ -169,8 +168,6 @@ public class MypageController {
 		List<Coupon> use_cou_list = mypageService.selectUse_Cou_List(user_no);
 		mv.addObject("use_cou_list", use_cou_list);
 		
-		mv.setViewName("mypage/point_coupon");
-		
 		return mv;
 	}
 	
@@ -179,49 +176,17 @@ public class MypageController {
 	public ModelAndView wishlist(ModelAndView mv) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
-		// 위시리스트 불러오기(아우터)
-		Wishlist outer_list = mypageService.selectOuterlist(user_no);
-		mv.addObject("outer_list", outer_list);
-		System.out.println(outer_list);
 		
-		// 위시리스트 불러오기(상의)
-		Wishlist top_list = mypageService.selectToplist(user_no);
-		mv.addObject("top_list", top_list);
-		System.out.println(top_list);
-		
-		// 위시리스트 불러오기(하의)
-		Wishlist bottom_list = mypageService.selectBottomlist(user_no);
-		mv.addObject("bottom_list", bottom_list);
-		System.out.println(bottom_list);
-		
-		// 위시리스트 불러오기(ACC)
-		Wishlist acc_list = mypageService.selectAcclist(user_no);
-		mv.addObject("acc_list", acc_list);
-		System.out.println(acc_list);
-		
-		mv.setViewName("mypage/wishlist");
-		
+		// 위시리스트 불러오기
+		List<Wishlist> wish_list = mypageService.selectWishlist(user_no);
+		mv.addObject("wish_list", wish_list);
+		System.out.println(wish_list);
 		return mv;
 	}
 	
 	// 내가 쓴 글 화면 
 	@GetMapping("/myBoard")
-	public ModelAndView myBoard(ModelAndView mv) {
-		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int user_no = user.getUser_no();
-		// 상품 문의글 리스트 
-		List<ProductQnaQ> p_qna_list = mypageService.selectP_Qna_List(user_no); 
-		mv.addObject("p_qna_list", p_qna_list);
-		// 리뷰 리스트
-		
-		// 1:1 문의 리스트
-		
-		// 교환/환불 리스트
-		
-		
-		mv.setViewName("mypage/myBoard");
-		return mv;
-	}
+	public void myBoard() {}
 	
 	// 주문내역 화면
 	@GetMapping("/orderList")

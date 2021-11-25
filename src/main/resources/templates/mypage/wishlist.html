@@ -25,16 +25,19 @@
         </div>
 
         <div class="outer_div" id="outerWishList">
-            <ul class="wish_list" th:each="outer : ${outer_list.product_list}">
+            <ul class="wish_list">
                 <li>
+                	<a href="">
                     <div class="product">
-                        <img src="/images/sampleimg1.png" th:onclick="|location.href='@{/mypage/modify}'|">
+                        <img src="/images/sampleimg1.png">
                         <div class="p_info">
-                            <div class="name" th:text="${outer.p_name}" th:onclick="|location.href='@{/mypage/modify}'|"></div>
-                            <div class="price" th:text="|${outer.p_price}원|"></div>
+                            <div class="brand">아우터</div>
+                            <div class="name">2WAY 스웻 후드 집업</div>
+                            <div class="price">39,000원</div>
+                            <button type="button" id="delete">삭제</button>
                         </div>
-                        <button type="button" id="delete">삭제</button>
                     </div>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -42,6 +45,7 @@
         <div class="top_div" id="topWishList" style="display: none;">
             <ul class="wish_list">
                 <li>
+                	<a href="">
                     <div class="product">
                         <img src="/images/sampleimg1.png">
                         <div class="p_info">
@@ -51,6 +55,7 @@
                             <button type="button" id="delete">삭제</button>
                         </div>
                     </div>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -75,8 +80,9 @@
 
         <div class="acc_div" id="accWishList" style="display: none;">
             <ul class="wish_list">
-                <li>	
-                    <div class="product" >
+                <li>
+                	<a href="">
+                    <div class="product">
                         <img src="/images/sampleimg1.png">
                         <div class="p_info">
                             <div class="brand">ACC</div>
@@ -85,6 +91,7 @@
                             <button type="button" id="delete">삭제</button>
                         </div>
                     </div>
+                    </a>
                 </li>
             </ul>
         </div>

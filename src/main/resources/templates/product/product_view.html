@@ -20,7 +20,6 @@
     	// pNo전달위해 
     	let pNoNumber = Number([[${pNo}]]);
     	let loginUno = Number([[${modelMap.loginUno}]]);
-    	console.log(loginUno);
     </script>
     <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
     <script th:src="@{/js/product_common.js}"></script> <!-- 상품 페이지 공통js -->
@@ -201,10 +200,10 @@
 	                                                2021.10.20
 	                                            </p>
 	                                            
-	                                            <th:block th:if="${list.proudctQnaA != null}">
+	                                            <th:block th:if="${list.productQnaA != null}">
 	                                            	 <p class="line_status complete">답변</p>
 	                                            </th:block>
-	                                            <th:block th:unless="${list.proudctQnaA != null}">
+	                                            <th:block th:unless="${list.productQnaA != null}">
 	                                            	 <p class="line_status">대기
 		                                            </p>
 	                                            </th:block>
@@ -225,14 +224,14 @@
 	                                                </ul>
 	                                            </div>
 	                                            <div class="line_q_box">
-	                                            <th:block th:if="${list.proudctQnaA != null}">
+	                                            <th:block th:if="${list.productQnaA != null}">
 	                                            	<div class="text_box">
-	                                               	    <p th:text="${list.proudctQnaA.piaContent}"></p>
+	                                               	    <p th:text="${list.productQnaA.piaContent}"></p>
 	                                                </div>
 	                                                
-	                                                <p class="text_date" th:text="${list.proudctQnaA.piaCreateDate}"></p>
+	                                                <p class="text_date" th:text="${list.productQnaA.piaCreateDate}"></p>
 	                                            </th:block>
-	                                            <th:block th:if="${list.proudctQnaA == null}">
+	                                            <th:block th:if="${list.productQnaA == null}">
 	                                            	<div class="text_box">
 	                                               	    <p>문의 답변 대기중입니다.</p>
 	                                                </div>
@@ -293,44 +292,16 @@
                     <div class="view_sub_wrap">
                         <div class="box_wrap">
                             <div class="option_wrap">
-                                <select name="" id="" class="select">
-                                    <option value="">상품명</option>
+                                <select name="optionColor" id="optionColor" class="select" >
+                                    <option value="colorChoice">색상 선택</option>
                                 </select>
-                                <select name="" id="" class="select" disabled>
-                                    <option value="">옵션</option>
+                                <select name="optionSize" id="optionSize" class="select" disabled>
+                                    <option value="">옵션 선택</option>
                                 </select>
                             </div>
 
                             <div class="select_list_wrap">
-                                <div class="list">
-                                    <p class="title">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
-                                    <a href="javascript:;" class="close"></a>
-                                    <div class="list_bot">
-                                        <div class="list_num_wrap">
-                                            <a href="javascript:;" class="minus"></a>
-                                            <input type="number" name="" id="" value="10" class="num" readonly>
-                                            <a href="javascript:;" class="plus"></a>
-                                        </div>
-                                        <p class="price">
-                                            <span>85,000</span>원
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="list">
-                                    <p class="title">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
-                                    <a href="javascript:;" class="close"></a>
-                                    <div class="list_bot">
-                                        <div class="list_num_wrap">
-                                            <a href="javascript:;" class="minus"></a>
-                                            <input type="text" name="" id="" value="1" class="num" readonly>
-                                            <a href="javascript:;" class="plus"></a>
-                                        </div>
-                                        <p class="price">
-                                            <span>85,000</span>원
-                                        </p>
-                                    </div>
-                                </div>
+                                
                             </div>
 
                             <div class="list_total_wrap">

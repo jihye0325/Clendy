@@ -31,7 +31,7 @@
 		<result property="piqCreateDate" column="P_I_Q_CREATE_DATE"/>
 		<result property="piqModifyDate" column="P_I_Q_MODIFY_DATE"/>
 		<result property="piqDelStatus" column="P_I_Q_DEL_STATUS"/>
-		<association property="proudctQnaA" resultMap="productQnaAresultMap"/>
+		<association property="productQnaA" resultMap="productQnaAresultMap"/>
 	</resultMap>
 	
 	<!-- 상품 목록 문의 답변 resultMap -->

@@ -42,6 +42,7 @@
           AND Q.qc_no = #{categoryCode}
 	</select>
 	
+
 	<!-- faq 검색-->
 	<select id="searchFAQByKeyword" parameterType="String" resultMap="FAQResultMap">
 	SELECT
@@ -96,8 +97,21 @@
 	<!-- faq 삭제 -->
 	<delete id="deleteFAQ" parameterType="_int">
 	DELETE 
-	  FROM FAQ
+	  FOMR FAQ
 	 WHERE Q_NO = #{q_no} 
 	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 </mapper>

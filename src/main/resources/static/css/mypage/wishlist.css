@@ -30,21 +30,18 @@ input[type=radio] {
     margin: 10px;
 }
 
-.outer_div {
+.wish_list {
     display: grid;
     grid-template-columns: repeat(3, 300px);
     gap: 15px;
+    list-style: none;
     padding: 0px;
-}
-
-.wish_list {
-	list-style:none;
 }
 
 .p_info {
     margin-top: auto;
     margin-bottom: auto;
-    margin-left: 10px;
+    margin-left: 5px;
 }
 
 .p_info div {
@@ -55,18 +52,22 @@ input[type=radio] {
     display: flex;
 }
 
+.brand {
+    font-weight: bold;
+}
+
 .name {
+    color: gray;
     font-weight: bold;
 }
 
 #delete {
     background-color: white;
     border: 1px solid lightgray;
-    align-self: end;
-    margin-bottom: 10px;
-    margin-left: 20px;
-    width: 40px;
-	height: 20px;
+    float: right;
+}
+
+button {
 	cursor:pointer;
 }
 

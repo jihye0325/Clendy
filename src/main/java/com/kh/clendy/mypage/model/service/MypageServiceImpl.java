@@ -11,7 +11,6 @@ import com.kh.clendy.mypage.model.dao.MypageMapper;
 import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.mypage.model.vo.Point;
 import com.kh.clendy.mypage.model.vo.Wishlist;
-import com.kh.clendy.product.model.vo.ProductQnaQ;
 
 @Service	
 public class MypageServiceImpl implements MypageService {
@@ -96,42 +95,12 @@ public class MypageServiceImpl implements MypageService {
 		return use_cou_list;
 	}
 
-	// 위시리스트 불러오기(아우터)
+	// 위시리스트 불러오기
 	@Override
-	public Wishlist selectOuterlist(int user_no) {
-		Wishlist outer_list = mypageMapper.selectOuterlist(user_no);
-		return outer_list;
+	public List<Wishlist> selectWishlist(int user_no) {
+		List<Wishlist> wish_list = mypageMapper.selectWishlist(user_no);
+		return wish_list;
 	}
-
-	// 위시리스트 불러오기(상의)
-	@Override
-	public Wishlist selectToplist(int user_no) {
-		Wishlist top_list = mypageMapper.selectToplist(user_no);
-		return top_list;
-	}
-
-	// 위시리스트 불러오기(하의)
-	@Override
-	public Wishlist selectBottomlist(int user_no) {
-		Wishlist bottom_list = mypageMapper.selectBottomlist(user_no);
-		return bottom_list;
-	}
-
-	// 위시리스트 불러오기(acc)
-	@Override
-	public Wishlist selectAcclist(int user_no) {
-		Wishlist acc_list = mypageMapper.selectAcclist(user_no);
-		return acc_list;
-	}
-	
-	// 내가 쓴 글 -상품문의글 리스트
-	@Override
-	public List<ProductQnaQ> selectP_Qna_List(int user_no) {
-		List<ProductQnaQ> p_qna_list = mypageMapper.selectP_Qna_List(user_no);
-		System.out.println(p_qna_list);
-		return p_qna_list;
-	}
-
 	
 	
 	
