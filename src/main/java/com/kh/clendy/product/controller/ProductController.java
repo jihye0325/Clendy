@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,7 @@ import com.kh.clendy.member.model.vo.UserImpl;
 import com.kh.clendy.product.model.service.ProductService;
 import com.kh.clendy.product.model.vo.Product;
 import com.kh.clendy.product.model.vo.ProductCart;
+import com.kh.clendy.product.model.vo.ProductFilter;
 import com.kh.clendy.product.model.vo.ProductOption;
 
 @Controller
@@ -43,14 +45,18 @@ public class ProductController {
 	// type = 공용, 남성, 여성 카테고리 들어감
 	// 상품 목록
 	@GetMapping("/list/{type}")
-	public String productListPage(@PathVariable String type, Model model, @RequestParam(defaultValue = "1") int page) {
+	public String productListPage(@PathVariable String type, Model model, @ModelAttribute ProductFilter filter) {
 		
-		Map<String, Object> mapReturn = productService.productSelectList(page);
+		System.out.println(filter);
+		
+		Map<String, Object> mapReturn = productService.productSelectList(1);
 		
 		// 상품 목록
 		model.addAttribute("productList", mapReturn.get("productList"));
 		// 페이징
 		model.addAttribute("pi", mapReturn.get("pageInfo"));
+		// 페이지
+		model.addAttribute("filter", filter);
 		
 		return "product/product_list";
 	}
