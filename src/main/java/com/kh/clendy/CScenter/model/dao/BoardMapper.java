@@ -1,11 +1,14 @@
-package com.kh.clendy.CScenter.model.service;
+package com.kh.clendy.CScenter.model.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.kh.clendy.CScenter.model.vo.Board;
 
-public interface BoardService {
-
+@Mapper
+public interface BoardMapper {
+	
 	List<Board> selectAllBoard();
 	
 	Board selectOneBoard(int b_no);
@@ -15,5 +18,4 @@ public interface BoardService {
 	int updateBoard(Board board);
 	
 	int deleteBoard(int b_no);
-	
 }
