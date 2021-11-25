@@ -59,6 +59,23 @@
 		<result property="cou_status" column="COU_STATUS"/>
 	</resultMap>
 	
+	<!-- 리뷰 -->
+	<resultMap id="reviewResultMap" type="com.kh.clendy.mypage.model.vo.Review">
+		<id property="r_no" column="R_NO"/>
+		<result property="order_code" column="ORDER_CODE"/>
+		<result property="r_title" column="R_TITLE"/>
+		<result property="score" column="SCORE"/>
+		<result property="open_size" column="OPEN_SIZE"/>
+		<result property="r_content" column="R_CONTENT"/>
+		<result property="r_create_date" column="R_CREATE_DATE"/>
+		<result property="r_modify_date" column="R_MODIFY_DATE"/>
+		<result property="user_no" column="USER_NO"/>
+		<result property="order_option_code" column="ORDER_OPTION_CODE"/>
+		<result property="like_cnt" column="LIKE_CNT"/>
+		<association property="order_option" resultMap="order_option_listResultMap"/>
+		<association property="member" resultMap="loginMemberResultMap"/>
+	</resultMap>
+	
 	<!-- Wish List -->
 	<resultMap id="wishListResultMap" type="com.kh.clendy.mypage.model.vo.Wishlist">
 		<id property="user_no" column="USER_NO"/>
@@ -124,7 +141,7 @@
 		<result property="ref_category_code" column="REF_CATEGORY_CODE"/>
 	</resultMap>
 	
-	<!-- ProductImage -->
+	<!-- Image -->
 	<resultMap id="imageResultMap" type="com.kh.clendy.mypage.model.vo.Image">
 		<id property="imgNo" column="IMG_NO"/>
 		<result property="route" column="ROUTE"/>
@@ -132,6 +149,39 @@
 		<result property="imgrName" column="IMG_R_NAME"/>
 		<result property="imgLevel" column="IMG_LEVEL"/>
 		<result property="imgStatus" column="IMG_STATUS"/>
+	</resultMap>
+	
+	<!-- Cart -->
+	<resultMap id="cartResultMap" type="com.kh.clendy.mypage.model.vo.Cart">
+		<id property="cart_no" column="CART_NO"/>
+		<result property="cart_amount" column="CART_AMOUNT"/>
+		<result property="p_option_no" column="P_OPTION_NO"/>
+		<result property="user_no" column="USER_NO"/>
+		<association property="product_option" resultMap="product_optionResultMap"/>
+	</resultMap>
+	
+	<!-- 상품 문의글  -->
+	<resultMap id="productQnaQresultMap" type="com.kh.clendy.product.model.vo.ProductQnaQ">
+		<id property="piqCode" column="P_I_Q_CODE"/>
+		<result property="piCateCode" column="P_I_CATE_CODE"/>
+		<result property="piCateName" column="P_I_CATE_NAME"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="userNo" column="USER_NO"/>
+		<result property="piqTitle" column="P_I_Q_TITLE"/>
+		<result property="piqContent" column="P_I_Q_CONTENT"/>
+		<result property="piqSecret" column="P_I_Q_SECRET"/>
+		<result property="piqCreateDate" column="P_I_Q_CREATE_DATE"/>
+		<result property="piqModifyDate" column="P_I_Q_MODIFY_DATE"/>
+		<result property="piqDelStatus" column="P_I_Q_DEL_STATUS"/>
+		<association property="productQnaA" resultMap="productQnaAresultMap"/>
+	</resultMap>
+	
+	<!-- 상품 문의글 답변 -->
+	<resultMap id="productQnaAresultMap" type="com.kh.clendy.product.model.vo.ProductQnaA">
+		<id property="piaCode" column="P_I_A_CODE"/>
+		<result property="piaContent" column="P_I_A_CONTENT"/>
+		<result property="piaCreateDate" column="P_I_A_CREATE_DATE"/>
+		<result property="piaDelStatus" column="P_I_A_DEL_STATUS"/>
 	</resultMap>
 	
 	<!-- id로 유저정보 조회 -->
@@ -174,19 +224,12 @@
 		    WHERE USER_NO = #{ user_no }
 	</update>
 	
-	<!-- Member_Role 테이블에서 삭제 --> 
-	<delete id="deleteMemberRole" parameterType="_int">
-		DELETE
-	    	FROM MEMBER_ROLE
-	   	   WHERE USER_NO = #{ user_no }
-	</delete>
-	
-	<!-- Member 테이블에서 삭제 --> 
-	<delete id="deleteMember" parameterType="_int">
-		DELETE 
-   	 		FROM MEMBER
-   		  WHERE USER_NO = #{ user_no }
-	</delete>
+	<!-- 회원탈퇴 -> 상태 N으로 변경 --> 
+	<update id="deleteMember" parameterType="_int">
+		UPDATE MEMBER
+   		   SET USER_STATUS = 'N'
+ 		 WHERE USER_NO = #{ user_no }
+	</update>
 	
 	<!-- 적립금 리스트 불러오기 -->
 	<select id="selectPoint" parameterType="_int" resultMap="pointResultMap">
@@ -208,6 +251,7 @@
 		                            COU_NO
 		                            FROM USE_COUPON
 		                           WHERE USER_NO = #{ user_no })
+		    AND COU_STATUS = 'Y'
 		    ORDER BY COU_NO
 	</select>
 	
@@ -350,6 +394,7 @@
 			  , ROUTE
 			  , IMG_NAME
 			  , IMG_R_NAME
+			  , ORDER_OPTION_CODE
 			 FROM ORDER_OPTION
 			 JOIN PRODUCT_OPTION USING(P_OPTION_NO)
 			 JOIN PRODUCT USING(P_NO)
@@ -359,4 +404,106 @@
 			  AND IMG_LEVEL = 0
 	</select>
 	
+	<!-- 리뷰 등록 -->
+	<insert id="insertReview" parameterType="com.kh.clendy.mypage.model.vo.Review">
+		INSERT INTO REVIEW
+			(
+			    R_NO
+			  , R_TITLE
+			  , SCORE
+			  , OPEN_SIZE
+			  , R_CONTENT
+			  , R_CREATE_DATE
+			  , R_MODIFY_DATE
+			  , USER_NO
+			  , ORDER_OPTION_CODE
+			)
+			VALUES
+			(
+			    SEQ_R_NO.NEXTVAL
+			  , #{ r_title }
+			  , #{ score }
+			  , #{ open_size }
+			  , #{ r_content }
+			  , DEFAULT
+			  , DEFAULT
+			  , #{ user_no }
+			  , #{ order_option_code }
+			)
+	</insert>
+	
+	<!-- 리뷰 상세페이지 -->
+	<select id="selectReview" parameterType="_int" resultMap="reviewResultMap">
+		SELECT 
+			    R_NO
+			  , R_TITLE
+			  , SCORE
+			  , GENDER
+			  , HEIGHT
+			  , WEIGHT
+			  , R_CONTENT
+			  , R_CREATE_DATE
+			  , R_MODIFY_DATE
+			  , (SELECT COUNT(*)
+			             FROM REVIEW_LIKE
+			            WHERE REVIEW_LIKE.R_NO = REVIEW.R_NO) AS LIKE_CNT
+			  , ROUTE
+			  , IMG_R_NAME
+			  , P_NAME
+			  , P_COLOR
+			  , P_SIZE
+			  , ORDER_OPTION_CODE 
+  			  , REVIEW.USER_NO
+  			  , OPEN_SIZE
+  			  FROM REVIEW
+  			  JOIN MEMBER ON(REVIEW.USER_NO = MEMBER.USER_NO)
+			  JOIN ORDER_OPTION USING(ORDER_OPTION_CODE)
+			  JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+			  JOIN PRODUCT_ORDER USING(ORDER_CODE)
+			  JOIN PRODUCT_IMAGE USING(P_NO)
+			  JOIN PRODUCT USING(P_NO)
+			  JOIN IMAGE USING(IMG_NO)
+			 WHERE ORDER_OPTION_CODE = #{ order_option_code }
+			   AND R_STATUS = 'Y'
+   			   AND IMG_LEVEL = 0
+	</select>
+	
+	<!-- 상품문의글 불러오기 -->
+	<select id="selectP_Qna_List" parameterType="_int" resultMap="productQnaQresultMap">
+ 		SELECT
+      		  P_I_Q_CODE
+            , P_I_CATE_CODE
+            , P_I_CATE_NAME
+            , P_NO
+            , P_I_Q_TITLE
+            , P_I_Q_CREATE_DATE
+            , P_I_A_CODE
+    		FROM PRODUCT_INQUIRY_Q
+    		JOIN PRODUCT_INQUIRY_CATEGORY USING(P_I_CATE_CODE)
+            LEFT JOIN PRODUCT_INQUIRY_A USING(P_I_Q_CODE)
+    	   WHERE USER_NO = #{ user_no }
+    	   ORDER BY P_I_Q_CODE DESC
+	</select>
+	
+	<!-- 리뷰리스트 불러오기 -->
+	<select id="selectReview_List" parameterType="_int" resultMap="reviewResultMap">
+		SELECT 
+		    R_NO
+		  , P_NAME
+		  , R_TITLE
+		  , R_CREATE_DATE
+		  , ORDER_OPTION_CODE
+		  FROM REVIEW
+		  JOIN ORDER_OPTION USING(ORDER_OPTION_CODE)
+		  JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+		  JOIN PRODUCT USING(P_NO)
+		  WHERE USER_NO = #{ user_no }
+		    AND R_STATUS = 'Y'
+		  ORDER BY R_NO DESC
+	</select>
+	
+	<!-- 장바구니 조회 -->
+	<select id="selectCart_list" parameterType="_int" resultMap="cartResultMap">
+	
+	</select>
 </mapper>

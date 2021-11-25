@@ -9,10 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.mypage.model.dao.MypageMapper;
+import com.kh.clendy.mypage.model.vo.Cart;
 import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Point;
 import com.kh.clendy.mypage.model.vo.Product;
+import com.kh.clendy.mypage.model.vo.Review;
 import com.kh.clendy.mypage.model.vo.Wishlist;
 import com.kh.clendy.product.model.vo.ProductQnaQ;
 
@@ -49,21 +51,12 @@ public class MypageServiceImpl implements MypageService {
 		return result;
 	}
 	
-	// Member_Role, Member에서 delete 처리
+	//  회원탈퇴 - 상태변경 
 	@Transactional
 	@Override
 	public int deleteMember(int user_no) {
-		int result = 0;
-		
-		int result1 = mypageMapper.deleteMemberRole(user_no);
 
-		int result2 = mypageMapper.deleteMember(user_no);
-
-		System.out.println(result1);
-		System.out.println(result2);
-		
-		if(result1 > 0 && result2 > 0)
-			result = 1;
+		int result = mypageMapper.deleteMember(user_no);
 		
 		return result;
 	}
@@ -72,8 +65,6 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public List<Point> selectPoint(int user_no) {
 		List<Point> point_list = mypageMapper.selectPoint(user_no);
-		
-		System.out.println(point_list);
 		
 		return point_list;
 	}
@@ -138,6 +129,39 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public Order_Option selectProduct(int order_option_code) {
 		return mypageMapper.selectProduct(order_option_code);
+	}
+
+	// 리뷰 등록
+	@Override
+	public int insertReview(Review review) {
+		return mypageMapper.insertReview(review);
+	}
+	
+	// 리뷰 상세페이지
+	@Override
+	public Review selectReview(int order_option_code) {
+		return mypageMapper.selectReview(order_option_code);
+	}
+
+	// 내가 쓴 글 - 상품문의글 리스트
+	@Override
+	public List<ProductQnaQ> selectP_Qna_List(int user_no) {
+		List<ProductQnaQ> p_qna_list = mypageMapper.selectP_Qna_List(user_no);
+		return p_qna_list;
+	}
+
+	// 내가 쓴 글 - 리뷰 리스트
+	@Override
+	public List<Review> selectReview_List(int user_no) {
+		List<Review> review_list = mypageMapper.selectReview_List(user_no);
+		return review_list;
+	}
+	
+
+	// 장바구니 조회
+	@Override
+	public Cart selectCart_list(int user_no) {
+		return mypageMapper.selectCart_list(user_no);
 	}
 	
 
