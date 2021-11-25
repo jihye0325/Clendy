@@ -7,19 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상품 목록 페이지</title>
     <link rel="stylesheet" href="/css/product_style.css">
+    <style>
+    	#nav-wrapper{margin-bottom: 0 !important;}
+    </style>
 </head>
 <body>
     <div id="wrap">
        <div th:replace="common/header.html"></div>
-       <th:block sec:authorize="isAuthenticated()">
-       		<h1 sec:authentication="principal.username">인증</h1>
-       </th:block>
-       
-       <th:block sec:authorize="isAnonymous()">
-       		<h1>노이늦ㅇ</h1>
-       </th:block>
-       
-       
         <section id="product_list">
             <div class="container">
                 <div class="product_list">

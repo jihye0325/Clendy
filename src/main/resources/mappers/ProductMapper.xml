@@ -43,6 +43,7 @@
 		<result property="pSize" column="P_SIZE"/>
 		<result property="pStock" column="P_STOCK"/>
 		<result property="pPrice" column="P_PRICE"/>
+		<result property="pDiscount" column="P_DISCOUNT"/>
 	</resultMap>
 	
 	<!-- 상품 목록 갯수 -->
@@ -179,6 +180,7 @@
 		     , P_SIZE
 		     , P_STOCK
              , PRODUCT.P_PRICE
+             , PRODUCT.P_DISCOUNT
 		  FROM PRODUCT_OPTION
           JOIN PRODUCT USING(P_NO)
 		 WHERE P_NO = #{ pNo }

@@ -7,6 +7,7 @@ public class ProductOption {
 	private String pSize;
 	private int pStock;
 	private int pPrice;
+	private int pDiscount;
 	
 	public ProductOption() { }
 
@@ -58,11 +59,18 @@ public class ProductOption {
 		this.pPrice = pPrice;
 	}
 
+	public int getpDiscount() {
+		return pDiscount;
+	}
+
+	public void setpDiscount(int pDiscount) {
+		this.pDiscount = pDiscount;
+	}
+
 	@Override
 	public String toString() {
 		return "ProductOption [pOptionNo=" + pOptionNo + ", pNo=" + pNo + ", pColor=" + pColor + ", pSize=" + pSize
-				+ ", pStock=" + pStock + ", pPrice=" + pPrice + "]";
+				+ ", pStock=" + pStock + ", pPrice=" + pPrice + ", pDiscount=" + pDiscount + "]";
 	}
-
 	
 }
