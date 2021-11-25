@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.clendy.mypage.model.dao.MyboardMapper">
+	<!-- 상품 문의글  -->
+	<resultMap id="productQnaQresultMap" type="com.kh.clendy.product.model.vo.ProductQnaQ">
+		<id property="piqCode" column="P_I_Q_CODE"/>
+		<result property="piCateCode" column="P_I_CATE_CODE"/>
+		<result property="piCateName" column="P_I_CATE_NAME"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="userNo" column="USER_NO"/>
+		<result property="piqTitle" column="P_I_Q_TITLE"/>
+		<result property="piqContent" column="P_I_Q_CONTENT"/>
+		<result property="piqSecret" column="P_I_Q_SECRET"/>
+		<result property="piqCreateDate" column="P_I_Q_CREATE_DATE"/>
+		<result property="piqModifyDate" column="P_I_Q_MODIFY_DATE"/>
+		<result property="piqDelStatus" column="P_I_Q_DEL_STATUS"/>
+		<association property="productQnaA" resultMap="productQnaAresultMap"/>
+	</resultMap>
+	
+	<!-- 상품 문의글 답변 -->
+	<resultMap id="productQnaAresultMap" type="com.kh.clendy.product.model.vo.ProductQnaA">
+		<id property="piaCode" column="P_I_A_CODE"/>
+		<result property="piaContent" column="P_I_A_CONTENT"/>
+		<result property="piaCreateDate" column="P_I_A_CREATE_DATE"/>
+		<result property="piaDelStatus" column="P_I_A_DEL_STATUS"/>
+	</resultMap>
+
+	<!-- 상품문의글 불러오기 -->
+	<select id="selectP_Qna_List" parameterType="_int" resultMap="productQnaQresultMap">
+ 		SELECT
+      		  P_I_Q_CODE
+            , P_I_CATE_CODE
+            , P_I_CATE_NAME
+            , P_NO
+            , P_I_Q_TITLE
+            , P_I_Q_CREATE_DATE
+            , P_I_A_CODE
+    		FROM PRODUCT_INQUIRY_Q
+    		JOIN PRODUCT_INQUIRY_CATEGORY USING(P_I_CATE_CODE)
+            LEFT JOIN PRODUCT_INQUIRY_A USING(P_I_Q_CODE)
+    	   WHERE USER_NO = #{ user_no }
+    	   ORDER BY P_I_Q_CODE DESC
+	</select>
+</mapper>

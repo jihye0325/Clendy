@@ -96,7 +96,7 @@ ul li {
     margin-right: 10px;
 }
 
-label {
+.coupon_title label {
     font-size: small;
     font-weight: bold;
     color: gray;

@@ -58,7 +58,82 @@
 		<result property="expire_date" column="EXPIRE_DATE"/>
 		<result property="cou_status" column="COU_STATUS"/>
 	</resultMap>
-
+	
+	<!-- Wish List -->
+	<resultMap id="wishListResultMap" type="com.kh.clendy.mypage.model.vo.Wishlist">
+		<id property="user_no" column="USER_NO"/>
+		<collection property="product_list" resultMap="productListResultMap"/>
+	</resultMap>
+	
+	<!-- Product_Order -->
+	<resultMap id ="product_orderResultMap" type="com.kh.clendy.mypage.model.vo.Product_Order">
+		<id property="order_code" column="ORDER_CODE"/>
+		<result property="user_no" column="USER_NO"/>
+		<result property="order_request" column="ORDER_REQUEST"/>
+		<result property="order_create_date" column="ORDER_CREATE_DATE"/>
+		<result property="order_delivery" column="ORDER_DELIVERY"/>
+		<result property="order_all_price" column="ORDER_ALL_PRICE"/>
+		<result property="order_postnum" column="ORDER_POSTNUM"/>
+		<result property="order_modify_date" column="ORDER_MODIFY_DATE"/>
+		<association property="order_status" resultMap="order_statusResultMap"/>
+		<collection property="order_option_list" resultMap="order_option_listResultMap"/>
+	</resultMap>
+	
+	<!-- Order_Status -->
+	<resultMap id="order_statusResultMap" type="com.kh.clendy.mypage.model.vo.Order_Status">
+		<id property="order_status_code" column="ORDER_STATUS_CODE"/>
+		<result property="order_status_name" column="ORDER_STATUS_NAME"/>	
+	</resultMap>
+	
+	<!-- Order_Option -->
+	<resultMap id="order_option_listResultMap" type="com.kh.clendy.mypage.model.vo.Order_Option">
+		<id property="order_option_code" column="ORDER_OPTION_CODE"/>
+		<result property="order_code" column="ORDER_CODE"/>
+		<result property="order_product_num" column="ORDER_PRODUCT_NUM"/>
+		<association property="product_option" resultMap="product_optionResultMap"/>
+	</resultMap>
+	
+	<!-- Product_Option -->
+	<resultMap id="product_optionResultMap" type="com.kh.clendy.mypage.model.vo.Product_Option">
+		<id property="p_option_no" column="P_OPTION_NO"/>
+		<result property="p_color" column="P_COLOR"/>
+		<result property="p_size" column="P_SIZE"/>
+		<result property="p_stock" column="P_STOCK"/>
+		<association property="product" resultMap="productListResultMap"/>
+	</resultMap>
+	
+	<!-- Product -->
+	<resultMap id="productListResultMap" type="com.kh.clendy.mypage.model.vo.Product">
+		<id property="p_no" column="P_NO"/>
+		<result property="p_name" column="P_NAME"/>	
+		<result property="p_price" column="P_PRICE"/>	
+		<result property="p_discount" column="P_DISCOUNT"/>	
+		<result property="p_able_coupon" column="P_ABLE_COUPON"/>	
+		<result property="p_detail_image" column="P_DETAIL_IMAGE"/>	
+		<result property="category_code" column="CATEGORY_CODE"/>	
+		<result property="seller_code" column="SELLER_CODE"/>
+		<result property="p_status" column="P_STATUS"/>
+		<association property="product_category" resultMap="product_categoryResultMap"/>
+		<collection property="imageList" resultMap="imageResultMap"/>
+	</resultMap>
+		
+	<!-- Product_Category -->
+	<resultMap id="product_categoryResultMap" type="com.kh.clendy.mypage.model.vo.Product_Category">
+		<id property="category_code" column="CATEGORY_CODE"/>
+		<result property="category_name" column="CATEGORY_NAME"/>
+		<result property="ref_category_code" column="REF_CATEGORY_CODE"/>
+	</resultMap>
+	
+	<!-- ProductImage -->
+	<resultMap id="imageResultMap" type="com.kh.clendy.mypage.model.vo.Image">
+		<id property="imgNo" column="IMG_NO"/>
+		<result property="route" column="ROUTE"/>
+		<result property="imgName" column="IMG_NAME"/>
+		<result property="imgrName" column="IMG_R_NAME"/>
+		<result property="imgLevel" column="IMG_LEVEL"/>
+		<result property="imgStatus" column="IMG_STATUS"/>
+	</resultMap>
+	
 	<!-- id로 유저정보 조회 -->
 	<select id="selectMember" parameterType="_int" resultMap="loginMemberResultMap">
 			SELECT
@@ -162,11 +237,126 @@
 		    ORDER BY COU_NO
 	</select>
 	
-	<!-- 위시리스트 불러오기 -->
-	<select id="selectWishlist">
-	
+	<!-- 위시리스트 불러오기 (아우터)-->
+	<select id="selectOuterlist" parameterType="_int" resultMap="wishListResultMap">
+		SELECT 
+		        USER_NO
+              , P_NO
+              , P_NAME
+              , P_PRICE
+              , P_STATUS
+              , CATEGORY_NAME
+              , ROUTE
+              , IMG_NAME
+              , IMG_R_NAME
+		    FROM WISHLIST
+		    JOIN PRODUCT USING (P_NO)
+		    JOIN PRODUCT_CATEGORY USING(CATEGORY_CODE)
+		    JOIN PRODUCT_IMAGE USING(P_NO)
+		    JOIN IMAGE USING(IMG_NO)
+		   WHERE USER_NO = #{ user_no }
+             AND CATEGORY_NAME = '아우터'
+		     AND IMG_LEVEL = 0
+		     AND P_STATUS = 'Y'
+		    ORDER BY CREATE_DATE DESC
 	</select>
 	
+		<!-- 위시리스트 불러오기 (상의)-->
+	<select id="selectToplist" parameterType="_int" resultMap="wishListResultMap">
+		SELECT 
+		        USER_NO
+              , P_NO
+              , P_NAME
+              , P_PRICE
+              , P_STATUS
+              , CATEGORY_NAME
+              , ROUTE
+              , IMG_NAME
+              , IMG_R_NAME
+		    FROM WISHLIST
+		    JOIN PRODUCT USING (P_NO)
+		    JOIN PRODUCT_CATEGORY USING(CATEGORY_CODE)
+		    JOIN PRODUCT_IMAGE USING(P_NO)
+		    JOIN IMAGE USING(IMG_NO)
+		   WHERE USER_NO = #{ user_no }
+             AND CATEGORY_NAME = '상의'
+		     AND IMG_LEVEL = 0
+		     AND P_STATUS = 'Y'
+		     ORDER BY CREATE_DATE DESC
+	</select>
 	
+		<!-- 위시리스트 불러오기 (하의)-->
+	<select id="selectBottomlist" parameterType="_int" resultMap="wishListResultMap">
+		SELECT 
+		        USER_NO
+              , P_NO
+              , P_NAME
+              , P_PRICE
+              , P_STATUS
+              , CATEGORY_NAME
+              , ROUTE
+              , IMG_NAME
+              , IMG_R_NAME
+		    FROM WISHLIST
+		    JOIN PRODUCT USING (P_NO)
+		    JOIN PRODUCT_CATEGORY USING(CATEGORY_CODE)
+		    JOIN PRODUCT_IMAGE USING(P_NO)
+		    JOIN IMAGE USING(IMG_NO)
+		   WHERE USER_NO = #{ user_no }
+             AND CATEGORY_NAME = '하의'
+		     AND IMG_LEVEL = 0
+		     AND P_STATUS = 'Y'
+		     ORDER BY CREATE_DATE DESC
+	</select>
+	
+		<!-- 위시리스트 불러오기 (ACC)-->
+	<select id="selectAcclist" parameterType="_int" resultMap="wishListResultMap">
+		SELECT 
+		        USER_NO
+              , P_NO
+              , P_NAME
+              , P_PRICE
+              , P_STATUS
+              , CATEGORY_NAME
+              , ROUTE
+              , IMG_NAME
+              , IMG_R_NAME
+		    FROM WISHLIST
+		    JOIN PRODUCT USING (P_NO)
+		    JOIN PRODUCT_CATEGORY USING(CATEGORY_CODE)
+		    JOIN PRODUCT_IMAGE USING(P_NO)
+		    JOIN IMAGE USING(IMG_NO)
+		   WHERE USER_NO = #{ user_no }
+             AND CATEGORY_NAME = 'ACC'
+		     AND IMG_LEVEL = 0
+		     AND P_STATUS = 'Y'
+		     ORDER BY CREATE_DATE DESC
+	</select>
+	
+	<!-- 위시리스트 삭제 -->
+	<delete id="deleteWish" parameterType="hashmap">
+		DELETE FROM WISHLIST
+	  		  WHERE USER_NO = #{ user_no }
+	          AND P_NO = #{ p_no }
+	</delete>
+	
+	<!-- 리뷰등록할 상품 정보조회 -->
+	<select id="selectProduct" parameterType="_int" resultMap="order_option_listResultMap">
+		SELECT 
+			    P_NO
+			  , P_NAME
+			  , P_COLOR
+			  , P_SIZE
+			  , ROUTE
+			  , IMG_NAME
+			  , IMG_R_NAME
+			 FROM ORDER_OPTION
+			 JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+			 JOIN PRODUCT USING(P_NO)
+			 JOIN PRODUCT_IMAGE USING(P_NO)
+			 JOIN IMAGE USING(IMG_NO)
+			WHERE ORDER_OPTION_CODE = #{ order_option_code }
+			  AND IMG_LEVEL = 0
+	</select>
 	
 </mapper>
