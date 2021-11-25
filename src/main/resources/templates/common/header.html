@@ -9,9 +9,8 @@
     <title>header</title>
 <style>
 *{ margin : 0; padding : 0; }
-a{ text-decoration: none; color:white; }
 .wrapper {background-color : #060032}
-.white{ color:white; padding-left:5px;}
+.white{ color:white; padding-left:5px; text-decoration: none;}
 /* top */
 .logoArea{ height: 65px;}
 #logoA { width : 250px; padding-left: 40px; display: inline-block;}
@@ -40,15 +39,15 @@ a{ text-decoration: none; color:white; }
             <div class="header-btnArea">
             	<!-- 로그인 전 -->
             	<th:block sec:authorize="isAnonymous()">
-                <a class="btn" id="login" href="/member/login">로그인</a>
-                <a class="btn" id="join" href="/member/signUp">회원가입</a>
+                <a class="btn white" id="login" href="/member/login">로그인</a>
+                <a class="btn white" id="join" href="/member/signUp">회원가입</a>
                 </th:block>
                 <!-- 로그인 후 -->
                 <th:block sec:authorize="isAuthenticated()">
 			      <label class="white" sec:authentication="principal.user_name"></label><span class="white">님</span>
-			      <a class="btn" href='/mypage/cart'>장바구니</a>
-			      <a class="btn" href='/mypage/orderList'>주문조회</a>
-			      <a class="btn" href='/member/logout'>로그아웃</a>
+			      <a class="btn white" href='/mypage/cart'>장바구니</a>
+			      <a class="btn white" href='/mypage/orderList'>주문조회</a>
+			      <a class="btn white" href='/member/logout'>로그아웃</a>
 			   </th:block>
                 
             </div>
@@ -61,6 +60,7 @@ a{ text-decoration: none; color:white; }
             </div>
         </div>
         <div id="nav-wrapper">
+
             <!--  
             	<a class="nav" id="unisex" href="/product/list/public">공용</a>
             	<a class="nav" id="men" href="/product/list/man">남성</a>
@@ -73,13 +73,13 @@ a{ text-decoration: none; color:white; }
             <a class="nav" id="cs" href="/CScenter/FAQ">고객센터</a>
             <!-- 권한에 따라 보이는 nav 달라짐 -->
             <th:block sec:authorize="!hasRole('ROLE_ADMIN') && !hasRole('ROLE_SELLER')">
-            <a class="nav" id="mypage" href="/mypage/modify">마이페이지</a>
+            <a class="nav white" id="mypage" href="/mypage/modify">마이페이지</a>
         	</th:block>
         	<th:block sec:authorize="hasRole('ROLE_ADMIN')">
-            <a class="nav" id="mypage" href="/admin/storeList">관리자페이지</a>
+            <a class="nav white" id="mypage" href="/admin/storeList">관리자페이지</a>
             </th:block>
             <th:block sec:authorize="hasRole('ROLE_SELLER')">
-            <a class="nav" id="mypage" href="/seller/index">판매자페이지</a>
+            <a class="nav white" id="mypage" href="/seller/index">판매자페이지</a>
             </th:block>
         </div>
     </div>

@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="/js/jquery-3.6.0.min.js"></script> 
     <title>공지사항</title>
+    <link rel="stylesheet" href="/css/common/sidebar.css">
+    <link rel="stylesheet" href="/css/common/paging.css">
 	<style>
 	#wrapper {display: flex;}
 	#content-title, h6{ display: inline-block; margin-right: 15px; }
@@ -19,44 +21,22 @@
 	.list-th ul{ height: 30px; border-top: 1px solid lightgray; margin: 0; border-bottom: 1px solid lightgray;}
 	.list-th li{ font-weight: bold; display: table-cell;  text-align: center; line-height: 30px; }
 	.list-num { width : 130px; text-align: center;}
-	.list-title{ width : 590px; }
+	.list-title{ width : 600px; }
 	.list-date { width : 120px; text-align:center;}
 	.cursor {cursor: pointer; }
 	.board-list li{ display: table-cell; height: 40px; line-height: 40px; border-bottom: 1px solid lightgray;}
 	/* btn*/
-	.btn-area{display: flex; justify-content: flex-end; padding-top:15px; padding-bottom: 15px;}
+	.btn-area{display: flex; justify-content: flex-end; padding-top:15px;}
 	.insert-btn{width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer;}
-	/* paging_wrap */
-	/* pagaing_wrap */
-	.pagaing_wrap{display: flex; justify-content: center; margin-top: 80px;}
-	.pagaing_wrap ul{display: flex; }
-	.pagaing_wrap ul li{width: 35px; height: 35px; box-sizing:border-box;}
-	.pagaing_wrap ul li a{display: block; width: 100%; height: 100%;}
-	
-	.pagaing_wrap ul.pagaing_left li.allPrev{margin-right: 3px;}
-	.pagaing_wrap ul.pagaing_left li a{background:#e6e6e6;}
-	.pagaing_wrap ul.pagaing_left li.allPrev a{background: url(../images/ico_allPrev.png) no-repeat 50% 50% #e6e6e6;}
-	.pagaing_wrap ul.pagaing_left li.prev a{background: url(../images/ico_prev.png) no-repeat 50% 50% #e6e6e6;}
-	.pagaing_wrap ul.pagaing_left li.allPrev.hide a{background: url(../images/ico_allPrev_hide.png) no-repeat 50% 50% #e6e6e6;}
-	.pagaing_wrap ul.pagaing_left li.prev.hide a{background: url(../images/ico_prev_hide.png) no-repeat 50% 50% #e6e6e6;}
-	
-	.pagaing_wrap ul.pagaing_num{margin: 0 17px;}
-	.pagaing_wrap ul.pagaing_num li{border:1px solid #e6e6e6; margin-right: 3px;}
-	.pagaing_wrap ul.pagaing_num li:last-child{margin-right: 0;}
-	.pagaing_wrap ul.pagaing_num li a{text-align: center; line-height: 35px; font-size: 13px;}
-	.pagaing_wrap ul.pagaing_num li.on{border-color:#060032;}
-	.pagaing_wrap ul.pagaing_num li.on a{color:#fff; background:#060032; font-weight: bold;}
-	
-	.pagaing_wrap ul.pagaing_right li.next{margin-right: 3px;}
-	.pagaing_wrap ul.pagaing_right li a{background:#e6e6e6;}
-	.pagaing_wrap ul.pagaing_right li.next a{background: url(../images/ico_next.png) no-repeat 50% 50% #e6e6e6;}
-	.pagaing_wrap ul.pagaing_right li.allNext a{background: url(../images/ico_allNext.png) no-repeat 50% 50% #e6e6e6;}
-	.pagaing_wrap ul.pagaing_right li.next.hide a{background: url(../images/ico_next_hide.png) no-repeat 50% 50% #e6e6e6;}
-	.pagaing_wrap ul.pagaing_right li.allNext.hide a{background: url(../images/ico_allNext_hide.png) no-repeat 50% 50% #e6e6e6;}
-
 	</style>
-	<link rel="stylesheet" href="/css/common/paging.css">
-	<link rel="stylesheet" href="/css/common/sidebar.css">
+	<!-- 삭제 여부 알림창 -->
+	<script>
+		const msg = '[[${ msg }]]';
+		
+		if(msg){
+			alert(msg);
+		}
+	</script>
 </head>
 <body>
     <div th:replace="common/header.html"></div>
@@ -76,10 +56,12 @@
                 <div class="list-th">
                     <ul><li class="list-num">번호</li><li class="list-title">제목</li><li class="list-date">등록일</li></ul></div>
                 <div class="board-list" th:each="board, i : ${boardList}">
+                	<div th:each="pi : ${pi}">
                 	<input type="hidden" name="b_no" id="b_no" th:value=${board.b_no}>
-                    <ul><li class="list-num" th:text="${i.count}"></li>
-                    <li class="list-title cursor" th:text="${board.b_title}" ></li>
+                    <ul><li class="list-num" th:text="${(pi.listCount-(10*(pi.page-1))) - (i.count-1) }"></li>
+                    <li class="list-title cursor" th:text="${board.b_title}"></li>
                     <li class="list-date" th:text="${#dates.format(board.b_enroll_date, 'yyyy-MM-dd')}"></li></ul>       
+                	</div>
                 </div>
             </div>
 			<!--  <th:block sec:authorize="hasRole('ROLE_ADMIN')">-->
@@ -90,11 +72,11 @@
             <div class="pagaing_wrap" th:if="${#lists.size(boardList) > 0}">
                         <ul class="pagaing_left">
                             <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
-                            	<a th:href="@{'/board/' + (page=1)}" th:if="${pi.page > 1}"></a>
+                            	<a th:href="@{/CScenter/board/(page=1)}" th:if="${pi.page > 1}"></a>
 	                            <a href="javascript:;" th:unless="${pi.page > 1}"></a>
                             </li>
                             <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
-	                            <a th:href="@{'/board/' + (page=${pi.page - 1})}" th:if="${pi.page > 1}"></a>
+	                            <a th:href="@{/CScenter/board/(page=${pi.page - 1})}" th:if="${pi.page > 1}"></a>
                             	<a href="javascript:;" th:unless="${pi.page > 1}"></a>
                             </li>
                         </ul>
@@ -102,7 +84,7 @@
                         <ul class="pagaing_num">
                         	<th:block th:each="pd : ${#numbers.sequence(pi.startPage, pi.endPage)}">
                         		<li th:classappend="${pi.page == pdStat.current} ? 'on'">
-                        			<a th:href="@{'/board/' + (page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+                        			<a th:href="@{/CScenter/board/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
                         		</li>
                         	</th:block>
                             
@@ -110,11 +92,11 @@
 
                         <ul class="pagaing_right" >
                             <li class="next" th:classappend="${pi.page == pi.endPage} ? 'hide'">
-                            	<a th:href="@{'/board/' + (page=${pi.page} + 1)}" th:if="${pi.page < pi.endPage}"></a>
+                            	<a th:href="@{/CScenter/board/(page=${pi.page} + 1)}" th:if="${pi.page < pi.endPage}"></a>
                             	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
                             </li>
                             <li class="allNext"  th:classappend="${pi.page == pi.endPage} ? 'hide'">
-                            	<a th:href="@{'/board/' + (page=${pi.endPage})}" th:if="${pi.page < pi.endPage}"></a>
+                            	<a th:href="@{/CScenter/board/(page=${pi.endPage})}" th:if="${pi.page < pi.endPage}"></a>
                             	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
                             </li>
                         </ul>
@@ -124,7 +106,14 @@
           <div th:replace="common/footer.html"></div>
      
      
-     
+     <script>
+     /* 상세페이지로 이동 */
+     $(".list-title").click(function(){
+    	 var b_no = $(this).parent().prev().val();
+
+    	 location.href="/CScenter/board/detail?b_no="+b_no;
+     });
+     </script>
      
      
      
