@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.clendy.product.model.dao.ProductMapper;
 import com.kh.clendy.product.model.vo.PageInfo;
 import com.kh.clendy.product.model.vo.Product;
+import com.kh.clendy.product.model.vo.ProductCart;
 import com.kh.clendy.product.model.vo.ProductOption;
 import com.kh.clendy.product.model.vo.ProductReview;
 
@@ -87,6 +88,31 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<ProductOption> productOptionSelect(int pNo) {
 		return productMapper.productOptionSelect(pNo);
+	}
+
+	// 상품 상세 장바구니 
+	@Override
+	public int productCartInsert(List<ProductCart> cartList) {
+		
+		int result = 0;
+		
+		for(ProductCart productCart : cartList) {
+			
+			// 장바구니에 있는지 확인
+			int cartGetCount = productMapper.cartGetCount(productCart); 
+			
+			if(cartGetCount == 0) {
+				// 장바구니 추가
+				result += productMapper.productCartInsert(productCart);
+				
+			}else if(cartGetCount == 1) {
+				// 장바구니 업데이트
+				result += productMapper.productCartUpdate(productCart);
+			}
+			
+		}
+		
+		return result;
 	}
 
 

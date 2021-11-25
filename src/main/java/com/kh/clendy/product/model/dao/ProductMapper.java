@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.clendy.product.model.vo.Product;
+import com.kh.clendy.product.model.vo.ProductCart;
 import com.kh.clendy.product.model.vo.ProductOption;
 
 @Mapper
@@ -32,6 +33,12 @@ public interface ProductMapper {
 	Map<String, Object> productTabCount(int pNo);
 
 	List<ProductOption> productOptionSelect(int pNo);
+
+	int cartGetCount(ProductCart productCart);
+
+	int productCartInsert(ProductCart productCart);
+
+	int productCartUpdate(ProductCart productCart);
 
 	
 

@@ -3,6 +3,8 @@ let optionNoArr = [];
 let dataSource;
 
 $(function(){
+	
+
 	tabCount(pNoNumber);
 	options(pNoNumber);
 	
@@ -268,7 +270,7 @@ function optionBox(data){
                             <div class="list_bot">
                                 <div class="list_num_wrap">
                                     <a href="javascript:;" class="minus hide"></a>
-                                    <input type="number" name="" id="" value="1" min="1" max="${product.pStock}" class="num" readonly>
+                                    <input type="number" name="cartAmount" id="" value="1" min="1" max="${product.pStock}" class="num" readonly>
                                     <a href="javascript:;" class="plus"></a>
                                 </div>
                                 <p class="price">
@@ -333,6 +335,32 @@ function priceHanlder(data){
 	
 	$(".list_total_wrap .title span").text(count);
 	$(".list_total_wrap .price span").text(allPrice.toLocaleString('ko-KR'));
+}
+
+// 장바구니 이벤트
+function productCartHandler(){
+	let count = $('.select_list_wrap .list').length;
+	let frm = document.forms['productFrm'];
+	console.log(frm);
+	if(count > 0){
+		frm.method = "GET";
+		frm.action = "/product/cartInsert";
+		frm.submit();
+		console.log(frm);
+	}else{
+		alert("상품 옵션을 추가해주세요.");
+	}
+	
+
+}
+
+// 팝업 알림
+function alertPopup(pMsg){
+	$(".layout_title").text(pMsg);
+	popOpen('alertPopup');
+	setTimeout(() => {
+		popClose('alertPopup');
+	}, 3000);
 }
 
 

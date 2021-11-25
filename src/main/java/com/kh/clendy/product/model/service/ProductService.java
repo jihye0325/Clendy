@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.clendy.product.model.vo.Product;
+import com.kh.clendy.product.model.vo.ProductCart;
 import com.kh.clendy.product.model.vo.ProductOption;
 
 public interface ProductService {
@@ -17,6 +18,8 @@ public interface ProductService {
 	Map<String, Object> productTabCount(int pNo);
 
 	List<ProductOption> productOptionSelect(int pNo);
+
+	int productCartInsert(List<ProductCart> cartList);
 
 	
 }

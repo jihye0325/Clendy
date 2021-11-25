@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.clendy.member.model.vo.UserImpl;
 import com.kh.clendy.product.model.service.ProductService;
 import com.kh.clendy.product.model.vo.Product;
+import com.kh.clendy.product.model.vo.ProductCart;
 import com.kh.clendy.product.model.vo.ProductOption;
 
 @Controller
@@ -128,6 +132,38 @@ public class ProductController {
 		Map<String, Object> productTabCount = productService.productTabCount(pNo);
 		
 		return productTabCount;
+	}
+	
+	// 상품 상세 - 장바구니 추가
+	@GetMapping("/cartInsert")
+	public String productCartInsert(HttpServletRequest request, @RequestParam int pNo, @RequestParam int userNo, RedirectAttributes redirectAttr) {
+		
+		String[] pOptionNos = request.getParameterValues("pOptionNo");
+		String[] cartAmounts = request.getParameterValues("cartAmount");
+		int size = pOptionNos.length;
+		
+		List<ProductCart> cartList = new ArrayList<>();
+		
+		for(int i = 0; i < size; i++) {
+			ProductCart pc = new ProductCart();
+			pc.setpNo(pNo);
+			pc.setUserNo(userNo);
+			pc.setpOptionNo(Integer.parseInt(pOptionNos[i]));
+			pc.setCartAmount(Integer.parseInt(cartAmounts[i]));
+			
+			cartList.add(pc);
+		}
+		// System.out.println(cartList);
+		
+		int result = productService.productCartInsert(cartList);
+		
+		if(result > 0) {
+			redirectAttr.addFlashAttribute("pMsg", "장바구니 목록에 추가/변경 되었습니다.");
+		}else {
+			redirectAttr.addFlashAttribute("pMsg", "장바구니 추가/변경이 실패하였습니다.");
+		}
+		
+		return "redirect:/product/view/1";
 	}
 	
 }
