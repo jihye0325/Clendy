@@ -13,7 +13,7 @@ import com.kh.clendy.CScenter.model.vo.FAQ;
 @Transactional
 public class FAQServiceImpl implements FAQService{
 	
-	private FAQMapper faqMapper;
+	private final FAQMapper faqMapper;
 	
 	@Autowired
 	public FAQServiceImpl(FAQMapper faqMapper) {
@@ -32,8 +32,8 @@ public class FAQServiceImpl implements FAQService{
 	}
 
 	@Override
-	public List<FAQ> searchFAQ(String keyword) {
-		return faqMapper.searchFAQ(keyword);
+	public List<FAQ> searchFAQByKeyword(String keyword) {
+		return faqMapper.searchFAQByKeyword(keyword);
 	}
 
 	@Override
