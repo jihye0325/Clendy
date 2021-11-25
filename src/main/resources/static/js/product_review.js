@@ -61,7 +61,6 @@ function reviewView(rNo){
 		},
 		success : function(data){
 			popOpen("review_view");
-			console.log(data);
 			let id = $("#review_view");
 			
 			id.find(".review_id_text").text(data.member.id);
@@ -111,7 +110,8 @@ function reviewLike(rNo, loginUno){
 			}else if(data == 'delete'){
 				$('.review_list .review_like').removeClass('on');
 			}else{
-				alert("좋아요 작동에 실패하였습니다.")
+				
+				alertPopup("리뷰 좋아요 실패하였습니다.");
 			}
 		},
 		error : function(error){

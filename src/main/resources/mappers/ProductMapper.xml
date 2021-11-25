@@ -187,4 +187,38 @@
 		 ORDER BY P_COLOR DESC, P_SIZE DESC
 	</select>
 	
+	<select id="cartGetCount" parameterType="com.kh.clendy.product.model.vo.ProductCart" resultType="_int">
+		SELECT
+		       COUNT(*) AS COUNT
+		  FROM CART
+		  JOIN MEMBER USING(USER_NO)
+		 WHERE USER_NO = #{ userNo }
+		   AND P_OPTION_NO = #{ pOptionNo }
+	</select>
+	
+	<insert id="productCartInsert" parameterType="com.kh.clendy.product.model.vo.ProductCart">
+		INSERT
+		  INTO CART
+		  (
+		       CART_NO
+		     , CART_AMOUNT
+		     , P_OPTION_NO
+		     , USER_NO
+		  )
+		VALUES
+		  (
+		       CART_NO.NEXTVAL
+		     , #{ cartAmount }
+		     , #{ pOptionNo }
+		     , #{ userNo }
+		  )
+	</insert>
+	
+	<update id="productCartUpdate" parameterType="com.kh.clendy.product.model.vo.ProductCart">
+		UPDATE CART
+		   SET CART_AMOUNT = CART_AMOUNT + #{ cartAmount }
+		 WHERE USER_NO = #{ userNo }
+		   AND P_OPTION_NO = #{ pOptionNo }
+	</update>
+	
 </mapper>

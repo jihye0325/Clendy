@@ -49,7 +49,9 @@ function qnaInsert(pNo){
 		},
        success : function(data){
            popClose('productQna');
-           alert("상품 문의글이 등록되었습니다.");
+           
+           alertPopup("상품 문의글이 등록되었습니다.");
+           
            $("#productQna [name=piqSecret] option:eq(0)").prop("selected", true);
            $("#productQna [name=piCateCode] option:eq(0)").prop("selected", true);
            $("#productQna [name=piqTitle]").val('');
@@ -124,14 +126,12 @@ function qnaModify(piqCode){
 			xhr.setRequestHeader(header, token);
 		},
        success : function(data){
-           console.log(data);
-           
            if(data == 'success'){
                popClose('productQna');
-               alert("상품 문의글이 수정 되었습니다.");
+               alertPopup("상품 문의글이 수정 되었습니다.");
            }else if(data == 'fail'){
                popClose('productQna');
-               alert("상품 문의글이 수정 실패 하였습니다.");
+               alertPopup("상품 문의글이 수정 실패 하였습니다.");
            }
            // 목록 받아오기
            qnaAllSelectList();
@@ -161,10 +161,10 @@ function qnaDelete(piqCode){
                
                if(data == 'success'){
                    popClose('productQna');
-                      alert("상품 문의글이 삭제 되었습니다.");
+                      alertPopup("상품 문의글이 삭제 되었습니다.");
                }else{
                    popClose('productQna');
-                      alert("상품 문의글 삭제 실패 하였습니다.");
+                      alertPopup("상품 문의글 삭제 실패 하였습니다.");
                }
                
                // 목록 받아오기

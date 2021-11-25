@@ -84,7 +84,7 @@
                     </div>
 
                     <div class="pagaing_wrap" th:if="${#lists.size(productList) > 0}">
-                        <ul class="pagaing_left">
+                        <ul class="pagaing_left"> 
                             <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
                             	<a th:href="@{'/product/list/' + ${type}(page=1)}" th:if="${pi.page > 1}"></a>
 	                            <a href="javascript:;" th:unless="${pi.page > 1}"></a>

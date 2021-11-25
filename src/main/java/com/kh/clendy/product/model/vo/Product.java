@@ -19,7 +19,6 @@ public class Product {
 	
 	public Product() {
 		imageList = new ArrayList<>();
-		
 	}
 
 	public int getpNo() {

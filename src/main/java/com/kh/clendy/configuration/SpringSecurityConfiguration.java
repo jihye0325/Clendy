@@ -47,6 +47,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
             /* 상품 정보 인증 관련*/
             .antMatchers("/product/**").authenticated()
             .antMatchers("/product/view/**").authenticated()
+            .antMatchers("/product/cart/**").authenticated()
             .anyRequest().permitAll()   /* 그 외의 요청들은 모두 허가함 - 게스트 사용자 접근 가능 */
          .and()
             .formLogin()   /* 로그인 설정 */
