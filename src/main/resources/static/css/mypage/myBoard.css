@@ -78,7 +78,7 @@ label {
 }
 
 .b_date {
-    width: 90px;
+    width: 100px;
 }
 
 .b_status {
@@ -95,4 +95,9 @@ label {
 
 .refund {
     margin-top: 40px;
+}
+
+#review_List ul{
+	padding-left:10px;
+	padding-right: 10px;
 }

@@ -52,14 +52,16 @@
             <div class="board_list">
                 <ul class="board_header">
                     <li class="b_no">글번호</li>
+                    <li class="b_pname">주문상품</li>
                     <li class="b_title">제목</li>
                     <li class="b_date">등록일</li>
                 </ul>
 
-                <ul class="board_content">
-                    <li class="b_no"></li>
-                    <li class="b_title"></li>
-                    <li class="b_date"></li>
+                <ul class="board_content" th:each="r : ${review_list}" th:onclick="|review(${r.r_no})|">
+                    <li class="b_no" th:text="${r.r_no}"></li>
+                    <li class="b_pname" th:text="${r.order_option.product_option.product.p_name}"></li>
+                    <li class="b_title" th:text="${r.r_title}"></li>
+                    <li class="b_date" th:text="${#dates.format(r.r_create_date, 'yyyy-MM-dd')}"></li>
                 </ul>
             </div>
         </div>
@@ -178,6 +180,12 @@
             event.target.parentNode.classList.remove('onmouseover');
             });   
         }
+    </script>
+    
+    <script>
+    	function review(r_no){
+    		alert(r_no);
+    	}
     </script>
 </body>
 </head>

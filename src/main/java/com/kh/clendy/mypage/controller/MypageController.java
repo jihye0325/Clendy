@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,10 +22,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.member.model.vo.UserImpl;
 import com.kh.clendy.mypage.model.service.MypageService;
+import com.kh.clendy.mypage.model.vo.Cart;
 import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Point;
+import com.kh.clendy.mypage.model.vo.Review;
 import com.kh.clendy.mypage.model.vo.Wishlist;
+import com.kh.clendy.product.model.vo.ProductQnaQ;
 
 @Controller
 @RequestMapping("/mypage")
@@ -224,29 +229,89 @@ public class MypageController {
 	}
 		
 	// 리뷰 화면
-	@GetMapping("/insertReview")
+	@GetMapping("/reviewInsert")
 	public ModelAndView insertReview(ModelAndView mv) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		Member m = mypageService.selectMember(user_no);
 		// *** 리뷰 등록 클릭시 주문옵션번호(order_option_code)가 넘어오게 구현해야함 ***
-		int order_option_code = 2;
+		int order_option_code = 4;
 		// 상품정보 조회
 		Order_Option order_option = mypageService.selectProduct(order_option_code);
-		System.out.println(order_option);
-		System.out.println(m);
-		
+
 		mv.addObject("m", m);
 		mv.addObject("order_option", order_option);
-		mv.setViewName("/mypage/insertReview");
+		mv.setViewName("/mypage/reviewInsert");
 		return mv;		
 	}
 	
 	// 리뷰 등록
-	@PostMapping("/insertReview")
-	public String insertReview() {
+	@PostMapping("/reviewInsert")
+	public String insertReview(HttpServletRequest request, RedirectAttributes redirectAttr) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		int order_option_code = Integer.parseInt(request.getParameter("order_option_code"));
 		
-		return "redirect:/mypage/insertReview";
+		String r_title = request.getParameter("r_title");
+		int score = Integer.parseInt(request.getParameter("score"));
+		String open_size = "";
+		
+		if(request.getParameter("open_size") == null) {
+			open_size = "N";
+		} else {
+			open_size = "Y";
+		}
+		
+		String r_content = request.getParameter("content");
+		Review review = new Review(r_title, score, open_size, r_content, user_no, order_option_code);
+		
+		System.out.println(review);
+		
+		String msg = "";	
+		int result = mypageService.insertReview(review); 
+		
+		if(result > 0) 
+			msg = "리뷰가 등록되었습니다.";
+		else 
+			msg = "리뷰 등록에 실패하였습니다.";
+				
+		redirectAttr.addFlashAttribute("msg", msg);
+		
+		return "redirect:/mypage/reviewInsert";
+	}
+	
+	// 리뷰 상세화면
+	@GetMapping("/reviewDetail")
+	public ModelAndView reviewDetail(ModelAndView mv) {
+		// *** 리뷰 보기 클릭시 주문옵션번호(order_option_code)가 넘어오게 구현해야함 ***
+		int order_option_code = 4;
+		// 상품정보 조회
+		Review review = mypageService.selectReview(order_option_code);
+		
+		System.out.println(review);
+		mv.addObject("r", review);
+		mv.setViewName("/mypage/reviewDetail");
+		return mv;
+	}
+	
+	// 내가 쓴 글 화면 
+	@GetMapping("/myBoard")
+	public ModelAndView myBoard(ModelAndView mv) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		// 상품 문의글 리스트 
+		List<ProductQnaQ> p_qna_list = mypageService.selectP_Qna_List(user_no); 
+		mv.addObject("p_qna_list", p_qna_list);
+		// 리뷰 리스트
+		List<Review> review_list = mypageService.selectReview_List(user_no);
+		mv.addObject("review_list", review_list);
+		System.out.println(review_list);		
+		// 1:1 문의 리스트  
+		
+		// 교환/환불 리스트
+		
+		mv.setViewName("mypage/myBoard");
+		return mv;
 	}
 	
 	// 주문내역 화면
@@ -255,6 +320,16 @@ public class MypageController {
 	
 	// 장바구니 화면
 	@GetMapping("/cart")
-	public void cart() {}
+	public ModelAndView cart(ModelAndView mv) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		
+		Cart cart_list = mypageService.selectCart_list(user_no);
+		System.out.println(cart_list);
+		
+		mv.addObject("cart_list", cart_list);		
+		mv.setViewName("/mypage/cart");
+		return mv;
+	}
 		
 }

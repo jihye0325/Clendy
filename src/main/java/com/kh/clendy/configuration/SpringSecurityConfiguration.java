@@ -52,7 +52,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
          .and()
             .formLogin()   /* 로그인 설정 */
             .loginPage("/member/login")   /* 로그인 페이지 설정 */
-            .successForwardUrl("/mainpage")    /* 로그인 성공 시 랜딩 페이지 설정 */
+            .successForwardUrl("/")    /* 로그인 성공 시 랜딩 페이지 설정 */
          .and() 
             .logout()   /* 로그아웃 설정 */
             .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout")) /* 로그아웃 요청 주소 */

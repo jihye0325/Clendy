@@ -24,7 +24,70 @@
 		<result property="piaCreateDate" column="P_I_A_CREATE_DATE"/>
 		<result property="piaDelStatus" column="P_I_A_DEL_STATUS"/>
 	</resultMap>
-
+	
+	<!-- 리뷰 -->
+	<resultMap id="reviewResultMap" type="com.kh.clendy.mypage.model.vo.Review">
+		<id property="r_no" column="R_NO"/>
+		<result property="order_code" column="ORDER_CODE"/>
+		<result property="r_title" column="R_TITLE"/>
+		<result property="score" column="SCORE"/>
+		<result property="open_size" column="OPEN_SIZE"/>
+		<result property="r_content" column="R_CONTENT"/>
+		<result property="r_create_date" column="R_CREATE_DATE"/>
+		<result property="r_modify_date" column="R_MODIFY_DATE"/>
+		<result property="user_no" column="USER_NO"/>
+		<association property="order_option" resultMap="order_option_listResultMap"/>
+	</resultMap>
+	
+	<!-- Order_Option -->
+	<resultMap id="order_option_listResultMap" type="com.kh.clendy.mypage.model.vo.Order_Option">
+		<id property="order_option_code" column="ORDER_OPTION_CODE"/>
+		<result property="order_code" column="ORDER_CODE"/>
+		<result property="order_product_num" column="ORDER_PRODUCT_NUM"/>
+		<association property="product_option" resultMap="product_optionResultMap"/>
+	</resultMap>
+	
+	<!-- Product_Option -->
+	<resultMap id="product_optionResultMap" type="com.kh.clendy.mypage.model.vo.Product_Option">
+		<id property="p_option_no" column="P_OPTION_NO"/>
+		<result property="p_color" column="P_COLOR"/>
+		<result property="p_size" column="P_SIZE"/>
+		<result property="p_stock" column="P_STOCK"/>
+		<association property="product" resultMap="productListResultMap"/>
+	</resultMap>
+	
+	<!-- Product -->
+	<resultMap id="productListResultMap" type="com.kh.clendy.mypage.model.vo.Product">
+		<id property="p_no" column="P_NO"/>
+		<result property="p_name" column="P_NAME"/>	
+		<result property="p_price" column="P_PRICE"/>	
+		<result property="p_discount" column="P_DISCOUNT"/>	
+		<result property="p_able_coupon" column="P_ABLE_COUPON"/>	
+		<result property="p_detail_image" column="P_DETAIL_IMAGE"/>	
+		<result property="category_code" column="CATEGORY_CODE"/>	
+		<result property="seller_code" column="SELLER_CODE"/>
+		<result property="p_status" column="P_STATUS"/>
+		<association property="product_category" resultMap="product_categoryResultMap"/>
+		<collection property="imageList" resultMap="imageResultMap"/>
+	</resultMap>
+		
+	<!-- Product_Category -->
+	<resultMap id="product_categoryResultMap" type="com.kh.clendy.mypage.model.vo.Product_Category">
+		<id property="category_code" column="CATEGORY_CODE"/>
+		<result property="category_name" column="CATEGORY_NAME"/>
+		<result property="ref_category_code" column="REF_CATEGORY_CODE"/>
+	</resultMap>
+	
+	<!-- ProductImage -->
+	<resultMap id="imageResultMap" type="com.kh.clendy.mypage.model.vo.Image">
+		<id property="imgNo" column="IMG_NO"/>
+		<result property="route" column="ROUTE"/>
+		<result property="imgName" column="IMG_NAME"/>
+		<result property="imgrName" column="IMG_R_NAME"/>
+		<result property="imgLevel" column="IMG_LEVEL"/>
+		<result property="imgStatus" column="IMG_STATUS"/>
+	</resultMap>
+	
 	<!-- 상품문의글 불러오기 -->
 	<select id="selectP_Qna_List" parameterType="_int" resultMap="productQnaQresultMap">
  		SELECT
@@ -41,4 +104,22 @@
     	   WHERE USER_NO = #{ user_no }
     	   ORDER BY P_I_Q_CODE DESC
 	</select>
+	
+	<!-- 리뷰리스트 불러오기 -->
+	<select id="selectReview_List" parameterType="_int" resultMap="reviewResultMap">
+		SELECT 
+		    R_NO
+		  , P_NAME
+		  , R_TITLE
+		  , R_CREATE_DATE
+		  , ORDER_OPTION_CODE
+		  FROM REVIEW
+		  JOIN ORDER_OPTION USING(ORDER_CODE)
+		  JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+		  JOIN PRODUCT USING(P_NO)
+		  WHERE USER_NO = #{ user_no }
+		    AND R_STATUS = 'Y'
+	</select>
+	
+	
 </mapper>
