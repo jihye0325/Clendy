@@ -48,6 +48,6 @@ public interface MypageService{
 	
 	Review selectReview(int order_option_code);
 	
-	Cart selectCart_list(int user_no);
+	List<Cart> selectCart_list(int user_no);
 
 }

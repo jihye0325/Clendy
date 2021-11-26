@@ -17,12 +17,13 @@ public class Product {
 	
 	private List<ProductImage> imageList;
 	private Product_Category product_category;
+	private Seller seller;
 	
 	public Product() {}
 
 	public Product(int p_no, String p_name, int p_price, int p_discount, String p_able_coupon, String p_detail_image,
 			int category_code, int seller_code, String p_status, List<ProductImage> imageList,
-			Product_Category product_category) {
+			Product_Category product_category, Seller seller) {
 		super();
 		this.p_no = p_no;
 		this.p_name = p_name;
@@ -35,6 +36,7 @@ public class Product {
 		this.p_status = p_status;
 		this.imageList = imageList;
 		this.product_category = product_category;
+		this.seller = seller;
 	}
 
 	public int getP_no() {
@@ -125,12 +127,22 @@ public class Product {
 		this.product_category = product_category;
 	}
 
+	public Seller getSeller() {
+		return seller;
+	}
+
+	public void setSeller(Seller seller) {
+		this.seller = seller;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [p_no=" + p_no + ", p_name=" + p_name + ", p_price=" + p_price + ", p_discount=" + p_discount
 				+ ", p_able_coupon=" + p_able_coupon + ", p_detail_image=" + p_detail_image + ", category_code="
 				+ category_code + ", seller_code=" + seller_code + ", p_status=" + p_status + ", imageList=" + imageList
-				+ ", product_category=" + product_category + "]";
+				+ ", product_category=" + product_category + ", seller=" + seller + "]";
 	}
+
+	
 	
 }

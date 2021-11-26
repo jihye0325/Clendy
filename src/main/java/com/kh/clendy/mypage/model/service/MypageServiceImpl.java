@@ -160,7 +160,7 @@ public class MypageServiceImpl implements MypageService {
 
 	// 장바구니 조회
 	@Override
-	public Cart selectCart_list(int user_no) {
+	public List<Cart> selectCart_list(int user_no) {
 		return mypageMapper.selectCart_list(user_no);
 	}
 	

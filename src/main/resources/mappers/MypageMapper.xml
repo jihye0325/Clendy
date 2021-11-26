@@ -131,9 +131,33 @@
 		<result property="seller_code" column="SELLER_CODE"/>
 		<result property="p_status" column="P_STATUS"/>
 		<association property="product_category" resultMap="product_categoryResultMap"/>
+		<association property="seller" resultMap="sellerResultMap"/>
 		<collection property="imageList" resultMap="imageResultMap"/>
 	</resultMap>
-		
+	
+	<!-- seller -->
+	<resultMap id="sellerResultMap" type="com.kh.clendy.mypage.model.vo.Seller">
+		<id property="seller_code" column="SELLER_CODE"/>
+		<result property="a_no" column="A_NO"/>
+		<association property="applystore" resultMap="applystoreResultMap"/>
+	</resultMap>
+	
+	<!-- applystore -->
+	<resultMap id="applystoreResultMap" type="com.kh.clendy.joinStore.model.vo.ApplyStore">
+		<id property="a_no" column="A_NO"/>
+		<result property="seller_name" column="SELLER_NAME"/>
+		<result property="rep_name" column="REP_NAME"/>
+		<result property="rep_num" column="REP_NUM"/>
+		<result property="b_license" column="B_LICENSE"/>
+		<result property="o_b_license" column="O_B_LICENSE"/>
+		<result property="phone" column="PHONE"/>
+		<result property="email" column="EMAIL"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="account_bank" column="ACCOUNT_BANK"/>
+		<result property="account_num" column="ACCOUNT_NUM"/>
+		<result property="apply_date" column="APPLY_DATE"/>
+		<result property="user_no" column="USER_NO"/>
+	</resultMap>
 	<!-- Product_Category -->
 	<resultMap id="product_categoryResultMap" type="com.kh.clendy.mypage.model.vo.Product_Category">
 		<id property="category_code" column="CATEGORY_CODE"/>
@@ -157,6 +181,7 @@
 		<result property="cart_amount" column="CART_AMOUNT"/>
 		<result property="p_option_no" column="P_OPTION_NO"/>
 		<result property="user_no" column="USER_NO"/>
+		<result property="seller_name" column="SELLER_NAME"/>
 		<association property="product_option" resultMap="product_optionResultMap"/>
 	</resultMap>
 	
@@ -504,6 +529,27 @@
 	
 	<!-- 장바구니 조회 -->
 	<select id="selectCart_list" parameterType="_int" resultMap="cartResultMap">
-	
+		SELECT 
+		      P_OPTION_NO
+		    , P_NAME
+		    , P_PRICE
+		    , CART_AMOUNT
+		    , P_COLOR
+		    , P_SIZE
+		    , ROUTE
+		    , IMG_R_NAME
+		    , SELLER_CODE
+		    , SELLER_NAME
+		    FROM CART
+		    JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+		    JOIN PRODUCT USING(P_NO)
+		    JOIN PRODUCT_IMAGE USING(P_NO)
+		    JOIN IMAGE USING(IMG_NO)
+		    JOIN SELLER USING(SELLER_CODE)
+		    JOIN APPLY_STORE USING(A_NO)
+		   WHERE CART.USER_NO = #{ user_no }
+		     AND P_STATUS = 'Y'
+		     AND P_STOCK > CART_AMOUNT
+		     AND IMG_LEVEL = 0
 	</select>
 </mapper>

@@ -52,6 +52,6 @@ public interface MypageMapper {
 
 	List<Review> selectReview_List(int user_no);
 	
-	Cart selectCart_list(int user_no);
+	List<Cart> selectCart_list(int user_no);
 
 }

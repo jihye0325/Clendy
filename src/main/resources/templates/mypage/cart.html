@@ -13,7 +13,7 @@
 	<div th:replace="mypage/sideMenu.html"></div>
     <div class="outer">
         <div class="title">
-            <span>장바구니(<span>3</span>)</span>
+            <span>장바구니(<span th:text="${#lists.size(cart_list)}"></span>)</span>
         </div>
 
         <form>
@@ -25,31 +25,42 @@
                         <li class="price">판매가</li>
                         <li class="amount">수량</li>
                         <li class="option">옵션</li>
+                        <li class="cart_price">상품금액</li>
                         <li class="delete">삭제</li>
                     </ul>
 
-                    <!-- 반복문으로 리스트 불러오기 --> 
-                    <ul class="cart_ul">
-                        <li class="check"><input type="checkbox" name="pcheck"></li>
-                        <li class="pname">
-                            <div class="img_area">
-                                <img src="/images/sampleimg1.png">
-                            </div>
-                            <div class="p_info">
-                                <div id="pname">2WAY 스웻 후드 집업</div>
-                            </div>
-                        </li>
-                        <li class="price">39,000</li>
-                        <li class="amount">
-                            <button type="button" id="minus">-</button>
-                            <input type="number" class="numBox" min="1" max="10" value="100" readonly>
-                            <button type="button" id="plus">+</button>
-                        </li>
-                        <li class="option">M</li>
-                        <li class="delete">
-                            <button type="button" id="delete">삭제</button>
-                        </li>
-                    </ul>
+					<div th:each="c: ${cart_list}">
+					<div th:with="seller_code='${c.product_option.product.seller.applystore.seller_code}'"></div>
+					[[${seller_code}]]
+					<span th:text="${seller_code}"></span>
+	                    <ul class="cart_ul">
+	                    	<span class="seller" th:text="${c.product_option.product.seller.applystore.seller_name}"></span>
+	                        <li class="check"><input type="checkbox" name="pcheck"></li>
+	                        <li class="pname">
+	                            <div class="img_area">
+	                                <img th:src="@{${c.product_option.product.imageList[0].route} +${c.product_option.product.imageList[0].imgrName}}">
+	                            </div>
+	                            <div class="p_info">
+	                                <div id="pname" th:text="${c.product_option.product.p_name}"></div>
+	                            </div>
+	                        </li>
+	                        <li class="price" th:text="${c.product_option.product.p_price}"></li>
+	                        <li class="amount">
+	                            <button type="button" id="minus">-</button>
+	                            <input type="number" class="numBox" min="1" th:value="${c.cart_amount}" readonly>
+	                            <button type="button" id="plus">+</button>
+	                        </li>
+	                        <li class="option">
+	                        	<div class="color" th:text="${c.product_option.p_color}"></div>
+	                        	<div class="size" th:text="${c.product_option.p_size}"></div>
+	                        </li>
+	                        <li class="cart_price">30000원</li>
+	                        <li class="delivery_price"></li>
+	                        <li class="delete">
+	                            <button type="button" id="delete">삭제</button>
+	                        </li>
+	                    </ul>
+                    </div>
                 </div>
 
                 <div class="select">
@@ -59,8 +70,8 @@
             </div>
     
             <div class="result">
-                <span>총 주문합계 금액 : </span>
-                <span id="sum">80,300원</span>
+                <span>총 주문금액 : </span>
+                <span id="sum"></span>
             </div>
             
             <div class="btn_area">
