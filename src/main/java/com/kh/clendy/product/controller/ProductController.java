@@ -47,11 +47,8 @@ public class ProductController {
 	@GetMapping("/list/{type}")
 	public String productListPage(@PathVariable String type, Model model, @ModelAttribute ProductFilter filter) {
 		
-		System.out.println(filter);
-		
-		Map<String, Object> mapReturn = productService.productSelectList(1);
-		
-		// 상품 목록
+		Map<String, Object> mapReturn = productService.productSelectList(filter);
+		// 상품 목록 
 		model.addAttribute("productList", mapReturn.get("productList"));
 		// 페이징
 		model.addAttribute("pi", mapReturn.get("pageInfo"));
@@ -66,7 +63,6 @@ public class ProductController {
 	public String productViewPage(@PathVariable int pNo, Model model) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int userNo = user.getUser_no();
-		
 		
 		Map<String, Object> mapInfo = new HashMap<>();
 		mapInfo.put("pNo", pNo);

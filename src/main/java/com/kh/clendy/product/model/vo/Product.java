@@ -17,6 +17,8 @@ public class Product {
 	private int wishLike;
 	private List<ProductImage> imageList;
 	private ProductFilter filter;
+	private int selCount;
+	private int reviewCount;
 	
 	public Product() {
 		imageList = new ArrayList<>();
@@ -110,12 +112,36 @@ public class Product {
 		this.imageList = imageList;
 	}
 
+	public ProductFilter getFilter() {
+		return filter;
+	}
+
+	public void setFilter(ProductFilter filter) {
+		this.filter = filter;
+	}
+
+	public int getSelCount() {
+		return selCount;
+	}
+
+	public void setSelCount(int selCount) {
+		this.selCount = selCount;
+	}
+
+	public int getReviewCount() {
+		return reviewCount;
+	}
+
+	public void setReviewCount(int reviewCount) {
+		this.reviewCount = reviewCount;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [pNo=" + pNo + ", pName=" + pName + ", pPrice=" + pPrice + ", pDiscount=" + pDiscount
 				+ ", pAbleCoupon=" + pAbleCoupon + ", pDetailImage=" + pDetailImage + ", CategoryCode=" + CategoryCode
 				+ ", sellerCode=" + sellerCode + ", pStatus=" + pStatus + ", wishLike=" + wishLike + ", imageList="
-				+ imageList + "]";
+				+ imageList + ", filter=" + filter + ", selCount=" + selCount + ", reviewCount=" + reviewCount + "]";
 	}
-	
+
 }

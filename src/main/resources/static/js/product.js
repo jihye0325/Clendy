@@ -350,8 +350,20 @@ function productCartHandler(){
 	}else{
 		alert("상품 옵션을 추가해주세요.");
 	}
-	
+}
 
+// 구매하기 이벤트
+function productBuyHandler(){
+	let count = $('.select_list_wrap .list').length;
+	let frm = document.forms['productFrm'];
+	if(count > 0){
+		// $('name=productFrm').attr("method", "post");
+		// $('name=productFrm').attr("action", buy);
+		frm.submit();
+		console.log(frm);
+	}else{
+		alert("상품 옵션을 추가해주세요.");
+	}
 }
 
 // 팝업 알림

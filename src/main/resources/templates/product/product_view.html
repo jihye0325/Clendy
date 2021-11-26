@@ -301,7 +301,8 @@
                     </div>
                     <div class="view_sub_wrap">
                         <div class="box_wrap">
-	                        <form name="productFrm" method="POST" action="">
+	                        <form name="productFrm" th:action="@{/product/order}" method="post">
+	                        	
 	                        	<input type="hidden" name="userNo" th:value="${modelMap.loginUno}" >
 	                        	<input type="hidden" name="pNo"th:value="${pNo}" >
 		                            <div class="option_wrap">
@@ -323,7 +324,7 @@
 	                            </div>
 	
 	                            <div class="list_btn_wrap">
-	                                <button type="button" class="buy">구매하기</button>
+	                                <button type="button" class="buy" onclick="productBuyHandler()">구매하기</button>
 	                                <button type="button" class="cart" onclick="productCartHandler()">장바구니</button>
 	                            </div>
 	                        </form>
