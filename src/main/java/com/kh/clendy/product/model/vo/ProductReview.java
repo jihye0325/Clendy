@@ -8,19 +8,20 @@ import com.kh.clendy.member.model.vo.Member;
 public class ProductReview {
 	private int loginUno;
 	private int rNo;
-	private int orderCode;
+	private int orderCode; //??
+	private int orderOptionCode;
 	private String rTitle;
 	private int score;
 	private String openSize;
 	private String rContent;
-	private String pColor;
-	private String pSize;
+	private String pColor; 
+	private String pSize; 
 	private Date rCreateDate;
 	private Date rModifyDate;
-	private List<ProductImage> imageList;
-	private Member member;
+	private List<ProductImage> imageList; //ㅇㅇ
+	private Member member; 
 	private Product product;
-	private int likeCount;
+	private int likeCount; // ㅇㅇ
 	
 	public ProductReview() { }
 
@@ -46,6 +47,14 @@ public class ProductReview {
 
 	public void setOrderCode(int orderCode) {
 		this.orderCode = orderCode;
+	}
+
+	public int getOrderOptionCode() {
+		return orderOptionCode;
+	}
+
+	public void setOrderOptionCode(int orderOptionCode) {
+		this.orderOptionCode = orderOptionCode;
 	}
 
 	public String getrTitle() {
@@ -146,11 +155,14 @@ public class ProductReview {
 
 	@Override
 	public String toString() {
-		return "ProductReview [loginUno=" + loginUno + ", rNo=" + rNo + ", orderCode=" + orderCode + ", rTitle="
-				+ rTitle + ", score=" + score + ", openSize=" + openSize + ", rContent=" + rContent + ", pColor="
-				+ pColor + ", pSize=" + pSize + ", rCreateDate=" + rCreateDate + ", rModifyDate=" + rModifyDate
-				+ ", imageList=" + imageList + ", member=" + member + ", product=" + product + ", likeCount="
-				+ likeCount + "]";
+		return "ProductReview [loginUno=" + loginUno + ", rNo=" + rNo + ", orderCode=" + orderCode
+				+ ", orderOptionCode=" + orderOptionCode + ", rTitle=" + rTitle + ", score=" + score + ", openSize="
+				+ openSize + ", rContent=" + rContent + ", pColor=" + pColor + ", pSize=" + pSize + ", rCreateDate="
+				+ rCreateDate + ", rModifyDate=" + rModifyDate + ", imageList=" + imageList + ", member=" + member
+				+ ", product=" + product + ", likeCount=" + likeCount + "]";
 	}
+	
+	
+
 }
 	
