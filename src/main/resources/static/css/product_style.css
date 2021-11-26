@@ -62,6 +62,7 @@ body{margin: 0;}
 .product_list .p_2step_box ul li a{display: block; font-size: 14px; color:#333;}
 .product_list .p_2step_box ul li.on a{font-weight: bold; color:#060032;}
 .product_list .product_items{display: flex; flex-wrap: wrap;}
+.product_list .product_items.nodata{text-align: center; min-height: 510px; box-sizing: border-box; background: url(../images/ico_nodata.png) no-repeat 50% 50%; border-bottom: 1px solid #e6e6e6;}
 .product_list .product_items .item{width:calc(25% - 23px); margin-right: 30px; margin-top: 50px; }
 .product_list .product_items .item:nth-child(4n){margin-right: 0;}
 .product_list .product_items .item a{display: block;}

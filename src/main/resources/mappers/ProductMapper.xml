@@ -9,7 +9,9 @@
 		<result property="pDiscount" column="P_DISCOUNT"/>	
 		<result property="CategoryCode" column="CATEGORY_CODE"/>	
 		<result property="sellerCode" column="SELLER_CODE"/>	
-		<result property="pStatus" column="P_STATUS"/>	
+		<result property="pStatus" column="P_STATUS"/>
+		<result property="selCount" column="SEL_COUNT"/>	
+		<result property="reviewCount" column="REVIEW_COUNT"/>		
 	</resultMap>
 	
 	<!-- 상품 상세 반환 -->
@@ -47,20 +49,50 @@
 	</resultMap>
 	
 	<!-- 상품 목록 갯수 -->
-	<select id="productGetListCount" resultType="_int">
-		SELECT
-       		   COUNT(*) AS COUNT
-		  FROM PRODUCT PD
-		  LEFT JOIN PRODUCT_IMAGE PI ON (PD.P_NO = PI.P_NO)
-		  LEFT JOIN IMAGE IMG ON(PI.IMG_NO = IMG.IMG_NO)
-		 WHERE PD.P_STATUS = 'N'
-		   AND IMG.IMG_LEVEL = 1
-		    OR IMG_LEVEL IS NULL
+	<select id="productGetListCount" parameterType="com.kh.clendy.product.model.vo.ProductFilter" resultType="int">
+        SELECT
+            COUNT(*)
+          FROM PRODUCT PD
+          LEFT JOIN PRODUCT_IMAGE PI ON (PD.P_NO = PI.P_NO)
+          LEFT JOIN IMAGE IMG ON(PI.IMG_NO = IMG.IMG_NO)
+          LEFT JOIN PRODUCT_CATEGORY ON(PD.CATEGORY_CODE = PRODUCT_CATEGORY.CATEGORY_CODE)
+          WHERE PD.P_STATUS = 'N'
+            AND IMG.IMG_LEVEL = 1
+            <choose>
+            	<when test="type.equals('public')">
+            		AND PRODUCT_CATEGORY.REF_CATEGORY_CODE = 1
+            	</when>
+            	<when test="type.equals('man')">
+            		AND PRODUCT_CATEGORY.REF_CATEGORY_CODE = 2
+            	</when>
+            	<when test="type.equals('woman')">
+            		AND PRODUCT_CATEGORY.REF_CATEGORY_CODE = 3
+            	</when>
+            </choose>
+            
+            <choose>
+            	<when test="category.equals('outer')">
+            		AND PRODUCT_CATEGORY.CATEGORY_NAME = '아우터'
+            	</when>
+            	<when test="category.equals('top')">
+            		AND PRODUCT_CATEGORY.CATEGORY_NAME = '상의'
+            	</when>
+            	<when test="category.equals('under')">
+            		AND PRODUCT_CATEGORY.CATEGORY_NAME = '하의'
+            	</when>
+            	<when test="category.equals('acc')">
+            		AND PRODUCT_CATEGORY.CATEGORY_NAME = 'ACC'
+            	</when>
+            	<otherwise>
+            		AND PRODUCT_CATEGORY.CATEGORY_NAME IS NOT NULL
+            	</otherwise>
+            </choose>
+             OR IMG_LEVEL IS NULL
 	</select>
 	
 	<!-- 상품 목록 -->
-	<select id="productSelectList" resultMap="productListResultMap" parameterType="_int">
-		     SELECT
+	<select id="productSelectList" resultMap="productListResultMap" parameterType="map">
+	SELECT
             *
             FROM(
             SELECT
@@ -81,13 +113,96 @@
              , IMG.IMG_R_NAME
              , IMG.IMG_LEVEL
              , IMG.IMG_STATUS
+                          , (SELECT
+                       COUNT(*) AS COUNT
+                  FROM PRODUCT_ORDER
+                  JOIN ORDER_OPTION USING(ORDER_CODE)
+                  JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+                  JOIN PRODUCT USING(P_NO)
+                 WHERE P_NO = PD.P_NO
+            ) AS SEL_COUNT
+            ,NVL(( SELECT
+                      SUM(SCORE)
+                FROM REVIEW
+                JOIN ORDER_OPTION USING(ORDER_OPTION_CODE)
+                 JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+                  JOIN PRODUCT USING(P_NO)
+                   WHERE P_NO = PD.P_NO
+            ), 0) AS REVIEW_COUNT
+            , (SELECT
+                       COUNT(*) AS COUNT
+                  FROM PRODUCT_ORDER
+                  JOIN ORDER_OPTION USING(ORDER_CODE)
+                  JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+                  JOIN PRODUCT USING(P_NO)
+                 WHERE P_NO = PD.P_NO
+            ) +
+            ( SELECT
+                      COUNT(P_NO)
+                FROM REVIEW
+                JOIN ORDER_OPTION USING(ORDER_OPTION_CODE)
+                 JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+                  JOIN PRODUCT USING(P_NO)
+                   WHERE P_NO = PD.P_NO
+            ) +
+            NVL(( SELECT
+                      SUM(SCORE)
+                FROM REVIEW
+                JOIN ORDER_OPTION USING(ORDER_OPTION_CODE)
+                 JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+                  JOIN PRODUCT USING(P_NO)
+                   WHERE P_NO = PD.P_NO
+            ), 0) AS ALIGN_HOT
           FROM PRODUCT PD
           LEFT JOIN PRODUCT_IMAGE PI ON (PD.P_NO = PI.P_NO)
           LEFT JOIN IMAGE IMG ON(PI.IMG_NO = IMG.IMG_NO)
+          LEFT JOIN PRODUCT_CATEGORY ON(PD.CATEGORY_CODE = PRODUCT_CATEGORY.CATEGORY_CODE)
           WHERE PD.P_STATUS = 'N'
             AND IMG.IMG_LEVEL = 1
+            <choose>
+            	<when test="filter.type.equals('public')">
+            		AND PRODUCT_CATEGORY.REF_CATEGORY_CODE = 1
+            	</when>
+            	<when test="filter.type.equals('man')">
+            		AND PRODUCT_CATEGORY.REF_CATEGORY_CODE = 2
+            	</when>
+            	<when test="filter.type.equals('woman')">
+            		AND PRODUCT_CATEGORY.REF_CATEGORY_CODE = 3
+            	</when>
+            </choose>
+            
+            <choose>
+            	<when test="filter.category.equals('outer')">
+            		AND PRODUCT_CATEGORY.CATEGORY_NAME = '아우터'
+            	</when>
+            	<when test="filter.category.equals('top')">
+            		AND PRODUCT_CATEGORY.CATEGORY_NAME = '상의'
+            	</when>
+            	<when test="filter.category.equals('under')">
+            		AND PRODUCT_CATEGORY.CATEGORY_NAME = '하의'
+            	</when>
+            	<when test="filter.category.equals('acc')">
+            		AND PRODUCT_CATEGORY.CATEGORY_NAME = 'ACC'
+            	</when>
+            	<otherwise>
+            		AND PRODUCT_CATEGORY.CATEGORY_NAME IS NOT NULL
+            	</otherwise>
+            </choose>
              OR IMG_LEVEL IS NULL
-          ORDER BY P_NO DESC
+           <choose>
+            	<when test="filter.align.equals('hot')">
+            		ORDER BY ALIGN_HOT DESC, PD.P_NO DESC 
+            	</when>
+            	<when test="filter.align.equals('latest')">
+            		ORDER BY PD.P_NO DESC 
+            	</when>
+            	<when test="filter.align.equals('lowPrice')">
+            		ORDER BY PD.P_PRICE, P_NO DESC
+            	</when>
+            	<when test="filter.align.equals('highPrice')">
+            		ORDER BY PD.P_PRICE DESC, P_NO DESC
+            	</when>
+            </choose>
      ) TBL)
      WHERE ROWN BETWEEN #{startRow} AND #{endRow}
 	</select>

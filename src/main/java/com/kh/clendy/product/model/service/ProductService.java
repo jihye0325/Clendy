@@ -5,11 +5,12 @@ import java.util.Map;
 
 import com.kh.clendy.product.model.vo.Product;
 import com.kh.clendy.product.model.vo.ProductCart;
+import com.kh.clendy.product.model.vo.ProductFilter;
 import com.kh.clendy.product.model.vo.ProductOption;
 
 public interface ProductService {
 
-	Map<String, Object> productSelectList(int page);
+	Map<String, Object> productSelectList(ProductFilter filter);
 
 	Product productViewInfo(Map<String, Object> mapInfo);
 

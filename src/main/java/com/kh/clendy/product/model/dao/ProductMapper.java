@@ -7,13 +7,14 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.clendy.product.model.vo.Product;
 import com.kh.clendy.product.model.vo.ProductCart;
+import com.kh.clendy.product.model.vo.ProductFilter;
 import com.kh.clendy.product.model.vo.ProductOption;
 
 @Mapper
 public interface ProductMapper {
 
 	// 상품 목록 갯수
-	int productGetListCount();
+	int productGetListCount(ProductFilter filter);
 	
 	// 상품목록
 	List<Product> productSelectList(Map<String, Object> mapMapper);

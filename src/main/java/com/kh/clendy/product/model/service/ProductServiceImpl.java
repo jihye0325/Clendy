@@ -12,6 +12,7 @@ import com.kh.clendy.product.model.dao.ProductMapper;
 import com.kh.clendy.product.model.vo.PageInfo;
 import com.kh.clendy.product.model.vo.Product;
 import com.kh.clendy.product.model.vo.ProductCart;
+import com.kh.clendy.product.model.vo.ProductFilter;
 import com.kh.clendy.product.model.vo.ProductOption;
 import com.kh.clendy.product.model.vo.ProductReview;
 
@@ -28,22 +29,24 @@ public class ProductServiceImpl implements ProductService{
 
 	// 상품 목록
 	@Override
-	public Map<String, Object> productSelectList(int page) {
+	public Map<String, Object> productSelectList(ProductFilter filter) {
 		
 		// 상품 목록 갯수
-		int listCount = productMapper.productGetListCount();
+		int listCount = productMapper.productGetListCount(filter);
+		// System.out.println("listCount : " + listCount);
 		
 		// 페이징
-		PageInfo pageInfo = new PageInfo(page, listCount, 10, 12);
+		PageInfo pageInfo = new PageInfo(filter.getPage(), listCount, 10, 12);
 		
 		// 상품 목록 호출에 필요한 값
 		int startRow = (pageInfo.getPage() - 1) * pageInfo.getBoardLimit() + 1;
 		int endRow = startRow + pageInfo.getBoardLimit() - 1;
 		
 		Map<String, Object> mapMapper = new HashMap<>();
-		mapMapper.put("page", page);
+		mapMapper.put("page", filter.getPage());
 		mapMapper.put("startRow", startRow);
 		mapMapper.put("endRow", endRow);
+		mapMapper.put("filter", filter);
 		
 		// 상품 목록
 		List<Product> productList = productMapper.productSelectList(mapMapper);
