@@ -34,7 +34,7 @@ public class ProductReviewController {
 	@ResponseBody
 	public ModelAndView reviewAllSelectList(ModelAndView mv, @RequestBody Map<String, Object> mapReturn) {
 		
-		// System.out.println(mapReturn);
+		System.out.println(mapReturn);
 		
 		List<ProductReview> reviewList = productReviewService.reviewAllSelectList(mapReturn);
 		// System.out.println(reviewList);
