@@ -8,15 +8,19 @@ public class Cart {
 	
 	private Product_Option product_option;
 	
+	private String seller_name;
+	
 	public Cart() {}
 
-	public Cart(int cart_no, int cart_amount, int p_option_no, int user_no, Product_Option product_option) {
+	public Cart(int cart_no, int cart_amount, int p_option_no, int user_no, Product_Option product_option,
+			String seller_name) {
 		super();
 		this.cart_no = cart_no;
 		this.cart_amount = cart_amount;
 		this.p_option_no = p_option_no;
 		this.user_no = user_no;
 		this.product_option = product_option;
+		this.seller_name = seller_name;
 	}
 
 	public int getCart_no() {
@@ -59,11 +63,18 @@ public class Cart {
 		this.product_option = product_option;
 	}
 
+	public String getSeller_name() {
+		return seller_name;
+	}
+
+	public void setSeller_name(String seller_name) {
+		this.seller_name = seller_name;
+	}
+
 	@Override
 	public String toString() {
 		return "Cart [cart_no=" + cart_no + ", cart_amount=" + cart_amount + ", p_option_no=" + p_option_no
-				+ ", user_no=" + user_no + ", product_option=" + product_option + "]";
+				+ ", user_no=" + user_no + ", product_option=" + product_option + ", seller_name=" + seller_name + "]";
 	}
 
-	
 }

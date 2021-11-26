@@ -324,7 +324,8 @@ public class MypageController {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		
-		Cart cart_list = mypageService.selectCart_list(user_no);
+		
+		List<Cart> cart_list = mypageService.selectCart_list(user_no);
 		System.out.println(cart_list);
 		
 		mv.addObject("cart_list", cart_list);		

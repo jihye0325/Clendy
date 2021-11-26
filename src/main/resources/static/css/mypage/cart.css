@@ -1,5 +1,5 @@
 div {
-    borde: 1px solid black;
+    border: 1px solid black;
 }
 
 .outer {
@@ -59,13 +59,13 @@ div {
 }
 
 .cart_header .pname{
-    width: 300px;
+    width: 250px;
     text-align: center;
 }
 
 .cart_ul .pname {
     display: flex;
-    width: 300px;
+    width: 250px;
 }
 
 .img_area {
@@ -79,10 +79,6 @@ img {
 .p_info {
     margin: auto;
     font-weight: bold;
-}
-
-.p_info #pname {
-    color: gray;
 }
 
 .numBox {
@@ -104,6 +100,10 @@ img {
 .option {
 	text-align:center;
 	width: 50px;
+}
+
+.cart_price {
+	width : 80px;
 }
 
 .delete {
