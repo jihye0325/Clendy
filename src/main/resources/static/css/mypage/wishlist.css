@@ -31,7 +31,7 @@ div {
 }
 
 .nowish{
-	width: 100px;
+	width: 120px;
 	margin-bottom: 20px;
 }
 
@@ -39,6 +39,7 @@ div {
 	width: 950px;
 	text-align: center;
 	font-size: x-large;
+	font-weight: bold;
 	align-self: center;
 }
 

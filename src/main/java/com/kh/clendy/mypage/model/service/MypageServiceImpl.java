@@ -163,6 +163,24 @@ public class MypageServiceImpl implements MypageService {
 	public List<Cart> selectCart_list(int user_no) {
 		return mypageMapper.selectCart_list(user_no);
 	}
+
+	// 장바구니 삭제(개별 버튼)
+	@Override
+	public int deleteCart(int cart_no) {
+		return mypageMapper.deleteCart(cart_no);
+	}
+
+	// 장바구니 수량감소
+	@Override
+	public int minusAmount(HashMap<String, Integer> userMap) {
+		return mypageMapper.minusAmount(userMap);
+	}
+
+	// 장바구니 수량증가
+	@Override
+	public int plusAmount(HashMap<String, Integer> userMap) {
+		return mypageMapper.plusAmount(userMap);
+	}
 	
 
 }

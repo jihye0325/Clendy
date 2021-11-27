@@ -5,7 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/mypage/myBoard.css" rel="stylesheet"></link>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <!-- csrf 토큰 -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>내가 쓴 글</title>
 <body>
     <div th:replace="common/header.html"></div>
@@ -25,7 +28,8 @@
 
         <div class="board_area" id="pQna_List">
             <div class="title">상품문의</div>
-
+	
+			<th:block th:if="${#lists.size(p_qna_list) > 0}">
             <div class="board_list">
                 <ul class="board_header">
                     <li class="b_no">글번호</li>
@@ -34,21 +38,61 @@
                     <li class="b_date">등록일</li>
                     <li class="b_status">상태</li>
                 </ul>
-
-                <ul class="board_content" th:each="p : ${p_qna_list}" th:onclick="|location.href='@{/mypage/modify}'|">
-                    <li class="b_no" th:text="${p.piqCode}"></li>
-                    <li class="b_category" th:text="${p.piCateName}"></li>
-                    <li class="b_title" th:text="${p.piqTitle}"></li>
-                    <li class="b_date" th:text="${#dates.format(p.piqCreateDate, 'yyyy-MM-dd')}"></li>
-                    <li class="b_status" th:if="${p.productQnaA != null}" th:text="답변완료"></li>
-                    <li class="b_status" th:unless="${p.productQnaA != null}" th:text="답변대기"></li>
-                </ul>
+				
+				<div class="qna_area" th:each="p : ${p_qna_list}">
+					<ul class="board_content">
+	                    <li class="b_no" th:text="${p.p_i_q_code}"></li>
+	                    <li class="b_category" th:text="${p.p_i_cate_name}"></li>
+	                    <li class="b_title" th:text="${p.p_i_q_title}"></li>
+	                    <li class="b_date" th:text="${#dates.format(p.p_i_q_create_date, 'yyyy-MM-dd')}"></li>
+	                    <li class="b_status" th:if="${p.productQnaA != null}" th:text="답변완료"></li>
+	                    <li class="b_status" th:unless="${p.productQnaA != null}" th:text="답변대기"></li>
+	                </ul>
+	                
+	                <div class="slide_area">
+		                <div class="p_info">
+		                	<!-- **상품이름 누르면 상세페이지 이동하기**  -->
+		                	<div class="p_name" th:text="|상품명 : ${p.p_name}|"></div>
+		                </div>
+		                
+		                <div class="question">
+		                	<img class="q_img" src="/images/qnaQ.png">
+		                	<div class="q_content">
+		                		<textarea th:text="${p.p_i_q_content}" readonly></textarea>
+		                		<div class="q_date"> 
+		                			<span th:text="|작성일 ${#dates.format(p.p_i_q_create_date, 'yyyy-MM-dd')}|"></span>
+		                			<span th:text="|수정일 ${#dates.format(p.p_i_q_modify_date, 'yyyy-MM-dd')}|"></span>
+		                		</div>
+		                	</div>
+		                </div>
+		                
+		                <th:block th:if="${p.productQnaA != null}">
+		                <div class="answer">
+		                	<img class="a_img" src="/images/qnaA.png">
+		                	<div class="a_content">
+		                		<textarea th:text="${p.productQnaA.piaContent}" readonly></textarea>
+		                		<div class="a_date"> 
+		                			<span th:text="|작성일 ${#dates.format(p.productQnaA.piaCreateDate, 'yyyy-MM-dd')}|"></span>
+		                		</div>
+		                	</div>
+		                </div>
+		                </th:block>
+	                </div>
+				</div>
             </div>
+            </th:block>
+            <th:block th:if="${#lists.size(p_qna_list) == 0}">
+            	<div class="null_list">
+            		<img id="null" src="/images/nolist.png">
+            		<div>작성한 글이 없습니다.</div>
+            	</div>
+            </th:block>
         </div>
 
         <div class="board_area" id="review_List" style="display: none;">
             <div class="title">리뷰</div>
-
+			
+			<th:block th:if="${#lists.size(review_list) > 0}">
             <div class="board_list">
                 <ul class="board_header">
                     <li class="b_no">글번호</li>
@@ -57,13 +101,20 @@
                     <li class="b_date">등록일</li>
                 </ul>
 
-                <ul class="board_content" th:each="r : ${review_list}" th:onclick="|review(${r.r_no})|">
+                <ul class="board_content" th:each="r : ${review_list}" th:attr="onclick=|reviewDetail('${r.order_option_code}')|">
                     <li class="b_no" th:text="${r.r_no}"></li>
                     <li class="b_pname" th:text="${r.order_option.product_option.product.p_name}"></li>
                     <li class="b_title" th:text="${r.r_title}"></li>
                     <li class="b_date" th:text="${#dates.format(r.r_create_date, 'yyyy-MM-dd')}"></li>
                 </ul>
             </div>
+            </th:block>
+            <th:block th:if="${#lists.size(review_list) == 0}">
+            	<div class="null_list">
+            		<img id="null" src="/images/nolist.png">
+            		<div>작성한 글이 없습니다.</div>
+            	</div>
+            </th:block>
         </div>
 
         <div class="board_area" id="qna_List" style="display: none;">
@@ -78,7 +129,7 @@
                     <li class="b_status">상태</li>
                 </ul>
 
-                <ul class="board_content">
+                <ul class="board_content" >
                     <li class="b_no"></li>
                     <li class="b_category"></li>
                     <li class="b_title"></li>
@@ -182,10 +233,17 @@
         }
     </script>
     
+    <!-- 게시글 클릭 시 슬라이드 -->
     <script>
-    	function review(r_no){
-    		alert(r_no);
-    	}
+    	$(document).on('click', '.board_content', function(){
+    		if($(this).next().css('display') == 'none'){
+    			$(this).next().slideUp();
+    			$(this).next().slideDown();
+    		} else {
+    			$(this).next().slideUp();
+    		}
+    	});
     </script>
+    
 </body>
 </head>
