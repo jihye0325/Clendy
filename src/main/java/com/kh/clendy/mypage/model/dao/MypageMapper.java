@@ -54,4 +54,10 @@ public interface MypageMapper {
 	
 	List<Cart> selectCart_list(int user_no);
 
+	int deleteCart(int cart_no);
+
+	int minusAmount(HashMap<String, Integer> userMap);
+
+	int plusAmount(HashMap<String, Integer> userMap);
+
 }

@@ -101,3 +101,69 @@ label {
 	padding-left:10px;
 	padding-right: 10px;
 }
+
+/* 슬라이드 부분 */ 
+.slide_area img {
+	width: 35px;
+	height: 35px;
+	margin-left: 30px;
+	margin-right: 35px;
+}
+
+
+.slide_area {
+	display: none;
+}
+
+.p_info {
+	background-color : #e2e1e6;
+	border-bottom : 1px solid lightgray;
+	padding:10px;
+	text-align: center;
+}
+
+.question {
+	display : flex;
+	background-color : #e2e1e6;
+	border-bottom : 1px solid lightgray;
+	padding: 10px;
+}
+
+.q_date {
+	font-size : small;
+	text-align: end;
+}
+
+textarea {
+	background-color: transparent;
+	resize:none;
+	border:none;
+	overflow-y:hidden;
+	width: 670px;
+	font-size: large;
+}
+
+.answer{
+	display : flex;
+	background-color : #e2e1e6;
+	border-bottom : 1px solid lightgray;
+	padding: 10px;
+}
+
+.a_date {
+	font-size : small;
+	text-align: end;
+}
+
+.null_list {
+	margin-top : 45px;
+	text-align: center;
+	font-size: x-large;
+	font-weight: bold;
+}
+
+#null {
+	width: 120px;	
+	margin-bottom: 20px;
+}
+

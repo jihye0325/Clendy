@@ -181,23 +181,28 @@
 		<result property="cart_amount" column="CART_AMOUNT"/>
 		<result property="p_option_no" column="P_OPTION_NO"/>
 		<result property="user_no" column="USER_NO"/>
+		<result property="seller_code" column="SELLER_CODE"/>
 		<result property="seller_name" column="SELLER_NAME"/>
-		<association property="product_option" resultMap="product_optionResultMap"/>
+		<result property="p_color" column="P_COLOR"/>
+		<result property="p_size" column="P_SIZE"/>
+		<result property="p_name" column="P_NAME"/>
+		<result property="p_price" column="P_PRICE"/>
+		<result property="route" column="ROUTE"/>
+		<result property="imgrName" column="IMG_R_NAME"/>
+		<result property="subtotal" column="SUBTOTAL"/>
 	</resultMap>
 	
 	<!-- 상품 문의글  -->
-	<resultMap id="productQnaQresultMap" type="com.kh.clendy.product.model.vo.ProductQnaQ">
-		<id property="piqCode" column="P_I_Q_CODE"/>
-		<result property="piCateCode" column="P_I_CATE_CODE"/>
-		<result property="piCateName" column="P_I_CATE_NAME"/>
-		<result property="pNo" column="P_NO"/>
-		<result property="userNo" column="USER_NO"/>
-		<result property="piqTitle" column="P_I_Q_TITLE"/>
-		<result property="piqContent" column="P_I_Q_CONTENT"/>
-		<result property="piqSecret" column="P_I_Q_SECRET"/>
-		<result property="piqCreateDate" column="P_I_Q_CREATE_DATE"/>
-		<result property="piqModifyDate" column="P_I_Q_MODIFY_DATE"/>
-		<result property="piqDelStatus" column="P_I_Q_DEL_STATUS"/>
+	<resultMap id="productQnaQresultMap" type="com.kh.clendy.mypage.model.vo.ProductQnaQ">
+		<id property="p_i_q_code" column="P_I_Q_CODE"/>
+		<result property="p_i_cate_code" column="P_I_CATE_CODE"/>
+		<result property="p_i_cate_name" column="P_I_CATE_NAME"/>
+		<result property="p_no" column="P_NO"/>
+		<result property="p_name" column="P_NAME"/>
+		<result property="p_i_q_title" column="P_I_Q_TITLE"/>
+		<result property="p_i_q_content" column="P_I_Q_CONTENT"/>
+		<result property="p_i_q_create_date" column="P_I_Q_CREATE_DATE"/>
+		<result property="p_i_q_modify_date" column="P_I_Q_MODIFY_DATE"/>
 		<association property="productQnaA" resultMap="productQnaAresultMap"/>
 	</resultMap>
 	
@@ -500,13 +505,21 @@
             , P_I_CATE_CODE
             , P_I_CATE_NAME
             , P_NO
+            , P_NAME
             , P_I_Q_TITLE
+            , P_I_Q_CONTENT
             , P_I_Q_CREATE_DATE
+            , P_I_Q_MODIFY_DATE
             , P_I_A_CODE
+            , P_I_A_CONTENT
+            , P_I_A_CREATE_DATE
+            , P_I_A_DEL_STATUS
     		FROM PRODUCT_INQUIRY_Q
     		JOIN PRODUCT_INQUIRY_CATEGORY USING(P_I_CATE_CODE)
+    		JOIN PRODUCT USING(P_NO)
             LEFT JOIN PRODUCT_INQUIRY_A USING(P_I_Q_CODE)
     	   WHERE USER_NO = #{ user_no }
+             AND P_I_Q_DEL_STATUS = 'N'
     	   ORDER BY P_I_Q_CODE DESC
 	</select>
 	
@@ -530,7 +543,8 @@
 	<!-- 장바구니 조회 -->
 	<select id="selectCart_list" parameterType="_int" resultMap="cartResultMap">
 		SELECT 
-		      P_OPTION_NO
+			  CART_NO
+		    , P_OPTION_NO
 		    , P_NAME
 		    , P_PRICE
 		    , CART_AMOUNT
@@ -540,6 +554,7 @@
 		    , IMG_R_NAME
 		    , SELLER_CODE
 		    , SELLER_NAME
+		    , (P_PRICE * CART_AMOUNT) AS SUBTOTAL
 		    FROM CART
 		    JOIN PRODUCT_OPTION USING(P_OPTION_NO)
 		    JOIN PRODUCT USING(P_NO)
@@ -549,7 +564,56 @@
 		    JOIN APPLY_STORE USING(A_NO)
 		   WHERE CART.USER_NO = #{ user_no }
 		     AND P_STATUS = 'Y'
-		     AND P_STOCK > CART_AMOUNT
+		     AND P_STOCK >= CART_AMOUNT
 		     AND IMG_LEVEL = 0
+		ORDER BY CART_NO DESC
 	</select>
+	
+	<!-- 장바구니 삭제 (개별버튼) -->
+	<delete id="deleteCart" parameterType="_int">
+		DELETE FROM CART
+		 WHERE CART_NO = #{ cart_no }
+	</delete>
+	
+	<!-- 장바구니 수량감소 -->
+	<update id="minusAmount" parameterType="hashMap">
+		UPDATE CART
+		   SET CART_AMOUNT = CART_AMOUNT - 1
+		 WHERE USER_NO = #{ user_no }
+		   AND CART_NO = #{ cart_no }
+		   AND CART_AMOUNT >= 2
+	</update>
+	
+	<!-- 장바구니 수량증가 -->
+	<update id="plusAmount" parameterType="hashMap">
+		UPDATE CART
+		   SET CART_AMOUNT = CART_AMOUNT + 1
+		 WHERE USER_NO = 4
+		   AND CART_NO = 2
+		   AND CART_AMOUNT &lt; (SELECT
+		                            P_STOCK
+		                          FROM CART
+		                          JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+		                         WHERE P_OPTION_NO = 4)
+	</update>
+	
+	
+	
+	
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

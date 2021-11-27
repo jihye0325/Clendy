@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -190,22 +191,18 @@ public class MypageController {
 		// 위시리스트 불러오기(아우터)
 		Wishlist outer_list = mypageService.selectOuterlist(user_no);
 		mv.addObject("outer_list", outer_list);
-		System.out.println(outer_list);
 		
 		// 위시리스트 불러오기(상의)
 		Wishlist top_list = mypageService.selectToplist(user_no);
 		mv.addObject("top_list", top_list);
-		System.out.println(top_list);
 		
 		// 위시리스트 불러오기(하의)
 		Wishlist bottom_list = mypageService.selectBottomlist(user_no);
 		mv.addObject("bottom_list", bottom_list);
-		System.out.println(bottom_list);
 		
 		// 위시리스트 불러오기(ACC)
 		Wishlist acc_list = mypageService.selectAcclist(user_no);
 		mv.addObject("acc_list", acc_list);
-		System.out.println(acc_list);
 		
 		mv.setViewName("mypage/wishlist");
 		
@@ -302,10 +299,11 @@ public class MypageController {
 		// 상품 문의글 리스트 
 		List<ProductQnaQ> p_qna_list = mypageService.selectP_Qna_List(user_no); 
 		mv.addObject("p_qna_list", p_qna_list);
+		System.out.println(p_qna_list);
 		// 리뷰 리스트
 		List<Review> review_list = mypageService.selectReview_List(user_no);
 		mv.addObject("review_list", review_list);
-		System.out.println(review_list);		
+		//System.out.println(review_list);		
 		// 1:1 문의 리스트  
 		
 		// 교환/환불 리스트
@@ -324,13 +322,53 @@ public class MypageController {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		
-		
 		List<Cart> cart_list = mypageService.selectCart_list(user_no);
 		System.out.println(cart_list);
 		
 		mv.addObject("cart_list", cart_list);		
 		mv.setViewName("/mypage/cart");
 		return mv;
+	}
+		
+	// 장바구니 삭제 (개별 버튼)
+	@PostMapping("/deleteCart")
+	@ResponseBody
+	public int deleteCart(@RequestParam int cart_no) {
+		
+		int result = mypageService.deleteCart(cart_no);
+		
+		return result;
+	}
+	
+	// 장바구니 수량감소
+	@PostMapping("/minus_amount")
+	@ResponseBody
+	public int minusAmount(@RequestParam int cart_no) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		
+		HashMap<String, Integer> userMap = new HashMap<>();
+		userMap.put("cart_no", cart_no);
+		userMap.put("user_no", user_no);
+		int result = mypageService.minusAmount(userMap);
+		
+		return result;
+	}
+	
+	// 장바구니 수량증가
+	@PostMapping("/plus_amount")
+	@ResponseBody
+	public int plusAmount(@RequestParam int cart_no, int p_option_no) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		
+		HashMap<String, Integer> userMap = new HashMap<>();
+		userMap.put("cart_no", cart_no);
+		userMap.put("user_no", user_no);
+		userMap.put("p_option_no", p_option_no);
+		int result = mypageService.plusAmount(userMap);
+		
+		return result;
 	}
 		
 }
