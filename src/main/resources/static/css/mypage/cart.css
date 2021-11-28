@@ -3,7 +3,7 @@ div {
 }
 
 .outer {
-    width: 900px;
+    width: 950px;
     margin: auto;
     min-height: 500px;
 }
@@ -116,7 +116,7 @@ img {
 
 .delete {
 	text-align:center;
-	width: 40px;
+	width: 75px;
 }
 
 .amount button {
@@ -139,16 +139,23 @@ img {
 	text-align-last: end
 }
 
-#delete {
-    border: 1px solid lightgray;
+.delete button {
+    border: 1px solid gray;
     background-color: white;
     font-size: x-small;
     cursor: pointer;
+    width:30px;
+    height:20px;
+}
+
+.select {
+	text-align-last: right;
 }
 
 .select button{
-    border: 1px solid lightgray;
+    border: 1px solid gray;
     background-color: white;
+    cursor: pointer;
 }
 
 .result {
