@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.clendy.mainpage.model.dao.MainpageMapper">
+	<resultMap type="com.kh.clendy.mainpage.model.vo.MainProduct" id="MainProductResultMap">
+		<id property="pNo" column="P_NO"/>
+		<result property="pName" column="P_NAME"/>
+		<result property="pPrice" column="P_PRICE"/>
+		<result property="pStatus" column="P_STATUS"/>
+	</resultMap>
+	
+	<resultMap type="com.kh.clendy.mainpage.model.vo.productImage" id="MainProductResultMap">
+		<id property="pNo" column="P_NO"/>
+		<result property="imgNo" column="IMG_NO"/>
+	</resultMap>
+	
+	<resultMap type="com.kh.clendy.mainpage.model.vo.image" id="MainProductResultMap">
+		<id property="imgNo" column="IMG_NO"/>
+		<result property="route" column="ROUTE"/>
+		<result property="imgName" column="IMG_NAME"/>
+		<result property="imgRName" column="IMG_R_NAME"/>
+		<result property="imgLevel" column="IMG_LEVEL"/>
+		<result property="imgStatus" column="IMG_STATUS"/>
+	</resultMap>
+
+	<select id="selectMainProduct" resultMap="MainProductResultMap">
+		 SELECT
+			p.P_NO
+			,P_NAME
+			,P_PRICE
+			,P_STATUS
+            ,PI.IMG_NO
+            ,I.IMG_NAME
+		FROM PRODUCT p LEFT OUTER JOIN PRODUCT_IMAGE pi
+		   ON p.P_NO = pi.P_NO
+           LEFT OUTER JOIN IMAGE i
+              ON pi.IMG_NO = i.IMG_NO
+	</select>
+
+
+
+</mapper>
