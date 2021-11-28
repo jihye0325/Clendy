@@ -340,6 +340,20 @@ public class MypageController {
 		return result;
 	}
 	
+	// 장바구니 삭제 (선택 삭제)
+	@PostMapping("/selectDelete")
+	@ResponseBody
+	public int selectDelelte(@RequestParam(value="deleteList[]") List<Integer> deleteList) {
+		int result = 0;
+		
+		System.out.println(deleteList);
+		
+		for(Integer no : deleteList) 
+			result = mypageService.deleteCart(no);
+		
+		return result;
+	}
+	
 	// 장바구니 수량감소
 	@PostMapping("/minus_amount")
 	@ResponseBody
@@ -371,4 +385,8 @@ public class MypageController {
 		return result;
 	}
 		
+	// 장바구니 총 주문금액
+	
+	
+	
 }

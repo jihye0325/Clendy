@@ -30,15 +30,16 @@
                         <li class="amount">수량</li>
                         <li class="option">옵션</li>
                         <li class="cart_price">상품금액</li>
-                        <li class="delete">삭제</li>
+                        <li class="delete">주문/삭제</li>
                     </ul>
 					
 					<div th:each="c: ${cart_list}">
 					<div th:with="seller_code = ${c.seller_code}"></div>
+					[[${seller_code}]]
 					<span th:text="${seller_code}"></span>
 					<span class="seller_name" th:text="${c.seller_name}"></span>
 	                    <ul class="cart_ul">
-	                        <li class="check"><input type="checkbox" name="pcheck"></li>
+	                        <li class="check"><input type="checkbox" id="pcheck" name="pcheck" th:value="${c.cart_no}"></li>
 	                        <li class="pname">
 	                            <div class="img_area">
 	                                <img th:src="@{${c.route} + ${c.imgrName}}">
@@ -58,20 +59,21 @@
 	                        	<div class="size" th:text="${c.p_size}"></div>
 	                        </li>
 	                        <li class="cart_price">
-	                        	<div class="subtotal" th:text="|${c.subtotal}원|"></div>
-	                        	<div class="delivery_price" th:if="${c.subtotal >= 50000}">배송비 0원</div>
-	                        	<div class="delivery_price" th:if="${c.subtotal < 50000}">배송비 2500원</div>
+	                        	<div class="subtotal" th:text="|${c.subtotal}원|" th:value="${c.subtotal}"></div>
+	                        	<div class="delivery_price" th:if="${c.subtotal >= 50000}"><input type="hidden" name= "delivery_price" value="0">배송비 0원</div>
+	                        	<div class="delivery_price" th:if="${c.subtotal < 50000}"><input type="hidden" name= "delivery_price" value="2500">배송비 2500원</div>
 	                        </li>
 	                        <li class="delete">
-	                            <button type="button" id="delete" th:attr="onclick=|deleteCart('${c.cart_no}')|">삭제</button>
+	                        	<button type="button" id="order" th:attr="onclick=|orderCart('${c.cart_no}', '${c.p_name}')|">주문</button>
+	                            <button type="button" id="delete" th:attr="onclick=|deleteCart('${c.cart_no}', '${c.p_name}')|">삭제</button>
 	                        </li>
 	                    </ul>
                     </div>
                 </div>
 
                 <div class="select">
-                    <button type="button">선택주문</button>
-                    <button type="button">선택삭제</button>
+                    <button type="button" id="checkAllBtn">전체선택</button>
+                    <button type="button" id="selectDelete">선택삭제</button>
                 </div>
             </div>
     
@@ -105,10 +107,28 @@
     	}
     </script>
     
-    <!-- 삭제 -->
     <script>
-    	function deleteCart(cart_no){
-    		if(!confirm("장바구니에서 삭제하시겠습니까?")) return;
+    	$('#checkAllBtn').on("click", function(){
+    		
+    		if($('[name=pcheck]').is(":checked") == false){
+    			$('[name=pcheck]').prop('checked', true);
+    		} else {
+    			$('[name=pcheck]').prop('checked', false);
+    		}
+    	});
+    </script>
+    
+    <!-- 개별 주문 -->
+    <script>
+    	function orderCart(cart_no, p_name){
+    		if(!confirm(p_name + "을(를) 주문하시겠습니까?")) return;
+    	}
+    </script>
+    
+    <!-- 개별 삭제 -->
+    <script>
+    	function deleteCart(cart_no, p_name){
+    		if(!confirm(p_name + "을(를) 장바구니에서 삭제하시겠습니까?")) return;
     		
     		var token = $("meta[name='_csrf']").attr("content");
     		var header = $("meta[name='_csrf_header']").attr("content"); 
@@ -134,6 +154,41 @@
 				}
     		});
     	}
+    </script>
+    
+    <!-- 선택 삭제 -->
+    <script>
+    	$('#selectDelete').on("click", function(){
+    		var checkBoxArr = [];
+    		$("input:checkbox[name='pcheck']:checked").each(function(){
+    			checkBoxArr.push($(this).val());
+    			console.log(checkBoxArr);
+    		})
+    		
+    		var token = $("meta[name='_csrf']").attr("content");
+    		var header = $("meta[name='_csrf_header']").attr("content"); 
+    		
+    		$.ajax({
+    			url : "/mypage/selectDelete",
+    			type : 'post',
+    			data : {'deleteList' : checkBoxArr},
+    			/* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+				beforeSend : function(xhr)		
+				{
+					xhr.setRequestHeader(header, token);    					
+				},
+				success : function(result){
+					if(result > 0) {
+						alert("장바구니에서 삭제되었습니다.");
+						location.reload();
+					} else
+						alert("장바구니 삭제에 실패했습니다.");			
+				},
+				error : function(e){
+					console.log(e);
+				}
+    		});
+    	});
     </script>
     
     <!-- 수량 조절 -->
@@ -191,11 +246,18 @@
     	}
     </script>
     
+    <!-- 총 주문금액 -->
+    <script>
+    	$('input:checkbox').on('click', function(){
+    		if($(this).prop("checked")){
+    			var onePrice = $(this).next().next().next();
+    			console.log(onePrice);
+    		} else {
+    			alert('체크해제');
+    		}
+    	});
     
-    
-    
-    
-    
+    </script>
     
 </body>
 </html>
