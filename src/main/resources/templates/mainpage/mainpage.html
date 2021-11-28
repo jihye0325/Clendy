@@ -303,28 +303,17 @@ button {
 					name="slide" id="slide03">
 				<div class="slidewrap">
 
-					<ul class="slidelist">
+					<ul class="slidelist" >
 						<!-- 슬라이드 영역 -->
-						<li class="slideitem"><a>
+						<li class="slideitem" th:each="mainproduct, i : ${mainProductList}">
+							<a href="#">
 								<div class="textbox">
-									<h3>첫번째 슬라이드</h3>
-									<p>첫번째 슬라이드 입니다.</p>
-								</div> <img src="/images/slide.jpg">
-						</a></li>
-						<li class="slideitem"><a>
-
-								<div class="textbox">
-									<h3>두번째 슬라이드</h3>
-									<p>두번째 슬라이드 입니다.</p>
-								</div> <img src="/images/slide.jpg">
-						</a></li>
-						<li class="slideitem"><a>
-
-								<div class="textbox">
-									<h3>세번째 슬라이드</h3>
-									<p>세번째 슬라이드 입니다.</p>
-								</div> <img src="/images/slide.jpg">
-						</a></li>
+										<h3 th:text="${mainproduct.pName}"></h3>
+										<p th:text="${mainproduct.pPrice}"></p>
+								</div> <img th:src="@{/images/}+${mainproduct.imgName}">
+							</a>
+						</li>
+						
 
 						<!-- 좌,우 슬라이드 버튼 -->
 						<div class="slide-control">
@@ -358,10 +347,11 @@ button {
 				<h1>랭킹 top10</h1>
 				<ul class="productimg" >
 					<li th:each="mainproduct, i : ${mainProductList}"><span class="product_ranking" th:text="|${i.count}위|"></span>
-					 <img th:src="/images/${mainproduct.imgName}">
+					 <a href="#"><img th:src="@{/images/}+${mainproduct.imgName}"></a>
 						<div class="product_txt" >
 							<p class="product_title" th:text="${mainproduct.pName}"/>
 							<p th:text="${mainproduct.pPrice}"/>
+							
 						</div></li>
 				</ul>
 			</div>
@@ -384,6 +374,8 @@ button {
 		</div>
 	</div>
 	<div th:replace="common/footer.html"></div>
+	
+	
 
 </body>
 </html>
