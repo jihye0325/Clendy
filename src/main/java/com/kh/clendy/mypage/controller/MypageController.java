@@ -193,18 +193,22 @@ public class MypageController {
 		// 위시리스트 불러오기(아우터)
 		Wishlist outer_list = mypageService.selectOuterlist(user_no);
 		mv.addObject("outer_list", outer_list);
+		System.out.println(outer_list);
 		
 		// 위시리스트 불러오기(상의)
 		Wishlist top_list = mypageService.selectToplist(user_no);
 		mv.addObject("top_list", top_list);
+		System.out.println(top_list);
 		
 		// 위시리스트 불러오기(하의)
 		Wishlist bottom_list = mypageService.selectBottomlist(user_no);
 		mv.addObject("bottom_list", bottom_list);
+		System.out.println(bottom_list);
 		
 		// 위시리스트 불러오기(ACC)
 		Wishlist acc_list = mypageService.selectAcclist(user_no);
 		mv.addObject("acc_list", acc_list);
+		System.out.println(acc_list);
 		
 		mv.setViewName("mypage/wishlist");
 		
@@ -316,7 +320,7 @@ public class MypageController {
 		int user_no = user.getUser_no();
 		
 		List<Cart> cart_list = mypageService.selectCart_list(user_no);
-		
+		System.out.println(cart_list);
 		mv.addObject("cart_list", cart_list);		
 		mv.setViewName("/mypage/cart");
 		return mv;
@@ -419,8 +423,15 @@ public class MypageController {
 	// 교환신청화면
 	@GetMapping("/exchange/{order_option_code}")
 	public ModelAndView exchange(ModelAndView mv, @PathVariable int order_option_code) {
-		// 교환신청
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		Member m = mypageService.selectMember(user_no);
+		// 상품정보 조회
+		Order_Option order_option = mypageService.selectProduct(order_option_code);
 		
+		System.out.println(order_option);	
+		mv.addObject("m", m);
+		mv.addObject("order_option", order_option);
 		mv.setViewName("/mypage/exchangeForm");
 		return mv;
 	}
@@ -428,7 +439,7 @@ public class MypageController {
 	// 환불신청화면
 	@GetMapping("/refund/{order_option_code}")
 	public ModelAndView refund(ModelAndView mv, @PathVariable int order_option_code) {
-		// 교환신청
+		
 		
 		mv.setViewName("/mypage/refundForm");
 		return mv;
