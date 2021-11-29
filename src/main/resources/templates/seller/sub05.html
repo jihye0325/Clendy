@@ -53,14 +53,14 @@
                             <th>배송 현황</th>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr th:each="productlist : ${ productList }">
                                 <td><input type="checkbox"></td>
-                                <td>1234</td>
-                                <td><img src="assets/img/layout/Black.jpg" alt="img"><span></span></td>
-                                <td>홍진우</td>
-                                <td>서울특별시 강동구 길동 양재대로 1560</td>
-                                <td>XL/BK</td>
-                                <td>1</td>
+                                <td th:text="${ productlist.orderCode }"></td>
+                                <td th:text="${ productlist.pName }"></td>
+                                <td th:text="${ productlist.userName }"></td>
+                                <td th:text="${ productlist.orderAddress }"></td>
+                                <td th:text="|${ productlist.pSize }/${productlist.pColor}|"></td>
+                                <td th:text="${ productlist.orderProductNum }"></td>
                                 <td>
                                     <span class="delivery_on">배송 중</span>
                                     <p class="delivery_desc" style="font-size:12px; margin-top:10px; color:#aaa;">배송 완료</p>
