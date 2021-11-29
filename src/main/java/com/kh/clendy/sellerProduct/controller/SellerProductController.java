@@ -55,7 +55,15 @@ public class SellerProductController {
 	public void toIndex() {}
 	
 	@GetMapping("/sub02")
-	public void toSub02() {}
+	public ModelAndView selectProductList0(ModelAndView mv) {
+		
+		List<SellerProduct> sellerproductList = sellerProductService.sellerProductList();
+		
+		mv.addObject("sellerproductList", sellerproductList);
+		mv.setViewName("seller/sub02");
+		
+		return mv;
+	}
 	
 	@GetMapping("/sub03")
 	public void registForm() {}

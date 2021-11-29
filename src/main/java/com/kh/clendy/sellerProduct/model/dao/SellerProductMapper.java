@@ -18,4 +18,6 @@ public interface SellerProductMapper {
 	List<ProductList> selectProductList();
 
 	List<ProductList> selectProductListById();
+
+	List<SellerProduct> sellerProductList();
 }

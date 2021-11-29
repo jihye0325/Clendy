@@ -87,12 +87,12 @@
                     <th></th>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr th:each="sellerproduct : ${ sellerproductList }">
                         <td><input type="checkbox"></td>
-                        <td>1</td>
-                        <td>1234,5678</td>
-                        <td>12345,6789</td>
-                        <td>12345,678</td>
+                        <td th:text="${ sellerproduct.pNo }"></td>
+                        <td th:text="${ sellerproduct.pName }"></td>
+                        <td th:text="${ sellerproduct.categoryCode }"></td>
+                        <td th:text="${ sellerproduct.pPrice }"></td>
                         <td><button>수정</button></td>
 
                     </tr>
