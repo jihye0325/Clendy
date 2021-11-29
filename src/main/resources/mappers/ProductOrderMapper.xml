@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.clendy.product.model.dao.ProductOrderMapper">
+	<resultMap id="memberResultMap" type="com.kh.clendy.member.model.vo.Member">
+		<result property="user_name" column="USER_NAME"/>
+		<result property="phone" column="PHONE"/>
+		<result property="address" column="ADDRESS"/>
+	</resultMap>
+	
+	<resultMap id="orderInfoResultMap" type="com.kh.clendy.product.model.vo.Order">
+		<result property="pName" column="P_NAME"/>
+		<result property="pOptionNo" column="P_OPTION_NO"/>
+		<result property="pColor" column="P_COLOR"/>
+		<result property="pSize" column="P_SIZE"/>
+		<result property="pStock" column="P_STOCK"/>
+		<result property="pPrice" column="P_PRICE"/>
+		<result property="pDiscount" column="P_DISCOUNT"/>
+		<result property="cartMount" column="CARTAMOUNT"/>
+		<result property="sellerCode" column="SELLER_CODE"/>
+		<result property="aNo" column="A_NO"/>
+		<result property="sellerName" column="SELLER_NAME"/>
+		<association property="orderImage" resultMap="imageResultMap"/>
+	</resultMap>
+	
+	<resultMap id="imageResultMap" type="com.kh.clendy.product.model.vo.ProductImage" >
+		<id property="imgNo" column="IMG_NO"/>
+		<result property="route" column="ROUTE"/>
+		<result property="imgName" column="IMG_NAME"/>
+		<result property="imgrName" column="IMG_R_NAME"/>
+		<result property="imgLevel" column="IMG_LEVEL"/>
+		<result property="imgStatus" column="IMG_STATUS"/>
+	</resultMap>
+	
+	<select id="orderMemberSelect" parameterType="_int" resultMap="memberResultMap">
+		SELECT
+		       USER_NAME
+		     , PHONE
+		     , ADDRESS
+		  FROM MEMBER
+		 WHERE USER_NO = #{ userNo }
+	</select>
+	
+	<select id="orderInfoSelect" parameterType="com.kh.clendy.product.model.vo.ProductCart" resultMap="orderInfoResultMap">
+		SELECT
+		       P_NAME
+		     , P_OPTION_NO
+		     , P_COLOR
+		     , P_SIZE
+		     , P_STOCK
+		     , P_PRICE
+		     , P_DISCOUNT
+		     , #{cartAmount} AS CARTAMOUNT
+		     , SELLER_CODE
+		     , A_NO
+		     , SELLER_NAME
+		     , IMG_NO
+		     , ROUTE
+		     , IMG_NAME
+		     , IMG_R_NAME
+		     , IMG_LEVEL
+		     , IMG_STATUS
+		 FROM PRODUCT_OPTION
+		 JOIN PRODUCT USING(P_NO)
+		 JOIN PRODUCT_IMAGE USING(P_NO)
+ 		 JOIN IMAGE USING(IMG_NO)
+		 JOIN SELLER USING(SELLER_CODE)
+		 JOIN APPLY_STORE USING(A_NO)
+		 WHERE IMG_LEVEL  = 1
+		 AND P_OPTION_NO = #{ pOptionNo }
+	
+	
+	</select>
+	
+
+
+
+
+
+</mapper>

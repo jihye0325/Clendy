@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+			    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -36,9 +37,9 @@
                                     </div>
                                     <div class="post_info_wrap">
                                         <div class="exist_box">
-                                            <h4 class="name">홍길동</h4>
-                                            <p class="address">(30130) 세종특별자치시 한누리대로 161(나성동)</p>
-                                            <p class="tel">010-1234-5678</p>
+                                            <h4 class="name" th:text="${postMember.user_name}">홍길동</h4>
+                                            <p class="address" th:text="${postMember.address}">(30130) 세종특별자치시 한누리대로 161(나성동)</p>
+                                            <p class="tel" th:text="${postMember.phone}">010-1234-5678</p>
                                         </div>   
                                         <div class="new_exist_box"  style="display:none;">
                                             <dl>
@@ -93,53 +94,51 @@
                                 <h3 class="order_title">주문내역</h3>
                                 <div class="order_list_wrap">
                                     <div class="order_list">
-                                        <h4 class="mall_name">일번 쇼핑몰</h4>
-                                        <div class="order_list">
-                                            <div class="list">
-                                               <div class="list_left">
-                                                   <div class="img">
-                                                       <img src="/images/order_sample1.png" alt="">
-                                                   </div>
-                                                   <p class="title">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</p>
-                                                   <p class="option">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
-                                                   <div class="list_quan">
-                                                       <input type="text" name="" id="">
-                                                       개
-                                                   </div>
-                                               </div>
-                                               <div class="list_center">
-                                                   <p><span>31,500</span>원</p>
-                                               </div>
-                                               <div class="list_right">
-                                                   <p class="post_price"><span>2,500</span>원</p>
-                                                   <a href="javascript:;" class="post_tip">배송비</a>
-                                               </div>
-                                            </div>
+                                    	<th:block th:each="entry : ${orderInfo}">
+                                    		<h4 class="mall_name" th:text="${entry.value[0].sellerName}">일번 쇼핑몰</h4>
+	                                        <div class="order_list" >
+	                                        
+	                                            <div class="list" th:each="list : ${entry.value}" >
+	                                               <div class="list_left">
+	                                                   <div class="img">
+	                                                       <img th:src="@{${list.orderImage.route} + ${list.orderImage.imgrName}}" alt="">
+	                                                   </div>
+	                                                   <p class="title" th:text="${list.pName}">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</p>
+	                                                   <p class="option" th:text="|${list.pColor} / ${list.pSize}|">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
+	                                                   <div class="list_quan">
+	                                                       <input type="text" name="" id="" th:value="${list.cartMount}" readonly>
+	                                                       개
+	                                                   </div>
+	                                               </div>
+	                                               <div class="list_center">
+	                                                   <p th:with="perwon = ${(list.pPrice - (list.pPrice * (list.pDiscount / 100.0))) * list.cartMount}">
+	                                                   		<span th:text="${#numbers.formatInteger(perwon, 3, 'COMMA')}">31,500</span>원
+	                                                   </p>
+	                                               </div>
+	                                               <div class="list_right">
+	                                               		<div class="list_right_box">
+		                                                   <p class="post_price" >
+		                                                   		<th:block th:if="${#aggregates.sum(entry.value.![(pPrice - (pPrice * (pDiscount / 100.0))) * cartMount]) >= 80000}">
+		                                                   			무료배송
+		                                                   		</th:block>
+		                                                   		<th:block th:unless="${#aggregates.sum(entry.value.![(pPrice - (pPrice * (pDiscount / 100.0))) * cartMount]) >= 80000}">
+		                                                   			<span>2,500</span>원
+		                                                   		</th:block>
+		                                                   </p>
+		                                                   		
+		                                                   <a href="javascript:;" class="post_tip">
+		                                                   		배송비
+		                                                   </a>
+	                                                   </div>
+	                                               </div>
+	                                            </div>
+	                                        </div>
+	                                        
+                                    	</th:block>
+                                    
+                                        
 
-                                            <div class="list">
-                                                <div class="list_left">
-                                                    <div class="img">
-                                                        <img src="/images/order_sample1.png" alt="">
-                                                    </div>
-                                                    <p class="title">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</p>
-                                                    <p class="option">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
-                                                    <div class="list_quan">
-                                                        <input type="text" name="" id="">
-                                                        개
-                                                    </div>
-                                                </div>
-                                                <div class="list_center">
-                                                    <p><span>31,500</span>원</p>
-                                                </div>
-                                                <div class="list_right">
-                                                    <p class="post_price"><span>2,500</span>원</p>
-                                                    <a href="javascript:;" class="post_tip">배송비</a>
-                                                </div>
- 
-                                             </div>
-                                        </div>
-
-                                        <h4 class="mall_name">이번 쇼핑몰</h4>
+                                       <!--  <h4 class="mall_name">이번 쇼핑몰</h4>
                                         <div class="order_list">
                                             <div class="list">
                                                <div class="list_left">
@@ -162,7 +161,7 @@
                                                </div>
                                             </div>
 
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>

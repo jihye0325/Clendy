@@ -48,9 +48,9 @@
                         <div class="view_top_wrap">
                             <div class="slide_wrap">
                                 <div class="img">
-                                    <img th:src="@{${modelMap.info.imageList[0].route} + ${modelMap.info.imageList[0].imgrName}}" alt="">
+                                    <img th:src="@{${modelMap.info.imageList[0].route} + ${modelMap.info.imageList[0].imgrName}}" alt="" th:if="${modelMap.info.imageList != null}">
                                 </div>
-                                <div class="img_list">
+                                <div class="img_list" th:if="${modelMap.info.imageList != null}">
                                     <a href="javascript:;" class="on" th:each="image : ${modelMap.info.imageList}">
                                         <img th:src="${image.route} + ${image.imgrName}" alt="">
                                     </a>
@@ -304,7 +304,9 @@
 	                        <form name="productFrm" th:action="@{/product/order}" method="post">
 	                        	
 	                        	<input type="hidden" name="userNo" th:value="${modelMap.loginUno}" >
-	                        	<input type="hidden" name="pNo"th:value="${pNo}" >
+	                        	<input type="hidden" name="pNo" th:value="${pNo}" >
+	                        	<input type="hidden" name="sellerCode" th:value="${modelMap.info.sellerCode}" >
+	                        	
 		                            <div class="option_wrap">
 	                                <select name="optionColor" id="optionColor" class="select" >
 	                                    <option value="colorChoice">색상 선택</option>

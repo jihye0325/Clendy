@@ -16,6 +16,7 @@
 	
 	<!-- 상품 상세 반환 -->
 	<resultMap id="productViewInfoResultMap" type="com.kh.clendy.product.model.vo.Product">
+		
 		<id property="pNo" column="P_NO"/>
 		<result property="pName" column="P_NAME"/>	
 		<result property="pPrice" column="P_PRICE"/>	
@@ -209,7 +210,8 @@
 	
 	<select id="productViewInfo" parameterType="java.util.Map" resultMap="productViewInfoResultMap">
 		SELECT
-		       PD.P_NO
+		       SEL.SELLER_CODE
+		     , PD.P_NO
 		     , PD.P_NAME
 		     , PD.P_PRICE
 		     , PD.P_DISCOUNT
@@ -234,6 +236,7 @@
 		     LEFT JOIN MEMBER M ON(WL.USER_NO = M.USER_NO)
 		     LEFT JOIN PRODUCT_IMAGE PIMG ON(PD.P_NO = PIMG.P_NO)
 		     LEFT JOIN IMAGE IMG ON(PIMG.IMG_NO = IMG.IMG_NO)
+		     JOIN SELLER SEL ON(PD.SELLER_CODE = SEL.SELLER_CODE)
 		    WHERE PD.P_STATUS = 'N'
 		      AND IMG.IMG_LEVEL = 2
 		      AND PD.P_NO = #{pNo}

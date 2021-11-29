@@ -69,6 +69,7 @@ public class ProductController {
 		mapInfo.put("userNo", userNo);
 		
 		Product productInfo = productService.productViewInfo(mapInfo);
+		System.out.println(productInfo);
 		
 		Map<String, Object> modelMap = new HashMap<>();
 		modelMap.put("info", productInfo);
