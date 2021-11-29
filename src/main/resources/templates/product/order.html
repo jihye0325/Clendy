@@ -7,9 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상품 주문 페이지</title>
      <link rel="stylesheet" th:href="@{/css/product_style.css}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
-    
+    <script th:src="@{/js/product_common.js}"></script>
     <script src="https://d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 </head>
 <body>
@@ -169,24 +168,26 @@
                             <div class="item">
                                 <h3 class="order_title">할인/포인트</h3>
                                 <div class="sale_wrap">
-                                    <dl>
+                                    <dl class="coupon_cou">
                                         <dt>쿠폰할인</dt>
                                         <dd>
+                                        	<input type="hidden" name="insertCouNo" value="-1">
                                             <p class="coupon_txt">
                                                 <span>0</span>원
                                             </p>
-                                            <a href="javascript:;" class="btn_coupon">쿠폰적용</a>
+                                            <a href="javascript:popOpen('coupon_box');" class="btn_coupon">쿠폰적용</a>
                                         </dd>
                                     </dl>
                                     <dl>
                                         <dt>포인트사용</dt>
                                         <dd>
                                             <div class="input_box">
-                                                <input type="text" name="" id="" value="0">
+                                                <input type="number" name="" id="" value="0" data-min="0" th:data-max="${point}" th:if="${point > 0}">
+                                                <input type="number" name="" id="" value="0" th:unless="${point > 0}" readonly>
                                                 <span>원</span>
                                             </div>
                                             <p class="point_txt">
-                                               사용가능포인트<span>3,000</span>P
+                                               사용가능포인트 <span th:text="${#numbers.formatInteger(point, 3, 'COMMA')}">3,000</span>P
                                             </p>
                                         </dd>
                                     </dl>
@@ -238,8 +239,76 @@
         </section>
         
         <div th:replace="common/footer.html"></div>
-        
     </div>
+    
+     <!-- 쿠폰 목록 S -->
+    <div class="layout_wrap" id="coupon_box">
+        <div class="dim"></div>
+        <div class="layout_box">
+            <div class="layout_head">
+                <h3 class="title">쿠폰 목록</h3>
+                <a href="javascript:popClose('coupon_box');" class="pop_close"></a>
+            </div>
+            <div class="layout_body">
+               <div class="layout_coupon_wrap">
+                    <ul class="coupon_list">
+                        <li class="list" th:each="list : ${couponList}">
+                            <a href="javascript:;">
+                            	<input type="hidden" name="couNo" th:value="${list.cou_no}">
+                                <div class="list_top">
+                                    <h2 class="coupon_title" th:text="${list.cou_name}">쿠폰이름 쿠폰이름 쿠폰이름</h2>
+                                    <p class="coupon_dday" th:text="|D-${list.cou_dday}|">D-9</p>
+                                </div>
+                                <div class="list_bot">
+                                    <p class="coupon_txt">상품할인</p>
+                                    <p class="coupont_price"><span th:text="${#numbers.formatInteger(list.cou_price, 3, 'COMMA')}">2,000</span>원 할인</p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+               </div>
+                <div class="layout_btn_wrap">
+                    <a href="javascript:;" class="active">쿠폰적용</a>
+                    <a href="javascript:popClose('coupon_box');">취소하기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function(){
+            // 쿠폰 선택
+            $(".coupon_list .list a").click(function(){
+                $(".coupon_list .list").removeClass("on");
+                $(this).parent(".list").addClass("on");
+            })
+            
+            
+            // 쿠폰 적용
+            $("#coupon_box .active").click(function(){
+            	const choiceSize = $(this).parents(".layout_body").find(".list.on").length;
+            	const couNo = $(this).parents(".layout_body").find("input[name=couNo]").val();
+            	const price = $(this).parents(".layout_body").find(".coupont_price span").text();
+            	
+            	if(choiceSize > 0){
+            		popClose('coupon_box');
+            		$("input[name=insertCouNo]").val(couNo);
+            		$(".coupon_txt span").text(price);
+            		
+            	}else{
+            		alert("적용하실 쿠폰을 선택해주세요!");
+            	}
+            	
+            	
+            	
+            	
+            })
+            
+
+        })
+    </script>
+    <!-- 쿠폰 목록 E -->
+    
+    
 
     <script>
         $(function(){
