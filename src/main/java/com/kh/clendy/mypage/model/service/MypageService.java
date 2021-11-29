@@ -11,6 +11,7 @@ import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
 import com.kh.clendy.mypage.model.vo.Product;
 import com.kh.clendy.mypage.model.vo.Product_Order;
+import com.kh.clendy.mypage.model.vo.Refund;
 import com.kh.clendy.mypage.model.vo.Review;
 import com.kh.clendy.mypage.model.vo.Wishlist;
 import com.kh.clendy.product.model.vo.ProductQnaQ;
@@ -60,10 +61,12 @@ public interface MypageService{
 
 	List<Product_Order> selectProduct_Order(int user_no);
 
-	int selectPostnum(int order_code);
+	int selectPostnum(int order_option_code);
 
-	int decide_buy(int order_code);
+	int decide_buy(int order_option_code);
 
 	Payment selectOrderInfo(int order_code);
+
+	int requestRefund(Refund refund);
 
 }

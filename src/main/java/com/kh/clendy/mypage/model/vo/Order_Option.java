@@ -28,6 +28,8 @@ public class Order_Option {
 	private String order_postnum;
 	private Date order_modify_date;
 	private int r_no;
+	private int p_price;
+	private int subtotal;
 	
 	public Order_Option() {}
 
@@ -35,7 +37,7 @@ public class Order_Option {
 			int p_no, String p_name, String p_color, String p_size, String order_name, String order_address,
 			String order_phone, String order_status_name, String route, String img_r_name, int user_no,
 			String order_request, Date order_create_date, int order_delivery, int order_all_price, String order_postnum,
-			Date order_modify_date, int r_no) {
+			Date order_modify_date, int r_no, int p_price, int subtotal) {
 		super();
 		this.order_option_code = order_option_code;
 		this.order_code = order_code;
@@ -59,6 +61,8 @@ public class Order_Option {
 		this.order_postnum = order_postnum;
 		this.order_modify_date = order_modify_date;
 		this.r_no = r_no;
+		this.p_price = p_price;
+		this.subtotal = subtotal;
 	}
 
 	public int getOrder_option_code() {
@@ -237,6 +241,22 @@ public class Order_Option {
 		this.r_no = r_no;
 	}
 
+	public int getP_price() {
+		return p_price;
+	}
+
+	public void setP_price(int p_price) {
+		this.p_price = p_price;
+	}
+
+	public int getSubtotal() {
+		return subtotal;
+	}
+
+	public void setSubtotal(int subtotal) {
+		this.subtotal = subtotal;
+	}
+
 	@Override
 	public String toString() {
 		return "Order_Option [order_option_code=" + order_option_code + ", order_code=" + order_code
@@ -246,7 +266,8 @@ public class Order_Option {
 				+ order_status_name + ", route=" + route + ", img_r_name=" + img_r_name + ", user_no=" + user_no
 				+ ", order_request=" + order_request + ", order_create_date=" + order_create_date + ", order_delivery="
 				+ order_delivery + ", order_all_price=" + order_all_price + ", order_postnum=" + order_postnum
-				+ ", order_modify_date=" + order_modify_date + ", r_no=" + r_no + "]";
+				+ ", order_modify_date=" + order_modify_date + ", r_no=" + r_no + ", p_price=" + p_price + ", subtotal="
+				+ subtotal + "]";
 	}
 
 	
