@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.clendy.sellerProduct.model.service.SellerProductService;
+import com.kh.clendy.sellerProduct.model.vo.ProductList;
 import com.kh.clendy.sellerProduct.model.vo.SellerProduct;
 import com.kh.clendy.sellerProduct.model.vo.SellerProductCategory;
 import com.kh.clendy.sellerProduct.model.vo.SellerProductImage;
@@ -86,14 +88,46 @@ public class SellerProductController {
 	}
 	
 	@GetMapping("/sub04")
-	public void toSub04() {}
+	public ModelAndView selectProductList(ModelAndView mv) {
+		
+		List<ProductList> productList = sellerProductService.selectProductList();
+		
+		mv.addObject("productList", productList);
+		mv.setViewName("seller/sub04");
+		
+		return mv;
+	}
 	
 	@GetMapping("/sub05")
-	public void toSub05() {}
+	public ModelAndView selectProductList2(ModelAndView mv) {
+		
+		List<ProductList> productList = sellerProductService.selectProductList();
+		
+		mv.addObject("productList", productList);
+		mv.setViewName("seller/sub05");
+		
+		return mv;
+	}
 	
 	@GetMapping("/sub06")
-	public void toSub06() {}
+	public ModelAndView selectProductList3(ModelAndView mv) {
+		
+		List<ProductList> listById = sellerProductService.selectProductListById();
+		
+		mv.addObject("listById", listById);
+		mv.setViewName("seller/sub06");
+		
+		return mv;
+	}
 	
 	@GetMapping("/sub07")
-	public void toSub07() {}
+	public ModelAndView selectProductList4(ModelAndView mv) {
+		
+		List<ProductList> listById = sellerProductService.selectProductListById();
+
+		mv.addObject("listById", listById);
+		mv.setViewName("seller/sub07");
+
+		return mv;
+	}
 }

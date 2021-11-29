@@ -53,14 +53,14 @@
                             <th>반품 사유</th>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr th:each="productlist : ${ listById }">
                                 <td><input type="checkbox"></td>
-                                <td>1234</td>
-                                <td><img src="assets/img/layout/Black.jpg" alt="img"><span></span></td>
-                                <td>홍진우</td>
-                                <td>서울특별시 강동구 길동 양재대로 1560</td>
-                                <td>XL/BK</td>
-                                <td>1</td>
+                                <td th:text="${ productlist.orderCode }"></td>
+                                <td th:text="${ productlist.pName }"></td>
+                                <td th:text="${ productlist.userId }"></td>
+                                <td th:text="${ productlist.orderAddress }"></td>
+                                <td th:text="|${ productlist.pSize }/${productlist.pColor}|"></td>
+                                <td th:text="${ productlist.orderProductNum }"></td>
                                 <td>단순 변심</td>
                             </tr>
                             <tr>

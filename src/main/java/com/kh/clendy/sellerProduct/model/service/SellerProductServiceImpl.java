@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.clendy.sellerProduct.model.dao.SellerProductMapper;
+import com.kh.clendy.sellerProduct.model.vo.ProductList;
 import com.kh.clendy.sellerProduct.model.vo.SellerProduct;
 import com.kh.clendy.sellerProduct.model.vo.SellerProductCategory;
 
@@ -27,5 +28,15 @@ public class SellerProductServiceImpl implements SellerProductService {
 	@Override
 	public List<SellerProductCategory> findAllCategory() {
 		return sellerProductMapper.findAllCategory();
+	}
+
+	@Override
+	public List<ProductList> selectProductList() {
+		return sellerProductMapper.selectProductList();
+	}
+
+	@Override
+	public List<ProductList> selectProductListById() {
+		return sellerProductMapper.selectProductListById();
 	}
 }

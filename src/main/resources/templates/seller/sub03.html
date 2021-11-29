@@ -23,7 +23,6 @@
 
 <body>
 <div th:replace="common/header.html"></div>
-	<form action="/seller/sub03" name="registNewProduct" method="post" enctype="mulipart/form-data">
     <div id="wrap">
         <div class="content_right">
             <div class="content">
@@ -33,6 +32,7 @@
                     </span>
                 </div>
 
+				<form action="/seller/sub03" name="registNewProduct" method="post" enctype="mulipart/form-data">
                 <table class="p_regist">
                     <tr>
                         <th>카테고리</th>
@@ -85,6 +85,7 @@
                         </td>
                     </tr>
                 </table>
+			    </form>
 
                 <div class="option_box">
                     <p class="info_title">옵션</p>
@@ -168,7 +169,6 @@
             </div>
         </div>
     </div>
-    </form>
     <div th:replace="common/footer.html"></div>
     <script>
     	$(function(){
