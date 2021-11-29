@@ -18,7 +18,6 @@
             <li><a class="side" href="/mypage/point_coupon">적립금/쿠폰</a></li>
             <li><a class="side" href="/mypage/myBoard">내가 쓴 글</a></li>
             <li><a class="side" onclick="reviewInsert()" style="color:black">리뷰등록</a></li>
-            <li><a class="side" onclick="reviewDetail()" style="color:black">리뷰상세</a></li>
         </ul>
     </div>
     
@@ -31,18 +30,6 @@
 			var popupY= (window.screen.height / 2) - (popupHeight / 2);
 			
     		window.open("/mypage/reviewInsert", "리뷰 등록", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
-    	}
-    </script>
-    <script>
-    	function reviewDetail(){
-    		var popupWidth = 900;
-			var popupHeight = 700;
-
-			var popupX = (window.screen.width / 2) - (popupWidth / 2);
-			var popupY= (window.screen.height / 2) - (popupHeight / 2);
-			
-    		window.open("/mypage/reviewDetail", "리뷰 상세", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
-    	
     	}
     </script>
 </body>

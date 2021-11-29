@@ -22,6 +22,7 @@
         <form>
         	<th:block th:if="${#lists.size(cart_list) > 0}">
             <div class="cart">
+            	<span class="info">품절된 상품은 표시되지 않습니다.</span>
                 <div class="cart_list">
                     <ul class="cart_header">
                         <li class="allCheck"><input type="checkbox" id="allCheck" onclick="selectAll(this)"></li>
@@ -33,42 +34,47 @@
                         <li class="delete">주문/삭제</li>
                     </ul>
 					
-					<div th:each="c: ${cart_list}">
-					<div th:with="seller_code = ${c.seller_code}"></div>
-					[[${seller_code}]]
-					<span th:text="${seller_code}"></span>
-					<span class="seller_name" th:text="${c.seller_name}"></span>
-	                    <ul class="cart_ul">
-	                        <li class="check"><input type="checkbox" id="pcheck" name="pcheck" th:value="${c.cart_no}"></li>
-	                        <li class="pname">
-	                            <div class="img_area">
-	                                <img th:src="@{${c.route} + ${c.imgrName}}">
-	                            </div>
-	                            <div class="p_info">
-	                                <div id="pname" th:text="${c.p_name}"></div>
-	                            </div>
-	                        </li>
-	                        <li class="price" th:text="${c.p_price}"></li>
-	                        <li class="amount">										
-	                            <button type="button" id="minus" th:attr="onclick=|minus_amount('${c.cart_no}')|">-</button>
-	                            <input type="number" class="numBox" min="1" th:value="${c.cart_amount}" readonly>
-	                            <button type="button" id="plus" th:attr="onclick=|plus_amount('${c.cart_amount}', '${c.p_option_no}')|">+</button>
-	                        </li>
-	                        <li class="option">
-	                        	<div class="color" th:text="${c.p_color}"></div>
-	                        	<div class="size" th:text="${c.p_size}"></div>
-	                        </li>
-	                        <li class="cart_price">
-	                        	<div class="subtotal" th:text="|${c.subtotal}원|" th:value="${c.subtotal}"></div>
-	                        	<div class="delivery_price" th:if="${c.subtotal >= 50000}"><input type="hidden" name= "delivery_price" value="0">배송비 0원</div>
-	                        	<div class="delivery_price" th:if="${c.subtotal < 50000}"><input type="hidden" name= "delivery_price" value="2500">배송비 2500원</div>
-	                        </li>
-	                        <li class="delete">
-	                        	<button type="button" id="order" th:attr="onclick=|orderCart('${c.cart_no}', '${c.p_name}')|">주문</button>
-	                            <button type="button" id="delete" th:attr="onclick=|deleteCart('${c.cart_no}', '${c.p_name}')|">삭제</button>
-	                        </li>
-	                    </ul>
-                    </div>
+					<div th:each="c,index: ${cart_list}">
+						
+					
+						<th:block th:if="${index.index} == 0 or ${index.index} > 0 and ${c.seller_code} != ${cart_list.get(index.index - 1).seller_code}">
+						<span class="seller_name" th:text="${c.seller_name}"></span>
+						</th:block> 
+						
+		                    <ul class="cart_ul">
+		                        <li class="check"><input type="checkbox" id="pcheck" name="pcheck" th:value="${c.cart_no}"></li>
+		                        <li class="pname">
+		                            <div class="img_area">
+		                                <img th:src="@{${c.route} + ${c.imgrName}}">
+		                            </div>
+		                            <div class="p_info">
+		                                <div id="pname" th:text="${c.p_name}"></div>
+		                            </div>
+		                        </li>
+		                        <li class="price" th:text="${c.p_price}"></li>
+		                        <li class="amount">										
+		                            <button type="button" id="minus" th:attr="onclick=|minus_amount('${c.cart_no}')|">-</button>
+		                            <input type="number" class="numBox" min="1" th:value="${c.cart_amount}" readonly>
+		                            <button type="button" id="plus" th:attr="onclick=|plus_amount('${c.cart_amount}', '${c.p_option_no}')|">+</button>
+		                        </li>
+		                        <li class="option">
+		                        	<div class="color" th:text="${c.p_color}"></div>
+		                        	<div class="size" th:text="${c.p_size}"></div>
+		                        </li>
+		                        <li class="cart_price">
+		                        	<div class="subtotal" th:text="|${c.subtotal}원|" th:value="${c.subtotal}"></div>
+		                        	<div class="delivery_price" th:if="${c.subtotal >= 50000}"><input type="hidden" name= "delivery_price" value="0">배송비 0원</div>
+		                        	<div class="delivery_price" th:if="${c.subtotal < 50000}"><input type="hidden" name= "delivery_price" value="2500">배송비 2500원</div>
+		                        </li>
+		                        <li class="delete">
+		                        	<button type="button" id="order" th:attr="onclick=|orderCart('${c.cart_no}', '${c.p_name}')|">주문</button>
+		                            <button type="button" id="delete" th:attr="onclick=|deleteCart('${c.cart_no}', '${c.p_name}')|">삭제</button>
+		                        </li>
+		                    </ul>
+		                  </div>
+		                  
+	                    </div>
+                  
                 </div>
 
                 <div class="select">
@@ -79,7 +85,7 @@
     
             <div class="result">
                 <span>총 주문금액 : </span>
-                <span id="total_price"></span>
+                <span id="total_price">0원</span>
             </div>
                 
             <div class="btn_area">
@@ -104,17 +110,49 @@
     		checkboxes.forEach((checkbox) => {
     			checkbox.checked = selectAll.checked;
     		})
+    		
+    		var totalPrice = 0;
+    		
+    		$('input:checkbox[name="pcheck"]').each(function(){
+        		if($(this).prop("checked")){
+        			
+        			var onePrice = $(this).parent().parent().children('li:eq(5)').children('div:eq(0)').attr("value");
+        			
+        			totalPrice = totalPrice + Number(onePrice);
+        		} 
+    		});
+    		
+    		// 천단위로 콤마 표시
+    		const totalPrice2 = totalPrice.toLocaleString('ko-KR'); 
+    		$('#total_price').html(totalPrice2 + "원");
     	}
     </script>
-    
+    <!-- 전체 선택 버튼 클릭 -->
     <script>
     	$('#checkAllBtn').on("click", function(){
     		
     		if($('[name=pcheck]').is(":checked") == false){
     			$('[name=pcheck]').prop('checked', true);
+        		var totalPrice = 0;
+        		
+        		$('input:checkbox[name="pcheck"]').each(function(){
+            		if($(this).prop("checked")){
+            			
+            			var onePrice = $(this).parent().parent().children('li:eq(5)').children('div:eq(0)').attr("value");
+            			
+            			totalPrice = totalPrice + Number(onePrice);
+            			
+                		// 천단위로 콤마 표시
+                		const totalPrice2 = totalPrice.toLocaleString('ko-KR'); 
+                		$('#total_price').html(totalPrice2 + "원");
+            		} 
+        		});
+        		
     		} else {
     			$('[name=pcheck]').prop('checked', false);
+    			$('#total_price').html('0원');
     		}
+    	
     	});
     </script>
     
@@ -247,14 +285,22 @@
     </script>
     
     <!-- 총 주문금액 -->
-    <script>
-    	$('input:checkbox').on('click', function(){
-    		if($(this).prop("checked")){
-    			var onePrice = $(this).next().next().next();
-    			console.log(onePrice);
-    		} else {
-    			alert('체크해제');
-    		}
+    <script>        
+    	$('input:checkbox[name="pcheck"]').change(function(){
+    		var totalPrice = 0;
+    		
+    		$('input:checkbox[name="pcheck"]').each(function(){
+        		if($(this).prop("checked")){
+        			
+        			var onePrice = $(this).parent().parent().children('li:eq(5)').children('div:eq(0)').attr("value");
+        			
+        			totalPrice = totalPrice + Number(onePrice);
+        		} 
+    		});
+    		
+    		// 천단위로 콤마 표시
+    		const totalPrice2 = totalPrice.toLocaleString('ko-KR'); 
+    		$('#total_price').html(totalPrice2 + "원");
     	});
     
     </script>

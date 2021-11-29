@@ -7,8 +7,10 @@ import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.mypage.model.vo.Cart;
 import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.mypage.model.vo.Order_Option;
+import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
 import com.kh.clendy.mypage.model.vo.Product;
+import com.kh.clendy.mypage.model.vo.Product_Order;
 import com.kh.clendy.mypage.model.vo.Review;
 import com.kh.clendy.mypage.model.vo.Wishlist;
 import com.kh.clendy.product.model.vo.ProductQnaQ;
@@ -55,5 +57,13 @@ public interface MypageService{
 	int minusAmount(HashMap<String, Integer> userMap);
 
 	int plusAmount(HashMap<String, Integer> userMap);
+
+	List<Product_Order> selectProduct_Order(int user_no);
+
+	int selectPostnum(int order_code);
+
+	int decide_buy(int order_code);
+
+	Payment selectOrderInfo(int order_code);
 
 }

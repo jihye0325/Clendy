@@ -5,6 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/mypage/orderList.css" rel="stylesheet"></link>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <!-- csrf 토큰 -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>주문내역</title>
 </head>
 <body>
@@ -30,37 +34,58 @@
                 <li class="pstatus">주문상태</li>
             </ul>
 
-            <ul class="ul_content">
+            <ul class="ul_content" th:each="p : ${po_list}">
                 <li class="pname">
-                	<a href="/">
+                	<a th:href="@{'/product/view/' + ${p.p_no}}">
                     <div class="pname_area">
-                        <img src="/images/sampleimg1.png">
+                        <img th:src="@{${p.route} + ${p.img_r_name}}">
                         <div class="p_info">
-                            <div id="bname">토피</div>
-                            <div id="pname">2WAY 스웻 후드 집업</div>
-                            <div id="option">옵션 : M</div>
+                            <div id="pname" th:text="${p.p_name}"></div>
+                            <div id="option">
+                            	<span>옵션 : </span>
+                            	<span th:text="${p.p_color}"></span>
+                            	<span th:text="${p.p_size}"></span>
+                            </div>
                         </div>
                     </div>
                     </a>
                 </li>
                 <li class="price">
-                    <span>39,000원</span><br>
-                    <span>1개</span>
+                    <span th:text="|${p.order_all_price}원|"></span><br>
+                    <span th:text="|${p.order_product_num}개|"></span>
                 </li>
                 <li class="order_no">
-                    <span>20211210241421</span><br>
-                    <button type="button" id="order_address">배송지</button>
+                    <span th:text="${p.order_code}"></span><br>
+                    <button type="button" id="order_info" th:attr="onclick=|orderInfo('${p.order_code}')|">주문상세</button>
                 </li>
-                <li class="date">2021.12.10</li>
+                <li class="date" th:text="${#dates.format(p.order_create_date, 'yyyy-MM-dd')}"></li>
                 <li class="pstatus">
                     <div class="status_box">
                         <div class="status_info">
-                            <div id="status">결제완료</div>
+                            <div id="status" th:text="${p.order_status_name}"></div>
+                            <th:block th:if="${p.order_status_name == '결제완료'}">
                             <button id="decide_btn">주문취소</button>
+                            </th:block>
+                            <th:block th:if="${p.order_status_name == '배송중'}">	
+                            <button id="decide_btn" th:attr="onclick=|delivery('${p.order_code}')|">배송조회</button>
+                            </th:block>
+                            <th:block th:if="${p.order_status_name == '배송완료'}">
+                            <button id="decide_btn" th:attr="onclick=|decide_buy('${p.order_code}')|">구매확정</button><br>
+                            <button id="exchange" th:attr="onclick=|exchange('${p.order_option_code}')|">교환신청</button><br>
+                            <button id="refund" th:attr="onclick=|refund('${p.order_option_code}')|">환불신청</button>
+                            </th:block>                         
                         </div>
-
+                        
                         <div class="review_info">
-                            <button id="review_btn">리뷰등록</button>
+                        	<th:block th:if="${p.order_status_name == '구매확정' and p.r_no == 0}">
+                            <button id="review_btn" th:attr="onclick=|insert_review('${p.order_option_code}')|">리뷰등록</button>
+                            </th:block>
+                            <th:block th:if="${p.order_status_name != '구매확정'}">
+                            <button id="disable_review_btn" th:attr="onclick=|disable_review()|" >리뷰등록</button>
+                            </th:block>
+                            <th:block th:if="${p.r_no != 0}">
+                            <button id="review_detail" th:attr="onclick=|reviewDetail('${p.order_option_code}')|">리뷰확인</button>
+                            </th:block>
                         </div>
                     </div>
                 </li>
@@ -68,5 +93,162 @@
         </div>
     </div>
 	<div th:replace="common/footer.html"></div>
+	
+	<!-- 리뷰등록불가 -->
+	<script>
+		function disable_review(){
+			alert("구매확정 이전에는 리뷰를 등록할 수 없습니다.");
+		}
+	</script>
+	
+	<!-- 배송조회 -->
+	<script>
+		function delivery(order_code){			
+			var token = $("meta[name='_csrf']").attr("content");
+    		var header = $("meta[name='_csrf_header']").attr("content"); 
+    		
+    		$.ajax({
+    			url : "/mypage/readDelivery",
+    			type : 'post',
+    			data : {'order_code' : order_code},
+    			/* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+				beforeSend : function(xhr)		
+				{
+					xhr.setRequestHeader(header, token);    					
+				},
+				success : function(data){
+					if(data) {
+						alert("택배사 : Clendy택배\n운송장 번호 : " + data);
+					} else
+						alert("운송장 번호 조회 실패!");			
+				},
+				error : function(e){
+					console.log(e);
+				}
+    		});
+		}
+	</script>
+	
+	<!-- 구매확정 -->
+	<script>
+		function decide_buy(order_code){
+			var token = $("meta[name='_csrf']").attr("content");
+    		var header = $("meta[name='_csrf_header']").attr("content"); 
+    		
+    		$.ajax({
+    			url : "/mypage/decide_buy",
+    			type : 'post',
+    			data : {'order_code' : order_code},
+    			/* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+				beforeSend : function(xhr)		
+				{
+					xhr.setRequestHeader(header, token);    					
+				},
+				success : function(result){
+					if(result > 0) {
+						alert("구매확정이 완료되었습니다. 리뷰를 남겨주세요.");
+						location.reload();
+					} else
+						alert("구매확정 실패!");			
+				},
+				error : function(e){
+					console.log(e);
+				}
+    		});
+		}
+	</script>
+	<!-- 리뷰 확인 -->
+	<script>
+		function reviewDetail(order_option_code){
+			var popupWidth = 900;
+			var popupHeight = 600;
+	
+			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+			var popupY= (window.screen.height / 2) - (popupHeight / 2);
+			
+			window.open("/mypage/reviewDetail/" +order_option_code, "리뷰 상세", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
+		}
+	</script>
+	
+	<!-- 리뷰 등록 -->
+	<script>
+		function insert_review(order_option_code){
+			var popupWidth = 900;
+			var popupHeight = 600;
+	
+			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+			var popupY= (window.screen.height / 2) - (popupHeight / 2);
+			
+			window.open("/mypage/reviewInsert/" +order_option_code, "리뷰 등록", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
+		}
+	</script>
+		
+	<script>
+		const msg = '[[${ msg }]]';
+		
+		if(msg){
+			alert(msg);
+			if(msg == "리뷰가 등록되었습니다."){
+				window.close();
+			}
+		}
+		
+	</script>
+	
+	<!-- 주문상세 -->
+	<script>
+		function orderInfo(order_code){
+			var popupWidth = 900;
+			var popupHeight = 600;
+	
+			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+			var popupY= (window.screen.height / 2) - (popupHeight / 2);
+			
+			window.open("/mypage/orderInfo/" +order_code, "주문상세", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
+		}
+		
+	</script>
+
+	<!-- 교환신청 -->
+	<script>
+		function exchange(order_option_code){
+			var popupWidth = 900;
+			var popupHeight = 600;
+	
+			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+			var popupY= (window.screen.height / 2) - (popupHeight / 2);
+			
+			window.open("/mypage/exchange/" +order_option_code, "교환신청", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
+		}
+	</script>
+	
+	<!-- 환불신청 -->
+	<script>
+		function refund(order_option_code){
+			var popupWidth = 900;
+			var popupHeight = 600;
+	
+			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+			var popupY= (window.screen.height / 2) - (popupHeight / 2);
+			
+			window.open("/mypage/refund/" +order_option_code, "환불신청", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
+		
+		}
+	
+	</script>
+	
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

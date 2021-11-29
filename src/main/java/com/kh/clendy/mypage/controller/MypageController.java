@@ -26,7 +26,9 @@ import com.kh.clendy.mypage.model.service.MypageService;
 import com.kh.clendy.mypage.model.vo.Cart;
 import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.mypage.model.vo.Order_Option;
+import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
+import com.kh.clendy.mypage.model.vo.Product_Order;
 import com.kh.clendy.mypage.model.vo.Review;
 import com.kh.clendy.mypage.model.vo.Wishlist;
 import com.kh.clendy.product.model.vo.ProductQnaQ;
@@ -226,13 +228,11 @@ public class MypageController {
 	}
 		
 	// 리뷰 화면
-	@GetMapping("/reviewInsert")
-	public ModelAndView insertReview(ModelAndView mv) {
+	@GetMapping("/reviewInsert/{order_option_code}")
+	public ModelAndView insertReview(ModelAndView mv, @PathVariable int order_option_code) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		Member m = mypageService.selectMember(user_no);
-		// *** 리뷰 등록 클릭시 주문옵션번호(order_option_code)가 넘어오게 구현해야함 ***
-		int order_option_code = 4;
 		// 상품정보 조회
 		Order_Option order_option = mypageService.selectProduct(order_option_code);
 
@@ -248,7 +248,6 @@ public class MypageController {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		int order_option_code = Integer.parseInt(request.getParameter("order_option_code"));
-		
 		String r_title = request.getParameter("r_title");
 		int score = Integer.parseInt(request.getParameter("score"));
 		String open_size = "";
@@ -274,22 +273,21 @@ public class MypageController {
 				
 		redirectAttr.addFlashAttribute("msg", msg);
 		
-		return "redirect:/mypage/reviewInsert";
+		return "redirect:/mypage/orderList";
 	}
 	
 	// 리뷰 상세화면
-	@GetMapping("/reviewDetail")
-	public ModelAndView reviewDetail(ModelAndView mv) {
+	@GetMapping("/reviewDetail/{order_option_code}")
+	public ModelAndView reviewDetail(ModelAndView mv, @PathVariable int order_option_code) {
 		// *** 리뷰 보기 클릭시 주문옵션번호(order_option_code)가 넘어오게 구현해야함 ***
-		int order_option_code = 4;
 		// 상품정보 조회
 		Review review = mypageService.selectReview(order_option_code);
 		
-		System.out.println(review);
 		mv.addObject("r", review);
 		mv.setViewName("/mypage/reviewDetail");
 		return mv;
 	}
+	
 	
 	// 내가 쓴 글 화면 
 	@GetMapping("/myBoard")
@@ -299,7 +297,6 @@ public class MypageController {
 		// 상품 문의글 리스트 
 		List<ProductQnaQ> p_qna_list = mypageService.selectP_Qna_List(user_no); 
 		mv.addObject("p_qna_list", p_qna_list);
-		System.out.println(p_qna_list);
 		// 리뷰 리스트
 		List<Review> review_list = mypageService.selectReview_List(user_no);
 		mv.addObject("review_list", review_list);
@@ -311,11 +308,7 @@ public class MypageController {
 		mv.setViewName("mypage/myBoard");
 		return mv;
 	}
-	
-	// 주문내역 화면
-	@GetMapping("/orderList")
-	public void orderList() {}
-	
+
 	// 장바구니 화면
 	@GetMapping("/cart")
 	public ModelAndView cart(ModelAndView mv) {
@@ -323,7 +316,6 @@ public class MypageController {
 		int user_no = user.getUser_no();
 		
 		List<Cart> cart_list = mypageService.selectCart_list(user_no);
-		System.out.println(cart_list);
 		
 		mv.addObject("cart_list", cart_list);		
 		mv.setViewName("/mypage/cart");
@@ -345,9 +337,7 @@ public class MypageController {
 	@ResponseBody
 	public int selectDelelte(@RequestParam(value="deleteList[]") List<Integer> deleteList) {
 		int result = 0;
-		
-		System.out.println(deleteList);
-		
+				
 		for(Integer no : deleteList) 
 			result = mypageService.deleteCart(no);
 		
@@ -384,9 +374,63 @@ public class MypageController {
 		
 		return result;
 	}
+	
+	// 주문내역 화면
+	@GetMapping("/orderList")
+	public ModelAndView orderList(ModelAndView mv) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
 		
-	// 장바구니 총 주문금액
+		List<Product_Order> po_list = mypageService.selectProduct_Order(user_no);
+		
+		System.out.println(po_list);
+		mv.addObject("po_list", po_list);
+		mv.setViewName("/mypage/orderList");
+		return mv;
+	}
 	
+	// 배송조회 
+	@PostMapping("/readDelivery")
+	@ResponseBody
+	public int readDelivery(@RequestParam int order_code) {
+		int postnum = mypageService.selectPostnum(order_code);
+		return postnum;
+	}
+		
+	// 구매확정
+	@PostMapping("/decide_buy")
+	@ResponseBody
+	public int decide_buy(@RequestParam int order_code) {
+		int result = mypageService.decide_buy(order_code);
+		return result;
+	}
 	
+	// 주문상세내역조회
+	@GetMapping("/orderInfo/{order_code}")
+	public ModelAndView orderInfo(ModelAndView mv, @PathVariable int order_code) {
+		// 주문내역조회
+		Payment p = mypageService.selectOrderInfo(order_code);
+		System.err.println(p);
+		mv.addObject("p", p);
+		mv.setViewName("/mypage/orderInfo");
+		return mv;
+	}
 	
+	// 교환신청화면
+	@GetMapping("/exchange/{order_option_code}")
+	public ModelAndView exchange(ModelAndView mv, @PathVariable int order_option_code) {
+		// 교환신청
+		
+		mv.setViewName("/mypage/exchangeForm");
+		return mv;
+	}
+	
+	// 환불신청화면
+	@GetMapping("/refund/{order_option_code}")
+	public ModelAndView refund(ModelAndView mv, @PathVariable int order_option_code) {
+		// 교환신청
+		
+		mv.setViewName("/mypage/refundForm");
+		return mv;
+	}
 }

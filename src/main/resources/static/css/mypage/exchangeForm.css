@@ -151,4 +151,5 @@ button {
     font-weight: bold;
     width: 120px;
     height: 40px;
+    cursor: pointer;
 }
