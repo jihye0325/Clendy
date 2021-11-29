@@ -39,4 +39,9 @@ public class SellerProductServiceImpl implements SellerProductService {
 	public List<ProductList> selectProductListById() {
 		return sellerProductMapper.selectProductListById();
 	}
+
+	@Override
+	public List<SellerProduct> sellerProductList() {
+		return sellerProductMapper.sellerProductList();
+	}
 }

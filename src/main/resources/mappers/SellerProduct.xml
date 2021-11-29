@@ -116,4 +116,13 @@
              LEFT OUTER JOIN member m
                 ON po.user_no = m.user_no
 	</select>
+	
+	<select id="sellerProductList" resultMap="productResultMap">
+		select
+				p_no
+			,	p_name
+			,	category_code
+			,	p_price
+			from product
+	</select>
 </mapper>

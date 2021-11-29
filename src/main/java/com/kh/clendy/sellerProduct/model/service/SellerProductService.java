@@ -15,4 +15,6 @@ public interface SellerProductService {
 	List<ProductList> selectProductList();
 
 	List<ProductList> selectProductListById();
+
+	List<SellerProduct> sellerProductList();
 }
