@@ -12,7 +12,7 @@ public class Product_Order {
 	private int order_all_price;
 	private String order_postnum;
 	private Date order_modify_date;
-	
+
 	// 주문번호에 연결된 여러개의 상품 주문옵션
 	private List<Order_Option> order_option_list;
 	private Order_Status order_status;
@@ -124,5 +124,6 @@ public class Product_Order {
 				+ "]";
 	}
 
-		
+	
+	
 }

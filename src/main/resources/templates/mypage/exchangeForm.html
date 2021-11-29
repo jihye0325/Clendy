@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+    <!-- csrf -->
+    <meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
     <link href="/css/mypage/exchangeForm.css" rel="stylesheet"></link>
     <title>교환 신청</title>
 </head>
@@ -72,7 +76,14 @@
 
         <div class="btn_area">
             <button type="submit">교환신청</button>
+            <button type="button" onclick="cancle()">취소</button>
         </div>
     </div>
+    
+    <script>
+		function cancle(){
+			window.close();
+		}
+    </script>
 </body>
 </html>

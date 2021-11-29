@@ -12,8 +12,10 @@ import com.kh.clendy.mypage.model.dao.MypageMapper;
 import com.kh.clendy.mypage.model.vo.Cart;
 import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.mypage.model.vo.Order_Option;
+import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
 import com.kh.clendy.mypage.model.vo.Product;
+import com.kh.clendy.mypage.model.vo.Product_Order;
 import com.kh.clendy.mypage.model.vo.Review;
 import com.kh.clendy.mypage.model.vo.Wishlist;
 import com.kh.clendy.product.model.vo.ProductQnaQ;
@@ -181,6 +183,29 @@ public class MypageServiceImpl implements MypageService {
 	public int plusAmount(HashMap<String, Integer> userMap) {
 		return mypageMapper.plusAmount(userMap);
 	}
-	
 
+	// 주문내역 화면
+	@Override
+	public List<Product_Order> selectProduct_Order(int user_no) {
+		return mypageMapper.selectProduct_Order(user_no);
+	}
+	
+	// 운송장번호 조회
+	@Override
+	public int selectPostnum(int order_code) {
+		return mypageMapper.selectPostnum(order_code);
+	}
+
+	// 구매확정
+	@Override
+	public int decide_buy(int order_code) {
+		return mypageMapper.decide_buy(order_code);
+	}
+
+	// 주문내역조회
+	@Override
+	public Payment selectOrderInfo(int order_code) {
+		return mypageMapper.selectOrderInfo(order_code);
+	}
+	
 }

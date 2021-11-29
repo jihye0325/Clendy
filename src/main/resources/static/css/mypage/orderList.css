@@ -80,14 +80,8 @@ img{
     margin-bottom: auto;
 }
 
-#bname {
-    font-weight: bold;
-    margin-bottom: 2px;
-}
-
 #pname {
     font-weight: bold;
-    color: gray;
     margin-bottom: 2px;
 }
 
@@ -105,11 +99,11 @@ img{
     margin-bottom: auto;
 }
 
-#order_address {
+#order_info {
+	padding: 2px;
     margin-top: 10px;
     background-color: white;
     border: 1px solid gray;
-    font-weight: bold;
     font-size: small;
     cursor: pointer;
 }
@@ -149,21 +143,26 @@ img{
 .status_box button {
     background-color: white;
     border: 1px solid gray;
-    font-weight: bold;
     font-size: small;
     cursor: pointer;
+    padding: 2px;
 }
 
-.pname a {
-	cursor:pointer;
+#disable_review_btn {
+	border: 1px solid lightgray;
+	color: lightgray;
 }
 
 .pname a:link{
-	color: black;
+    color: black;
     text-decoration: none;
 }
 
 .pname a:visited{
     color: black;
     text-decoration: none;
+}
+
+.pname a:hover{
+    cursor: pointer;
 }

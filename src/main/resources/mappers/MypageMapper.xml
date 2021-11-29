@@ -107,6 +107,24 @@
 		<id property="order_option_code" column="ORDER_OPTION_CODE"/>
 		<result property="order_code" column="ORDER_CODE"/>
 		<result property="order_product_num" column="ORDER_PRODUCT_NUM"/>
+		<result property="order_request" column="ORDER_REQUEST"/>
+		<result property="order_create_date" column="ORDER_CREATE_DATE"/>
+		<result property="order_delivery" column="ORDER_DELIVERY"/>
+		<result property="order_all_price" column="ORDER_ALL_PRICE"/>
+		<result property="order_postnum" column="ORDER_POSTNUM"/>
+		<result property="order_modify_date" column="ORDER_MODIFY_DATE"/>
+		<result property="p_name" column="P_NAME"/>
+		<result property="p_color" column="P_COLOR"/>
+		<result property="p_size" column="P_SIZE"/>
+		<result property="order_product_num" column="ORDER_PRODUCT_NUM"/>
+		<result property="order_name" column="ORDER_NAME"/>
+		<result property="order_address" column="ORDER_ADDRESS"/>
+		<result property="order_phone" column="ORDER_PHONE"/>
+		<result property="order_status_name" column="ORDER_STATUS_NAME"/>
+		<result property="route" column="ROUTE"/>
+		<result property="img_r_name" column="IMG_R_NAME"/>
+		<result property="r_no" column="R_NO"/>
+		<result property="p_no" column="P_NO"/>
 		<association property="product_option" resultMap="product_optionResultMap"/>
 	</resultMap>
 	
@@ -212,6 +230,21 @@
 		<result property="piaContent" column="P_I_A_CONTENT"/>
 		<result property="piaCreateDate" column="P_I_A_CREATE_DATE"/>
 		<result property="piaDelStatus" column="P_I_A_DEL_STATUS"/>
+	</resultMap>
+	
+	<!-- Payment -->
+	<resultMap id="paymentResultMap" type="com.kh.clendy.mypage.model.vo.Payment">
+		<id property="pay_code" column="PAY_CODE"/>
+		<result property="order_code" column="ORDER_CODE"/>
+		<result property="pay_money" column="PAY_MONEY"/>
+		<result property="pay_means" column="PAY_MEANS"/>
+		<result property="pay_card_name" column="PAY_CARD_NAME"/>
+		<result property="pay_card_num" column="PAY_CARD_NUM"/>
+		<result property="pay_refund" column="PAY_REFUND"/>
+		<result property="order_request" column="ORDER_REQUEST"/>
+		<result property="order_name" column="ORDER_NAME"/>
+		<result property="order_address" column="ORDER_ADDRESS"/>
+		<result property="order_phone" column="ORDER_PHONE"/>
 	</resultMap>
 	
 	<!-- id로 유저정보 조회 -->
@@ -597,9 +630,75 @@
 		                         WHERE P_OPTION_NO = 4)
 	</update>
 	
+	<!-- 주문내역 조회 -->
+	<select id="selectProduct_Order" parameterType="_int" resultMap="order_option_listResultMap">
+		SELECT
+			 PRODUCT_ORDER.USER_NO, 
+			 P_NO,
+		     P_NAME,
+		     P_COLOR,
+		     P_SIZE,
+		     ORDER_ALL_PRICE,
+		     ORDER_PRODUCT_NUM,
+		     ORDER_CODE,
+		     ORDER_OPTION_CODE,
+		     ORDER_NAME,
+		     ORDER_ADDRESS,
+		     ORDER_PHONE,
+		     ORDER_CREATE_DATE,
+		     ORDER_STATUS_NAME,
+		     ROUTE,
+		     IMG_R_NAME,
+		     R_NO
+		  FROM PRODUCT_ORDER
+		  JOIN ORDER_OPTION USING(ORDER_CODE)
+		  JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+		  JOIN PRODUCT USING(P_NO)
+		  JOIN PRODUCT_IMAGE USING(P_NO)
+		  JOIN IMAGE USING(IMG_NO)
+		  JOIN ORDER_DEL_INFO USING(ORDER_CODE)
+		  JOIN ORDER_STATUS USING(ORDER_STATUS_CODE)
+		  LEFT JOIN REVIEW USING(ORDER_OPTION_CODE)
+		 WHERE PRODUCT_ORDER.USER_NO = #{ user_no }
+		   AND IMG_LEVEL = 0
+		 ORDER BY ORDER_CODE DESC
+	</select>
 	
+	<!-- 운송장조회 -->
+	<select id="selectPostnum" parameterType="_int" resultType="_int">
+		SELECT
+			    ORDER_POSTNUM
+		   FROM PRODUCT_ORDER
+          WHERE ORDER_CODE = #{ order_code }
+	</select>
 	
+	<!-- 구매확정 -->
+	<update id="decide_buy" parameterType="_int">
+	 UPDATE PRODUCT_ORDER
+	    SET ORDER_STATUS_CODE = 'STATUS_CODE4'
+	  WHERE ORDER_CODE = #{ order_code }
+	</update>
 	
+	<!-- 주문상세내역 조회 -->
+	<select id="selectOrderInfo" parameterType="_int" resultMap="paymentResultMap">
+		SELECT
+		    PAY_CODE,
+		    ORDER_CODE,
+		    PAY_MONEY,
+		    PAY_MEANS,
+		    PAY_CARD_NAME,
+		    PAY_CARD_NUM,
+		    ORDER_REQUEST,
+		    ORDER_CREATE_DATE,
+		    ORDER_NAME,
+		    ORDER_ADDRESS,
+		    ORDER_PHONE
+		  FROM PAYMENT
+		  JOIN PRODUCT_ORDER USING(ORDER_CODE)
+		  JOIN ORDER_DEL_INFO USING(ORDER_CODE)
+		 WHERE ORDER_CODE = #{ order_code }
+	
+	</select>
 </mapper>
 
 
