@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>입점승인</title>
+    <style>
+        #wrapper {display: flex;}
+        #content-title, h6{ display: inline-block; margin-right: 15px; }
+        ul, li{list-style: none; padding-left: 0;}
+        a{text-decoration: none;}
+        /* sidebar */
+        #sidebar{    width: 160px;    padding-left :10%;}
+        #sidebar li{ width: 70px; height: 40px; }
+        #sidebar a {  color:black; width: 110px; height: 30px; display: inline-block; padding:5px; }
+        .sideA:hover{ background-color: #060032; color:white; }
+        #sidebar a:hover:not(.current){ background-color: #060032; color:white; }
+        #sidebar .current{background-color: #060032; color:white;}
+        /* sub-side */
+        .sub_side{ display: flex; justify-content: space-evenly; font-size: x-large;  margin-bottom: 60px;}
+        .sub_side a{ text-decoration : none; color: black; }
+        .sub_side .current {border-bottom : 1px solid black;} 
+        /* content */
+        #content{  margin : 0px auto auto 11%; width: 850px;}    
+        /* board-list */
+        .board-wrapper{margin-top: 30px;}
+        .list-th ul{ height: 30px; border-top: 1px solid lightgray; margin: 0; border-bottom: 1px solid lightgray;}
+        .list-th li{ font-weight: bold; display: table-cell;  text-align: center; line-height: 30px; }
+        .list-num { width : 60px; text-align: center;}
+        .list-name{width : 300px; text-align: center;}
+        .list-sales{ width : 150px; text-align: center;}
+        .list-commission{ width: 140px; text-align: center;}
+        .list-date { width : 120px; text-align:center;}
+        .list-join-or-cancel{width : 80px; text-align: center; }
+        .list-btn{ display:inline-block; text-decoration: underline; cursor: pointer;}
+        .board-list li{ display: table-cell; height: 40px; line-height: 40px; border-bottom: 1px solid lightgray;}
+        </style>
+        <link rel="stylesheet" href="/css/common/paging.css">
+    	
+    <!--  알림창 -->
+	<script>
+		const msg = '[[${ msg }]]';
+		
+		if(msg){
+			alert(msg);
+		}
+	</script>
+</head>
+<body>
+    <div th:replace="common/header.html"></div>
+
+    <div id="wrapper">
+        <div id="sidebar">
+            <ul>
+                <li><a class="sideA " href="/admin/storeList">판매자관리</a></li>
+                <li><a class="sideA current" href="/admin/joinStore">입점승인/취소</a></li>
+                <li><a class="sideA " href="/admin/calculation">정산</a></li>
+                <li><a class="sideA " href="/admin/coupon">쿠폰관리</a></li>
+            </ul>
+        </div>
+        <div id="content">
+        	<div class="sub_side">
+        	<a class="current" href="/admin/joinStore">입점신청</a><a href="/admin/cancelStore">입점취소</a>
+        	</div>
+            <h3 id="content-title">입점 신청 리스트</h3><h6>Join Store</h6>
+        
+            <div class="board-wrapper">
+                <div class="list-th">
+                    <ul><li class="list-num">번호</li><li class="list-name">이름</li><li class="list-sales">대표자</li><li class="list-commission">사업자등록번호</li><li class="list-date">신청일</li><li class="list-join-or-cancel"> 입점승인</li></ul></div>
+                <div th:if="apply == null">
+                <div class="board-list">
+                <ul ><li>입점 신청한 스토어가 없습니다.</li></ul>
+                </div>
+                </div>
+                <div th:if="apply != null">
+                <div class="board-list" th:each="apply,i : ${applyStoreList}">
+                	<input type="hidden" name="a_no" id="a_no" th:value=${apply.a_no}>
+                    <ul><li class="list-num" th:text="${(applyPi.listCount-(10*(applyPi.page-1))) - (i.count-1) }"></li>
+                    <li class="list-name" th:text="${apply.seller_name}"></li><li class="list-sales " th:text="${apply.rep_name}"></li>
+                    <li class="list-commission"  th:text="${apply.b_license}"></li><li class="list-date" th:text="${#dates.format(apply.apply_date, 'yyyy-MM-dd')}"></li>
+                    <li class="list-join-or-cancel"><a class="list-btn ">승인</a></li></ul>    
+                </div>
+                </div>
+            </div>
+	
+			<!-- 입점 신청 페이징 -->
+            <div class="pagaing_wrap" th:if="${#lists.size(applyStoreList) > 0}">
+                        <ul class="pagaing_left">
+                            <li class="allPrev" th:classappend="${applyPi.page == 1} ? 'hide'">
+                            	<a th:href="@{/CScenter/admin/manageStore/(page=1)}" th:if="${applyPi.page > 1}"></a>
+	                            <a href="javascript:;" th:unless="${applyPi.page > 1}"></a>
+                            </li>
+                            <li class="prev" th:classappend="${applyPi.page == 1} ? 'hide'">
+	                            <a th:href="@{/CScenter/admin/manageStore/(page=${applyPi.page - 1})}" th:if="${applyPi.page > 1}"></a>
+                            	<a href="javascript:;" th:unless="${applyPi.page > 1}"></a>
+                            </li>
+                        </ul>
+                        
+                        <ul class="pagaing_num">
+                        	<th:block th:each="pd : ${#numbers.sequence(applyPi.startPage, applyPi.endPage)}">
+                        		<li th:classappend="${applyPi.page == pdStat.current} ? 'on'">
+                        			<a th:href="@{/CScenter/admin/manageStore/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+                        		</li>
+                        	</th:block>
+                            
+                        </ul>
+
+                        <ul class="pagaing_right" >
+                            <li class="next" th:classappend="${applyPi.page == applyPi.endPage} ? 'hide'">
+                            	<a th:href="@{/CScenter/admin/manageStore/(page=${applyPi.page} + 1)}" th:if="${applyPi.page < applyPi.endPage}"></a>
+                            	<a href="javascript:;" th:unless="${applyPi.page < applyPi.endPage}"></a>
+                            </li>
+                            <li class="allNext"  th:classappend="${applyPi.page == applyPi.endPage} ? 'hide'">
+                            	<a th:href="@{/CScenter/admin/manageStore/(page=${applyPi.endPage})}" th:if="${applyPi.page < applyPi.endPage}"></a>
+                            	<a href="javascript:;" th:unless="${applyPi.page < applyPi.endPage}"></a>
+                            </li>
+                        </ul>
+                    </div>
+
+        </div>
+
+    </div>
+
+    
+     <div th:replace="common/footer.html"></div>
+    
+</body>
+</html>

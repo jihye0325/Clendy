@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.clendy.CScenter.model.dao.PersonalQMapper">
+
+	<resultMap type="com.kh.clendy.CScenter.model.vo.PersonalQ" id="PersonalQMap">
+		<id property="p_no" column="P_NO"/>
+		<result property="p_title" column="P_TITLE"/>
+		<result property="p_content" column="P_CONTENT"/>
+		<result property="p_answer" column="P_ANSWER"/>
+		<result property="p_enroll_date" column="P_ENROLL_DATE"/>
+		<result property="p_answer_date" column="P_ANSWER_DATE"/>
+		<result property="p_a_modify_date" column="P_A_MODIFY_DATE"/>
+		<result property="qc_no" column="QC_NO"/>
+		<result property="qc_name" column="QC_NAME"/>
+		<result property="q_writer" column="Q_WRITER"/>
+		<result property="a_writer" column="A_WRITER"/>
+	</resultMap>
+	
+	<!-- 회원의 1:1 문의 개수 조회 -->
+	<select id="myPersonalQGetListCount" parameterType="_int" resultType="_int">
+	SELECT
+			COUNT(*)
+	   FROM PERSONAL_Q		
+	  WHERE Q_WRITER = #{user_no}  
+	</select>
+	<!-- 회원의 1:1 문의 조회 -->
+	<select id="selectMyPersonalQList" parameterType="_int" resultMap="PersonalQMap">
+	 SELECT
+            *
+            FROM(
+            SELECT
+       ROWNUM ROWN
+     , TBL.*    
+    FROM(   
+    SELECT  P_NO
+	      , P_TITLE
+	      , P_CONTENT
+	      , P_ANSWER
+	      , P_ENROLL_DATE
+	      , P_ANSWER_DATE
+	      , P_A_MODIFY_DATE
+	      , Q.QC_NO
+	      , QC_NAME
+	      , Q_WRITER
+	      , A_WRITER 
+	   FROM PERSONAL_Q Q, Q_CATEGORY C 
+	  WHERE Q.QC_NO = C.QC_NO
+	    AND Q_WRITER = #{user_no}
+	  ORDER BY P_NO) TBL)
+          WHERE ROWN BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- 1:1 문의 전체 목록 개수 -->
+	<select id="allPersonalQGetListCount" resultType="_int">
+	SELECT
+           COUNT(*)
+      FROM PERSONAL_Q
+	</select>
+	
+	<!-- 1:1 문의 전체 조회 -->
+	<select id="selectAllPersonalQList" resultMap="PersonalQMap">
+	SELECT
+            *
+            FROM(
+            SELECT
+       ROWNUM ROWN
+     , TBL.*    
+    FROM(   
+    SELECT  P_NO
+	      , P_TITLE
+	      , P_CONTENT
+	      , P_ANSWER
+	      , P_ENROLL_DATE
+	      , P_ANSWER_DATE
+	      , P_A_MODIFY_DATE
+	      , Q.QC_NO
+	      , QC_NAME
+	      , Q_WRITER
+	      , A_WRITER 
+	   FROM PERSONAL_Q Q, Q_CATEGORY C 
+	  WHERE Q.QC_NO = C.QC_NO
+	  ORDER BY P_NO) TBL)
+          WHERE ROWN BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- 1:1 문의 상세 조회 -->
+	<select id="selectPersonalQDetail" resultMap="PersonalQMap">
+	SELECT
+	        P_NO
+	      , P_TITLE
+	      , P_CONTENT
+	      , P_ANSWER
+	      , P_ENROLL_DATE
+	      , P_ANSWER_DATE
+	      , P_A_MODIFY_DATE
+	      , Q.QC_NO
+	      , QC_NAME
+	      , Q_WRITER
+	      , A_WRITER 
+	   FROM PERSONAL_Q Q, Q_CATEGORY C 
+	  WHERE Q.QC_NO = C.QC_NO
+	    AND P_NO = {p_no}
+	</select>
+	
+	<!-- 1:1문의 질문 등록 -->
+	<insert id="insertQuestion" parameterType="com.kh.clendy.CScenter.model.vo.PersonalQ">
+	INSERT INTO PERSONAL_Q
+	(
+		P_NO
+	  , P_TITLE
+	  , P_CONTENT
+  	  , P_ANSWER
+	  , P_ENROLL_DATE
+	  , P_ANSWER_DATE
+	  , P_A_MODIFY_DATE
+	  , QC_NO
+	  , Q_WRITER
+	  , A_WRITER
+	)
+	VALUES
+	(
+		 SEQ_P_NO.NEXTVAL
+	   , #{p_title}	
+	   , #{p_content}
+	   , NULL
+	   , SYSDATE
+	   , NULL
+	   , NULL
+	   , #{qc_no}
+	   , #{q_writer}
+	   , null	 
+	)
+	</insert>
+	
+	<!-- 1:1문의 답변 작성 -->
+	<update id="insertAnswer" parameterType="HashMap">
+	UPDATE PERSONAL_Q
+	   SET
+			P_ANSWER = #{p_answer}
+		  , P_ANSWER_DATE = SYSDATE
+		  , A_WRITER = #{user_no}	
+	WHERE P_NO = #{p_no}
+	</update>
+	
+	<!-- 1:1 답변 삭제 -->
+	<update id="deleteAnswer" parameterType="_int">
+	UPDATE PERSONAL_Q
+	   SET
+			P_ANSWER = NULL
+      WHERE P_NO = #{p_no}
+	</update>
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

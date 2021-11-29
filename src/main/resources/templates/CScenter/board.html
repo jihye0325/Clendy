@@ -27,7 +27,7 @@
 	.board-list li{ display: table-cell; height: 40px; line-height: 40px; border-bottom: 1px solid lightgray;}
 	/* btn*/
 	.btn-area{display: flex; justify-content: flex-end; padding-top:15px;}
-	.insert-btn{width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer;}
+	.insert-btn{width: 55px; height: 30px; border: 0; background-color: #060032; color:white; line-height: 30px; text-align: center; font-size: 15px;}
 	</style>
 	<!-- 삭제 여부 알림창 -->
 	<script>
@@ -65,7 +65,7 @@
                 </div>
             </div>
 			<!--  <th:block sec:authorize="hasRole('ROLE_ADMIN')">-->
-            <div class="btn-area"><button class="insert-btn">등록</button></div>
+            <div class="btn-area"><a class="insert-btn" href="/CScenter/board/insert">등록</a></div>
 			<!-- </th:block> -->
 			
 			<!-- 페이징 -->

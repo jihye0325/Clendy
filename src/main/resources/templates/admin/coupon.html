@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="https://www.thymeleaf.org"
+     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,6 +11,15 @@
         #content-title, h6{ display: inline-block; margin-right: 15px; }
         ul, li{list-style: none; padding-left: 0;}
         a{text-decoration: none;}
+        /* sidebar */
+        #sidebar{    width: 160px;    padding-left :10%;}
+        #sidebar li{ width: 70px; height: 40px; }
+        #sidebar a {  color:black; width: 110px; height: 30px; display: inline-block; padding:5px; }
+        .sideA:hover{ background-color: #060032; color:white; }
+        #sidebar a:hover:not(.current){ background-color: #060032; color:white; }
+        #sidebar .current{background-color: #060032; color:white;}
+        /* content */
+        #content{  margin : 0px auto auto 11%; width: 850px;} 
         /* content */
         #content{  margin : 0px auto auto 11%; width: 850px;} 
         .basic-coupon { margin-bottom: 65px;} 
@@ -30,21 +40,20 @@
         .list-start-date{ width : 140px; text-align:center;}
         .list-end-date{ width : 140px; text-align:center;}
         .list-name{width : 280px; text-align: center;}
-        .board-list li{ display: table-cell; height: 25px; line-height: 10px; border-bottom: 1px solid lightgray;}
+        .board-list li{ display: table-cell; height: 35px; line-height: 35px; border-bottom: 1px solid lightgray;}
         </style>
         <link rel="stylesheet" href="/css/common/paging.css">
-        <link rel="stylesheet" href="/css/common/sidebar.css">
 </head>
 <body>
-    <div class="header"></div>
+    <div th:replace="common/header.html"></div>
 
     <div id="wrapper">
         <div id="sidebar">
             <ul>
-                <li><a class="sideA " href="/admin/storelist">판매자관리</a></li>
-                <li><a class="sideA " href="/admin/manageStore">입점승인/취소</a></li>
-                <li><a class="sideA current" href="/admin/calculation">정산</a></li>
-                <li><a class="sideA " href="/admin/coupon">쿠폰관리</a></li>
+                <li><a class="sideA " href="/admin/storeList">판매자관리</a></li>
+                <li><a class="sideA " href="/admin/joinStore">입점승인/취소</a></li>
+                <li><a class="sideA " href="/admin/calculation">정산</a></li>
+                <li><a class="sideA current" href="/admin/coupon">쿠폰관리</a></li>
             </ul>
         </div>
         <div id="content">
@@ -107,6 +116,6 @@
     </div>
 
     
-    <div class="footer"></div>
+     <div th:replace="common/footer.html"></div>
 </body>
 </html>

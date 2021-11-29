@@ -92,14 +92,4 @@
 	 WHERE B_NO = #{b_no} 
 	</delete>
 
-
-
-
-
-
-
-
-
-
-
 </mapper>

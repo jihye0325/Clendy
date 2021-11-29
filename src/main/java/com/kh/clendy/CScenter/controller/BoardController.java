@@ -2,11 +2,11 @@ package com.kh.clendy.CScenter.controller;
 
 import java.util.Map;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -65,6 +65,29 @@ public class BoardController {
 		return resultPage;
 	}
 	
+	/* 공지사항 등록페이지로 이동 */
+	@GetMapping("/insert")
+	public String toInsertBoard() {
+		return "/CScenter/insertBoard";
+	}
+	
+	/* 싱글이미지 등록 */
+/*	@RequestMapping(value="/singleImageUploader.do")
+		public String singleImageUploader(HttpServletRequest req, 
+				SmartEditorSingle smartEditorSingle) throws UnsupportedEncodingException{
+		String callback = smartEditorSingle.getCallback();
+		String callback_func = smartEditorSingle.getCallback_func();
+		String file_result ="";
+		String result ="";
+		
+		MultipartFile multiFile = smartEditorSingle.getfiledata();
+		try {
+			if(multiFile != null && multiFile.getSize() > 0 && 
+					StringUtils.is(multiFile.getName())) {
+				
+			}
+		} 
+	}*/
 	
 	
 	

@@ -13,14 +13,14 @@ public class ApplyStore {
 	private String email;
 	private String address;
 	private String account_bank;
-	private int account_num;
+	private long account_num;
 	private Date apply_date;
 	private int user_no;
 
 	public ApplyStore() {}
 
 	public ApplyStore(int a_no, String seller_name, String rep_name, int rep_num, int b_license, String o_b_license,
-			int phone, String email, String address, String account_bank, int account_num, Date apply_date,
+			int phone, String email, String address, String account_bank, long account_num, Date apply_date,
 			int user_no) {
 		super();
 		this.a_no = a_no;
@@ -118,11 +118,11 @@ public class ApplyStore {
 		this.account_bank = account_bank;
 	}
 
-	public int getAccount_num() {
+	public long getAccount_num() {
 		return account_num;
 	}
 
-	public void setAccount_num(int account_num) {
+	public void setAccount_num(long account_num) {
 		this.account_num = account_num;
 	}
 

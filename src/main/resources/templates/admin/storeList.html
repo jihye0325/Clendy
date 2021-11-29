@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="https://www.thymeleaf.org"
+     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -30,7 +31,7 @@
         .list-date { width : 120px; text-align:center;}
         .list-cancel{width : 80px; text-align: center; }
         .list-btn{ display:inline-block; text-decoration: underline; cursor: pointer;}
-        .board-list li{ display: table-cell; height: 25px; line-height: 10px; border-bottom: 1px solid lightgray;}
+        .board-list li{ display: table-cell; height: 40px; line-height: 40px; border-bottom: 1px solid lightgray;}
         /* pageing */
         .board-paging li{display: table-cell; }
         .board-paging {
@@ -65,14 +66,14 @@
         </style>
 </head>
 <body>
-    <div class="header"></div>
+    <div th:replace="common/header.html"></div>
 
     <div id="wrapper">
         <div id="sidebar">
             <ul>
-                <li><a class="sideA " href="/admin/storelist">판매자관리</a></li>
-                <li><a class="sideA " href="/admin/manageStore">입점승인/취소</a></li>
-                <li><a class="sideA current" href="/admin/calculation">정산</a></li>
+                <li><a class="sideA current" href="/admin/storeList">판매자관리</a></li>
+                <li><a class="sideA " href="/admin/joinStore">입점승인/취소</a></li>
+                <li><a class="sideA " href="/admin/calculation">정산</a></li>
                 <li><a class="sideA " href="/admin/coupon">쿠폰관리</a></li>
             </ul>
         </div>
@@ -119,7 +120,7 @@
     </div>
 
     
-    <div class="footer"></div>
+     <div th:replace="common/footer.html"></div>
     
 </body>
 </html>
