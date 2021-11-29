@@ -1,6 +1,7 @@
 package com.kh.clendy.product.model.vo;
 
 public class ProductCart {
+	private int sellerCode;
 	private int pNo;
 	private int cartNo;
 	private int cartAmount;
@@ -8,6 +9,14 @@ public class ProductCart {
 	private int userNo;
 	
 	public ProductCart() { }
+
+	public int getSellerCode() {
+		return sellerCode;
+	}
+
+	public void setSellerCode(int sellerCode) {
+		this.sellerCode = sellerCode;
+	}
 
 	public int getpNo() {
 		return pNo;
@@ -51,8 +60,7 @@ public class ProductCart {
 
 	@Override
 	public String toString() {
-		return "ProductCart [pNo=" + pNo + ", cartNo=" + cartNo + ", cartAmount=" + cartAmount + ", pOptionNo="
-				+ pOptionNo + ", userNo=" + userNo + "]";
+		return "ProductCart [sellerCode=" + sellerCode + ", pNo=" + pNo + ", cartNo=" + cartNo + ", cartAmount="
+				+ cartAmount + ", pOptionNo=" + pOptionNo + ", userNo=" + userNo + "]";
 	}
-	
 }
