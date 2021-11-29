@@ -1,4 +1,4 @@
-package com.kh.clendy.mainpage.controller;
+package com.kh.clendy.mainpage.model.service;
 
 import java.util.List;
 
