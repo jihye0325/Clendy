@@ -50,13 +50,13 @@
                             <th>운송장 번호</th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1234</td>
-                                <td><img src="assets/img/layout/Black.jpg" alt="img"><span></span></td>
-                                <td>홍진우</td>
-                                <td>서울특별시 강동구 길동 양재대로 1560</td>
-                                <td>XL/BK</td>
-                                <td>1</td>
+                            <tr th:each="productlist : ${ productList }">
+                                <td th:text="${ productlist.orderCode }"></td>
+                                <td th:text="${ productlist.pName }"></td>
+                                <td th:text="${ productlist.userName }"></td>
+                                <td th:text="${ productlist.orderAddress }"></td>
+                                <td th:text="|${ productlist.pSize }/${productlist.pColor}|"></td>
+                                <td th:text="${ productlist.orderProductNum }"></td>
                                 <td><input type="text"></td>
                             </tr>
                             <tr>
