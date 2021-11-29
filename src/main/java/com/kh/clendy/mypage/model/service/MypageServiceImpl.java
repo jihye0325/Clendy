@@ -16,6 +16,7 @@ import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
 import com.kh.clendy.mypage.model.vo.Product;
 import com.kh.clendy.mypage.model.vo.Product_Order;
+import com.kh.clendy.mypage.model.vo.Refund;
 import com.kh.clendy.mypage.model.vo.Review;
 import com.kh.clendy.mypage.model.vo.Wishlist;
 import com.kh.clendy.product.model.vo.ProductQnaQ;
@@ -192,20 +193,38 @@ public class MypageServiceImpl implements MypageService {
 	
 	// 운송장번호 조회
 	@Override
-	public int selectPostnum(int order_code) {
-		return mypageMapper.selectPostnum(order_code);
+	public int selectPostnum(int order_option_code) {
+		return mypageMapper.selectPostnum(order_option_code);
 	}
 
 	// 구매확정
 	@Override
-	public int decide_buy(int order_code) {
-		return mypageMapper.decide_buy(order_code);
+	public int decide_buy(int order_option_code) {
+		return mypageMapper.decide_buy(order_option_code);
 	}
 
 	// 주문내역조회
 	@Override
 	public Payment selectOrderInfo(int order_code) {
 		return mypageMapper.selectOrderInfo(order_code);
+	}
+
+	// 환불요청
+	@Override
+	public int requestRefund(Refund refund) {
+		int result = 0;
+		
+		// 환불요청 등록
+		int result1 = mypageMapper.requestRefund(refund);
+		// 주문상태 변경
+		int result2 = mypageMapper.changeOrder_Status(refund.getOrder_option_code());
+		System.out.println(result1);
+		System.out.println(result2);
+		
+		if(result1 > 0 && result2 > 0)
+			result = 1;
+		
+		return result;
 	}
 	
 }

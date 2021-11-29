@@ -125,6 +125,8 @@
 		<result property="img_r_name" column="IMG_R_NAME"/>
 		<result property="r_no" column="R_NO"/>
 		<result property="p_no" column="P_NO"/>
+		<result property="p_price" column="P_PRICE"/>
+		<result property="subtotal" column="SUBTOTAL"/>
 		<association property="product_option" resultMap="product_optionResultMap"/>
 	</resultMap>
 	
@@ -454,10 +456,14 @@
 			  , P_NAME
 			  , P_COLOR
 			  , P_SIZE
+			  , P_PRICE
 			  , ROUTE
 			  , IMG_NAME
 			  , IMG_R_NAME
 			  , ORDER_OPTION_CODE
+			  , ORDER_CODE
+			  , ORDER_PRODUCT_NUM
+			  , (P_PRICE * ORDER_PRODUCT_NUM) AS SUBTOTAL
 			 FROM ORDER_OPTION
 			 JOIN PRODUCT_OPTION USING(P_OPTION_NO)
 			 JOIN PRODUCT USING(P_NO)
@@ -668,15 +674,15 @@
 	<select id="selectPostnum" parameterType="_int" resultType="_int">
 		SELECT
 			    ORDER_POSTNUM
-		   FROM PRODUCT_ORDER
-          WHERE ORDER_CODE = #{ order_code }
+		   FROM ORDER_OPTION
+          WHERE ORDER_OPTION_CODE = #{ order_option_code }
 	</select>
 	
 	<!-- 구매확정 -->
 	<update id="decide_buy" parameterType="_int">
-	 UPDATE PRODUCT_ORDER
+	 UPDATE ORDER_OPTION
 	    SET ORDER_STATUS_CODE = 'STATUS_CODE4'
-	  WHERE ORDER_CODE = #{ order_code }
+	  WHERE ORDER_OPTION_CODE = #{ order_option_code }
 	</update>
 	
 	<!-- 주문상세내역 조회 -->
@@ -697,8 +703,35 @@
 		  JOIN PRODUCT_ORDER USING(ORDER_CODE)
 		  JOIN ORDER_DEL_INFO USING(ORDER_CODE)
 		 WHERE ORDER_CODE = #{ order_code }
-	
 	</select>
+	
+	<insert id="requestRefund" parameterType="com.kh.clendy.mypage.model.vo.Refund">
+		INSERT INTO REFUND
+			(
+			    REF_NO,
+			    ORDER_OPTION_CODE,
+			    REF_ID,
+			    REF_REASON,
+			    REF_STATUS,
+			    REF_PRICE
+			)
+			VALUES
+			(
+			    SEQ_REF_NO.NEXTVAL,
+			    #{ order_option_code },
+			    #{ ref_id },
+			    #{ ref_reason },
+			    DEFAULT,
+			    #{ ref_price }
+			)	
+	</insert>
+	
+	
+	<update id="changeOrder_Status" parameterType="_int">
+		UPDATE ORDER_OPTION
+		   SET ORDER_STATUS_CODE = 'STATUS_CODE5'
+		 WHERE ORDER_OPTION_CODE = #{ order_option_code }
+	</update>
 </mapper>
 
 

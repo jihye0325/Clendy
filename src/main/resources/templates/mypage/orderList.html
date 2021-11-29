@@ -67,10 +67,10 @@
                             <button id="decide_btn">주문취소</button>
                             </th:block>
                             <th:block th:if="${p.order_status_name == '배송중'}">	
-                            <button id="decide_btn" th:attr="onclick=|delivery('${p.order_code}')|">배송조회</button>
+                            <button id="decide_btn" th:attr="onclick=|delivery('${p.order_option_code}')|">배송조회</button>
                             </th:block>
                             <th:block th:if="${p.order_status_name == '배송완료'}">
-                            <button id="decide_btn" th:attr="onclick=|decide_buy('${p.order_code}')|">구매확정</button><br>
+                            <button id="decide_btn" th:attr="onclick=|decide_buy('${p.order_option_code}')|">구매확정</button><br>
                             <button id="exchange" th:attr="onclick=|exchange('${p.order_option_code}')|">교환신청</button><br>
                             <button id="refund" th:attr="onclick=|refund('${p.order_option_code}')|">환불신청</button>
                             </th:block>                         
@@ -103,14 +103,14 @@
 	
 	<!-- 배송조회 -->
 	<script>
-		function delivery(order_code){			
+		function delivery(order_option_code){			
 			var token = $("meta[name='_csrf']").attr("content");
     		var header = $("meta[name='_csrf_header']").attr("content"); 
     		
     		$.ajax({
     			url : "/mypage/readDelivery",
     			type : 'post',
-    			data : {'order_code' : order_code},
+    			data : {'order_option_code' : order_option_code},
     			/* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
 				beforeSend : function(xhr)		
 				{
@@ -131,14 +131,14 @@
 	
 	<!-- 구매확정 -->
 	<script>
-		function decide_buy(order_code){
+		function decide_buy(order_option_code){
 			var token = $("meta[name='_csrf']").attr("content");
     		var header = $("meta[name='_csrf_header']").attr("content"); 
     		
     		$.ajax({
     			url : "/mypage/decide_buy",
     			type : 'post',
-    			data : {'order_code' : order_code},
+    			data : {'order_option_code' : order_option_code},
     			/* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
 				beforeSend : function(xhr)		
 				{

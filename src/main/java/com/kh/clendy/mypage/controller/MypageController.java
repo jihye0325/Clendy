@@ -29,6 +29,7 @@ import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
 import com.kh.clendy.mypage.model.vo.Product_Order;
+import com.kh.clendy.mypage.model.vo.Refund;
 import com.kh.clendy.mypage.model.vo.Review;
 import com.kh.clendy.mypage.model.vo.Wishlist;
 import com.kh.clendy.product.model.vo.ProductQnaQ;
@@ -396,16 +397,16 @@ public class MypageController {
 	// 배송조회 
 	@PostMapping("/readDelivery")
 	@ResponseBody
-	public int readDelivery(@RequestParam int order_code) {
-		int postnum = mypageService.selectPostnum(order_code);
+	public int readDelivery(@RequestParam int order_option_code) {
+		int postnum = mypageService.selectPostnum(order_option_code);
 		return postnum;
 	}
 		
 	// 구매확정
 	@PostMapping("/decide_buy")
 	@ResponseBody
-	public int decide_buy(@RequestParam int order_code) {
-		int result = mypageService.decide_buy(order_code);
+	public int decide_buy(@RequestParam int order_option_code) {
+		int result = mypageService.decide_buy(order_option_code);
 		return result;
 	}
 	
@@ -431,7 +432,7 @@ public class MypageController {
 		
 		System.out.println(order_option);	
 		mv.addObject("m", m);
-		mv.addObject("order_option", order_option);
+		mv.addObject("o", order_option);
 		mv.setViewName("/mypage/exchangeForm");
 		return mv;
 	}
@@ -439,9 +440,42 @@ public class MypageController {
 	// 환불신청화면
 	@GetMapping("/refund/{order_option_code}")
 	public ModelAndView refund(ModelAndView mv, @PathVariable int order_option_code) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		Member m = mypageService.selectMember(user_no);
+		// 상품정보 조회
+		Order_Option order_option = mypageService.selectProduct(order_option_code);
 		
+		System.out.println(order_option);	
+		mv.addObject("m", m);
+		mv.addObject("o", order_option);
 		
 		mv.setViewName("/mypage/refundForm");
 		return mv;
+	}
+	
+	// 환불요청
+	@PostMapping("/requestRefund")
+	public String requestRefund(HttpServletRequest request, RedirectAttributes redirectAttr) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		int order_option_code = Integer.parseInt(request.getParameter("order_option_code"));
+		int ref_id = Integer.parseInt(request.getParameter("ref_id"));
+		String ref_reason = request.getParameter("ref_reason");
+		int ref_price = Integer.parseInt(request.getParameter("ref_price"));
+		
+		Refund refund = new Refund(order_option_code, ref_id, ref_reason, ref_price);
+		System.out.println(refund);
+		String msg = "";
+		int result = mypageService.requestRefund(refund);
+		System.out.println(result);
+		if(result > 0) 
+			msg = "환불 신청이 완료되었습니다.";
+		else 
+			msg = "환불 신청이 실패하였습니다.";
+				
+		redirectAttr.addFlashAttribute("msg", msg);
+		
+		return "redirect:/mypage/refund/" + order_option_code;
 	}
 }
