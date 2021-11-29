@@ -75,10 +75,10 @@ a{text-decoration: none;}
             </div>
             <div class="btn-area">
                 <a type="button" class="to-list" href="/CScenter/board">목록</a>
-                <!--  <th:block sec:authorize="hasRole('ROLE_ADMIN')">-->
+                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                 <input type="button" class="modify" value="수정">
                 <input type="button" class="delete" value="삭제">
-                <!-- </th:block> -->
+                </th:block>
             </div>            
         </div>
 

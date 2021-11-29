@@ -54,7 +54,7 @@
     <div id="wrapper">
         <div id="sidebar">
             <ul>
-                <li><a class="sideA " href="/admin/storeList">판매자관리</a></li>
+                <li><a class="sideA " href="/admin/sellerList">판매자관리</a></li>
                 <li><a class="sideA current" href="/admin/joinStore">입점승인/취소</a></li>
                 <li><a class="sideA " href="/admin/calculation">정산</a></li>
                 <li><a class="sideA " href="/admin/coupon">쿠폰관리</a></li>
@@ -89,11 +89,11 @@
             <div class="pagaing_wrap" th:if="${#lists.size(applyStoreList) > 0}">
                         <ul class="pagaing_left">
                             <li class="allPrev" th:classappend="${applyPi.page == 1} ? 'hide'">
-                            	<a th:href="@{/CScenter/admin/manageStore/(page=1)}" th:if="${applyPi.page > 1}"></a>
+                            	<a th:href="@{/CScenter/admin/joinStore/(page=1)}" th:if="${applyPi.page > 1}"></a>
 	                            <a href="javascript:;" th:unless="${applyPi.page > 1}"></a>
                             </li>
                             <li class="prev" th:classappend="${applyPi.page == 1} ? 'hide'">
-	                            <a th:href="@{/CScenter/admin/manageStore/(page=${applyPi.page - 1})}" th:if="${applyPi.page > 1}"></a>
+	                            <a th:href="@{/CScenter/admin/joinStore/(page=${applyPi.page - 1})}" th:if="${applyPi.page > 1}"></a>
                             	<a href="javascript:;" th:unless="${applyPi.page > 1}"></a>
                             </li>
                         </ul>
@@ -101,7 +101,7 @@
                         <ul class="pagaing_num">
                         	<th:block th:each="pd : ${#numbers.sequence(applyPi.startPage, applyPi.endPage)}">
                         		<li th:classappend="${applyPi.page == pdStat.current} ? 'on'">
-                        			<a th:href="@{/CScenter/admin/manageStore/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+                        			<a th:href="@{/CScenter/admin/joinStore/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
                         		</li>
                         	</th:block>
                             
@@ -109,11 +109,11 @@
 
                         <ul class="pagaing_right" >
                             <li class="next" th:classappend="${applyPi.page == applyPi.endPage} ? 'hide'">
-                            	<a th:href="@{/CScenter/admin/manageStore/(page=${applyPi.page} + 1)}" th:if="${applyPi.page < applyPi.endPage}"></a>
+                            	<a th:href="@{/CScenter/admin/joinStore/(page=${applyPi.page} + 1)}" th:if="${applyPi.page < applyPi.endPage}"></a>
                             	<a href="javascript:;" th:unless="${applyPi.page < applyPi.endPage}"></a>
                             </li>
                             <li class="allNext"  th:classappend="${applyPi.page == applyPi.endPage} ? 'hide'">
-                            	<a th:href="@{/CScenter/admin/manageStore/(page=${applyPi.endPage})}" th:if="${applyPi.page < applyPi.endPage}"></a>
+                            	<a th:href="@{/CScenter/admin/joinStore/(page=${applyPi.endPage})}" th:if="${applyPi.page < applyPi.endPage}"></a>
                             	<a href="javascript:;" th:unless="${applyPi.page < applyPi.endPage}"></a>
                             </li>
                         </ul>

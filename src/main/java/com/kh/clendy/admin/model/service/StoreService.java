@@ -7,6 +7,9 @@ import org.apache.catalina.Store;
 
 public interface StoreService {
 	
+	/* 셀러 전체 리스트 */
+	Map<String, Object> selectAllSellerList(int page);
+	
 	/* 입점승인 신청 리스트 */
 	Map<String, Object> selectAllJoinStoreList(int page);
 	

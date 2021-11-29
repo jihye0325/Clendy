@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"
+     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1:1문의 상세</title>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <style>
     #wrapper {display: flex;}
     #content-title, h6{ display: inline-block; margin-right: 15px; }
@@ -23,20 +25,30 @@
     /* question-detail */
     .detail-title{border-top: 1px solid lightgray; border-bottom: 1px solid lightgray;}
     .title-wrapper, .date-wrapper{ margin:5px; display: inline-block;}
-    .title-wrapper{width : 665px; }
+    .title-wrapper{width : 640px; }
     .category-wrapper{margin:5px;}
     .title{font-weight: bold; margin:5px;}
     .name, .enroll-date, .category{ margin-left : 20px;}
-    .question-content { width : 850px; height: 300px; border-bottom: 1px solid lightgray; margin-bottom: 30px;}
+    .question-content { width : 850px; height: 300px; border-bottom: 1px solid lightgray; margin-bottom: 30px; padding:5px;}
     /* answer-detail*/
-    .answer-content { width : 850px; height: 200px; border-bottom: 1px solid lightgray; border-top: 1px solid lightgray;}
+    .answer-content { width : 850px; min-height: 200px; border-bottom: 1px solid lightgray; border-top: 1px solid lightgray; margin :10px;  line-height: 200px;}
+    .null{text-align: center;  width: 850px; display: inline-block;}
+    .textarea{width : 850px; height:200px; resize:none;}
     /* answer-btn */
     .answer-btn{ display: inline-block;}
     .delete {width: 55px; height: 30px; border: 1px solid black; background-color: white; cursor: pointer; margin-left:5px;}
     /* btn-area */
     .btn-area{ display:flex; justify-content: center; padding-top:15px; padding-bottom: 15px;}
-    .modify, .to-list{width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer; }
+    .insert, .modify, .to-list{line-height: 30px; text-align: center; width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer; }
     </style>
+    <!-- 알림창 -->
+	<script>
+		const msg = '[[${ msg }]]';
+		
+		if(msg){
+			alert(msg);
+		}
+	</script>
 </head>
 <body>
     <div th:replace="common/header.html"></div>
@@ -45,38 +57,52 @@
         <div id="sidebar">
             <ul>
                 <li><a class="sideA " href="/CScenter/FAQ">FAQ</a></li>
-                <li><a class="sideA current" href="/CScenter/board">공지사항</a></li>
-                <li><a class="sideA" href="/CScenter/personalQ">1:1문의</a></li>
+                <li><a class="sideA " href="/CScenter/board">공지사항</a></li>
+                <li><a class="sideA current" href="/CScenter/personalQ">1:1문의</a></li>
             </ul>
         </div>
-        <div id="content">
+        <div id="content" th:each="p : ${personalQ}">
             <h3 id="content-title">1:1문의</h3><h6>1:1 Q&A</h6>
         
-            <div class="question-detail">
-                <div class="detail-title">
-                    <div class="title-wrapper"><label class="title">제목</label><label class="name">제목1</label></div>
-                    <div class="date-wrapper"><label class="title">등록일</label><label class="enroll-date">2021.11.20</label></div>
-                    <div class="category-wrapper"><label class="title">카테고리</label><label class="category">카테고리</label></div>
+            <div class="question-detail" >
+                <div class="detail-title" >
+                	<input type="hidden" class="p_no" name="p_no" th:value="${p.p_no}">
+                    <div class="title-wrapper"><label class="title">제목</label>
+                    <label class="name" th:text="${p.p_title}"></label></div>
+                    <div class="date-wrapper"><label class="title">등록일</label>
+                    <label class="enroll-date" th:text="${#dates.format(p.p_enroll_date, 'yyyy-MM-dd')}"></label></div>
+                    <div class="category-wrapper"><label class="title">카테고리</label>
+                    <label class="category" th:text="${p.qc_name}"></label></div>
                 </div>
-                <div class="question-content">
+                <div class="question-content" th:text="${p.p_content}">
 
                 </div>
             </div>
 
             <h3 id="content-title">답변</h3><h6>Answer</h6>
+             <th:block sec:authorize="hasRole('ROLE_ADMIN')">
             <div class="answer-btn">
+            	<th:block th:if="${p.p_answer == null}">
+            	<input type="button" class="insert" value="등록">
+            	</th:block>
+            	<th:block th:if="${p.p_answer != null}">    
                 <input type="button" class="modify" value="수정">
                 <input type="button" class="delete" value="삭제">
+                </th:block>
             </div>
-
+			</th:block>
             <div class="answer-content">
-
+				<th:block th:if="${p.p_answer == null}">        
+	            		<span class="answer null">등록된 답변이 없습니다.</span>
+				</th:block>
+				<th:block th:if="${p.p_answer != null}">
+	            <p class="answer notnull" th:text="${p.p_answer}"></p>
+	            
+				</th:block>
             </div>
-
-
 
             <div class="btn-area">
-                <input type="button" class="to-list" value="목록">
+                <a type="button" class="to-list" href="/CScenter/personalQ">목록</a>
             </div>
             
         </div>
@@ -85,6 +111,55 @@
 
     
     <div th:replace="common/footer.html"></div>
+    
+     <script>
+     /* 1:1문의 답변 등록 */
+     $(".insert").click(function(){
+    	 /* 등록 버튼을 한번 눌렀을 때*/
+    	 if($(this).val()=='등록'){
+		    	 $(this).val("등록완료");
+		    	 $(".null").replaceWith("<textarea class='textarea' cols='30' rows= '50' wrap='hard' style='resize:none;'></textarea>");
+    	  /* 등록 완료되면 컨트롤러로 값 넘기기 */ 
+    	 }else if($(this).val()=='등록완료'){
+    		 var p_answer = $(".textarea").val();
+    		 var p_no = $(".p_no").val();
+    	     location.href="/CScenter/personalQ/insertAnswer?p_no="+p_no+"&p_answer="+p_answer;
+    	 }
+     });
+     
+    /* 1:1문의 답변 삭제 */
+    $(".delete").click(function(){
+    	var p_no = $(".p_no").val();
+    	location.href="/CScenter/personalQ/delete?p_no="+p_no;
+    });
+     
+     /* 1:1 문의 답변 수정 */
+     $(".modify").click(function(){
+    	 /* 수정하러 들어갈 때 */
+    	 if($(this).val() == '수정'){
+			$(this).val("수정완료");
+ 	    	var p_answer = $(".notnull").text(); 	    	
+ 	    	$(".notnull").replaceWith("<textarea class='textarea' cols='30' rows= '50' wrap='hard' style='resize:none;'>"+p_answer+"</textarea>");
+    	 /* 수정 완료 할 때*/
+  		  }else if($(this).val() == '수정완료'){
+ 	    	var p_no = $(".p_no").val();
+ 	    	var p_answer = $(".textarea").val();
+ 	    	console.log(p_answer);
+ 	    	 location.href="/CScenter/personalQ/modify?p_no="+p_no+"&p_answer="+p_answer;
+  		  }
+ 
+     });
+     
+    </script>
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 </body>
 </html>
