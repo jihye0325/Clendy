@@ -10,6 +10,7 @@ public class Coupon {
 	private Date start_date;	// 시작일
 	private Date expire_date;	// 만료일
 	private String cou_status;	// 발급상태
+	private int cou_dday;		// 쿠폰 남은일자	
 	
 	public Coupon() {}
 
@@ -81,11 +82,19 @@ public class Coupon {
 		this.cou_status = cou_status;
 	}
 
+	public int getCou_dday() {
+		return cou_dday;
+	}
+
+	public void setCou_dday(int cou_dday) {
+		this.cou_dday = cou_dday;
+	}
+
 	@Override
 	public String toString() {
 		return "Coupon [cou_no=" + cou_no + ", cou_name=" + cou_name + ", cou_condition=" + cou_condition
 				+ ", cou_price=" + cou_price + ", start_date=" + start_date + ", expire_date=" + expire_date
-				+ ", cou_status=" + cou_status + "]";
+				+ ", cou_status=" + cou_status + ", cou_dday=" + cou_dday + "]";
 	}
-	
+
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.clendy.member.model.vo.Member;
+import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.product.model.vo.Order;
 import com.kh.clendy.product.model.vo.ProductCart;
 import com.kh.clendy.product.service.ProductOrderService;
@@ -32,9 +33,6 @@ public class ProductOrderController {
 	/* 결제 페이지 */
 	@PostMapping("/order")
 	public String orderPage(HttpServletRequest request, @RequestParam int userNo, @RequestParam int pNo, @RequestParam int sellerCode,  Model model) {
-		// System.out.println("userNo : " + userNo);
-		// System.out.println("pNo : " + pNo);
-		// System.out.println("sellerCode : " + sellerCode);
 		
 		String[] pOptionNos = request.getParameterValues("pOptionNo");
 		String[] cartAmounts = request.getParameterValues("cartAmount");
@@ -54,11 +52,8 @@ public class ProductOrderController {
 			cartList.add(pc);
 		}
 		
-		// System.out.println(cartList);
-		
 		// 배송정보
 		Member member = productOrderService.orderMemberSelect(userNo);
-		// System.out.println("member : " + member);
 		
 		// 주문내역
 		Map<String, List<ProductCart>> cartMap = new HashMap<>();
@@ -74,11 +69,19 @@ public class ProductOrderController {
 		}
 		
 		Map<String, List<Order>> orderInfo = productOrderService.orderInfoSelect(cartMap);
-		// System.out.println(orderInfo);
+		
 		// 포인트 정보
+		int point = productOrderService.orderPointSelect(userNo);
+		
+		//쿠폰리스트
+		List<Coupon> couponList = productOrderService.orderCouponSelectList(userNo);
+		System.out.println(couponList);
+		
 		
 		model.addAttribute("postMember", member);
 		model.addAttribute("orderInfo", orderInfo);
+		model.addAttribute("point", point);
+		model.addAttribute("couponList", couponList);
 		
 
 		return "product/order";

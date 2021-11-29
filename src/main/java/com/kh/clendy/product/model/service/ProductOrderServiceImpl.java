@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.clendy.member.model.vo.Member;
+import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.product.model.dao.ProductOrderMapper;
 import com.kh.clendy.product.model.vo.Order;
 import com.kh.clendy.product.model.vo.ProductCart;
@@ -56,6 +57,18 @@ public class ProductOrderServiceImpl implements ProductOrderService{
 		}
 		
 		return returnMap;
+	}
+
+	// 포인트 조회
+	@Override
+	public int orderPointSelect(int userNo) {
+		return productOrderMapper.orderPointSelect(userNo);
+	}
+
+	// 쿠폰 조회
+	@Override
+	public List<Coupon> orderCouponSelectList(int userNo) {
+		return productOrderMapper.orderCouponSelectList(userNo);
 	}
 
 }
