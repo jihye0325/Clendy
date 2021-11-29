@@ -79,8 +79,6 @@ public class PersonalQServiceImpl implements PersonalQService{
 		Map<String, Object> result = new HashMap<>();
 		result.put("personalQList", personalQList);
 		result.put("pi", pageInfo);
-		System.out.println("서비스");
-		System.out.println(personalQList);
 		
 		return result;
 	} 
@@ -96,8 +94,7 @@ public class PersonalQServiceImpl implements PersonalQService{
 	}
 
 	@Override
-	public int insertAnswer(Map<String, String> newAnswer) {
-		/* 컨트롤러에서 map으로 user_no, p_answer 등록 */
+	public int insertAnswer(PersonalQ newAnswer) {
 		return personalQMapper.insertAnswer(newAnswer);
 	}
 
@@ -107,8 +104,7 @@ public class PersonalQServiceImpl implements PersonalQService{
 	}
 
 	@Override
-	public int updateAnswer(Map<String, String> updateAnswer) {
-		/* 컨트롤러에서 map으로 user_no, p_answer 등록 */
+	public int updateAnswer(PersonalQ updateAnswer) {
 		return personalQMapper.updateAnswer(updateAnswer);
 	}
 

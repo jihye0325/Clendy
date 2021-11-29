@@ -6,10 +6,15 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.clendy.admin.model.vo.CancelStore;
+import com.kh.clendy.admin.model.vo.Seller;
 import com.kh.clendy.joinStore.model.vo.ApplyStore;
 
 @Mapper
 public interface StoreMapper {
+	
+	/* 스토어 전체 리스트 */
+	int sellerGetListCount();
+	List<Seller> selectAllSellerList(Map<String, Object> mapMapper);
 	
 	// 입점신청리스트 전체 개수 - 페이징
 	int joinStoreGetListCount();

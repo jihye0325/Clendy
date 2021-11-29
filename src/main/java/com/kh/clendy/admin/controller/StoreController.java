@@ -22,8 +22,15 @@ public class StoreController {
 		this.storeSerivce = storeSerivce;
 	}
 	
-	@GetMapping("/storeList")
-	public void toStore() {}
+	@GetMapping("/sellerList")
+	public void toStore(Model model, @RequestParam(defaultValue="1") int page) {
+		
+		Map<String, Object> sellerList = storeSerivce.selectAllSellerList(page);
+		
+		/* 리스트, 페이징 - 매출액, 수수료 ?*/
+		model.addAttribute("sellerList", sellerList.get("sellerList"));
+		model.addAttribute("pi", sellerList.get("pi"));
+	}
 	
 	
 	/* 입점 신청 */
@@ -43,7 +50,6 @@ public class StoreController {
 	public void tocancelStore(Model model, @RequestParam(defaultValue="1") int page) {
 		
 		Map<String, Object> cancelStoreList = storeSerivce.selectAllCancelStoreList(page);
-		System.out.println(cancelStoreList.get("cancelStoreList"));
 
 		/* 입점 취소 리스트, 페이징 */
 		model.addAttribute("cancelStoreList",cancelStoreList.get("cancelStoreList"));

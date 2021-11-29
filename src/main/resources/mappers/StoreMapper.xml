@@ -29,6 +29,51 @@
 		<result property="b_license" column="B_LICENSE"/>
 	</resultMap>
 	
+	<resultMap id="SellerResultMap" type="com.kh.clendy.admin.model.vo.Seller">
+		<id property="seller_code" column="SELLER_CODE"/>
+		<result property="a_no" column="A_NO"/>
+		<result property="seller_name" column="SELLER_NAME"/>
+		<result property="rep_name" column="REP_NAME"/>
+		<result property="rep_num" column="REP_NUM"/>
+		<result property="b_license" column="B_LICENSE"/>
+		<result property="o_b_license" column="O_B_LICENSE"/>
+		<result property="phone" column="PHONE"/>
+		<result property="email" column="EMAIL"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="account_bank" column="ACCOUNT_BANK"/>
+		<result property="account_num" column="ACCOUNT_NUM"/>
+		<result property="apply_date" column="APPLY_DATE"/>
+		<result property="user_no" column="USER_NO"/>
+ 	</resultMap>
+	
+	<!-- SELLER 개수 조회 -->
+	<select id="sellerGetListCount" resultType="_int">
+	SELECT
+	       COUNT(*)
+	  FROM SELLER    
+	 WHERE S_STATUS ='Y' 	
+	</select>
+	<!-- SELLER 목록 조회 -->
+	<select id="selectAllSellerList" resultMap="SellerResultMap">
+	SELECT
+	        SELLER_CODE
+	      , A_NO
+	      , SELLER_NAME
+	      , REP_NAME
+	      , REP_NUM
+	      , B_LICENSE
+	      , O_B_LICENSE
+	      , PHONE
+	      , EMAIL
+	      , ADDRESS
+	      , ACCOUNT_BANK
+	      , APPLY_DATE
+	      , USER_NO
+	   FROM SELLER    
+	   JOIN APPLY_STORE USING(A_NO)
+	  WHERE S_STATUS ='Y'
+	</select>
+	
 	<!-- 입점신청리스트 개수 조회 -->
 	<select id="joinStoreGetListCount" resultType="_int">
 		SELECT

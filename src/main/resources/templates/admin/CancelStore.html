@@ -35,7 +35,7 @@
         .list-date { width : 120px; text-align:center;}
         .list-join-or-cancel{width : 80px; text-align: center; }
         .list-btn{ display:inline-block; text-decoration: underline; cursor: pointer;}
-        .board-list li{ display: table-cell; height: 25px; line-height: 10px; border-bottom: 1px solid lightgray;}
+        .board-list li{ display: table-cell; height: 04px; line-height: 40px; border-bottom: 1px solid lightgray;}
         </style>
         <link rel="stylesheet" href="/css/common/paging.css">
     	
@@ -54,7 +54,7 @@
     <div id="wrapper">
         <div id="sidebar">
             <ul>
-                <li><a class="sideA " href="/admin/storeList">판매자관리</a></li>
+                <li><a class="sideA " href="/admin/sellerList">판매자관리</a></li>
                 <li><a class="sideA current" href="/admin/joinStore">입점승인/취소</a></li>
                 <li><a class="sideA " href="/admin/calculation">정산</a></li>
                 <li><a class="sideA " href="/admin/coupon">쿠폰관리</a></li>
@@ -89,19 +89,19 @@
             <div class="pagaing_wrap" th:if="${#lists.size(cancelStoreList) > 0}">
                         <ul class="pagaing_left">
                             <li class="allPrev" th:classappend="${cancelPi.page == 1} ? 'hide'">
-                            	<a th:href="@{/CScenter/admin/manageStore/(page=1)}" th:if="${cancelPi.page > 1}"></a>
+                            	<a th:href="@{/CScenter/admin/cancelStore/(page=1)}" th:if="${cancelPi.page > 1}"></a>
 	                            <a href="javascript:;" th:unless="${cancelPi.page > 1}"></a>
                             </li>
                             <li class="prev" th:classappend="${cancelPi.page == 1} ? 'hide'">
-	                            <a th:href="@{/CScenter/admin/manageStore/(page=${cancelPi.page - 1})}" th:if="${cancelPi.page > 1}"></a>
+	                            <a th:href="@{/CScenter/admin/cancelStore/(page=${cancelPi.page - 1})}" th:if="${cancelPi.page > 1}"></a>
                             	<a href="javascript:;" th:unless="${cancelPi.page > 1}"></a>
                             </li>
                         </ul>
                         
                         <ul class="pagaing_num">
-                        	<th:block th:each="pd : ${#numbers.sequence(acancelPi.startPage, cancelPi.endPage)}">
+                        	<th:block th:each="pd : ${#numbers.sequence(cancelPi.startPage, cancelPi.endPage)}">
                         		<li th:classappend="${cancelPi.page == pdStat.current} ? 'on'">
-                        			<a th:href="@{/CScenter/admin/manageStore/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+                        			<a th:href="@{/CScenter/admin/cancelStore/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
                         		</li>
                         	</th:block>
                             
@@ -109,11 +109,11 @@
 
                         <ul class="pagaing_right" >
                             <li class="next" th:classappend="${cancelPi.page == cancelPi.endPage} ? 'hide'">
-                            	<a th:href="@{/CScenter/admin/manageStore/(page=${cancelPi.page} + 1)}" th:if="${cancelPi.page < cancelPi.endPage}"></a>
+                            	<a th:href="@{/CScenter/admin/cancelStore/(page=${cancelPi.page} + 1)}" th:if="${cancelPi.page < cancelPi.endPage}"></a>
                             	<a href="javascript:;" th:unless="${cancelPi.page < cancelPi.endPage}"></a>
                             </li>
                             <li class="allNext"  th:classappend="${cancelPi.page == cancelPi.endPage} ? 'hide'">
-                            	<a th:href="@{/CScenter/admin/manageStore/(page=${cancelPi.endPage})}" th:if="${cancelPi.page < cancelPi.endPage}"></a>
+                            	<a th:href="@{/CScenter/admin/cancelStore/(page=${cancelPi.endPage})}" th:if="${cancelPi.page < cancelPi.endPage}"></a>
                             	<a href="javascript:;" th:unless="${cancelPi.page < cancelPi.endPage}"></a>
                             </li>
                         </ul>

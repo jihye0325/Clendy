@@ -25,11 +25,11 @@ public interface PersonalQMapper {
 	
 	int insertQuestion(PersonalQ newpersonalQ);
 	
-	int insertAnswer(Map<String, String> newAnswer);
+	int insertAnswer(PersonalQ newAnswer);
 	
 	int deleteAnswer(int p_no);
 	
-	int updateAnswer(Map<String, String> updateAnswer);
+	int updateAnswer(PersonalQ updateAnswer);
 	
 
 }

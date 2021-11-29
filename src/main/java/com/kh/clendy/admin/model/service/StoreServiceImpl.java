@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.catalina.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.clendy.admin.model.dao.StoreMapper;
 import com.kh.clendy.admin.model.vo.CancelStore;
+import com.kh.clendy.admin.model.vo.Seller;
 import com.kh.clendy.joinStore.model.vo.ApplyStore;
 import com.kh.clendy.product.model.vo.PageInfo;
 
@@ -25,6 +25,35 @@ public class StoreServiceImpl implements StoreService{
 		this.storeMapper = storeMapper;
 	}
 
+	/* 스토어 전체 목록 리스트 */
+	@Override
+	public Map<String, Object> selectAllSellerList(int page) {
+		// 공지사항 개수 
+		int listCount = storeMapper.sellerGetListCount();
+		
+		// 페이징 
+		PageInfo pageInfo = new PageInfo(page, listCount, 10, 8);
+		
+		// 목록 호출에 필요한 값
+		int startRow = (pageInfo.getPage()-1) * pageInfo.getBoardLimit() + 1;
+		int endRow = startRow + pageInfo.getBoardLimit() -1;
+		
+		// 목록 호출에 넘기는 값
+		Map<String, Object> mapMapper = new HashMap<>();
+		mapMapper.put("page", page);
+		mapMapper.put("startRow", startRow);
+		mapMapper.put("endRow", endRow);
+		
+		// 목록 조회
+		List<Seller> sellerList = storeMapper.selectAllSellerList(mapMapper);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("sellerList", sellerList);
+		result.put("pi", pageInfo);
+		
+		return result;
+	}
+	
 	/* 입점 신청 리스트, 페이징*/
 	@Override
 	public Map<String, Object> selectAllJoinStoreList(int page) {
@@ -82,6 +111,8 @@ public class StoreServiceImpl implements StoreService{
 		
 		return result;
 	}
+
+
 	
 	
 

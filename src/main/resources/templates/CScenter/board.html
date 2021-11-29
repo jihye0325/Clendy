@@ -64,9 +64,9 @@
                 	</div>
                 </div>
             </div>
-			<!--  <th:block sec:authorize="hasRole('ROLE_ADMIN')">-->
+			<th:block sec:authorize="hasRole('ROLE_ADMIN')">
             <div class="btn-area"><a class="insert-btn" href="/CScenter/board/insert">등록</a></div>
-			<!-- </th:block> -->
+			</th:block>
 			
 			<!-- 페이징 -->
             <div class="pagaing_wrap" th:if="${#lists.size(boardList) > 0}">

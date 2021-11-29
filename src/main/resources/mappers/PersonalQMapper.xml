@@ -99,7 +99,7 @@
 	      , A_WRITER 
 	   FROM PERSONAL_Q Q, Q_CATEGORY C 
 	  WHERE Q.QC_NO = C.QC_NO
-	    AND P_NO = {p_no}
+	    AND P_NO = #{p_no}
 	</select>
 	
 	<!-- 1:1문의 질문 등록 -->
@@ -133,12 +133,22 @@
 	</insert>
 	
 	<!-- 1:1문의 답변 작성 -->
-	<update id="insertAnswer" parameterType="HashMap">
+	<update id="insertAnswer" parameterType="com.kh.clendy.CScenter.model.vo.PersonalQ">
 	UPDATE PERSONAL_Q
 	   SET
 			P_ANSWER = #{p_answer}
 		  , P_ANSWER_DATE = SYSDATE
-		  , A_WRITER = #{user_no}	
+		  , A_WRITER = #{a_writer}	
+	WHERE P_NO = #{p_no}
+	</update>
+	
+	<!-- 1:1문의 답변 수정 -->
+	<update id="updateAnswer" parameterType="com.kh.clendy.CScenter.model.vo.PersonalQ">
+	UPDATE PERSONAL_Q
+	   SET
+			P_ANSWER = #{p_answer}
+		  , P_A_MODIFY_DATE = SYSDATE
+		  , A_WRITER = #{a_writer}	
 	WHERE P_NO = #{p_no}
 	</update>
 	
@@ -147,6 +157,7 @@
 	UPDATE PERSONAL_Q
 	   SET
 			P_ANSWER = NULL
+		  , P_ANSWER_DATE = NULL	
       WHERE P_NO = #{p_no}
 	</update>
 
