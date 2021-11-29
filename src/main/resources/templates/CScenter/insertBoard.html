@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"
+     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항 등록</title>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/js/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <style>
 #wrapper {display: flex;}
 #content-title, h6{ display: inline-block; margin-right: 15px; }
@@ -30,7 +33,9 @@ a{text-decoration: none;}
 /* btn-area */
 .btn-area{display: flex; justify-content: flex-end; padding-top:15px; padding-bottom: 15px;}
 .btn-area input{width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer; margin-left: 5px;}
+.btn-area a{ width: 55px; height: 30px; background-color: #060032; color:white; line-height:30px; text-align:center; font-size :15px;}
 </style>
+
 </head>
 <body>
     <div th:replace="common/header.html"></div>
@@ -45,22 +50,23 @@ a{text-decoration: none;}
         </div>
         <div id="content">
             <h3 id="content-title">공지사항 등록</h3>
-        
+        	
+        	<form id="insertBoard" th:action="@{/CScenter/board/insert}" method="post">
             <div class="board-detail">
                 <div class="detail-title">
-                    <div class="title-wrapper"><label class="title">제목</label><input type="text" class="name" maxlength="20" required></div>
+                    <div class="title-wrapper"><label class="title">제목</label><input type="text" name="b_title"class="name" maxlength="20" required></div>
                 </div>
                 <div class="board-content">
-
+					<textarea id="smarteditor" name="b_content" style="width: 100%; height: 350px;"></textarea>
                 </div>
 
             </div>
 
             <div class="btn-area">
-                <input type="button" class="to-list" value="목록">
+                <a class="to-list" href="/CScenter/board">목록</a>
                 <input type="button" class="insert" value="등록">
             </div>
-            
+            </form>
         </div>
 
     </div>
@@ -68,5 +74,52 @@ a{text-decoration: none;}
     
     <div th:replace="common/footer.html"></div>
     
+    <!-- 스마트 에디터 -->
+	<script id="smartEditor" type="text/javascript"> 
+	$(document).ready(function() {
+		var oEditors = []; 
+
+		// Editor Setting
+		nhn.husky.EZCreator.createInIFrame({
+			oAppRef : oEditors, 
+			elPlaceHolder : "smarteditor", 
+			sSkinURI : "/js/smarteditor/SmartEditor2Skin.html", 
+			fCreator : "createSEditor2", // SE2BasicCreator.js 메소드명이니 변경 금지 X
+			htParams : {
+				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+				bUseToolbar : true,
+				// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+				bUseVerticalResizer : false,
+				// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+				bUseModeChanger : false, 
+			}
+		});
+
+		// 등록 확인
+		$(".insert").click(function(){
+			if(confirm("등록하시겠습니까?")) {
+				// id가 smarteditor인 textarea에 에디터에서 대입
+				oEditors.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []);
+				// 이부분에 에디터 validation 검증
+				if(validation()) {
+					$("#insertBoard").submit();
+				}
+			}
+		})
+	});
+
+	// 필수값 Check
+	function validation(){
+		var contents = $.trim(oEditors[0].getContents());
+		if(contents === '<p>&bnsp;</p>' || contents === ''){ // 기본적으로 아무것도 입력하지 않아도 값이 입력되어 있음. 
+			alert("내용을 입력하세요.");
+			oEditors.getById['smarteditor'].exec('FOCUS');
+			return false;
+		}
+
+		return true;
+	}
+	</script>
+
 </body>
 </html>

@@ -6,18 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
-	
-	@GetMapping("/storeList")
-	public void toStore() {}
-	
-	@GetMapping("/manageStore")
-	public void toManageStore() {}
+public class CalculationController {
 	
 	@GetMapping("/calculation")
 	public void toCalculation() {}
-	
-	@GetMapping("/coupon")
-	public void toCoupon() {}
 
 }
