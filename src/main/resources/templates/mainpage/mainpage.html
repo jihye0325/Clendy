@@ -306,7 +306,7 @@ button {
 					<ul class="slidelist" >
 						<!-- 슬라이드 영역 -->
 						<li class="slideitem" th:each="mainproduct, i : ${mainProductList}">
-							<a href="#">
+							<a th:href="@{'/product/view/' + ${mainproduct.pNo}}">
 								<div class="textbox">
 										<h3 th:text="${mainproduct.pName}"></h3>
 										<p th:text="${mainproduct.pPrice}"></p>
@@ -347,7 +347,7 @@ button {
 				<h1>랭킹 top10</h1>
 				<ul class="productimg" >
 					<li th:each="mainproduct, i : ${mainProductList}"><span class="product_ranking" th:text="|${i.count}위|"></span>
-					 <a href="#"><img th:src="@{/images/}+${mainproduct.imgName}"></a>
+					 <a th:href="@{'/product/view/' + ${mainproduct.pNo}}"><img th:src="@{/images/}+${mainproduct.imgName}"></a>
 						<div class="product_txt" >
 							<p class="product_title" th:text="${mainproduct.pName}"/>
 							<p th:text="${mainproduct.pPrice}"/>

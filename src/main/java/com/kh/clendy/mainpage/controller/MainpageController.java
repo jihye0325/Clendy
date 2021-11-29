@@ -28,7 +28,6 @@ public class MainpageController {
 
 		model.addAttribute("mainProductList",mainProductList);
 		
-		System.out.println(mainProductList);
 	}
 
 	@PostMapping(value = "/")
