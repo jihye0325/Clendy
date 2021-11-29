@@ -57,8 +57,8 @@
           LEFT JOIN PRODUCT_IMAGE PI ON (PD.P_NO = PI.P_NO)
           LEFT JOIN IMAGE IMG ON(PI.IMG_NO = IMG.IMG_NO)
           LEFT JOIN PRODUCT_CATEGORY ON(PD.CATEGORY_CODE = PRODUCT_CATEGORY.CATEGORY_CODE)
-          WHERE PD.P_STATUS = 'N'
-            AND IMG.IMG_LEVEL = 1
+          WHERE PD.P_STATUS = 'Y'
+            AND IMG.IMG_LEVEL = 0
             <choose>
             	<when test="type.equals('public')">
             		AND PRODUCT_CATEGORY.REF_CATEGORY_CODE = 1
@@ -114,7 +114,7 @@
              , IMG.IMG_R_NAME
              , IMG.IMG_LEVEL
              , IMG.IMG_STATUS
-                          , (SELECT
+             , (SELECT
                        COUNT(*) AS COUNT
                   FROM PRODUCT_ORDER
                   JOIN ORDER_OPTION USING(ORDER_CODE)
@@ -158,8 +158,8 @@
           LEFT JOIN PRODUCT_IMAGE PI ON (PD.P_NO = PI.P_NO)
           LEFT JOIN IMAGE IMG ON(PI.IMG_NO = IMG.IMG_NO)
           LEFT JOIN PRODUCT_CATEGORY ON(PD.CATEGORY_CODE = PRODUCT_CATEGORY.CATEGORY_CODE)
-          WHERE PD.P_STATUS = 'N'
-            AND IMG.IMG_LEVEL = 1
+          WHERE PD.P_STATUS = 'Y'
+            AND IMG.IMG_LEVEL = 0
             <choose>
             	<when test="filter.type.equals('public')">
             		AND PRODUCT_CATEGORY.REF_CATEGORY_CODE = 1
@@ -237,8 +237,8 @@
 		     LEFT JOIN PRODUCT_IMAGE PIMG ON(PD.P_NO = PIMG.P_NO)
 		     LEFT JOIN IMAGE IMG ON(PIMG.IMG_NO = IMG.IMG_NO)
 		     JOIN SELLER SEL ON(PD.SELLER_CODE = SEL.SELLER_CODE)
-		    WHERE PD.P_STATUS = 'N'
-		      AND IMG.IMG_LEVEL = 2
+		    WHERE PD.P_STATUS = 'Y'
+		      AND IMG.IMG_LEVEL = 1
 		      AND PD.P_NO = #{pNo}
 	</select>
 	
