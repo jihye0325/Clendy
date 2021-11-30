@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.mypage.model.vo.Coupon;
+import com.kh.clendy.product.model.service.ProductOrderService;
 import com.kh.clendy.product.model.vo.Order;
 import com.kh.clendy.product.model.vo.ProductCart;
-import com.kh.clendy.product.service.ProductOrderService;
 
 @Controller
 @RequestMapping("/product/")
@@ -73,16 +73,38 @@ public class ProductOrderController {
 		// 포인트 정보
 		int point = productOrderService.orderPointSelect(userNo);
 		
-		//쿠폰리스트
+		// 쿠폰리스트
 		List<Coupon> couponList = productOrderService.orderCouponSelectList(userNo);
-		System.out.println(couponList);
+		// System.out.println(couponList);
 		
+		// 결제금액 정보
+		System.out.println(orderInfo);
+		Map<String, Integer> payPrice = new HashMap<>();
+		
+		int productPrice = 0;	 // 상품금액
+		int productPost = 0;	 // 배송금액
+		
+		for(String key : orderInfo.keySet()) {
+			int price = 0;
+			
+			for(Order order : orderInfo.get(key)) {
+				productPrice += (order.getpPrice() - (order.getpPrice() * (order.getpDiscount() / 100.0))) * order.getCartMount();
+				price += (order.getpPrice() - (order.getpPrice() * (order.getpDiscount() / 100.0))) * order.getCartMount();
+			}
+			
+			if(price <= 80000) {
+				productPost += 2500;
+			}
+		}
+		
+		payPrice.put("productPrice", productPrice);
+		payPrice.put("productPost", productPost);
 		
 		model.addAttribute("postMember", member);
 		model.addAttribute("orderInfo", orderInfo);
 		model.addAttribute("point", point);
 		model.addAttribute("couponList", couponList);
-		
+		model.addAttribute("payPrice", payPrice);
 
 		return "product/order";
 	}
@@ -93,3 +115,4 @@ public class ProductOrderController {
 		return "product/order_complete";
 	}
 }
+

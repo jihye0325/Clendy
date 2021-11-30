@@ -1,4 +1,4 @@
-package com.kh.clendy.product.service;
+package com.kh.clendy.product.model.service;
 
 import java.util.List;
 import java.util.Map;

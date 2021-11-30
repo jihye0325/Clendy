@@ -14,7 +14,6 @@ import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.product.model.dao.ProductOrderMapper;
 import com.kh.clendy.product.model.vo.Order;
 import com.kh.clendy.product.model.vo.ProductCart;
-import com.kh.clendy.product.service.ProductOrderService;
 
 @Service
 @Transactional
