@@ -1,21 +1,35 @@
 package com.kh.clendy.configuration;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AccountExpiredException;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.kh.clendy.member.model.service.MemberService;
 
 /* 스프링 시큐리티 설정 활성화 + bean 등록 가능 */
 @EnableWebSecurity
-public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
+public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter implements AuthenticationFailureHandler{
    
    private MemberService memberService;
      
@@ -53,6 +67,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
             .formLogin()   /* 로그인 설정 */
             .loginPage("/member/login")   /* 로그인 페이지 설정 */
             .successForwardUrl("/")    /* 로그인 성공 시 랜딩 페이지 설정 */
+            .failureHandler(this)	/* 실패시 제어 */
          .and() 
             .logout()   /* 로그아웃 설정 */
             .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout")) /* 로그아웃 요청 주소 */
@@ -70,4 +85,14 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
       /* 유저 인증을 위해 사용할 MemberService 등록, 사용하는 패스워드 인코딩 방식 설정 */
       auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
    }
+   
+   @Override
+   public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response
+		   , AuthenticationException exception) throws ServletException, IOException {
+			   
+	   request.setAttribute("msg", "fail");
+	   request.getRequestDispatcher("/member/loginfail").forward(request, response);
+	   
+   }
+   
 }

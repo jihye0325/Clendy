@@ -244,4 +244,16 @@ input[type="checkbox"] {
   	margin-bottom: 20px;
   }
 
-  
+.cart_ul a:link{
+    color: black;
+    text-decoration: none;
+}
+
+.cart_ul a:visited{
+    color: black;
+    text-decoration: none;
+}
+
+.cart_ul a:hover{
+    cursor: pointer;
+}

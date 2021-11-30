@@ -24,7 +24,7 @@
             <ul class="ul_content">
                 <li id="order_no" th:text="${o.order_code}"></li>
                 <li id="p_info">
-                    <img th:src="@{${o.route} + ${o.img_r_name}}">
+                    <img th:src="@{${o.route} + ${o.img_r_name}}" >
                     <div>
                         <span id="pname" th:text="${o.p_name}"></span><br>
                         <span id="option">옵션 : 
@@ -34,8 +34,8 @@
                     </div>
                 </li>
                 <li id="p_price">
-                    <span>39,000원</span><br>
-                    <span>1개</span>
+                    <span th:text="${o.p_price}"></span><br>
+                    <span th:text="|${o.order_product_num}개|"></span>
                 </li>
             </ul>
         </div>
@@ -43,17 +43,21 @@
         <div class="input_area">
             <div class="option_area">
                 <span>옵션선택</span><span id="required">*</span>
-                <select required>
-                    <option value="none">옵션을 선택해주세요</option>
+                <select name="optionColor" required>
+                    <option value="none">색상 선택</option>
+                </select>
+                <select name="optionSize" required>
+                	<option value="none">사이즈 선택</option>
+
                 </select>
             </div>
 
             <div class="select_area">
                 <span>사유선택</span><span id="required">*</span>
-                <select required>
-                    <option value="none">교환사유를 선택해주세요</option>
-                    <option value="seller_reason">상품파손,오배송(판매자귀책)</option>
-                    <option value="user_reason">사이즈,색상(구매자 변심)</option>
+                <select name="ref_id" required>
+                    <option value="none" disabled>교환사유를 선택해주세요</option>
+                    <option value="1">상품파손,오배송(판매자귀책)</option>
+                    <option value="2">사이즈,색상(구매자 변심)</option>
                 </select>
             </div>
 
@@ -62,7 +66,7 @@
                     <span>사유입력</span><br>
                     <span>0 / 100</span>
                 </div>
-                <textarea placeholder="교환사유를 입력해주세요(선택사항)"></textarea>
+                <textarea name="ref_reason" placeholder="교환사유를 입력해주세요(선택사항)"></textarea>
             </div>
         </div>
 
@@ -80,7 +84,7 @@
         </div>
 
         <div class="btn_area">
-            <button type="submit">교환신청</button>
+            <button type="submit" disabled>교환신청</button>
             <button type="button" onclick="cancle()">취소</button>
         </div>
     </div>
@@ -90,5 +94,38 @@
 			window.close();
 		}
     </script>
+    
+    <!-- 상품 옵션 -->
+    <script>
+    	
+    let pNoNumber = Number('[[${o.p_no}]]');
+	
+    $(function(){
+    	
+    	options(pNoNumber);
+    
+	    function options(pNo){
+		    	let dataLimit = {"pNo" : pNo};
+		    	$.ajax({
+		    		type : "post",
+		    		url : "/product/options",
+		    		data: JSON.stringify(dataLimit),
+		    		contentType : "application/json; charset=utf-8",
+		    		dataType : "json",
+		    		beforeSend : function(xhr){
+		    			xhr.setRequestHeader(header, token);
+		    		},
+		    		success : function(data){
+		    			option(data);
+		    			priceHanlder(data);
+		    			dataSource = data;
+		    		},
+		    		error : function(error){
+		    			console.log(error);
+		    		}
+		    	})
+		    }
+    }
+    </script>   
 </body>
 </html>

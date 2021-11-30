@@ -40,7 +40,7 @@
                 </ul>
 				
 				<div class="qna_area" th:each="p : ${p_qna_list}">
-					<ul class="board_content">
+					<ul class="board_content" id="qna_list">
 	                    <li class="b_no" th:text="${p.p_i_q_code}"></li>
 	                    <li class="b_category" th:text="${p.p_i_cate_name}"></li>
 	                    <li class="b_title" th:text="${p.p_i_q_title}"></li>
@@ -52,7 +52,9 @@
 	                <div class="slide_area">
 		                <div class="p_info">
 		                	<!-- **상품이름 누르면 상세페이지 이동하기**  -->
-		                	<div class="p_name" th:text="|상품명 : ${p.p_name}|"></div>
+		                	<a th:href="@{'/product/view/' + ${p.p_no}}">
+		                	<div class="p_name" th:text="|상품명 : ${p.p_name}|" ></div>
+		                	</a>
 		                </div>
 		                
 		                <div class="question">
@@ -129,12 +131,13 @@
                     <li class="b_status">상태</li>
                 </ul>
 
-                <ul class="board_content" >
-                    <li class="b_no"></li>
-                    <li class="b_category"></li>
-                    <li class="b_title"></li>
-                    <li class="b_date"></li>
-                    <li class="b_status"></li>
+                <ul class="board_content" th:each="q : ${q_list}">
+                    <li class="b_no" th:text="${q.p_no}"></li>
+                    <li class="b_category" th:text="${q.qc_name}"></li>
+                    <li class="b_title" th:text="${q.p_title}"></li>
+                    <li class="b_date" th:text="${#dates.format(q.p_enroll_date, 'yyyy-MM-dd')}"></li>
+                    <li class="b_status" th:if="${q.p_answer != null}" th:text="답변완료"></li>
+                    <li class="b_status" th:if="${q.p_answer == null}" th:text="답변대기"></li>
                 </ul>
             </div>
         </div>
@@ -235,7 +238,7 @@
     
     <!-- 게시글 클릭 시 슬라이드 -->
     <script>
-    	$(document).on('click', '.board_content', function(){
+    	$(document).on('click', '#qna_list', function(){
     		if($(this).next().css('display') == 'none'){
     			$(this).next().slideUp();
     			$(this).next().slideDown();
@@ -243,6 +246,20 @@
     			$(this).next().slideUp();
     		}
     	});
+    </script>
+    
+    <!-- 리뷰확인 새창 -->
+    <script>
+    	function reviewDetail(p_order_option_code){
+    		var order_option_code = p_order_option_code;
+			var popupWidth = 900;
+			var popupHeight = 650;
+	
+			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+			var popupY= (window.screen.height / 2) - (popupHeight / 2);
+			
+			window.open("/mypage/reviewDetail/" +order_option_code, "리뷰 상세", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
+    	}
     </script>
     
 </body>

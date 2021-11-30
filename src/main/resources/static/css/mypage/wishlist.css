@@ -109,3 +109,17 @@ input[type=radio] {
 	height: 20px;
 	cursor:pointer;
 }
+
+.wish_list a:link{
+    color: black;
+    text-decoration: none;
+}
+
+.wish_list a:visited{
+    color: black;
+    text-decoration: none;
+}
+
+.wish_list a:hover{
+    cursor: pointer;
+}
