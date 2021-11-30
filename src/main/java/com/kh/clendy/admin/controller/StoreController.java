@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.clendy.admin.model.service.StoreService;
 
@@ -22,6 +24,7 @@ public class StoreController {
 		this.storeSerivce = storeSerivce;
 	}
 	
+	/* 판매자 리스트 */
 	@GetMapping("/sellerList")
 	public void toStore(Model model, @RequestParam(defaultValue="1") int page) {
 		
@@ -33,7 +36,7 @@ public class StoreController {
 	}
 	
 	
-	/* 입점 신청 */
+	/* 입점 신청 리스트 */
 	@GetMapping("/joinStore")
 	public void tojoinStore(Model model, @RequestParam(defaultValue="1") int page) {
 		
@@ -45,6 +48,21 @@ public class StoreController {
 
 	}
 	
+	/* 입점 신청 승인 */
+	@PostMapping("/joinStore")
+	public String admitJoinStore(int a_no, int user_no, Model model, RedirectAttributes redirectAttr) {
+		
+		int result = storeSerivce.admitJoinStore(a_no, user_no);
+		
+		if(result>1) {
+			redirectAttr.addFlashAttribute("msg","입점 승인이 완료되었습니다.");
+		}else {
+			redirectAttr.addFlashAttribute("msg","입점 승인에 실패했습니다.");
+		}
+		
+		return "redirect:/admin/joinStore";
+	}
+	
 	/* 입점 취소 신청 리스트 */
 	@GetMapping("/cancelStore")
 	public void tocancelStore(Model model, @RequestParam(defaultValue="1") int page) {
@@ -54,6 +72,21 @@ public class StoreController {
 		/* 입점 취소 리스트, 페이징 */
 		model.addAttribute("cancelStoreList",cancelStoreList.get("cancelStoreList"));
 		model.addAttribute("cancelPi",cancelStoreList.get("cancelPi"));
+	}
+	
+	/* 입점 취소 신청 승인 */
+	@PostMapping("/cancelStore")
+	public String admitCancelStore(int can_no, int user_no, Model model, RedirectAttributes redirectAttr) {
+		
+		int result = storeSerivce.admitCancelStore(can_no, user_no);
+		
+		if(result>2) {
+			redirectAttr.addFlashAttribute("msg","입점 취소가 완료되었습니다.");
+		}else {
+			redirectAttr.addFlashAttribute("msg","입점 취소에 실패했습니다.");
+		}
+		
+		return "redirect:/admin/cancelStore";
 	}
 
 	

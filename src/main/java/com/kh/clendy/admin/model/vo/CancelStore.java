@@ -12,11 +12,12 @@ public class CancelStore {
 	private String seller_name;
 	private String rep_name;
 	private int b_license;
+	private int user_no;
 
 	public CancelStore() {}
 
 	public CancelStore(int can_no, Date c_date, Date complete_date, int seller_code, int a_no, String seller_name,
-			String rep_name, int b_license) {
+			String rep_name, int b_license, int user_no) {
 		super();
 		this.can_no = can_no;
 		this.c_date = c_date;
@@ -26,6 +27,7 @@ public class CancelStore {
 		this.seller_name = seller_name;
 		this.rep_name = rep_name;
 		this.b_license = b_license;
+		this.user_no = user_no;
 	}
 
 	public int getCan_no() {
@@ -92,11 +94,19 @@ public class CancelStore {
 		this.b_license = b_license;
 	}
 
+	public int getUser_no() {
+		return user_no;
+	}
+
+	public void setUser_no(int user_no) {
+		this.user_no = user_no;
+	}
+
 	@Override
 	public String toString() {
 		return "CancelStore [can_no=" + can_no + ", c_date=" + c_date + ", complete_date=" + complete_date
 				+ ", seller_code=" + seller_code + ", a_no=" + a_no + ", seller_name=" + seller_name + ", rep_name="
-				+ rep_name + ", b_license=" + b_license + "]";
+				+ rep_name + ", b_license=" + b_license + ", user_no=" + user_no + "]";
 	}
-	
+
 }
