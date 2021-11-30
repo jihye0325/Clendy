@@ -18,12 +18,13 @@ public class Cart {
 	private String route;
 	private String imgrName;
 	private int subtotal; // 상품 * 카트에 담은 수량
+	private int p_no;
 	
 	public Cart() {}
 
 	public Cart(int cart_no, int cart_amount, int p_option_no, int user_no, Product_Option product_option,
 			String seller_name, String p_color, String p_size, String p_name, int p_price, int seller_code,
-			String route, String imgrName, int subtotal) {
+			String route, String imgrName, int subtotal, int p_no) {
 		super();
 		this.cart_no = cart_no;
 		this.cart_amount = cart_amount;
@@ -39,6 +40,7 @@ public class Cart {
 		this.route = route;
 		this.imgrName = imgrName;
 		this.subtotal = subtotal;
+		this.p_no = p_no;
 	}
 
 	public int getCart_no() {
@@ -153,14 +155,22 @@ public class Cart {
 		this.subtotal = subtotal;
 	}
 
+	public int getP_no() {
+		return p_no;
+	}
+
+	public void setP_no(int p_no) {
+		this.p_no = p_no;
+	}
+
 	@Override
 	public String toString() {
 		return "Cart [cart_no=" + cart_no + ", cart_amount=" + cart_amount + ", p_option_no=" + p_option_no
 				+ ", user_no=" + user_no + ", product_option=" + product_option + ", seller_name=" + seller_name
 				+ ", p_color=" + p_color + ", p_size=" + p_size + ", p_name=" + p_name + ", p_price=" + p_price
 				+ ", seller_code=" + seller_code + ", route=" + route + ", imgrName=" + imgrName + ", subtotal="
-				+ subtotal + "]";
+				+ subtotal + ", p_no=" + p_no + "]";
 	}
 
-	
+		
 }

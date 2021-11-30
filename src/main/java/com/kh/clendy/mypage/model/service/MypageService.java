@@ -3,6 +3,7 @@ package com.kh.clendy.mypage.model.service;
 import java.util.HashMap;
 import java.util.List;
 
+import com.kh.clendy.CScenter.model.vo.PersonalQ;
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.mypage.model.vo.Cart;
 import com.kh.clendy.mypage.model.vo.Coupon;
@@ -10,6 +11,7 @@ import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
 import com.kh.clendy.mypage.model.vo.Product;
+import com.kh.clendy.mypage.model.vo.Product_Option;
 import com.kh.clendy.mypage.model.vo.Product_Order;
 import com.kh.clendy.mypage.model.vo.Refund;
 import com.kh.clendy.mypage.model.vo.Review;
@@ -68,5 +70,8 @@ public interface MypageService{
 	Payment selectOrderInfo(int order_code);
 
 	int requestRefund(Refund refund);
+
+	List<PersonalQ> selectQ_list(int user_no);
+
 
 }

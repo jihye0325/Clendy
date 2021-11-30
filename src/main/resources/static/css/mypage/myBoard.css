@@ -120,6 +120,8 @@ label {
 	border-bottom : 1px solid lightgray;
 	padding:10px;
 	text-align: center;
+	font-weight: bold;
+	cursor: pointer;
 }
 
 .question {
@@ -167,3 +169,16 @@ textarea {
 	margin-bottom: 20px;
 }
 
+.p_info a:link{
+    color: black;
+    text-decoration: none;
+}
+
+.p_info a:visited{
+    color: black;
+    text-decoration: none;
+}
+
+.p_info a:hover{
+    cursor: pointer;
+}

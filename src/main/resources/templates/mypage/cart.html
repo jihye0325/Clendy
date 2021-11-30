@@ -43,6 +43,7 @@
 						
 		                    <ul class="cart_ul">
 		                        <li class="check"><input type="checkbox" id="pcheck" name="pcheck" th:value="${c.cart_no}"></li>
+		                        <a th:href="@{'/product/view/' + ${c.p_no}}">
 		                        <li class="pname">
 		                            <div class="img_area">
 		                                <img th:src="@{${c.route} + ${c.imgrName}}">
@@ -51,6 +52,7 @@
 		                                <div id="pname" th:text="${c.p_name}"></div>
 		                            </div>
 		                        </li>
+		                        </a>
 		                        <li class="price" th:text="${c.p_price}"></li>
 		                        <li class="amount">										
 		                            <button type="button" id="minus" th:attr="onclick=|minus_amount('${c.cart_no}')|">-</button>
@@ -116,7 +118,7 @@
     		$('input:checkbox[name="pcheck"]').each(function(){
         		if($(this).prop("checked")){
         			
-        			var onePrice = $(this).parent().parent().children('li:eq(5)').children('div:eq(0)').attr("value");
+        			var onePrice = $(this).parent().parent().children('li:eq(4)').children('div:eq(0)').attr("value");
         			
         			totalPrice = totalPrice + Number(onePrice);
         		} 
@@ -138,7 +140,7 @@
         		$('input:checkbox[name="pcheck"]').each(function(){
             		if($(this).prop("checked")){
             			
-            			var onePrice = $(this).parent().parent().children('li:eq(5)').children('div:eq(0)').attr("value");
+            			var onePrice = $(this).parent().parent().children('li:eq(4)').children('div:eq(0)').attr("value");
             			
             			totalPrice = totalPrice + Number(onePrice);
             			
@@ -292,7 +294,8 @@
     		$('input:checkbox[name="pcheck"]').each(function(){
         		if($(this).prop("checked")){
         			
-        			var onePrice = $(this).parent().parent().children('li:eq(5)').children('div:eq(0)').attr("value");
+        			console.log($(this).parent().parent().children('li:eq(4)').children('div:eq(0)').attr("value"));
+        			var onePrice = $(this).parent().parent().children('li:eq(4)').children('div:eq(0)').attr("value");
         			
         			totalPrice = totalPrice + Number(onePrice);
         		} 

@@ -8,12 +8,13 @@ public class Order_Option {
 	private int order_product_num;
 	
 	private Product_Option product_option;
-	
 	// 추가컬럼
 	private int p_no;
 	private String p_name;
+	private String p_option_no;
 	private String p_color;
 	private String p_size;
+	private int p_stock;
 	private String order_name;
 	private String order_address;
 	private String order_phone;
@@ -34,10 +35,10 @@ public class Order_Option {
 	public Order_Option() {}
 
 	public Order_Option(int order_option_code, int order_code, int order_product_num, Product_Option product_option,
-			int p_no, String p_name, String p_color, String p_size, String order_name, String order_address,
-			String order_phone, String order_status_name, String route, String img_r_name, int user_no,
-			String order_request, Date order_create_date, int order_delivery, int order_all_price, String order_postnum,
-			Date order_modify_date, int r_no, int p_price, int subtotal) {
+			int p_no, String p_name, String p_option_no, String p_color, String p_size, int p_stock, String order_name,
+			String order_address, String order_phone, String order_status_name, String route, String img_r_name,
+			int user_no, String order_request, Date order_create_date, int order_delivery, int order_all_price,
+			String order_postnum, Date order_modify_date, int r_no, int p_price, int subtotal) {
 		super();
 		this.order_option_code = order_option_code;
 		this.order_code = order_code;
@@ -45,8 +46,10 @@ public class Order_Option {
 		this.product_option = product_option;
 		this.p_no = p_no;
 		this.p_name = p_name;
+		this.p_option_no = p_option_no;
 		this.p_color = p_color;
 		this.p_size = p_size;
+		this.p_stock = p_stock;
 		this.order_name = order_name;
 		this.order_address = order_address;
 		this.order_phone = order_phone;
@@ -113,6 +116,14 @@ public class Order_Option {
 		this.p_name = p_name;
 	}
 
+	public String getP_option_no() {
+		return p_option_no;
+	}
+
+	public void setP_option_no(String p_option_no) {
+		this.p_option_no = p_option_no;
+	}
+
 	public String getP_color() {
 		return p_color;
 	}
@@ -127,6 +138,14 @@ public class Order_Option {
 
 	public void setP_size(String p_size) {
 		this.p_size = p_size;
+	}
+
+	public int getP_stock() {
+		return p_stock;
+	}
+
+	public void setP_stock(int p_stock) {
+		this.p_stock = p_stock;
 	}
 
 	public String getOrder_name() {
@@ -261,14 +280,13 @@ public class Order_Option {
 	public String toString() {
 		return "Order_Option [order_option_code=" + order_option_code + ", order_code=" + order_code
 				+ ", order_product_num=" + order_product_num + ", product_option=" + product_option + ", p_no=" + p_no
-				+ ", p_name=" + p_name + ", p_color=" + p_color + ", p_size=" + p_size + ", order_name=" + order_name
-				+ ", order_address=" + order_address + ", order_phone=" + order_phone + ", order_status_name="
-				+ order_status_name + ", route=" + route + ", img_r_name=" + img_r_name + ", user_no=" + user_no
-				+ ", order_request=" + order_request + ", order_create_date=" + order_create_date + ", order_delivery="
-				+ order_delivery + ", order_all_price=" + order_all_price + ", order_postnum=" + order_postnum
-				+ ", order_modify_date=" + order_modify_date + ", r_no=" + r_no + ", p_price=" + p_price + ", subtotal="
-				+ subtotal + "]";
+				+ ", p_name=" + p_name + ", p_option_no=" + p_option_no + ", p_color=" + p_color + ", p_size=" + p_size
+				+ ", p_stock=" + p_stock + ", order_name=" + order_name + ", order_address=" + order_address
+				+ ", order_phone=" + order_phone + ", order_status_name=" + order_status_name + ", route=" + route
+				+ ", img_r_name=" + img_r_name + ", user_no=" + user_no + ", order_request=" + order_request
+				+ ", order_create_date=" + order_create_date + ", order_delivery=" + order_delivery
+				+ ", order_all_price=" + order_all_price + ", order_postnum=" + order_postnum + ", order_modify_date="
+				+ order_modify_date + ", r_no=" + r_no + ", p_price=" + p_price + ", subtotal=" + subtotal + "]";
 	}
 
-	
 }

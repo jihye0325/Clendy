@@ -53,6 +53,7 @@ li {
 
 #order_no {
     width: 120px;
+    text-align:center;
 }
 
 #p_info {
@@ -99,6 +100,11 @@ img {
 .select_area {
     margin-left: 20px;
     margin-bottom: 10px;
+}
+
+select[disabled] {
+	background-color: rgba(153, 153, 153, 0.2);
+    color: gray;
 }
 
 .reason_area {

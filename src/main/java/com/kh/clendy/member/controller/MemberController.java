@@ -23,6 +23,11 @@ public class MemberController {
 	@GetMapping("/login")
 	public void loginForm() {}
 	
+	@PostMapping("/loginfail")
+	public String loginfail() {
+		return "member/login";
+	}
+	
 	@GetMapping("/signUp")
 	public void signUpForm() {}
 	

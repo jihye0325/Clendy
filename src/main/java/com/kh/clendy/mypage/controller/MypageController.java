@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.clendy.CScenter.model.vo.PersonalQ;
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.member.model.vo.UserImpl;
 import com.kh.clendy.mypage.model.service.MypageService;
@@ -307,7 +308,9 @@ public class MypageController {
 		mv.addObject("review_list", review_list);
 		//System.out.println(review_list);		
 		// 1:1 문의 리스트  
-		
+		List<PersonalQ> q_list = mypageService.selectQ_list(user_no);
+		mv.addObject("q_list", q_list);
+		System.out.println(q_list);
 		// 교환/환불 리스트
 		
 		mv.setViewName("mypage/myBoard");

@@ -210,6 +210,7 @@
 		<result property="route" column="ROUTE"/>
 		<result property="imgrName" column="IMG_R_NAME"/>
 		<result property="subtotal" column="SUBTOTAL"/>
+		<result property="p_no" column="P_NO"/>
 	</resultMap>
 	
 	<!-- 상품 문의글  -->
@@ -247,6 +248,21 @@
 		<result property="order_name" column="ORDER_NAME"/>
 		<result property="order_address" column="ORDER_ADDRESS"/>
 		<result property="order_phone" column="ORDER_PHONE"/>
+	</resultMap>
+	
+	<!-- 1:1 문의글 -->
+	<resultMap type="com.kh.clendy.CScenter.model.vo.PersonalQ" id="PersonalQMap">
+		<id property="p_no" column="P_NO"/>
+		<result property="p_title" column="P_TITLE"/>
+		<result property="p_content" column="P_CONTENT"/>
+		<result property="p_answer" column="P_ANSWER"/>
+		<result property="p_enroll_date" column="P_ENROLL_DATE"/>
+		<result property="p_answer_date" column="P_ANSWER_DATE"/>
+		<result property="p_a_modify_date" column="P_A_MODIFY_DATE"/>
+		<result property="qc_no" column="QC_NO"/>
+		<result property="qc_name" column="QC_NAME"/>
+		<result property="q_writer" column="Q_WRITER"/>
+		<result property="a_writer" column="A_WRITER"/>
 	</resultMap>
 	
 	<!-- id로 유저정보 조회 -->
@@ -593,6 +609,7 @@
 		    , IMG_R_NAME
 		    , SELLER_CODE
 		    , SELLER_NAME
+		    , P_NO
 		    , (P_PRICE * CART_AMOUNT) AS SUBTOTAL
 		    FROM CART
 		    JOIN PRODUCT_OPTION USING(P_OPTION_NO)
@@ -705,6 +722,7 @@
 		 WHERE ORDER_CODE = #{ order_code }
 	</select>
 	
+	<!-- 환불요청 등록 -->
 	<insert id="requestRefund" parameterType="com.kh.clendy.mypage.model.vo.Refund">
 		INSERT INTO REFUND
 			(
@@ -726,12 +744,32 @@
 			)	
 	</insert>
 	
-	
+	<!-- 환불 요청 상태로 변경 -->
 	<update id="changeOrder_Status" parameterType="_int">
 		UPDATE ORDER_OPTION
 		   SET ORDER_STATUS_CODE = 'STATUS_CODE5'
 		 WHERE ORDER_OPTION_CODE = #{ order_option_code }
 	</update>
+		
+	<!-- 내가쓴글조회 1:1 -->
+	<select id="selectQ_list" parameterType="_int" resultMap="PersonalQMap">
+		SELECT
+			    P_NO,
+			    P_TITLE,
+			    P_CONTENT,
+			    P_ANSWER,
+			    P_ENROLL_DATE,
+			    P_ANSWER_DATE,
+			    P_A_MODIFY_DATE,
+			    QC_NO,
+			    QC_NAME,
+			    Q_WRITER,
+			    A_WRITER
+			  FROM PERSONAL_Q
+			  JOIN Q_CATEGORY USING(QC_NO)
+			 WHERE Q_WRITER = #{ user_no }
+	</select>	
+		
 </mapper>
 
 
