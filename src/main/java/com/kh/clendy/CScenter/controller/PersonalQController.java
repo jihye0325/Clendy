@@ -81,7 +81,6 @@ public class PersonalQController {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		
-		
 		PersonalQ newAnswer = new PersonalQ();
 		newAnswer.setP_no(p_no);
 		newAnswer.setP_answer(p_answer);

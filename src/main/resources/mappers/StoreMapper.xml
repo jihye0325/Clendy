@@ -27,6 +27,7 @@
 		<result property="seller_name" column="SELLER_NAME"/>
 		<result property="rep_name" column="REP_NAME"/>
 		<result property="b_license" column="B_LICENSE"/>
+		<result property="user_no" column="USER_NO"/>
 	</resultMap>
 	
 	<resultMap id="SellerResultMap" type="com.kh.clendy.admin.model.vo.Seller">
@@ -72,6 +73,7 @@
 	   FROM SELLER    
 	   JOIN APPLY_STORE USING(A_NO)
 	  WHERE S_STATUS ='Y'
+	  ORDER BY SELLER_CODE DESC
 	</select>
 	
 	<!-- 입점신청리스트 개수 조회 -->
@@ -144,6 +146,7 @@
 		 , A.SELLER_NAME
 		 , REP_NAME
 		 , B_LICENSE
+		 , USER_NO
       FROM CANCEL_STORE C
       JOIN SELLER S	USING(SELLER_CODE)
       JOIN APPLY_STORE A USING(A_NO)
@@ -151,6 +154,52 @@
      ORDER BY C_DATE) TBL)
           WHERE ROWN BETWEEN #{startRow} AND #{endRow}  
 	</select>
+	
+	<!-- 입점 신청 승인 -->
+	<insert id="admitJoinStore" parameterType="_int">
+	INSERT INTO SELLER
+	(      
+		   SELLER_CODE
+	     , A_NO
+		 , S_STATUS
+		 , ADMIT_DATE
+	 )
+	 VALUES
+	 (
+	 	   SEQ_SELLER_CODE.NEXTVAL
+	     , #{a_no}
+	     , DEFAULT
+	     , SYSDATE	
+	 )
+	</insert>
+	
+	<!-- 입점 승인 후 판매자 권한 부여 -->
+	<update id="changeUserAuthToSeller" parameterType="_int">
+	UPDATE MEMBER_ROLE
+	   SET AUTH_CODE = 3
+	 WHERE USER_NO = #{user_no}	   
+	</update>
+	
+	<!-- 입점 취소 승인 -->
+	<update id="admitCancelStore" parameterType="_int">
+	UPDATE SELLER
+	   SET S_STATUS = 'N'
+	 WHERE A_NO = #{can_no}  
+	</update>
+	
+	<!-- 입점 취소 승인 후 일반회원 권한 부여 -->
+	<update id="changeUserAuthToUser" parameterType="_int">
+	UPDATE MEMBER_ROLE
+	   SET AUTH_CODE = 1
+	 WHERE USER_NO = #{user_no}	   
+	</update>
+	
+	<!-- 입점 취소 날짜 UPDAET -->
+	<update id="insertAdmitCancelDate" parameterType="_int">
+	UPDATE CANCEL_STORE
+	   SET COMPLETE_DATE = SYSDATE
+	 WHERE CAN_NO = #{can_no}
+	</update>
 </mapper>
 
 

@@ -25,6 +25,8 @@
         .list-status{width : 80px; text-align: center;}
         .cursor {cursor: pointer; }
         .board-list li{ display: table-cell; height: 40px; line-height: 40px; border-bottom: 1px solid lightgray;}
+        /* null */
+        .null {text-align: center;	font-size: x-large;	font-weight: bold;align-self: center;}
         /* btn*/
         .btn-area{display: flex; justify-content: flex-end; padding-top:15px; padding-bottom: 15px;}
         .insert-btn{width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer;}
@@ -53,29 +55,32 @@
         </div>
         <div id="content">
             <h3 id="content-title">1:1 문의</h3><h6>1:1 Q&A</h6>
-
+			
+			<th:block sec:authorize="hasRole('ROLE_ADMIN')">
             <div class="btn-area"><button class="insert-btn">등록</button></div>
-        
+        	</th:block>
+            
             <div class="board-wrapper">
                 <div class="list-th">
                     <ul><li class="list-num">번호</li><li class="list-category">카테고리</li><li class="list-title">제목</li><li class="list-date">등록일</li><li class="list-status">상태</li></ul></div>
-                	<div th:if="${personalQList} == null">
-                	<div class="board-list">
-                	<ul><li>등록된 1:1 문의가 없습니다.</ul>
+                	<th:bolck th:unless ="${personalQList} != null" >
+	                	<div class="board-list null">
+		                	<img class="nowish" src="/images/nowish.png"><br>
+	            			<span>등록된 1:1문의가 없습니다.</span>
+	                	</div>
+                	</th:bolck>
+                	<th:bolck th:if="${personalQList} != null">
+	                	<div class="board-list" th:each="p,i : ${personalQList}">
+	                    <input type="hidden" name="p_no" th:value="${p.p_no}">
+	                    <ul><li class="list-num" th:text="${(pi.listCount-(10*(pi.page-1))) - (i.count-1) }"></li>
+	                    <li class="list-category" th:text="${p.qc_name}"></li>
+	                    <li class="list-title cursor" th:text="${p.p_title}"></li>
+	                    <li class="list-date" th:text="${#dates.format(p.p_enroll_date, 'yyyy-MM-dd')}"></li>
+	                    <li class="list-status" th:if="${p.p_answer_date == null}"><span>답변 대기</span></li>
+	                    <li class="list-status" th:if="${p.p_answer_date != null}"><span>답변 완료</span></li>
+	                    </ul>      
                 	</div>
-                	</div>
-                	<div th:if="${personalQList} != null">
-                	<div class="board-list" th:each="p,i : ${personalQList}">
-                    <input type="hidden" name="p_no" th:value="${p.p_no}">
-                    <ul><li class="list-num" th:text="${(pi.listCount-(10*(pi.page-1))) - (i.count-1) }"></li>
-                    <li class="list-category" th:text="${p.qc_name}"></li>
-                    <li class="list-title cursor" th:text="${p.p_title}"></li>
-                    <li class="list-date" th:text="${#dates.format(p.p_enroll_date, 'yyyy-MM-dd')}"></li>
-                    <li class="list-status" th:if="${p.p_answer_date == null}"><span>답변 대기</span></li>
-                    <li class="list-status" th:if="${p.p_answer_date != null}"><span>답변 완료</span></li>
-                    </ul>      
-                	</div>
-                	</div>
+                	</th:bolck>
                 </div>
 
             <!-- 페이징 -->

@@ -112,6 +112,27 @@ public class StoreServiceImpl implements StoreService{
 		return result;
 	}
 
+	/* 입점 신청 승인 */
+	@Override
+	public int admitJoinStore(int a_no, int user_no) {
+		
+		int insertSeller = storeMapper.admitJoinStore(a_no);
+		int changeUserAuth = storeMapper.changeUserAuthToSeller(user_no);
+		
+		return insertSeller + changeUserAuth;
+	}
+
+	/* 입점 취소 승인 */
+	@Override
+	public int admitCancelStore(int can_no, int user_no) {
+
+		int updateSeller = storeMapper.admitCancelStore(can_no);
+		int changeUserAuth = storeMapper.changeUserAuthToUser(user_no);
+		int updateCancelDate = storeMapper.insertAdmitCancelDate(can_no);
+		
+		return updateSeller + changeUserAuth + updateCancelDate;
+	}
+
 
 	
 	
