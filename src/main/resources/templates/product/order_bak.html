@@ -61,7 +61,7 @@
                                                 <dt>연락처</dt>
                                                 <dd>
                                                     <div class="post_tel_wrap">
-                                                        <select name="tel_one" id="tel_one">
+                                                        <select name="" id="">
                                                             <option value="010">010</option>
                                                             <option value="011">011</option>
                                                             <option value="016">016</option>
@@ -69,9 +69,9 @@
                                                             <option value="019">019</option>
                                                         </select>
                                                         <span>-</span>
-                                                        <input type="text" name="tel_two" id="tel_two">
+                                                        <input type="text" name="" id="">
                                                         <span>-</span>
-                                                        <input type="text" name="tel_three" id="tel_three">
+                                                        <input type="text" name="" id="">
                                                     </div>
                                                 </dd>
                                             </dl>
@@ -80,7 +80,7 @@
 
                                     <div class="post_request">
                                         <select name="post_request" id="post_request">
-                                            <option value="choice">배송요청사항 선택</option>
+                                            <option value="">배송요청사항 선택</option>
                                             <option value="직접 수령하겠습니다.">직접 수령하겠습니다.</option>
                                             <option value="문 앞에 놓아주세요">문 앞에 놓아주세요</option>
                                             <option value="경비실에 맡겨주세요">경비실에 맡겨주세요</option>
@@ -100,7 +100,8 @@
                                     <div class="order_list">
                                     	<th:block th:each="entry : ${orderInfo}">
                                     		<h4 class="mall_name" th:text="${entry.value[0].sellerName}">일번 쇼핑몰</h4>
-	                                        <div class="order_list order_list_box">
+	                                        <div class="order_list" >
+	                                        
 	                                            <div class="list" th:each="list : ${entry.value}" >
 	                                               <div class="list_left">
 	                                                   <div class="img">
@@ -108,9 +109,8 @@
 	                                                   </div>
 	                                                   <p class="title" th:text="${list.pName}">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</p>
 	                                                   <p class="option" th:text="|${list.pColor} / ${list.pSize}|">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
-	                                                   <input type="hidden" name="pOptionNo" th:value="${list.pOptionNo}">
 	                                                   <div class="list_quan">
-	                                                       <input type="text" name="cartMount" id="" th:value="${list.cartMount}" readonly>
+	                                                       <input type="text" name="" id="" th:value="${list.cartMount}" readonly>
 	                                                       개
 	                                                   </div>
 	                                               </div>
@@ -146,12 +146,24 @@
                             <div class="item">
                                 <h3 class="order_title">할인/포인트</h3>
                                 <div class="sale_wrap">
+                                <!--  
+                                    <dl class="coupon_cou">
+                                        <dt>쿠폰할인</dt>
+                                        <dd>
+                                        	<input type="hidden" name="insertCouNo" value="-1">
+                                            <p class="coupon_txt">
+                                                <span>0</span>원
+                                            </p>
+                                            <a href="javascript:popOpen('coupon_box');" class="btn_coupon">쿠폰적용</a>
+                                        </dd>
+                                    </dl>
+                                     --> 
                                     <dl>
                                         <dt>포인트사용</dt>
                                         <dd>
                                             <div class="input_box">
-                                                <input type="text" name="point" id="point" value="0" data-min="0" th:data-max="${point}" th:if="${point > 0}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                                                <input type="text" name="point" id="point" value="0" th:unless="${point > 0}" readonly>
+                                                <input type="text" name="" id="" value="0" data-min="0" th:data-max="${point}" th:if="${point > 0}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                <input type="text" name="" id="" value="0" th:unless="${point > 0}" readonly>
                                                 <span>원</span>
                                             </div>
                                             <p class="point_txt">
@@ -173,6 +185,7 @@
 
                         </div>
                         <div class="order_status">
+                        <!-- ${#aggregates.sum(entry.value.![(pPrice - (pPrice * (pDiscount / 100.0))) * cartMount]) >= 80000} -->
                             <div class="item">
                                 <h3>결제 금액</h3>
                                 <div class="order_price">
@@ -185,6 +198,12 @@
                                     <span th:text="${#numbers.formatInteger(payPrice.productPost, 3, 'COMMA')}" th:if="${payPrice.productPost > 0}">2,500</span>
                                     <span th:unless="${payPrice.productPost > 0}">0</span>원</p>
                                 </div>
+                                <!-- 
+                                <div class="order_coupon">
+                                    <p class="title">쿠폰할인 금액</p>
+                                    <p class="txt">(-)<span>0</span>원</p>
+                                </div>
+                                 -->
                                 <div class="order_point">
                                     <p class="title">포인트사용 금액</p>
                                     <p class="txt">(-)<span>0</span>원</p>
@@ -196,6 +215,7 @@
 
                                 <div class="btn_wrap">
                                     <button type="button" onclick="pay();">결제하기</button>
+                                    <!-- <a href="javascript:pay();">결제하기</a> -->
                                 </div>
                             </div>
                         </div>
@@ -207,6 +227,68 @@
         <div th:replace="common/footer.html"></div>
     </div>
     
+     <!-- 쿠폰 목록 S -->
+    <div class="layout_wrap" id="coupon_box">
+        <div class="dim"></div>
+        <div class="layout_box">
+            <div class="layout_head">
+                <h3 class="title">쿠폰 목록</h3>
+                <a href="javascript:popClose('coupon_box');" class="pop_close"></a>
+            </div>
+            <div class="layout_body">
+               <div class="layout_coupon_wrap">
+                    <ul class="coupon_list">
+                        <li class="list" th:each="list : ${couponList}">
+                            <a href="javascript:;">
+                            	<input type="hidden" name="couNo" th:value="${list.cou_no}">
+                                <div class="list_top">
+                                    <h2 class="coupon_title" th:text="${list.cou_name}">쿠폰이름 쿠폰이름 쿠폰이름</h2>
+                                    <p class="coupon_dday" th:text="|D-${list.cou_dday}|">D-9</p>
+                                </div>
+                                <div class="list_bot">
+                                    <p class="coupon_txt">상품할인</p>
+                                    <p class="coupont_price"><span th:text="${#numbers.formatInteger(list.cou_price, 3, 'COMMA')}">2,000</span>원 할인</p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+               </div>
+                <div class="layout_btn_wrap">
+                    <a href="javascript:;" class="active">쿠폰적용</a>
+                    <a href="javascript:popClose('coupon_box');">취소하기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function(){
+            // 쿠폰 선택
+            /* $(".coupon_list .list a").click(function(){
+                $(".coupon_list .list").removeClass("on");
+                $(this).parent(".list").addClass("on");
+            }) */
+            
+            
+            // 쿠폰 적용
+           /*  $("#coupon_box .active").click(function(){
+            	const choiceSize = $(this).parents(".layout_body").find(".list.on").length;
+            	const couNo = $(this).parents(".layout_body").find("input[name=couNo]").val();
+            	const price = $(this).parents(".layout_body").find(".coupont_price span").text();
+            	
+            	if(choiceSize > 0){
+            		popClose('coupon_box');
+            		$("input[name=insertCouNo]").val(couNo);
+            		$(".coupon_txt span").text(price);
+            		totalPriceHandler();
+            		
+            	}else{
+            		alert("적용하실 쿠폰을 선택해주세요!");
+            	}
+            }) */
+        })
+    </script>
+    <!-- 쿠폰 목록 E -->
+
     <script>
         $(function(){
             // 배송정보 이벤트
@@ -299,64 +381,60 @@
     </script>
     
     <script th:inline="javascript">
-   console.log();
+    
     
 function pay(){
-	let title = "테스트이니다.";
-	let amount = $('.order_allPrice .txt span').text();
-	let buyerName = [[${postMember.user_name}]];
-	let buyerTel = [[${postMember.phone}]];
-	let buyerAddr = [[${postMember.address}]];
-	let buyerEmail = "";
-	let postCheck = $("input[name=post_info]:checked").val();
-	let postRequest = $("#post_request option:selected").val();
-	let point = Number($("#point").val());
-	let postPrice = $(".order_post span").text();
+	const title = "테스트이니다.";
+	const amount = 100;
+	const buyerName = "홍길동";
+	const buyerTel = "010-1234-5678";
+	const buyerAddr = "서울시 노원구 섬밭로 ㅇㅇㅇ";
+	const buyerPostcode = "12121";
+	const buyerEmail = "godot4027@kakao.com";
 	
-	let pOptionNos = [];
-	let cartMounts = [];
-	
-	// 구매상품 담기
-	let orderListSize = $(".order_list_box").length;
-	let listSize = $(".order_list .list").length;
-	
-	for(let i = 0; i < orderListSize; i++){
-		for(let j = 0; j < listSize; j++){
-			pOptionNos.push(Number($(".order_list:eq("+i+") .list:eq("+j+") input[name=pOptionNo]").val()));
-			cartMounts.push(Number($(".order_list:eq("+i+") .list:eq("+j+") input[name=cartMount]").val()));	
-		}
-	}
-	
-	// 직접 입력 일시
-	 if(postCheck == 'directly'){
-		 buyerName = $(".new_exist_box .name").val();
-		 buyerAddr = $(".new_exist_box .add1").val() + ", " + $(".new_exist_box .add2").val() + ", " + $(".new_exist_box .add3").val();
-		 buyerTel = $("#tel_one option:selected").val() + $("#tel_two").val() + $("#tel_three").val(); 
-	 }
-	
-	// 배송요청 사항 선택안했을시
-	if(postRequest == 'choice'){
-		alert("배송요청 사항을 선택해주세요!");
-		return;
-	}
-	// 배송요청 사항 직접입력 일시
-	if(postRequest == 'edit'){
-		postRequest = $("#post_edit").val();
-	}
 	
 	var IMP = window.IMP; // 생략가능
 	IMP.init("imp25356398");
+	// 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+	// i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
 	IMP.request_pay({
 	pg: 'danal', // version 1.1.0부터 지원.
+	/*
+	'kakao':카카오페이,
+	html5_inicis':이니시스(웹표준결제)
+	'nice':나이스페이
+	'jtnet':제이티넷
+	'uplus':LG유플러스
+	'danal':다날
+	'payco':페이코
+	'syrup':시럽페이
+	'paypal':페이팔
+	*/
 	pay_method: 'card',
+	/*
+	'samsung':삼성페이,
+	'card':신용카드,
+	'trans':실시간계좌이체,
+	'vbank':가상계좌,
+	'phone':휴대폰소액결제
+	*/
 	merchant_uid: 'merchant_' + new Date().getTime(),
+	/*
+	merchant_uid에 경우
+	https://docs.iamport.kr/implementation/payment
+	위에 url에 따라가시면 넣을 수 있는 방법이 있습니다.
+	참고하세요.
+	나중에 포스팅 해볼게요.
+	*/
 	name: title,
-	amount: 100, //amount
+	//결제창에서 보여질 이름
+	amount: amount,
+	//가격
 	buyer_email: buyerEmail,
 	buyer_name: buyerName,
 	buyer_tel: buyerTel,
 	buyer_addr: buyerAddr,
-	buyer_postcode: buyerAddr,
+	buyer_postcode: buyerPostcode,
 	// m_redirect_url: 'https://www.yourdomain.com/payments/complete'
 	/*
 	모바일 결제시,
@@ -365,7 +443,6 @@ function pay(){
 	*/
 	}, function (rsp) {
 
-	
 		
 	if (rsp.success) {
 		console.log(rsp);
@@ -376,7 +453,7 @@ function pay(){
 		msg += '결제 금액 : ' + rsp.paid_amount;
 		msg += '카드 승인번호 : ' + rsp.apply_num; */
 		var msg = '결제가 완료되었습니다.';
-		/* var result = {
+		var result = {
 			"imp_uid" : rsp.imp_uid,
 			"merchant_uid" : rsp.merchant_uid,
 			"biz_email" : rsp.buyer_email,
@@ -384,37 +461,12 @@ function pay(){
 			"amount" : rsp.paid_amount,
 			"card_no" : rsp.apply_num,
 			"refund" : 'payed'
-		};  */
-		
-		var result = {
-				"imp_uid" : rsp.imp_uid,
-				"title" : title,
-				"amount" : amount,
-				"buyerName" : buyerName,
-				"buyerTel" : buyerTel,
-				"buyerAddr" : buyerAddr,
-				"biz_email" : rsp.buyer_email,
-				"postCheck" : postCheck,
-				"postRequest" : postRequest,
-				"point" : point,
-				"pay_date" : new Date().getTime(),
-				"postPrice" : postPrice,
-				"pOptionNos" : pOptionNos,
-				"cartMounts" : cartMounts,
-				"impUid" : rsp.imp_uid,
-				"merchantUid" : rsp.merchant_uid,
-				"cardName" : rsp.card_name,
-				"cardNumber" : rsp.card_number,
-				"payMethod" : rsp.pay_method,
-				
-				
-				
-		}
+		}; 
 		
 		console.log("결제성공 " + msg);
 		
 		$.ajax({
-			url : '/product/orderPay', 
+			url : '/product/orderTest', 
 	        type :'POST',
 	        data : JSON.stringify(result),
 	        contentType: "application/json; charset=utf-8",
@@ -424,6 +476,7 @@ function pay(){
 			},
 	        success: function(res){
 	          // 카드결제에 성공하면 
+	        			        	
 	          console.log(res);
 	        },
 	        error:function(error){

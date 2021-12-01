@@ -7,14 +7,18 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.clendy.member.model.vo.Member;
+import com.kh.clendy.member.model.vo.UserImpl;
 import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.product.model.service.ProductOrderService;
 import com.kh.clendy.product.model.vo.Order;
@@ -74,7 +78,7 @@ public class ProductOrderController {
 		int point = productOrderService.orderPointSelect(userNo);
 		
 		// 쿠폰리스트
-		List<Coupon> couponList = productOrderService.orderCouponSelectList(userNo);
+		// List<Coupon> couponList = productOrderService.orderCouponSelectList(userNo);
 		// System.out.println(couponList);
 		
 		// 결제금액 정보
@@ -103,10 +107,31 @@ public class ProductOrderController {
 		model.addAttribute("postMember", member);
 		model.addAttribute("orderInfo", orderInfo);
 		model.addAttribute("point", point);
-		model.addAttribute("couponList", couponList);
+		// model.addAttribute("couponList", couponList);
 		model.addAttribute("payPrice", payPrice);
 
 		return "product/order";
+	}
+	
+	/* 주문 결제 검증 */
+	@PostMapping("/orderPay")
+	@ResponseBody
+	public String order(@RequestBody Map<String, Object> parameters) {
+		
+		System.out.println(parameters);
+		
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int userNo = user.getUser_no();
+		int amount = Integer.parseInt(((String)parameters.get("amount")).replace(",", ""));
+		int postPrice = Integer.parseInt(((String)parameters.get("postPrice")).replace(",", ""));
+		
+		parameters.put("userNo", userNo);
+		parameters.put("postPrice", postPrice);
+		parameters.put("amount", amount);
+		
+		int result = productOrderService.order(parameters);
+		
+		return "success";
 	}
 	
 	/* 주문 완료 페이지*/
