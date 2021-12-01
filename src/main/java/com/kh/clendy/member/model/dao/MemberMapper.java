@@ -13,9 +13,19 @@ public interface MemberMapper {
 	// salt가 첨가되므로 매번 다른 문자열이 나옴
 	Member findMemberById(String username);
 
-	void insertMember(Member member);
+	int insertMember(Member member);
 
-	void insertMemberRole(MemberRole memberRole);
+	int insertMemberRole(MemberRole memberRole);
+
+	int addPoint(int user_no);
+	
+	String findId(String user_name, String phone);
+
+	String findMember(String rec_id);
+
+	int addRecPoint(String id, String rec_id);
+
+
 	
 	
 	

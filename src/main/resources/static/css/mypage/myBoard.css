@@ -182,3 +182,16 @@ textarea {
 .p_info a:hover{
     cursor: pointer;
 }
+
+#modify {
+	cursor : pointer;
+}
+
+#ex_ref_List img {
+	width: 80px;
+}
+
+#ex_ref_List .null_list {
+	font-size: large;
+	font-weight: bold;
+}

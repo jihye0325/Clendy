@@ -1,12 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<link href="/css/mypage/orderList.css" rel="stylesheet"></link>
-<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-<title>주문 상세</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+    <!-- csrf -->
+    <meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <link href="/css/mypage/orderInfo.css" rel="stylesheet"></link>
+    <title>주문상세내역</title>
 </head>
 <body>
-	<span th:text="${p.pay_code}"></span>
+    <div class="outer">
+        <div class="title">주문상세내역</div>
+        	
+        <div class="delivery_info">
+        	<span>배송지정보</span>
+        	
+        	<div class="name">
+        		<span>수령인</span>
+        		<span>지혜</span>
+        	</div>
+        	<div class="phone">
+        		<span>연락처</span>
+        		<span>01011112222</span>
+        	</div>
+        	<div class="address">
+        		<span>배송지</span>
+        		<div class="add_info">
+        			<div>우편번호</div>
+        			<div>도로명주소</div>
+        			<div>상세주소</div>
+        		</div>
+        	</div>
+        	<div class="memo">
+        		<span>배송메모</span>
+        		<span>문 앞에 놔주세요.</span>
+        	</div>
+        </div>
+        
+        <div class="pay">
+        	<div>주문금액</div>
+        	<div>상품금액</div>
+        	<div>배송비</div>
+        	<div>적립금 사용</div>
+        </div>
+        
+        <div class="payment">
+        	<div>결제번호</div>
+            <div>결제가격</div>
+            <div>결제수단</div>
+            <div>카드이름</div>
+            <div>카드번호</div>
+        </div>
+		
+		<div class="point">
+			<span>적립금 혜택</span>
+			<div>구매적립 예정</div>
+			<div>리뷰적립</div>
+		</div>
+        <div class="btn_area">
+            <button type="button" onclick="cancle()">확인</button>
+        </div>
+    </div>
+    
+    <script>
+		function cancle(){
+			window.close();
+		}
+    </script>
 </body>
 </html>

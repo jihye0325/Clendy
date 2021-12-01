@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/mypage/point.css" rel="stylesheet"></link>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <title>적립금</title>
+</head>
+<body>
+    <div th:replace="common/header.html"></div>
+	<div th:replace="mypage/sideMenu.html"></div>
+    <div class="outer">
+        <div clss="title">
+            <span id="title">적립금 상세내역</span>
+        </div>
+
+        <div class="point_area">
+            <div class="point_title">
+                <div>적립금</div>
+                <div id="point" th:if="${#lists.size(point_list) != 0}" th:text="|${#aggregates.sum(point_list.![point])}원|"></div>
+                <div id="point" th:if="${#lists.size(point_list) == 0}" th:text="0원"></div>
+            </div>
+            
+            <div class="point_list">
+                <ul class="point_header">
+                    <li class="status">상태</li> 
+                    <li class="point">적립금</li>
+                    <li class="info">적립 내용</li>
+                    <li class="date">적용 일시</li>
+                </ul>
+			
+                <ul class="point_content" th:each="p : ${point_list}">
+                    <li class="status" th:if="${p.point_status} == 1" th:text="적립" style="color: blue;"></li>
+                    <li class="status" th:if="${p.point_status} == 2" th:text="차감" style="color: red;"></li>
+                    <li class="point" th:text="|+${p.point}|" th:if="${p.point_status} == 1" style="color: blue;"></li>
+                    <li class="point" th:text="|${p.point}|" th:if="${p.point_status} == 2" style="color: red;"></li>
+                    <li class="info">
+          				<span th:text="${p.point_content}"></span><br>
+          				<span th:if="${p.rec_user != null}" th:text="|(추천인 : ${p.rec_user})|"></span>
+          			</li>
+                    <li class="date" th:text="${#dates.format(p.point_date, 'yyyy-MM-dd')}"></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+	<div th:replace="common/footer.html"></div>
+
+</body>
+</html>

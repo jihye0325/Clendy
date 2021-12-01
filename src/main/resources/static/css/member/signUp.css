@@ -100,6 +100,16 @@ label {
     margin-top: 20px;
 }
 
+#recommender_btn {
+	background-color: #060032;
+    color: white;
+    width: 70px;
+    height: 34px;
+    border: none;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
 .clause_area {
     margin-top: 25px;
     border: 1px solid lightgray;
@@ -196,4 +206,8 @@ input[type="checkbox"]:after {
 
 input[type="checkbox"]:checked:after {
   display: block;
+}
+
+button {
+	cursor: pointer;
 }

@@ -79,4 +79,8 @@ public interface MypageMapper {
 
 	List<PersonalQ> selectQ_list(int user_no);
 
+	List<Refund> selectR_list(int user_no);
+
+	Refund selectRefund(int order_option_code);
+
 }

@@ -1,1 +1,38 @@
-@charset "UTF-8";
+div { 
+    border: 1px solid black;
+}
+
+
+.outer {
+    width: 600px;
+    margin: auto;
+    
+}
+
+.title {
+    font-size: x-large;
+    font-weight: bold;
+    padding: 10px;
+    border-bottom: 2px solid black;
+    margin-bottom: 20px;
+}
+
+.product {
+    border: 1px solid lightgray;
+}
+
+.btn_area {
+    margin-top: 30px;
+    text-align: center;
+}
+
+button {
+    background-color: #060032;
+    color: white;
+    border: none;
+    font-size: large;
+    font-weight: bold;
+    width: 120px;
+    height: 40px;
+    cursor: pointer;
+}

@@ -43,19 +43,16 @@ span{
 
 [name="id_findtab"] {
     background-color: white;
+    cursor: pointer;
 }
 
 [name="pwd_findtab"] {
     background-color: lightgray;
+    cursor: pointer;
 }
 
 [name="pwd_findtab"] a{
     color: gray;
-}
-
-
-a :hover {
-    cursor: pointer;
 }
 
 [name="id_findtab"] a:link{
@@ -93,7 +90,7 @@ form button {
     color: white;
     border: none;
     width: 397px;
-    height: 35px;
+    height: 40px;
     margin-top: 20px;
     font-weight: bold;
 }

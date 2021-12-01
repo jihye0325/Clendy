@@ -12,6 +12,7 @@ span{
     font-size: 40px;
     justify-content: center;
     margin: auto;
+    margin-top: 50px;
     color: #060032;
     padding: 10px;
     border-bottom: 4px solid #060032;
@@ -56,12 +57,9 @@ button {
     border: none;
 }
 
-button a {
+button {
     color: white;
     font-size: large;
-}
-
-a :hover {
     cursor: pointer;
 }
 

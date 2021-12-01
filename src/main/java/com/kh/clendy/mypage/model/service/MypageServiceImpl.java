@@ -11,7 +11,6 @@ import com.kh.clendy.CScenter.model.vo.PersonalQ;
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.mypage.model.dao.MypageMapper;
 import com.kh.clendy.mypage.model.vo.Cart;
-import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
@@ -72,27 +71,6 @@ public class MypageServiceImpl implements MypageService {
 		List<Point> point_list = mypageMapper.selectPoint(user_no);
 		
 		return point_list;
-	}
-
-	// 사용가능 쿠폰 리스트
-	@Override
-	public List<Coupon> selectCou_List(int user_no) {
-		List<Coupon> cou_list = mypageMapper.selectCou_List(user_no);
-		return cou_list;
-	}
-
-	// 사용만료 쿠폰 리스트
-	@Override
-	public List<Coupon> selectDisable_Cou_List(int user_no) {
-		List<Coupon> disable_cou_list = mypageMapper.selectDisable_Cou_List(user_no);
-		return disable_cou_list;
-	}
-
-	// 사용완료 쿠폰 리스트
-	@Override
-	public List<Coupon> selectUse_Cou_List(int user_no) {
-		List<Coupon> use_cou_list = mypageMapper.selectUse_Cou_List(user_no);
-		return use_cou_list;
 	}
 
 	// 위시리스트 불러오기(아우터)
@@ -233,6 +211,18 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public List<PersonalQ> selectQ_list(int user_no) {
 		return mypageMapper.selectQ_list(user_no);
+	}
+
+	// 내가 쓴 글 (환불)
+	@Override
+	public List<Refund> selectR_list(int user_no) {
+		return mypageMapper.selectR_list(user_no);
+	}
+
+	// 환불요청 상세
+	@Override
+	public Refund selectRefund(int order_option_code) {
+		return mypageMapper.selectRefund(order_option_code);
 	}
 	
 }
