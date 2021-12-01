@@ -30,7 +30,8 @@
         .nowish{width: 120px;margin-bottom: 20px;}      
         /* btn*/
         .btn-area{display: flex; justify-content: flex-end; padding-top:15px; padding-bottom: 15px;}
-        .insert-btn{width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer;}
+        .insert-btn{width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer;line-height: 30px;
+    text-align: center;}
         </style>
         <link rel="stylesheet" href="/css/common/paging.css">
         <link rel="stylesheet" href="/css/common/sidebar.css">
@@ -57,14 +58,14 @@
         <div id="content">
             <h3 id="content-title">1:1 문의</h3><h6>1:1 Q&A</h6>
 			
-			<th:block sec:authorize="hasRole('ROLE_ADMIN')">
-            <div class="btn-area"><button class="insert-btn">등록</button></div>
-        	</th:block>
+			
+            <div class="btn-area"><a class="insert-btn" href="/CScenter/personalQ/insertQuestion">등록</a></div>
+        	
             
             <div class="board-wrapper">
                 <div class="list-th">
                     <ul><li class="list-num">번호</li><li class="list-category">카테고리</li><li class="list-title">제목</li><li class="list-date">등록일</li><li class="list-status">상태</li></ul></div>
-                	<th:block th:if ="${#strings.listIsEmpty(personalQList)}" >
+                	<th:block th:if ="${personalQList} == null" >
 	                	<div class="board-list null">
 		                	<img class="nowish" src="/images/nowish.png"><br>
 	            			<span>등록된 1:1문의가 없습니다.</span>
