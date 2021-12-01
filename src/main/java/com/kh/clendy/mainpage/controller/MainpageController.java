@@ -13,7 +13,6 @@ import com.kh.clendy.mainpage.model.service.MainpageService;
 import com.kh.clendy.mainpage.model.vo.MainProduct;
 
 @Controller
-@RequestMapping("mainpage")
 public class MainpageController {
 	private MainpageService mainpageService;
 
@@ -22,13 +21,14 @@ public class MainpageController {
 		this.mainpageService = mainpageService;
 	}
 
-	@GetMapping("/mainpage")
-	public void toMainpage(Model model) {
+	@GetMapping(value = { "/", "/mainpage" })
+	public String main(Model model) {
 		List<MainProduct> mainProductList = mainpageService.selectMainProdudct();
-
-		model.addAttribute("mainProductList",mainProductList);
-		
+		model.addAttribute("mainProductList", mainProductList);
+		return "mainpage/mainpage";
 	}
+
+	
 
 	@PostMapping(value = "/")
 	public String redirectMain() {
