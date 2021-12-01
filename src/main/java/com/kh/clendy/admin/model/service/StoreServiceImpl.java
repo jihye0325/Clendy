@@ -54,6 +54,16 @@ public class StoreServiceImpl implements StoreService{
 		return result;
 	}
 	
+	/* 판매자페이지에서 입점 취소 */
+	@Override
+	public int admitCancelStoreInSellerList(int seller_code, int user_no) {
+		
+		int changeUserAuth = storeMapper.changeUserAuthToUser(user_no);
+		int updateSellerStatus = storeMapper.updateSellerStatus(seller_code);
+		
+		return changeUserAuth+updateSellerStatus;
+	}
+	
 	/* 입점 신청 리스트, 페이징*/
 	@Override
 	public Map<String, Object> selectAllJoinStoreList(int page) {
@@ -132,6 +142,8 @@ public class StoreServiceImpl implements StoreService{
 		
 		return updateSeller + changeUserAuth + updateCancelDate;
 	}
+
+
 
 
 	

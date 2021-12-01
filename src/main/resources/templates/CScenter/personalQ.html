@@ -26,7 +26,8 @@
         .cursor {cursor: pointer; }
         .board-list li{ display: table-cell; height: 40px; line-height: 40px; border-bottom: 1px solid lightgray;}
         /* null */
-        .null {text-align: center;	font-size: x-large;	font-weight: bold;align-self: center;}
+        .null {text-align: center;	font-size: x-large;	font-weight: bold;align-self: center; margin-top:60px;}
+        .nowish{width: 120px;margin-bottom: 20px;}      
         /* btn*/
         .btn-area{display: flex; justify-content: flex-end; padding-top:15px; padding-bottom: 15px;}
         .insert-btn{width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer;}
@@ -63,13 +64,13 @@
             <div class="board-wrapper">
                 <div class="list-th">
                     <ul><li class="list-num">번호</li><li class="list-category">카테고리</li><li class="list-title">제목</li><li class="list-date">등록일</li><li class="list-status">상태</li></ul></div>
-                	<th:bolck th:unless ="${personalQList} != null" >
+                	<th:block th:if ="${#strings.listIsEmpty(personalQList)}" >
 	                	<div class="board-list null">
 		                	<img class="nowish" src="/images/nowish.png"><br>
 	            			<span>등록된 1:1문의가 없습니다.</span>
 	                	</div>
-                	</th:bolck>
-                	<th:bolck th:if="${personalQList} != null">
+                	</th:block>
+                	<th:block th:if="${personalQList} != null">
 	                	<div class="board-list" th:each="p,i : ${personalQList}">
 	                    <input type="hidden" name="p_no" th:value="${p.p_no}">
 	                    <ul><li class="list-num" th:text="${(pi.listCount-(10*(pi.page-1))) - (i.count-1) }"></li>
@@ -80,7 +81,7 @@
 	                    <li class="list-status" th:if="${p.p_answer_date != null}"><span>답변 완료</span></li>
 	                    </ul>      
                 	</div>
-                	</th:bolck>
+                	</th:block>
                 </div>
 
             <!-- 페이징 -->

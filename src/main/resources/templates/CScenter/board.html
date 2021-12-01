@@ -28,8 +28,11 @@
 	/* btn*/
 	.btn-area{display: flex; justify-content: flex-end; padding-top:15px;}
 	.insert-btn{width: 55px; height: 30px; border: 0; background-color: #060032; color:white; line-height: 30px; text-align: center; font-size: 15px;}
+	/* null */
+    .null {text-align: center;	font-size: x-large;	font-weight: bold;align-self: center; margin-top:60px;}
+    .nowish{width: 120px;margin-bottom: 20px;}   
 	</style>
-	<!-- 삭제 여부 알림창 -->
+	<!-- 알림창 -->
 	<script>
 		const msg = '[[${ msg }]]';
 		
@@ -55,6 +58,13 @@
             <div class="board-wrapper">
                 <div class="list-th">
                     <ul><li class="list-num">번호</li><li class="list-title">제목</li><li class="list-date">등록일</li></ul></div>
+                <th:block th:if ="${boardList} == null" >
+	                	<div class="board-list null">
+		                	<img class="nowish" src="/images/nowish.png"><br>
+	            			<span>등록된 공지사항이 없습니다.</span>
+	                	</div>
+                </th:block>
+                <th:block if="${boardList} != null"> 
                 <div class="board-list" th:each="board, i : ${boardList}">
                 	<div th:each="pi : ${pi}">
                 	<input type="hidden" name="b_no" id="b_no" th:value=${board.b_no}>
@@ -63,6 +73,7 @@
                     <li class="list-date" th:text="${#dates.format(board.b_enroll_date, 'yyyy-MM-dd')}"></li></ul>       
                 	</div>
                 </div>
+                </th:block>
             </div>
 			<th:block sec:authorize="hasRole('ROLE_ADMIN')">
             <div class="btn-area"><a class="insert-btn" href="/CScenter/board/insert">등록</a></div>

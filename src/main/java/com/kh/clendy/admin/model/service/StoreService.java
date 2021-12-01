@@ -1,9 +1,6 @@
 package com.kh.clendy.admin.model.service;
 
-import java.util.List;
 import java.util.Map;
-
-import org.apache.catalina.Store;
 
 public interface StoreService {
 	
@@ -13,6 +10,9 @@ public interface StoreService {
 	/* 입점 신청 리스트 */
 	Map<String, Object> selectAllJoinStoreList(int page);
 	
+	/* 판매자 관리에서 입점 취소 */
+	int admitCancelStoreInSellerList(int seller_code, int user_no);
+	
 	/* 입점 신청 승인 */
 	int admitJoinStore(int a_no, int user_no);
 	
@@ -21,6 +21,8 @@ public interface StoreService {
 	
 	/* 입점 취소 승인 */
 	int admitCancelStore(int a_no, int user_no);
+
+
 	
 	
 }

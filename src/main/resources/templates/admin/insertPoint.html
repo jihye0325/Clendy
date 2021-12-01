@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>적립금 등록</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <style>
+    	*{margin:0;}
+        ul, li{list-style: none; padding-left: 0;}
+        li{display: table-cell; }
+        .insert-title{width:100%; height:60px; background-color:#060032; color:white; text-align: center; line-height: 60px;}
+        .title{width : 120px; text-align: center; font-weight: bold;}
+        .detail-wrapper{text-align:center; margin: 20px auto;}
+    	.detail{margin:5px auto; width:350px;}
+    	.detail ul{margin:5px;}
+    	.price{width : 120px;}
+    	.btn-area{text-align:center;}
+        .insert-btn{width: 55px; height: 30px; border: 0; background-color: #060032; color:white; cursor: pointer; margin:10px;}
+    </style>
+</head>
+<body>
+	<div class="insert-title">
+    <h3>적립금 등록</h3>
+    </div>
+    
+    <form th:action="@{/admin/point/insert}" method="post">
+    <div class="detail-wrapper">
+    	<div class="detail">
+            <ul><li class="title">내용 : </li>
+            <li><input type="text" class="name" name="point_content" maxlength='25' placeholder="예:회원가입 적립금" required></li></ul>
+            <ul><li class="title">금액/할인율 : </li>
+            <li><input type="number" class="price" name="point_amount" id="price" required> 원 / %</li></ul>
+            <ul><li class="title">적립금 종류 : </li>
+            <li><select class="point_group" name="point_group">
+            <option value="1">기본 적립금</option>
+            <option value="2">이벤트 적립금</option>
+            </select></li></ul>
+    	</div>
+    </div>
+    <div class="btn-area">
+    <input type="submit" class="insert-btn" value="등록">
+    </div>
+    </form>
+</body>
+</html>

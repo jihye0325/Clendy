@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>적립금관리</title>
+    <script src="/js/jquery-3.6.0.min.js"></script> 
+    <style>
+        #wrapper {display: flex;}
+        #content-title, h6{ display: inline-block; margin-right: 15px; }
+        ul, li{list-style: none; padding-left: 0;}
+        a{text-decoration: none;}
+        /* sidebar */
+        #sidebar{    width: 160px;    padding-left :10%;}
+        #sidebar li{ width: 70px; height: 40px; }
+        #sidebar a {  color:black; width: 110px; height: 30px; display: inline-block; padding:5px; }
+        .sideA:hover{ background-color: #060032; color:white; }
+        #sidebar a:hover:not(.current){ background-color: #060032; color:white; }
+        #sidebar .current{background-color: #060032; color:white;}
+        /* content */
+        #content{  margin : 0px auto auto 11%; width: 850px;} 
+        .basic-point { margin-bottom: 65px; margin-top : 10px;} 
+        /* btn-area */
+        .btn-area{ display:flex; justify-content : flex-end; padding-top:35px; padding-bottom: 15px;}
+        .make-point{ background-color : #060032; color:white; padding:5px;} 
+        /* board-list */
+        .list-th ul{ height: 30px; border-top: 1px solid lightgray; margin: 0; border-bottom: 1px solid lightgray;}
+        .list-th li{ font-weight: bold; display: table-cell;  text-align: center; line-height: 30px; }
+        .list-num { width : 100px; text-align: center;}
+        .list-content{ width : 350px; text-align: center;}
+        .list-amount{width: 250px; text-align:center;}
+        .list-check {width: 75px; text-align: center;}
+        .list-check a, .list-event a{ color: black; cursor:pointer; text-decoration: underline; font-size:16px;}
+        .board-list li{ display: table-cell; height: 35px; line-height: 35px; border-bottom: 1px solid lightgray;}
+        .list-event{width: 150px; text-align:center;}
+         .modify{background-color:white; border:0;text-decoration: underline;  font-size: 16px; cursor: pointer;}
+         /* null */
+        .null {text-align: center;	font-size: x-large;	font-weight: bold;align-self: center; margin-top:60px;}
+        .nowish{width: 120px;margin-bottom: 20px;}
+        /* event-point*/
+        .event-point{margin-top:10px;}
+        </style>
+        <link rel="stylesheet" href="/css/common/paging.css">
+    <!--  알림창 -->
+	<script>
+		const msg = '[[${ msg }]]';
+		
+		if(msg){
+			alert(msg);
+		}
+	</script>
+</head>
+<body>
+    <div th:replace="common/header.html"></div>
+
+    <div id="wrapper">
+        <div id="sidebar">
+            <ul>
+                <li><a class="sideA " href="/admin/sellerList">판매자관리</a></li>
+                <li><a class="sideA " href="/admin/joinStore">입점승인/취소</a></li>
+                <li><a class="sideA " href="/admin/calculation">정산</a></li>
+                <li><a class="sideA current" href="/admin/point">적립금관리</a></li>
+            </ul>
+        </div>
+        <div id="content">
+            <h3 id="content-title">적립금관리</h3><h6>Point</h6>
+        
+            <div class="board-wrapper">
+                <div class="btn-area"><a class="make-point" href = "javascript:popup()">등록</a></div>
+                <h4>기본 적립금</h4>
+                <div class="basic-point">
+                    <div class="list-th">
+                        <ul><li class="list-num">번호</li><li class="list-content">내용</li><li class="list-amount">금액/퍼센트</li>
+                        <li class="list-check">수정</li><li class="list-check">삭제</li></ul></div>
+	                <th:block th:if="${basicPointList} == null">
+		              	<div class="board-list null">
+			                	<img class="nowish" src="/images/nowish.png"><br>
+		            			<span>등록된 기본 적립금이 없습니다.</span>
+		                </div>
+	                </th:block>
+	                <th:block th:if="${basicPointList} != null">
+	                	<form th:action="@{/admin/point/update}" method="post">
+		                <div class="board-list" th:each="b, i : ${basicPointList}">
+		                	<input type="hidden" name="point_code" th:value="${b.point_code}">
+		                    <ul><li class="list-num" th:text=${i.count}></li>
+		                    <li class="list-content" th:text="${b.point_content}"></li>
+		                    <li class="list-amount" th:text="${b.point_amount}">(원/%)</li>
+		                    <li class="list-check"><input type="submit" class="modify" value="수정"></li>
+		                    <li class="list-check"><a class="delete">삭제</a></li>
+		                    </ul>    
+		                </div>
+		                </form>
+	                </th:block>
+                </div>
+
+            	<h4>이벤트 적립금</h4>
+
+                  <div class="event-point">
+                	<div class="list-th">
+                        <ul><li class="list-num">번호</li><li class="list-content">내용</li><li class="list-amount">금액/퍼센트</li>
+                        <li class="list-event">삭제</li></ul></div>
+	                <th:block th:unless="${eventPointList} != null">
+		              	<div class="board-list null">
+		                	<img class="nowish" src="/images/nowish.png"><br>
+	            			<span>등록된 이벤트 적립금이 없습니다.</span>
+		                </div>
+	                </th:block>
+	                <th:block th:if="${eventPointList} != null">
+		                <div class="board-list" th:each="e, i : ${eventPointList}">
+		                	<input type="hidden" th:value="${e.point_code}">
+		                    <ul><li class="list-num" th:text="${(pi.listCount-(10*(pi.page-1))) - (i.count-1) }"></li>
+		                    <li class="list-content" th:text="${e.point_content}"></li>
+		                    <li class="list-amount" th:text="${e.point_amount}"></li>
+		                    <li class="list-event"><a class="delete">삭제</a></li></ul>    
+		                </div>
+	                </th:block>
+            </div>
+			</div>
+            <!-- 페이징 -->
+            <div class="pagaing_wrap" th:unless="${#strings.listIsEmpty(eventPointList)}">
+                        <ul class="pagaing_left">
+                            <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
+                            	<a th:href="@{/admin/point/(page=1)}" th:if="${pi.page > 1}"></a>
+	                            <a href="javascript:;" th:unless="${pi.page > 1}"></a>
+                            </li>
+                            <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
+	                            <a th:href="@{/admin/point/(page=${pi.page - 1})}" th:if="${pi.page > 1}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page > 1}"></a>
+                            </li>
+                        </ul>
+                        
+                        <ul class="pagaing_num">
+                        	<th:block th:each="pd : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+                        		<li th:classappend="${pi.page == pdStat.current} ? 'on'">
+                        			<a th:href="@{/admin/point/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+                        		</li>
+                        	</th:block>
+                            
+                        </ul>
+
+                        <ul class="pagaing_right" >
+                            <li class="next" th:classappend="${pi.page == pi.endPage} ? 'hide'">
+                            	<a th:href="@{/admin/point/(page=${pi.page} + 1)}" th:if="${pi.page < pi.endPage}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+                            </li>
+                            <li class="allNext"  th:classappend="${pi.page == pi.endPage} ? 'hide'">
+                            	<a th:href="@{/admin/point/(page=${pi.endPage})}" th:if="${pi.page < pi.endPage}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+                            </li>
+                        </ul>
+                    </div> 
+        </div>
+    </div>
+ 
+     <div th:replace="common/footer.html"></div>
+     
+     <!-- 등록 팝업창 -->
+     <script>
+        function popup(){
+            var url = "/admin/point/insert";
+            var name = "포인트 등록";
+            var option = "width = 420, height = 250, resizable = no scrollbars = no, status = no, top = 100, left = 200, location = no";
+            window.open(url, name, option);
+        }
+    </script>
+    
+    <script>
+    // 삭제
+    $(".delete").click(function(){
+    	var point_code = $(this).parent().parent().prev().val();
+    	location.href="/admin/point/delete?point_code="+point_code;
+    });
+    
+    // 수정
+    $(".modify").click(function(){
+    	 var modifyText = $(this).val();
+    	 var content = $(this).parent().prev().prev();
+    	 var amount = $(this).parent().prev();
+
+    	 if(modifyText == '수정'){
+    		$(this).val("수정완료");
+    		content.replaceWith("<li class='list-content'><input type='text' name='point_content'style='width:300px; height:20px;"+ 
+    							"margin:5px;' maxlenth='25' value='"+content.text()+"'></li>");
+    		amount.replaceWith("<li class='list-amount'><input type='number'name='point_amount' style='width:200px; height:20px;"+
+    							"margin:5px;' value="+amount.text()+"></li>");
+    		return false;
+    	 }
+    	
+    });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

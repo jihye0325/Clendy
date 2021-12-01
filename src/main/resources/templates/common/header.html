@@ -75,7 +75,7 @@
             <a class="nav white" id="mypage" href="/mypage/modify">마이페이지</a>
         	</th:block>
         	<th:block sec:authorize="hasRole('ROLE_ADMIN')">
-            <a class="nav white" id="mypage" href="/admin/storeList">관리자페이지</a>
+            <a class="nav white" id="mypage" href="/admin/sellerList">관리자페이지</a>
             </th:block>
             <th:block sec:authorize="hasRole('ROLE_SELLER')">
             <a class="nav white" id="mypage" href="/seller/index">판매자페이지</a>
