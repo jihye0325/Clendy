@@ -25,7 +25,6 @@ import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.member.model.vo.UserImpl;
 import com.kh.clendy.mypage.model.service.MypageService;
 import com.kh.clendy.mypage.model.vo.Cart;
-import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
@@ -158,9 +157,9 @@ public class MypageController {
 		}
 	}
 	
-	// 적립금/쿠폰 화면
-	@GetMapping("/point_coupon")
-	public ModelAndView point_coupon(ModelAndView mv) {
+	// 적립금 화면
+	@GetMapping("/point")
+	public ModelAndView point(ModelAndView mv) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		
@@ -170,19 +169,7 @@ public class MypageController {
 		
 		mv.addObject("point_list", point_list);
 		
-		// 사용가능 쿠폰 리스트 불러오기
-		List<Coupon> cou_list = mypageService.selectCou_List(user_no);
-		mv.addObject("cou_list", cou_list);
-		
-		// 사용만료 쿠폰 리스트 불러오기
-		List<Coupon> disable_cou_list = mypageService.selectDisable_Cou_List(user_no);
-		mv.addObject("disable_cou_list", disable_cou_list);
-		
-		// 사용완료 쿠폰 리스트 불러오기
-		List<Coupon> use_cou_list = mypageService.selectUse_Cou_List(user_no);
-		mv.addObject("use_cou_list", use_cou_list);
-		
-		mv.setViewName("mypage/point_coupon");
+		mv.setViewName("mypage/point");
 		
 		return mv;
 	}
@@ -302,6 +289,7 @@ public class MypageController {
 		int user_no = user.getUser_no();
 		// 상품 문의글 리스트 
 		List<ProductQnaQ> p_qna_list = mypageService.selectP_Qna_List(user_no); 
+		System.out.println(p_qna_list);
 		mv.addObject("p_qna_list", p_qna_list);
 		// 리뷰 리스트
 		List<Review> review_list = mypageService.selectReview_List(user_no);
@@ -310,9 +298,10 @@ public class MypageController {
 		// 1:1 문의 리스트  
 		List<PersonalQ> q_list = mypageService.selectQ_list(user_no);
 		mv.addObject("q_list", q_list);
-		System.out.println(q_list);
-		// 교환/환불 리스트
-		
+		// 교환 리스트
+		// 환불 리스트
+		List<Refund> r_list = mypageService.selectR_list(user_no);
+		mv.addObject("r_list", r_list);
 		mv.setViewName("mypage/myBoard");
 		return mv;
 	}
@@ -480,5 +469,26 @@ public class MypageController {
 		redirectAttr.addFlashAttribute("msg", msg);
 		
 		return "redirect:/mypage/refund/" + order_option_code;
+	}
+	
+	// 환불요청 상세
+	@GetMapping("/refundDetail/{order_option_code}")
+	public ModelAndView refundDetail(ModelAndView mv, @PathVariable int order_option_code) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		Member m = mypageService.selectMember(user_no);
+		// 상품정보 조회
+		Order_Option order_option = mypageService.selectProduct(order_option_code);
+		
+		mv.addObject("m", m);
+		mv.addObject("o", order_option);
+		
+		// 환불내역 조회
+		Refund refund = mypageService.selectRefund(order_option_code);
+		System.out.println(refund);
+		mv.addObject("r", refund);
+		
+		mv.setViewName("/mypage/refundDetail");
+		return mv;
 	}
 }

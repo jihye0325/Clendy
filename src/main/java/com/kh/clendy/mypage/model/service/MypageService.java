@@ -6,12 +6,9 @@ import java.util.List;
 import com.kh.clendy.CScenter.model.vo.PersonalQ;
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.mypage.model.vo.Cart;
-import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
-import com.kh.clendy.mypage.model.vo.Product;
-import com.kh.clendy.mypage.model.vo.Product_Option;
 import com.kh.clendy.mypage.model.vo.Product_Order;
 import com.kh.clendy.mypage.model.vo.Refund;
 import com.kh.clendy.mypage.model.vo.Review;
@@ -26,13 +23,7 @@ public interface MypageService{
 	int deleteMember(int user_no);
 
 	List<Point> selectPoint(int user_no);
-
-	List<Coupon> selectCou_List(int user_no);
-
-	List<Coupon> selectDisable_Cou_List(int user_no);
-
-	List<Coupon> selectUse_Cou_List(int user_no);
-
+	
 	Wishlist selectOuterlist(int user_no);
 
 	Wishlist selectToplist(int user_no);
@@ -72,6 +63,10 @@ public interface MypageService{
 	int requestRefund(Refund refund);
 
 	List<PersonalQ> selectQ_list(int user_no);
+
+	List<Refund> selectR_list(int user_no);
+
+	Refund selectRefund(int order_option_code);
 
 
 }

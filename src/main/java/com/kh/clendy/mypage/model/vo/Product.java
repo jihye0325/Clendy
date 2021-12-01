@@ -9,7 +9,6 @@ public class Product {
 	private String p_name;
 	private int p_price;
 	private int p_discount;
-	private String p_able_coupon;
 	private String p_detail_image;
 	private int category_code;
 	private int seller_code;
@@ -21,15 +20,14 @@ public class Product {
 	
 	public Product() {}
 
-	public Product(int p_no, String p_name, int p_price, int p_discount, String p_able_coupon, String p_detail_image,
-			int category_code, int seller_code, String p_status, List<ProductImage> imageList,
-			Product_Category product_category, Seller seller) {
+	public Product(int p_no, String p_name, int p_price, int p_discount, String p_detail_image, int category_code,
+			int seller_code, String p_status, List<ProductImage> imageList, Product_Category product_category,
+			Seller seller) {
 		super();
 		this.p_no = p_no;
 		this.p_name = p_name;
 		this.p_price = p_price;
 		this.p_discount = p_discount;
-		this.p_able_coupon = p_able_coupon;
 		this.p_detail_image = p_detail_image;
 		this.category_code = category_code;
 		this.seller_code = seller_code;
@@ -69,14 +67,6 @@ public class Product {
 
 	public void setP_discount(int p_discount) {
 		this.p_discount = p_discount;
-	}
-
-	public String getP_able_coupon() {
-		return p_able_coupon;
-	}
-
-	public void setP_able_coupon(String p_able_coupon) {
-		this.p_able_coupon = p_able_coupon;
 	}
 
 	public String getP_detail_image() {
@@ -138,11 +128,10 @@ public class Product {
 	@Override
 	public String toString() {
 		return "Product [p_no=" + p_no + ", p_name=" + p_name + ", p_price=" + p_price + ", p_discount=" + p_discount
-				+ ", p_able_coupon=" + p_able_coupon + ", p_detail_image=" + p_detail_image + ", category_code="
-				+ category_code + ", seller_code=" + seller_code + ", p_status=" + p_status + ", imageList=" + imageList
-				+ ", product_category=" + product_category + ", seller=" + seller + "]";
+				+ ", p_detail_image=" + p_detail_image + ", category_code=" + category_code + ", seller_code="
+				+ seller_code + ", p_status=" + p_status + ", imageList=" + imageList + ", product_category="
+				+ product_category + ", seller=" + seller + "]";
 	}
 
-	
 	
 }

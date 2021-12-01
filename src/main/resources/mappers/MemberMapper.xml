@@ -110,4 +110,65 @@
 		  , #{ auth_code } 
 		)
 	</insert>
+	
+	<!-- 적립금 -->
+	<insert id="addPoint" parameterType="_int">
+		INSERT INTO POINT
+		(
+		    POINT_NO,
+		    ORDER_CODE,
+		    POINT_CODE,
+		    POINT,
+		    POINT_DATE,
+		    USER_NO  
+		)
+		VALUES
+		(
+		    SEQ_POINT_NO.NEXTVAL,
+		    NULL,
+		    4,
+		    (SELECT POINT_AMOUNT FROM POINT_CATEGORY WHERE POINT_CODE = 4),
+		    DEFAULT,
+		    SEQ_USER_NO.CURRVAL
+		)
+	</insert>
+	
+	<select id="findId" parameterType="String" resultType="String">
+		SELECT 
+		    ID
+		  FROM MEMBER
+		 WHERE USER_NAME = #{ user_name }
+		   AND PHONE = #{ phone }
+	</select>
+	
+	<select id="findMember" parameterType="String" resultType="String">
+		SELECT 
+		    ID
+		    FROM MEMBER
+		   WHERE ID = #{ rec_id }
+	</select>
+	
+	<insert id="addRecPoint" parameterType="String">
+		INSERT INTO POINT
+			(
+			    POINT_NO,
+			    ORDER_CODE,
+			    POINT_CODE,
+			    POINT,
+			    POINT_DATE,
+			    USER_NO,
+			    REC_USER
+			)
+			VALUES
+			(
+			    SEQ_POINT_NO.NEXTVAL,
+			    NULL,
+			    1,
+			    (SELECT POINT_AMOUNT FROM POINT_CATEGORY WHERE POINT_CODE = 1),
+			    DEFAULT,
+			    (SELECT USER_NO FROM MEMBER WHERE ID = #{ rec_id }),
+			    #{ id }
+			)
+	</insert>
+	
 </mapper>

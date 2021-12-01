@@ -5,13 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/member/login.css" rel="stylesheet"></link>
- 	<title>로그인</title>
+ 	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <title>로그인</title>
  	
 </head>
 <body>
 	<th:block th:if="${#request.getAttribute('msg') == 'fail'}">
 		<script>
-			alert('아이디랑 비밀번호를 확인해주세요.')
+			alert('아이디랑 비밀번호를 확인해주세요.');
 		</script>
 	</th:block>
 	
@@ -47,9 +48,9 @@
                 </div>
 
                 <div class="find">
-                    <span><a href="">아이디 찾기</a></span>
+                    <span onclick="findid()">아이디 찾기</span>
                     <span>|</span>
-                    <span><a href="">비밀번호 찾기</a></span>
+                    <span onclick="findPwd()">비밀번호 찾기</span>
                     <span>|</span>
                     <span><a href="/member/signUp">회원가입</a></span>
                 </div>
@@ -68,5 +69,34 @@
         </div>
     </div>
     <div th:replace="common/footer.html"></div>
+    
+    <!-- 아이디 찾기 -->
+    <script>
+    	function findid(){
+    		var popupWidth = 600;
+			var popupHeight = 350;
+	
+			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+			var popupY= (window.screen.height / 2) - (popupHeight / 2);
+			
+			window.open("/member/findId", "아이디 찾기", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
+		
+    	}
+    </script>
+    
+    <!-- 비밀번호 찾기 -->
+    <script>
+    	function findPwd(){
+    		var popupWidth = 600;
+			var popupHeight = 350;
+	
+			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+			var popupY= (window.screen.height / 2) - (popupHeight / 2);
+			
+			window.open("/member/findPwd", "비밀번호 찾기", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
+		
+    	}
+    </script>
+    
 </body>
 </html>

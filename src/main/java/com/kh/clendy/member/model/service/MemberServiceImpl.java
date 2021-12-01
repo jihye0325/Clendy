@@ -66,16 +66,41 @@ public class MemberServiceImpl implements MemberService{
 	// Member, Member_Role에 insert 처리 			// ++ 추천인 로직 
 	@Transactional
 	@Override
-	public void signUp(Member member) {
+	public int signUp(Member member, String rec_id) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		member.setPassword(passwordEncoder.encode(member.getPassword()));
-		memberMapper.insertMember(member);
+		int result1 = memberMapper.insertMember(member);
 		
 		MemberRole memberRole = new MemberRole();
 		memberRole.setAuth_code(1);
-		memberMapper.insertMemberRole(memberRole);
+		int result2 = memberMapper.insertMemberRole(memberRole);
+		
+		// 회원가입 적립금
+		int result3 = memberMapper.addPoint(member.getUser_no());
+		// 추천인 적립금
+		int result4 = memberMapper.addRecPoint(member.getId(), rec_id);
+		System.out.println(result4);
+		
+		int result = 0;
+		if(result1 > 0 && result2 > 0 && result3 > 0 && result4 > 0)
+			result = 1;
+		return result;
 		
 	}
+
+	// 아이디 찾기
+	@Override
+	public String findId(String user_name, String phone) {
+		return memberMapper.findId(user_name, phone);
+	}
+
+	// 추천인 아이디찾기
+	@Override
+	public String findMember(String rec_id) {
+		return memberMapper.findMember(rec_id);
+	}
+
+
 	
 	
 

@@ -95,6 +95,10 @@ a :hover {
     cursor: pointer;
 }
 
+.find span {
+	cursor:pointer;	
+}
+
 .find a:link{
     color: gray;
     text-decoration: none;
@@ -125,7 +129,7 @@ a :hover {
     text-decoration: none;
 }
 
-/* üũ�ڽ� ���� ���� */
+/* 체크박스 색상 변경 */
 input[type="checkbox"] {
     cursor: pointer;
     -webkit-appearance: none;

@@ -9,14 +9,19 @@ public class Point {
 	private int point;
 	private Date point_date;
 	private int user_no;
+	private String rec_user;
 	
+	private String point_content;
+	private int point_amount;
+	private int point_group;
+	private int point_status;
 	/* point 적립 내용 */
 	private Point_Category point_category;
 	
 	public Point() {}
 
-	public Point(int point_no, int order_code, int point_code, int point, Date point_date, int user_no,
-			Point_Category point_category) {
+	public Point(int point_no, int order_code, int point_code, int point, Date point_date, int user_no, String rec_user,
+			String point_content, int point_amount, int point_group, int point_status, Point_Category point_category) {
 		super();
 		this.point_no = point_no;
 		this.order_code = order_code;
@@ -24,6 +29,11 @@ public class Point {
 		this.point = point;
 		this.point_date = point_date;
 		this.user_no = user_no;
+		this.rec_user = rec_user;
+		this.point_content = point_content;
+		this.point_amount = point_amount;
+		this.point_group = point_group;
+		this.point_status = point_status;
 		this.point_category = point_category;
 	}
 
@@ -75,6 +85,46 @@ public class Point {
 		this.user_no = user_no;
 	}
 
+	public String getRec_user() {
+		return rec_user;
+	}
+
+	public void setRec_user(String rec_user) {
+		this.rec_user = rec_user;
+	}
+
+	public String getPoint_content() {
+		return point_content;
+	}
+
+	public void setPoint_content(String point_content) {
+		this.point_content = point_content;
+	}
+
+	public int getPoint_amount() {
+		return point_amount;
+	}
+
+	public void setPoint_amount(int point_amount) {
+		this.point_amount = point_amount;
+	}
+
+	public int getPoint_group() {
+		return point_group;
+	}
+
+	public void setPoint_group(int point_group) {
+		this.point_group = point_group;
+	}
+
+	public int getPoint_status() {
+		return point_status;
+	}
+
+	public void setPoint_status(int point_status) {
+		this.point_status = point_status;
+	}
+
 	public Point_Category getPoint_category() {
 		return point_category;
 	}
@@ -86,8 +136,9 @@ public class Point {
 	@Override
 	public String toString() {
 		return "Point [point_no=" + point_no + ", order_code=" + order_code + ", point_code=" + point_code + ", point="
-				+ point + ", point_date=" + point_date + ", user_no=" + user_no + ", point_category=" + point_category
-				+ "]";
+				+ point + ", point_date=" + point_date + ", user_no=" + user_no + ", rec_user=" + rec_user
+				+ ", point_content=" + point_content + ", point_amount=" + point_amount + ", point_group=" + point_group
+				+ ", point_status=" + point_status + ", point_category=" + point_category + "]";
 	}
 
 }

@@ -4,35 +4,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/css/member/find_Id.css" rel="stylesheet"></link>
+    <link href="/css/member/findId.css" rel="stylesheet"></link>
     <title>아이디 찾기</title>
 </head>
 <body>
+	<th:block th:if="${#request.getAttribute('noId') == 'noId'}">
+		<script>
+			alert('해당 정보와 일치하는 회원이 존재하지 않습니다.');
+		</script>
+	</th:block>
+
     <div class="title">
-        <img class="logo" src="resources/images/hanger.png">
+        <img class="logo" src="/images/hanger.png">
         <div>Clendy 아이디 찾기</div>
     </div>
 
     <div class="content">
         <div class="menu_tab">
             <button type="button" name="id_findtab">
-                <a href="">아이디 찾기</a>
+                <a th:href="@{'/member/findId'}">아이디 찾기</a>
             </button>
             <button type="button" name="pwd_findtab">
-                <a href="">비밀번호 찾기</a>
+                <a th:href="@{'/member/findPwd'}">비밀번호 찾기</a>
             </button>
         </div>
 
         <div class="input_area">
-            <form>
+            <form th:action="@{/member/findId}" name="findId" method="post">
                 <div class="name_area">
                     <span>이름</span><br>
-                    <input type="text" name="name" placeholder="이름을 입력해주세요">
+                    <input type="text" name="user_name" placeholder="이름을 입력해주세요">
                 </div>
 
                 <div class="phone_area">
                     <span>휴대폰 번호</span><br>
-                    <input type="tel" name="tel" placeholder="휴대폰 번호를 입력해주세요 (-없이 숫자만 입력)">
+                    <input type="tel" name="phone" placeholder="휴대폰 번호를 입력해주세요 (-없이 숫자만 입력)">
                 </div>
 
                 <button type="submit" name="id_find_btn">아이디 찾기</button>

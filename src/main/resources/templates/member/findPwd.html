@@ -4,22 +4,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/css/member/find_Pwd.css" rel="stylesheet"></link>
+    <link href="/css/member/findPwd.css" rel="stylesheet"></link>
     <title>비밀번호 찾기</title>
 </head>
 <body>
     <div class="title">
-        <img class="logo" src="resources/images/hanger.png">
+        <img class="logo" src="/images/hanger.png">
         <div>Clendy 비밀번호 찾기</div>
     </div>
 
     <div class="content">
         <div class="menu_tab">
             <button type="button" name="id_findtab">
-                <a href="">아이디 찾기</a>
+                <a th:href="@{'/member/findId'}">아이디 찾기</a>
             </button>
             <button type="button" name="pwd_findtab">
-                <a href="">비밀번호 찾기</a>
+                <a th:href="@{'/member/findPwd'}">비밀번호 찾기</a>
             </button>
         </div>
 

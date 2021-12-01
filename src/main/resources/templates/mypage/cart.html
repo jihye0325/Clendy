@@ -18,9 +18,9 @@
         <div class="title">
             <span>장바구니(<span th:text="${#lists.size(cart_list)}"></span>)</span>
         </div>
-
-        <form>
-        	<th:block th:if="${#lists.size(cart_list) > 0}">
+        
+		<th:block th:if="${#lists.size(cart_list) > 0}">
+        <form id="cartForm" th:action="@{/product/order}" method="post">
             <div class="cart">
             	<span class="info">품절된 상품은 표시되지 않습니다.</span>
                 <div class="cart_list">
@@ -35,13 +35,12 @@
                     </ul>
 					
 					<div th:each="c,index: ${cart_list}">
-						
-					
 						<th:block th:if="${index.index} == 0 or ${index.index} > 0 and ${c.seller_code} != ${cart_list.get(index.index - 1).seller_code}">
 						<span class="seller_name" th:text="${c.seller_name}"></span>
 						</th:block> 
 						
 		                    <ul class="cart_ul">
+		                    	<input type="hidden" name="sellerCode" th:value="${c.seller_code}">
 		                        <li class="check"><input type="checkbox" id="pcheck" name="pcheck" th:value="${c.cart_no}"></li>
 		                        <a th:href="@{'/product/view/' + ${c.p_no}}">
 		                        <li class="pname">
@@ -73,16 +72,15 @@
 		                            <button type="button" id="delete" th:attr="onclick=|deleteCart('${c.cart_no}', '${c.p_name}')|">삭제</button>
 		                        </li>
 		                    </ul>
-		                  </div>
+		            </div>
 		                  
-	                    </div>
+	            </div>
                   
-                </div>
+           </div>
 
-                <div class="select">
-                    <button type="button" id="checkAllBtn">전체선택</button>
-                    <button type="button" id="selectDelete">선택삭제</button>
-                </div>
+           <div class="select">
+                <button type="button" id="checkAllBtn">전체선택</button>
+                <button type="button" id="selectDelete">선택삭제</button>
             </div>
     
             <div class="result">
@@ -93,6 +91,7 @@
             <div class="btn_area">
                 <button type="submit" id="order_btn">주문하기</button>
             </div>
+        </form>
             </th:block>
             <th:block th:if="${#lists.size(cart_list) == 0}">
                 <div class="null_cart">
@@ -100,8 +99,8 @@
                 	<div>장바구니가 비어있습니다</div>
                 </div>
             </th:block>
-        </form>
-    </div>
+      </div> 
+       
     <div th:replace="common/footer.html"></div>
     
     <!-- 체크박스 전체 선택 -->
