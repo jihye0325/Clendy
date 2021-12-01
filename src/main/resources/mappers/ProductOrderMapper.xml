@@ -83,36 +83,144 @@
 		
 	<select id="orderPointSelect" parameterType="_int" resultType="_int">
 		SELECT
-		       NVL(SUM(POINT), 0) AS POINT
-		  FROM POINT 
-		  JOIN MEMBER USING(USER_NO)
-		 WHERE POINT_CODE IN(1, 2)
-		   AND USER_NO = #{ userNo }
+	      (SELECT SUM(POINT) FROM POINT WHERE POINT_CODE IN(1, 2, 4, 5) AND USER_NO = #{userNo}) 
+	      -
+	      (SELECT SUM(POINT) FROM POINT WHERE POINT_CODE IN(3) AND USER_NO = #{userNo})
+	      AS POINT
+	  FROM DUAL
 	</select>
 	
-	<select id="orderCouponSelectList" parameterType="_int" resultMap="couponResultMap">
-		    SELECT
-         *
-         FROM(SELECT
-       CP.COU_NO
-     , CP.COU_NAME
-     , CP.COU_CONDITION
-     , CP.COU_PRICE
-     , CP.START_DATE
-     , CP.EXPIRE_DATE
-     , CP.COU_STATUS
-     , (SELECT COUNT(*) FROM USE_COUPON WHERE USER_NO = #{ userNo } AND CP.COU_NO = COU_NO) AS COUPON_COUNT
-     , TO_DATE(TO_CHAR(CP.EXPIRE_DATE, 'YYYY-MM-DD')) - TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD')) AS COU_DDAY
-  FROM COUPON CP
-  LEFT JOIN USE_COUPON UC ON(CP.COU_NO = UC.COU_NO)
-  WHERE COU_STATUS = 'Y')
-  WHERE COUPON_COUNT > 0
-    AND COU_DDAY > 0
-	</select>
+	<!-- 상품 주문 추가 -->
+	<insert id="orderProductOrder" parameterType="map">
+		INSERT 
+		  INTO PRODUCT_ORDER
+		    (
+		       ORDER_CODE
+		     , USER_NO
+		     , ORDER_REQUEST
+		     , ORDER_CREATE_DATE
+		     , ORDER_DELIVERY
+		     , ORDER_ALL_PRICE
+		     , ORDER_MODIFY_DATE
+		    )
+		VALUES
+		    (
+		        SEQ_ORDER_CODE.NEXTVAL
+		      , #{ userNo }
+		      , #{ postRequest }
+		      , SYSDATE
+		      , #{ postPrice }
+		      , #{ amount }
+		      , SYSDATE
+		    )
+	</insert>
 	
-
-
-
-
-
+	<insert id="orderOrderOption" parameterType="com.kh.clendy.product.model.vo.ProductCart">
+		<selectKey keyProperty="cartNo" resultType="int" order="BEFORE">
+	    	SELECT SEQ_ORDER_CODE.CURRVAL FROM DUAL
+		</selectKey>
+		INSERT
+		  INTO ORDER_OPTION
+		  (
+		       ORDER_OPTION_CODE
+		     , ORDER_CODE
+		     , P_OPTION_NO
+		     , ORDER_PRODUCT_NUM
+		     , ORDER_STATUS_CODE
+		     , ORDER_POSTNUM
+		  )
+		  VALUES
+		  (
+		       SEQ_ORDER_OPTION_CODE.NEXTVAL
+		     , #{ cartNo }
+		     , #{ pOptionNo }
+		     , #{ cartAmount }
+		     , 'STATUS_CODE1'
+		     , NULL
+		  )
+	</insert>
+	
+	<insert id="orderPoint" parameterType="map">
+		<selectKey keyProperty="orderOptionCode" resultType="int" order="BEFORE">
+	    	SELECT SEQ_ORDER_CODE.CURRVAL FROM DUAL
+		</selectKey>
+		INSERT
+		  INTO POINT
+		  (
+		  	   POINT_NO
+		  	 , ORDER_CODE
+		  	 , POINT_CODE
+		  	 , POINT
+		  	 , POINT_DATE
+		  	 , USER_NO 
+		  )
+		VALUES
+		(
+			   POINT_NO.NEXTVAL
+			 , #{ orderOptionCode }
+			 , 3
+			 , #{ point }
+			 , SYSDATE
+			 , #{ userNo }
+		)
+	</insert>
+	
+	<insert id="orderDelInfo" parameterType="map">
+		<selectKey keyProperty="orderOptionCode" resultType="int" order="BEFORE">
+	    	SELECT SEQ_ORDER_CODE.CURRVAL FROM DUAL
+		</selectKey>
+		INSERT
+		  INTO ORDER_DEL_INFO
+		  (
+		  	   ORDER_CODE
+		  	 , ORDER_NAME
+		  	 , ORDER_ADDRESS
+		  	 , ORDER_PHONE
+		  )
+		VALUES
+		(
+			   #{orderOptionCode}
+			 , #{buyerName}
+			 , #{buyerAddr}
+			 , #{buyerTel}
+		)
+	</insert>
+	
+	<update id="orderStock" parameterType="com.kh.clendy.product.model.vo.ProductCart">
+		UPDATE PRODUCT_OPTION
+		   SET P_STOCK = P_STOCK - #{cartAmount}
+		 WHERE P_OPTION_NO = #{pOptionNo}
+	</update>
+	
+	<insert id="orderPayment" parameterType="map">
+		<selectKey keyProperty="orderOptionCode" resultType="int" order="BEFORE">
+	    	SELECT SEQ_ORDER_CODE.CURRVAL FROM DUAL
+		</selectKey>
+		INSERT
+      	  INTO PAYMENT
+      	  (
+      	  	   PAY_CODE
+      	  	 , ORDER_CODE
+      	  	 , IMP_UID
+      	  	 , MERCHANT_UID
+      	  	 , PAY_MONEY
+      	  	 , PAY_MEANS
+      	  	 , PAY_CARD_NAME
+      	  	 , PAY_CARD_NUM
+      	  	 , PAY_REFUND
+      	  )
+      	VALUES
+      	(
+      		   SEQ_PAYMENT_CODE.NEXTVAL
+      		 , #{ orderOptionCode }
+      		 , #{ impUid }
+      		 , #{ merchantUid }
+      		 , #{ amount }
+      		 , #{ payMethod }
+      		 , #{ cardName }
+      		 , #{ cardNumber }
+      		 , DEFAULT
+      	)
+	</insert>
+	
 </mapper>

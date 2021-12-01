@@ -64,10 +64,57 @@ public class ProductOrderServiceImpl implements ProductOrderService{
 		return productOrderMapper.orderPointSelect(userNo);
 	}
 
-	// 쿠폰 조회
+	// 주문 결제
+	@Transactional
 	@Override
-	public List<Coupon> orderCouponSelectList(int userNo) {
-		return productOrderMapper.orderCouponSelectList(userNo);
+	public int order(Map<String, Object> parameters) {
+		
+		// 상품주문목록 PRODUCT_ORDER 추가
+		int productOrder = productOrderMapper.orderProductOrder(parameters);
+		
+		// 상품 주문 옵션 ORDER_OPTION
+		 List<Integer> pOptionNos = (ArrayList<Integer>)parameters.get("pOptionNos");
+		 List<Integer> cartMounts = (ArrayList<Integer>)parameters.get("cartMounts");
+		
+		int optionSize = pOptionNos.size();
+		int orderOption = 0;
+		
+		for(int i = 0; i < optionSize; i++) {
+			ProductCart cart = new ProductCart();
+			cart.setpOptionNo(pOptionNos.get(i));
+			cart.setCartAmount(cartMounts.get(i));
+			
+			orderOption += productOrderMapper.orderOrderOption(cart);
+		}
+		
+		// 적립금 POINT - 추가
+		int point = (int)parameters.get("point");
+		int pointResult = 0;
+		if(point > 0) {
+			pointResult = productOrderMapper.orderPoint(parameters);
+		}
+		
+		// 상품 주문 배송지 관리 ORDER_DEL_INFO - 추가
+		int orderDelInfo = productOrderMapper.orderDelInfo(parameters);
+		
+		// PRODUCT_OPTION 상품 재고 재설정
+		int productStock = 0;
+		for(int i = 0; i < optionSize; i++) {
+			ProductCart cart = new ProductCart();
+			cart.setpOptionNo(pOptionNos.get(i));
+			cart.setCartAmount(cartMounts.get(i));
+			
+			productStock += productOrderMapper.orderStock(cart);
+		}
+		
+		// 결제 PAYMENT 추가
+		int paymentResult = productOrderMapper.orderPayment(parameters);
+		
+		
+		
+		
+		return 0;
 	}
 
 }
+

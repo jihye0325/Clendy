@@ -19,6 +19,8 @@ public interface ProductOrderService {
 	// 포인트 조회
 	int orderPointSelect(int userNo);
 
-	List<Coupon> orderCouponSelectList(int userNo);
+	// 주문 결제
+	int order(Map<String, Object> parameters);
+
 
 }
