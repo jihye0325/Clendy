@@ -31,8 +31,11 @@
         .list-commission{ width: 140px; text-align: center;}
         .list-date { width : 120px; text-align:center;}
         .list-cancel{width : 80px; text-align: center; }
-        .list-btn{ display:inline-block; text-decoration: underline; cursor: pointer;}
+        .cancel{ background-color:white; border:0; font-size:16px; text-decoration: underline; cursor: pointer;}
         .board-list li{ display: table-cell; height: 40px; line-height: 40px; border-bottom: 1px solid lightgray;}
+        /* null */
+        .null {text-align: center;	font-size: x-large;	font-weight: bold;align-self: center; margin-top:60px;}
+        .nowish{width: 120px;margin-bottom: 20px;} 
         </style>
         <link rel="stylesheet" href="/css/common/paging.css">
 	<!-- 알림창 -->
@@ -53,7 +56,7 @@
                 <li><a class="sideA current" href="/admin/sellerList">판매자관리</a></li>
                 <li><a class="sideA " href="/admin/joinStore">입점승인/취소</a></li>
                 <li><a class="sideA " href="/admin/calculation">정산</a></li>
-                <li><a class="sideA " href="/admin/coupon">쿠폰관리</a></li>
+                <li><a class="sideA " href="/admin/point">적립금관리</a></li>
             </ul>
         </div>
         <div id="content">
@@ -64,13 +67,25 @@
                     <ul><li class="list-num">번호</li><li class="list-name">이름</li>
                     <li class="list-sales">매출액</li><li class="list-commission">수수료</li>
                     <li class="list-date">등록일</li><li class="list-cancel"> 입점취소</li></ul></div>
+                <th:block th:if ="${sellerList} == null" >
+	                	<div class="board-list null">
+		                	<img class="nowish" src="/images/nowish.png"><br>
+	            			<span>등록된 스토어가 없습니다.</span>
+	                	</div>
+                </th:block>
+                <th:block th:if="${sellerList} != null">
                 <div class="board-list" th:each="s, i : ${sellerList}">
-                	<input type="hidden" th:value="${s.seller_code}">
-                    <ul><li class="list-num" th:text="${(pi.listCount-(10*(pi.page-1))) - (i.count-1) }"></li><li class="list-name" th:text="${s.seller_name}"></li>
+                	<form th:action="@{/admin/sellerList/cancelStore}" method="post">
+                	<input type="hidden" name="seller_code" th:value="${s.seller_code}">
+                	<input type="hidden" name="user_no" th:value="${s.user_no}">
+                    <ul><li class="list-num" th:text="${(pi.listCount-(10*(pi.page-1))) - (i.count-1) }"></li>
+                    <li class="list-name" th:text="${s.seller_name}"></li>
                     <li class="list-sales "></li><li class="list-commission"></li>
                     <li class="list-date" th:text="${#dates.format(s.apply_date, 'yyyy-MM-dd')}"></li>
-                    <li class="list-cancel"><a class="list-btn ">취소</a></li></ul>    
+                    <li class="list-cancel"><input type="submit" class="cancel" value="취소"></li></ul>    
+                    </form>
                 </div>
+                </th:block>
             </div>
 
             <!-- 페이징 -->

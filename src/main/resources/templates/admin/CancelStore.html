@@ -36,6 +36,9 @@
         .list-join-or-cancel{width : 80px; text-align: center; }
         .list-btn{ display:inline-block; text-decoration: underline; cursor: pointer; background-color: white; border: 0;  font-size: 15px;}
         .board-list li{ display: table-cell; height: 04px; line-height: 40px; border-bottom: 1px solid lightgray;}
+         /* null */
+        .null {text-align: center;	font-size: x-large;	font-weight: bold;align-self: center; margin-top:60px;}
+        .nowish{width: 120px;margin-bottom: 20px;}    
         </style>
         <link rel="stylesheet" href="/css/common/paging.css">
     	
@@ -57,7 +60,7 @@
                 <li><a class="sideA " href="/admin/sellerList">판매자관리</a></li>
                 <li><a class="sideA current" href="/admin/joinStore">입점승인/취소</a></li>
                 <li><a class="sideA " href="/admin/calculation">정산</a></li>
-                <li><a class="sideA " href="/admin/coupon">쿠폰관리</a></li>
+                <li><a class="sideA " href="/admin/point">적립금관리</a></li>
             </ul>
         </div>
         <div id="content">
@@ -69,22 +72,23 @@
             <div class="board-wrapper">
                 <div class="list-th">
                     <ul><li class="list-num">번호</li><li class="list-name">이름</li><li class="list-sales">대표자</li><li class="list-commission">사업자등록번호</li><li class="list-date">신청일</li><li class="list-join-or-cancel">취소 승인</li></ul></div>
-                <th:block th:if="cancelStoreList == null">
-	                <div class="board-list">
-	                <ul ><li>입점 취소를 신청한 스토어가 없습니다.</li></ul>
-	                </div>
+                <th:block th:if ="${cancelStoreList == null }" >
+	                <div class="board-list null">
+		                	<img class="nowish" src="/images/nowish.png"><br>
+	            			<span>입점 취소 신청한 스토어가 없습니다.</span>
+	                	</div>
 	            </th:block>
-                <th:block th:if="cancelStoreList != null">
-                	<form th:action="@{/admin/cancelStore}" method="post">
+                <th:block th:if="${cancelStoreList} != null">
 	                <div class="board-list" th:each="cancel,i : ${cancelStoreList}">
+                	<form th:action="@{/admin/cancelStore}" method="post">
 	                	<input type="hidden" name="can_no" id="can_no" th:value=${cancel.can_no}>
 	                	<input type="hidden" name="user_no" id="user_no" th:value=${cancel.user_no}>
 	                    <ul><li class="list-num" th:text="${(cancelPi.listCount-(10*(cancelPi.page-1))) - (i.count-1) }"></li>
 	                    <li class="list-name" th:text="${cancel.seller_name}"></li><li class="list-sales " th:text="${cancel.rep_name}"></li>
 	                    <li class="list-commission"  th:text="${cancel.b_license}"></li><li class="list-date" th:text="${#dates.format(cancel.c_date, 'yyyy-MM-dd')}"></li>
 	                    <li class="list-join-or-cancel"><input type="submit" class="list-btn" value="승인"></li></ul>    
-	                </div>
 	                </form>
+	                </div>
                 </th:block>
             </div>
 
@@ -92,11 +96,11 @@
             <div class="pagaing_wrap" th:if="${#lists.size(cancelStoreList) > 0}">
                         <ul class="pagaing_left">
                             <li class="allPrev" th:classappend="${cancelPi.page == 1} ? 'hide'">
-                            	<a th:href="@{/CScenter/admin/cancelStore/(page=1)}" th:if="${cancelPi.page > 1}"></a>
+                            	<a th:href="@{/admin/cancelStore/(page=1)}" th:if="${cancelPi.page > 1}"></a>
 	                            <a href="javascript:;" th:unless="${cancelPi.page > 1}"></a>
                             </li>
                             <li class="prev" th:classappend="${cancelPi.page == 1} ? 'hide'">
-	                            <a th:href="@{/CScenter/admin/cancelStore/(page=${cancelPi.page - 1})}" th:if="${cancelPi.page > 1}"></a>
+	                            <a th:href="@{/admin/cancelStore/(page=${cancelPi.page - 1})}" th:if="${cancelPi.page > 1}"></a>
                             	<a href="javascript:;" th:unless="${cancelPi.page > 1}"></a>
                             </li>
                         </ul>

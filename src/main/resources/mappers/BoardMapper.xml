@@ -21,7 +21,7 @@
 		  WHERE B_STATUS = 'Y'
 	</select>
 	<!-- board 전체 조회 -->
-	<select id="selectAllBoard" parameterType="_int" resultMap="BoardResultMap">
+	<select id="selectAllBoard" parameterType="map" resultMap="BoardResultMap">
 		 SELECT
             *
             FROM(

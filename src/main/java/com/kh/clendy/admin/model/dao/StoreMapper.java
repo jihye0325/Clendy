@@ -16,6 +16,9 @@ public interface StoreMapper {
 	int sellerGetListCount();
 	List<Seller> selectAllSellerList(Map<String, Object> mapMapper);
 	
+	/* 판매자관리에서 입점 취소 */
+	int updateSellerStatus(int seller_code);
+	
 	// 입점신청리스트 전체 개수 - 페이징
 	int joinStoreGetListCount();
 	List<ApplyStore> selectAllJoinStoreList(Map<String, Object> mapMapper);
@@ -36,6 +39,7 @@ public interface StoreMapper {
 	int insertAdmitCancelDate(int can_no);
 	/* 입점 취소 후 일반회원으로 권한 부여 */
 	int changeUserAuthToUser(int user_no);
+
 	
 
 }

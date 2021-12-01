@@ -43,7 +43,7 @@
 		<result property="address" column="ADDRESS"/>
 		<result property="account_bank" column="ACCOUNT_BANK"/>
 		<result property="account_num" column="ACCOUNT_NUM"/>
-		<result property="apply_date" column="APPLY_DATE"/>
+		<result property="apply_date" column="APPLY_ADMIT_DATE"/>
 		<result property="user_no" column="USER_NO"/>
  	</resultMap>
 	
@@ -75,6 +75,13 @@
 	  WHERE S_STATUS ='Y'
 	  ORDER BY SELLER_CODE DESC
 	</select>
+	
+	<!-- 판매자 관리에서 입점 취소 -->
+	<update id="updateSellerStatus" parameterType="_int">
+	UPDATE SELLER
+	   SET S_STATUS = 'N'
+	 WHERE SELLER_CODE = #{seller_code}  
+	</update>
 	
 	<!-- 입점신청리스트 개수 조회 -->
 	<select id="joinStoreGetListCount" resultType="_int">
@@ -162,7 +169,7 @@
 		   SELLER_CODE
 	     , A_NO
 		 , S_STATUS
-		 , ADMIT_DATE
+		 , APPLY_ADMIT_DATE
 	 )
 	 VALUES
 	 (

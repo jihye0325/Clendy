@@ -30,9 +30,23 @@ public class StoreController {
 		
 		Map<String, Object> sellerList = storeSerivce.selectAllSellerList(page);
 		
-		/* 리스트, 페이징 - 매출액, 수수료 ?*/
+		/* 리스트, 페이징 - (매출액, 수수료) ?*/
 		model.addAttribute("sellerList", sellerList.get("sellerList"));
 		model.addAttribute("pi", sellerList.get("pi"));
+	}
+	
+	/* 판매자 리스트에서 입점 취소 */
+	@PostMapping("/sellerList/cancelStore")
+	public String cancelStoreInSellerList(RedirectAttributes redirectAttr, int seller_code, int user_no) {
+		
+		int result = storeSerivce.admitCancelStoreInSellerList(seller_code, user_no);
+		
+		if(result>2) {
+			redirectAttr.addFlashAttribute("msg","입점 취소가 완료되었습니다.");
+		}else {
+			redirectAttr.addFlashAttribute("msg","입점 취소에 실패했습니다.");
+		}
+		return "redirect:/admin/sellerList";
 	}
 	
 	
@@ -76,7 +90,7 @@ public class StoreController {
 	
 	/* 입점 취소 신청 승인 */
 	@PostMapping("/cancelStore")
-	public String admitCancelStore(int can_no, int user_no, Model model, RedirectAttributes redirectAttr) {
+	public String admitCancelStore(int can_no, int user_no, RedirectAttributes redirectAttr) {
 		
 		int result = storeSerivce.admitCancelStore(can_no, user_no);
 		

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.clendy.admin.model.dao.PointMapper">
+	
+	<!-- point resultMap -->
+	<resultMap id="PointResultMap" type="com.kh.clendy.admin.model.vo.PointCategory">
+		<id property="point_code" column="POINT_CODE"/>
+		<result property="point_content" column="POINT_CONTENT"/>
+		<result property="point_amount" column="POINT_AMOUNT"/>
+		<result property="point_status" column="POINT_STATUS"/>
+		<result property="point_group" column="POINT_GROUP"/>
+	</resultMap>
+	
+	<!-- memberRole resultMap -->
+	<resultMap id="MemberRoleResultMap" type="com.kh.clendy.member.model.vo.MemberRole">
+		<id property="user_no" column="USER_NO"/>
+	</resultMap>
+	
+	<!-- 기본 포인트 조회 -->
+	<select id="selectBasicPoint" resultMap="PointResultMap">
+	SELECT
+	       POINT_CODE
+	     , POINT_CONTENT
+	     , POINT_AMOUNT
+	     , POINT_STATUS
+	     , POINT_GROUP
+	  FROM POINT_CATEGORY
+	 WHERE POINT_GROUP = 1
+	 ORDER BY POINT_CODE
+	</select>
+	
+	<!-- 이벤트 포인트 조회, 페이징 -->
+	<select id="eventPointGetListCount" resultType="_int">
+	SELECT
+				COUNT(*) AS COUNT
+		   FROM POINT_CATEGORY
+		  WHERE POINT_GROUP = 2
+	</select>
+	
+	<select id="selectEventPoint" parameterType="map" resultMap="PointResultMap">
+		SELECT
+	            POINT_CODE
+			     , POINT_CONTENT
+			     , POINT_AMOUNT
+			     , POINT_STATUS
+			     , POINT_GROUP
+	            FROM(
+	            SELECT
+	       ROWNUM ROWN
+	     , TBL.*    
+	    FROM(SELECT
+			       POINT_CODE
+			     , POINT_CONTENT
+			     , POINT_AMOUNT
+			     , POINT_STATUS
+			     , POINT_GROUP
+			  FROM POINT_CATEGORY
+			 WHERE POINT_GROUP = 2
+			 ORDER BY POINT_CODE DESC) TBL)
+	         WHERE ROWN BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- 포인트 수정 -->
+	<update id="updateBasicPoint" parameterType="com.kh.clendy.admin.model.vo.PointCategory">
+	UPDATE POINT_CATEGORY
+	   SET 
+	       POINT_CONTENT = #{point_content}
+	     , POINT_AMOUNT = #{point_amount}
+	 WHERE POINT_CODE = #{point_code} 
+	</update>
+	
+	<!-- 포인트 삭제 -->
+	<delete id="deletePoint" parameterType="_int">
+	DELETE
+	  FROM POINT_CATEGORY
+	 WHERE POINT_CODE = #{point_code} 
+	</delete>
+	
+	<!-- 포인트 등록 -->
+	<insert id="insertPoint" parameterType="com.kh.clendy.admin.model.vo.PointCategory">
+	INSERT
+	  INTO POINT_CATEGORY
+	(
+		   POINT_CODE
+		 , POINT_CONTENT
+		 , POINT_AMOUNT
+		 , POINT_STATUS
+		 , POINT_GROUP
+	)
+	VALUES
+	(
+		   SEQ_POINT_CODE_NO.NEXTVAL
+		 , #{point_content}
+		 , #{point_amount}
+		 , 1
+		 , #{point_group}
+	)  
+	</insert>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
