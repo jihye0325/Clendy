@@ -1,0 +1,25 @@
+#wrapper {display: flex;}
+#content-title, h6{ display: inline-block; margin-right: 15px; }
+ul, li{list-style: none; padding-left: 0;}
+a{text-decoration: none;}
+/* sidebar */
+#sidebar{    width: 160px;    padding-left :10%;}
+#sidebar li{ width: 70px; height: 40px; }
+#sidebar a {  color:rgb(75, 64, 64); width: 70px; height: 30px; display: inline-block; padding:5px; }
+.sideA:hover{ background-color: #060032; color:white; }
+#sidebar a:hover:not(.current){ background-color: #060032; color:white; }
+#sidebar .current{background-color: #060032; color:white;}
+/* content */
+#content{  margin : 0px 11%; width: 850px;}
+
+/* board-detail */
+.detail-title{border-top: 1px solid lightgray; border-bottom: 1px solid lightgray;}
+.title-wrapper{display: inline-block; margin:5px;}
+.title{font-weight: bold; margin:5px;}
+.name {margin-left : 20px; height: 25px; width : 600px;} 
+.board-content { width : 850px; height: 400px; margin-bottom: 30px;}
+
+/* btn-area */
+.btn-area{display: flex; justify-content: flex-end; padding-top:15px; padding-bottom: 15px;}
+.btn-area input{width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer; margin-left: 5px;}
+.btn-area a{ width: 55px; height: 30px; background-color: #060032; color:white; line-height:30px; text-align:center; font-size :15px; text-decoration:none;}

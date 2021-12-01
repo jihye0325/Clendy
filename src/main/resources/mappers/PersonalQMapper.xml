@@ -46,7 +46,7 @@
 	   FROM PERSONAL_Q Q, Q_CATEGORY C 
 	  WHERE Q.QC_NO = C.QC_NO
 	    AND Q_WRITER = #{user_no}
-	  ORDER BY P_NO) TBL)
+	  ORDER BY P_NO DESC) TBL)
           WHERE ROWN BETWEEN #{startRow} AND #{endRow}
 	</select>
 	

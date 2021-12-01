@@ -5,13 +5,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>공지사항 등록</title>
+    <title>공지사항 수정</title>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- csrf -->
+    <meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
 	<!-- 썸머노트 -->
 	<script src="/js/summernote/summernote-lite.js"></script>
 	<script src="/js/summernote/summernote-ko-KR.js"></script>
 	<link rel="stylesheet" href="/css/summernote/summernote-lite.css">
     <link href="/css/CScenter/insertBoard.css" rel="stylesheet">
+    
 </head>
 <body>
     <div th:replace="common/header.html"></div>
@@ -25,22 +29,24 @@
             </ul>
         </div>
         <div id="content">
-            <h3 id="content-title">공지사항 등록</h3>
+            <h3 id="content-title">공지사항 수정</h3>
         	
-        	<form id="insertBoard" th:action="@{/CScenter/board/insert}" method="post">
+        	<form th:action="@{/CScenter/board/modify}" method="post">
             <div class="board-detail">
                 <div class="detail-title">
-                    <div class="title-wrapper"><label class="title">제목</label><input type="text" name="b_title" class="name" maxlength="20" required></div>
+                    <div class="title-wrapper"><label class="title">제목</label>
+                    <input type="hidden" name="b_no" th:value="${board.b_no}">
+                    <input type="text" name="b_title" class="name" maxlength="20" th:value="${board.b_title}" required></div>
                 </div>
                 <div class="board-content">
-					<textarea id="summernote" name="b_content"></textarea>
+					<textarea id="summernote" name="b_content" th:utext="${board.b_content}"></textarea>
                 </div>
 
             </div>
 
             <div class="btn-area">
                 <a class="to-list" href="/CScenter/board">목록</a>
-                <input type="submit" class="insert" value="등록">
+                <input type="submit" class="insert" value="수정완료">
             </div>
             </form>
         </div>
@@ -50,12 +56,12 @@
     
     <div th:replace="common/footer.html"></div>
     
-    <script>
+	<script>
     $('#summernote').summernote({
 	    	width: 850,
 	        height: 340,                
 	        minHeight: null,            
-	        maxHeight: null,             
+	        maxHeight: 340,             
 	        focus: true,
 	        lang: "ko-KR",
 	        toolbar: [
@@ -73,6 +79,8 @@
 			fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
 
     	});
+		var token = $("meta[name='_csrf']").attr("content");
+	    var header = $("meta[name='_csrf_header']").attr("content");
 	    </script>
 
 

@@ -1,6 +1,5 @@
 package com.kh.clendy.CScenter.controller;
 
-
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.clendy.CScenter.model.service.PersonalQService;
 import com.kh.clendy.CScenter.model.vo.PersonalQ;
@@ -58,51 +59,69 @@ public class PersonalQController {
 		return "CScenter/detailPersonal";
 	}
 	
+	/* 1:1 문의 질문 등록 페이지 */
+	@GetMapping("/insertQuestion")
+	public String toinsertQuestion() {
+		return "/CScenter/insertPersonal";
+	}
+	
+	/* 1:1 문의 질문 등록 */
+	@PostMapping("/insertQuestion")
+	public String insertQuestion(PersonalQ newQuestion, RedirectAttributes redirectAttr) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		newQuestion.setQ_writer(user.getUser_no());
+		
+		int result = personalQService.insertQuestion(newQuestion);
+		
+		if(result>0) {
+			redirectAttr.addFlashAttribute("msg", "답변이 등록되었습니다.");
+		}else {
+			redirectAttr.addFlashAttribute("msg", "답변 등록에 실패하였습니다.");
+		}
+		
+		return "redirect:/CScenter/personalQ";
+	}
+	
 	/* 1:1 문의 답변 삭제 */
 	@GetMapping("/delete")
-	public String deleteAnswer(@RequestParam int p_no, Model model) {
+	public String deleteAnswer(@RequestParam int p_no, RedirectAttributes redirectAttr) {
 		
 		int result = personalQService.deleteAnswer(p_no);
 		
 		if(result>0) {
-			model.addAttribute("msg", "답변이 삭제되었습니다.");
+			redirectAttr.addFlashAttribute("msg", "답변이 삭제되었습니다.");
 		}else {
-			model.addAttribute("msg","답변 삭제에 실패하였습니다.");
+			redirectAttr.addFlashAttribute("msg", "답변 삭제에 실패하였습니다.");
 		}
-		PersonalQ resultList = personalQService.selectPersonalQDetail(p_no); 
-		model.addAttribute("personalQ" , resultList);
 		
-		return "CScenter/detailPersonal";
+		return "redirect:/CScenter/personalQ/detail?p_no="+p_no;
 	}
 	
 	/* 1:1 문의 답변 등록 */
 	@GetMapping("/insertAnswer")
-	public String insertAnswer(@RequestParam int p_no, @RequestParam String p_answer, Model model) {
+	public String insertAnswer(@RequestParam int p_no, @RequestParam String p_answer, RedirectAttributes redirectAttr) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int user_no = user.getUser_no();
-		
+
 		PersonalQ newAnswer = new PersonalQ();
 		newAnswer.setP_no(p_no);
 		newAnswer.setP_answer(p_answer);
-		newAnswer.setA_writer(user_no);
+		newAnswer.setA_writer(user.getUser_no());
 		
 		int result = personalQService.insertAnswer(newAnswer);
 		
 		if(result>0) {
-			model.addAttribute("msg", "답변이 등록되었습니다.");
+			redirectAttr.addFlashAttribute("msg", "답변이 등록되었습니다.");
 		}else {
-			model.addAttribute("msg", "답변 등록에 실패하였습니다.");
+			redirectAttr.addFlashAttribute("msg", "답변 등록에 실패하였습니다.");
 		}
 		
-		PersonalQ resultList = personalQService.selectPersonalQDetail(p_no); 
-		model.addAttribute("personalQ" , resultList);
-		
-		return "CScenter/detailPersonal";
+		return "redirect:/CScenter/personalQ/detail?p_no="+newAnswer.getP_no();
 	}
 	
 	/* 1:1문의 답변 수정 */
 	@GetMapping("/modify")
-	public String updateAnswer(@RequestParam int p_no, @RequestParam String p_answer, Model model) {
+	public String updateAnswer(@RequestParam int p_no, @RequestParam String p_answer, RedirectAttributes redirectAttr) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		
@@ -114,15 +133,12 @@ public class PersonalQController {
 		int result = personalQService.updateAnswer(updateAnswer);
 		
 		if(result>0) {
-			model.addAttribute("msg", "답변이 수정되었습니다.");
+			redirectAttr.addFlashAttribute("msg", "답변이 수정되었습니다.");
 		}else {
-			model.addAttribute("msg", "답변 수정에 실패하였습니다.");
+			redirectAttr.addFlashAttribute("msg", "답변 수정에 실패하였습니다.");
 		}
 		
-		PersonalQ resultList = personalQService.selectPersonalQDetail(p_no); 
-		model.addAttribute("personalQ" , resultList);
-		
-		return "CScenter/detailPersonal";
+		return "redirect:/CScenter/personalQ/detail?p_no="+p_no;
 	}
 	
 	

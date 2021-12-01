@@ -17,7 +17,7 @@
 	/* content */
 	#content{  margin : 0px auto auto 11%; width: 850px;}    
 	/* board-list */
-	.board-wrapper{margin-top: 60px;}
+	.board-wrapper{margin-top: 30px;}
 	.list-th ul{ height: 30px; border-top: 1px solid lightgray; margin: 0; border-bottom: 1px solid lightgray;}
 	.list-th li{ font-weight: bold; display: table-cell;  text-align: center; line-height: 30px; }
 	.list-num { width : 130px; text-align: center;}
@@ -55,6 +55,9 @@
         <div id="content">
             <h3 id="content-title">공지사항</h3><h6>Notice</h6>
         
+			<th:block sec:authorize="hasRole('ROLE_ADMIN')">
+            <div class="btn-area"><a class="insert-btn" href="/CScenter/board/insert">등록</a></div>
+			</th:block>
             <div class="board-wrapper">
                 <div class="list-th">
                     <ul><li class="list-num">번호</li><li class="list-title">제목</li><li class="list-date">등록일</li></ul></div>
@@ -75,9 +78,6 @@
                 </div>
                 </th:block>
             </div>
-			<th:block sec:authorize="hasRole('ROLE_ADMIN')">
-            <div class="btn-area"><a class="insert-btn" href="/CScenter/board/insert">등록</a></div>
-			</th:block>
 			
 			<!-- 페이징 -->
             <div class="pagaing_wrap" th:if="${#lists.size(boardList) > 0}">
