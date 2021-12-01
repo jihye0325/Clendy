@@ -313,7 +313,7 @@ public class MypageController {
 		int user_no = user.getUser_no();
 		
 		List<Cart> cart_list = mypageService.selectCart_list(user_no);
-		System.out.println(cart_list);
+		//System.out.println(cart_list);
 		mv.addObject("cart_list", cart_list);		
 		mv.setViewName("/mypage/cart");
 		return mv;
