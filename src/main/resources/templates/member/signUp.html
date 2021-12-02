@@ -26,6 +26,7 @@
                 <div class="id_input area">
                     <input type="text" name="id" maxlength="15" placeholder="아이디 입력" required>
                     <button id="idCheck" type="button">중복확인</button>
+                    <span id="idConfirmimg"></span>
                 </div>
             </div>
 
@@ -33,37 +34,45 @@
                 <span>비밀번호</span><span class="required">*</span><br>
                 <span id="input_rule">영문,숫자,특수문자 조합 최소 8자리</span>
                 <div class="pwd_input area">
-                    <input type="password" name="password" maxlength="8" placeholder="비밀번호 입력" required>
+                    <input type="password" name="password" id="password" minlength="8" placeholder="비밀번호 입력" required>
                     <img class="pwd_img" src="/images/show.png">
+                    <span id="pwd1_img"></span><br>
+                    <span id="pwd1Confirm"></span>
                 </div>
             </div>
             
             <div class="pwdCheck_area">
                 <span>비밀번호 확인</span><span class="required">*</span>
                 <div class="pwdCheck_input area">
-                    <input type="password" name="pwdCheck" maxlength="8" placeholder="비밀번호 재입력" required>
+                    <input type="password" name="password2" id="password2" minlength="8" placeholder="비밀번호 재입력" required>
                     <img class="pwd_img" src="/images/show.png">
+                    <span id="pwd2_img"></span><br>
+                    <span id="pwd2Confirm"></span>
                 </div>
             </div>
 
             <div class="name_area">
                 <span>이름</span><span class="required">*</span>
                 <div class="name_input_area">
-                    <input type="text" name="user_name" required>
+                    <input type="text" name="user_name" id="user_name" required>
+                    <span id="nameConfirm"></span>
                 </div>
             </div>
 
             <div class="email_area">
-                <span>이메일</span><span class="required">*</span>
+                <span>이메일</span><span class="required">*</span><span id="emailConfirm"></span>
                 <div class="email_input area">
-                    <input type="email" name="email" required>
+                    <input type="email" id="email" name="email" required>
+                    <span id="e_confirm_img"></span>
                 </div>
             </div>
 
             <div class="phone_area">
-                <span>휴대폰 번호</span><span class="required">*</span>
+                <span>휴대폰 번호</span><span class="required">*</span><span id="phoneConfirm"></span>
                 <div class="phone_input area">
-                    <input type="tel" name="phone" placeholder="(-)없이 입력" required>
+                    <input type="text" id="phone" name="phone" placeholder="(-)포함 입력" required>
+                    <button id="phoneCheck" type="button">중복확인</button>
+                    <span id="p_confirm_img"></span>
                 </div>
             </div>
 
@@ -102,15 +111,15 @@
             <div class="bodySize_area">
                 <span>Body Size(선택사항)</span>
                 <div class="bodySize_input_area">
-                    <span>키</span><input type="number" name="height" placeholder="(cm)">
-                    <span>몸무게</span><input type="number" name="weight" placeholder="(kg)">
+                    <span>키</span><input type="number" id="height" name="height" placeholder="(cm)">
+                    <span>몸무게</span><input type="number" id="weight" name="weight" placeholder="(kg)">
                 </div>
             </div>
             
             <div class="recommender_area">
                 <span>추천인(선택사항)</span>
                 <div class="recommender_input area">
-                    <input type="text" name="recommender" placeholder="추천인 아이디 입력(적립금 2000원)">
+                    <input type="text" name="recommender" id="recommender" placeholder="추천인 아이디 입력(추천 회원 적립금 2000원)">
                     <button id="recommender_btn" type="button" >확인</button>
                 </div>
             </div>
@@ -121,25 +130,17 @@
                     <span>전체 동의</span>
                 </div>
                 <div>
-                    <input type="checkbox" id="clause1" name="clause" required>
-                    <span>이용약관</span><button>내용보기</button>
+                    <input type="checkbox" name="clause" required>
+                    <span>이용약관</span><button type="button" id="clause1">내용보기</button>
                 </div>
                 <div>
-                    <input type="checkbox" id="clause2" name="clause" required>
-                    <span>개인정보 수집 및 이용안내</span><button>내용보기</button>
-                </div>
-                <div>
-                    <input type="checkbox" id="clause3" name="clause" required>
-                    <span>개인정보 처리위탁</span><button>내용보기</button>
-                </div>
-                <div>
-                    <input type="checkbox" id="clause4" name="clause" required>
-                    <span>개인정보 제3자 제공</span><button>내용보기</button>
+                    <input type="checkbox" name="clause" required>
+                    <span>개인정보 수집 및 이용안내</span><button type="button" id="clause2">내용보기</button>
                 </div>
             </div>
             
             <div class="btn_area">
-            <button id="joinBtn">회원가입</button>
+            <button id="joinBtn" disabled>회원가입</button>
         	</div>
         </form>
     </div>
@@ -165,6 +166,11 @@
     
     <!-- 추천인 아이디 존재하는지 검사 -->
     <script>
+    	recommender.addEventListener('input', () => {
+    		var rec_Check = false;
+        	$("#joinBtn").attr("disabled", true);
+    	});
+    
     	$(document).on("click", "#recommender_btn", function(){
     		var rec_id = $(this).parent().children('input').val();
     		var token = $("meta[name='_csrf']").attr("content");
@@ -182,21 +188,283 @@
 				success : function(result){
 					if(result > 0) {
 						alert("추천 회원이 존재합니다.");
-					} else
-						alert("해당 회원이 존재하지 않습니다. 아이디를 확인해주세요.");			
+						rec_Check = true;
+					} else {
+						alert("해당 회원이 존재하지 않습니다. 아이디를 확인해주세요.");
+						rec_Check = false; 
+					}
+					
+					if(rec_Check){
+						$("#joinBtn").removeAttr("disabled");
+					} else {
+						$("#joinBtn").attr("disabled", true);
+					}
 				},
 				error : function(e){
 					console.log(e);
 				}
     		});
     	});
+    	
+    	
     </script>
     
+    <!-- 아이디 중복검사 -->
+    <script>
+    	$('#idCheck').on('click', function(){
+    		var id = $('[name=id]');
+    		var idValue= id.val();
+    		
+    		// 아이디 중복시 false, 아이디 사용가능 시 true
+    		var isUsable = false;
+   		
+    		var token = $("meta[name='_csrf']").attr("content");
+    		var header = $("meta[name='_csrf_header']").attr("content"); 
+    		
+    		if(!id || idValue.length < 5 || idValue.length > 15 || !idConfirm(idValue)) {
+    			alert('아이디는 영문 소문자로 시작하고, 영문 대소문자 + 숫자 5자~15자로 이루어져야합니다.');
+    			id.focus();
+    		} else {
+        		$.ajax({
+        			url : "/member/idCheck",
+        			type : "post",
+        			data : {id : idValue},
+        			/* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+    				beforeSend : function(xhr)		
+    				{
+    					xhr.setRequestHeader(header, token);    					
+    				},
+    				success : function(result){
+    					if(result > 0) {
+    						alert("아이디가 이미 사용 중입니다. 다른 아이디를 입력해주세요.");
+    						id.focus();
+    					} else	{
+    						if(confirm("사용하실 수 있는 아이디입니다.")){
+    							id.attr('readonly', true);
+    							isUsable = true;
+    							idConfirmimg.innerHTML = '<img src="/images/check.png">';
+    						} else {
+    							id.attr('readonly', false);
+    							id.focus();
+    							isUsable = false;
+    						}	
+    					}
+    	
+    					if(isUsable){
+    						$("#joinBtn").removeAttr("disabled");
+    					} else {
+    						$("#joinBtn").attr("disabled", true);
+    					}
+    				},
+    				error : function(e){
+    					console.log(e);
+    				}
+        		});	
+    		}
+    		
+    	});
+    	
+    	// ** 유효성 검사 **
+    	// 아이디 유효성
+    	function idConfirm(id){
+    		var regExp = /^[a-z][A-Za-z\d]{4,14}$/;
+	    	return regExp.test(id);
+    	}
+    	
+    	// 이름 유효성
+    	var nameCheck = false;
+    	$("#joinBtn").attr("disabled", true);
+    	
+    	user_name.addEventListener('input', () => {
+    		if(user_name.value.length < 2 || user_name.value.length > 10 || !name_Confirm(user_name.value)){
+    			nameConfirm.innerHTML = '(이름은 2~10자의 한글만 가능합니다.)';
+    			nameCheck = false;    			
+    		} else {
+    			nameConfirm.innerHTML = '<img src="/images/check.png">';
+    			nameCheck = true;
+    		}
+    		
+			if(nameCheck){
+				$("#joinBtn").removeAttr("disabled");
+			} else {
+				$("#joinBtn").attr("disabled", true);
+			}
+			
+    	});
+    	
+    	function name_Confirm(name){
+    		var regExp = /^[가-힣]{2,10}$/;
+	    	return regExp.test(name);
+    	}
     
-    <!-- 유효성 검사 -->
+    	// 이메일 유효성
+    	var emailCheck = false;
+    	$("#joinBtn").attr("disabled", true);
+    	
+    	email.addEventListener('input', () => {
+    		if(!email_Confirm(email.value)){
+    			emailConfirm.innerHTML = '(이메일 형식을 확인해주세요)';
+    			e_confirm_img.innerHTML = '';
+    			emailCheck = false;    			
+    		} else {
+    			emailConfirm.innerHTML = '';
+    			e_confirm_img.innerHTML = '<img src="/images/check.png">';
+    			emailCheck = true;
+    		}
+    		
+			if(emailCheck){
+				$("#joinBtn").removeAttr("disabled");
+			} else {
+				$("#joinBtn").attr("disabled", true);
+			}
+			
+    	});
+    	
+    	function email_Confirm(email){
+    		var regExp = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
-        
+	    	return regExp.test(email);
+    	}
+    	
+    	// 전화번호 유효성  		
+        phone.addEventListener('input', () => {
+        	$("#joinBtn").attr("disabled", true);
+    		var isUsable = false;
+        });	
+    	
+    	$('#phoneCheck').on('click', function(){
+    		var phone = $('[name=phone]');
+    		var phoneValue = phone.val();
+    		
+    		var token = $("meta[name='_csrf']").attr("content");
+    		var header = $("meta[name='_csrf_header']").attr("content"); 
+    		
+    		if(!phone_Confirm(phoneValue)) {
+    			alert('01x-xxx(x)-xxxx 형태로 입력해주세요.');
+    			phone.focus();
+    		} else{
+        		$.ajax({
+        			url : "/member/phoneCheck",
+        			type : "post",
+        			data : {phone : phoneValue},
+        			/* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+    				beforeSend : function(xhr)		
+    				{
+    					xhr.setRequestHeader(header, token);    					
+    				},
+    				success : function(result){
+    					if(result > 0) {
+    						alert("전화번호가 이미 사용 중입니다. 다른 전화번호를 입력해주세요.");
+    						phone.focus();
+    					} else	{
+    						if(confirm("사용하실 수 있는 전화번호입니다.")){
+    							phone.attr('readonly', true);
+    							isUsable = true;
+    							p_confirm_img.innerHTML = '<img src="/images/check.png">';
+    						} else {
+    							phone.attr('readonly', false);
+    							phone.focus();
+    							isUsable = false;
+    						}	
+    					}
+    	
+    					if(isUsable){
+    						$("#joinBtn").removeAttr("disabled");
+    					} else {
+    						$("#joinBtn").attr("disabled", true);
+    					}
+    				},
+    				error : function(e){
+    					console.log(e);
+    				}
+        		});	
+    		}
+    	});
     
+    	function phone_Confirm(phone){
+    		var regExp = /^01[\d]{1}-\d{3,4}-\d{4}$/; 
+
+	    	return regExp.test(phone);
+    	}
+    	
+    	// 비밀번호 유효성, 비밀번호 재입력 일치 확인
+    	var pwdCheck = false;
+    	$("#joinBtn").attr("disabled", true);
+    	
+    	password.addEventListener('input', () => {
+    		 if(!pwdConfirm(password.value)){
+    			 pwd1Confirm.innerHTML = '(비밀번호 형식을 확인해주세요)';
+    			 pwd1_img.innerHTML = '';
+    			 var pwdCheck = false;
+    		 } else {
+    			 pwd1Confirm.innerHTML = '';
+    			 pwd1_img.innerHTML = '<img src="/images/check.png">';
+    			 var pwdCheck = true;
+    		 }
+    		 
+ 			if(pwdCheck){
+				$("#joinBtn").removeAttr("disabled");
+			} else {
+				$("#joinBtn").attr("disabled", true);
+			}
+    		 
+    	 });
+    	 
+    	 function pwdConfirm(password){
+     		var regExp = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/; 
+
+	    	return regExp.test(password);
+    	 }
+    	 
+    	var pwdCheck = false;
+     	$("#joinBtn").attr("disabled", true);
+    	 
+     	password2.addEventListener('input', () => {
+             if(password.value != password2.value){
+            	 password.classList.add('invalid');
+            	 password2.classList.add('invalid');
+                 pwd2Confirm.innerHTML = '비밀번호가 일치하지 않습니다';
+                 pwd2_img.innerHTML = '';
+                 var pwdCheck = false;
+             } else {
+            	 password.classList.remove('invalid');
+            	 password2.classList.remove('invalid');
+                 pwd2Confirm.innerHTML = '';
+                 pwd2_img.innerHTML = '<img src="/images/check.png">';
+                 var pwdCheck = true;
+             }
+             
+  			if(pwdCheck){
+				$("#joinBtn").removeAttr("disabled");
+			} else {
+				$("#joinBtn").attr("disabled", true);
+			}
+         });
+
+    </script>
+
+    <!-- 이용약관 -->
+    <script>
+    	$('#clause1').on('click', function(){
+    		var popupWidth = 1200;
+    		var popupHeight = 700;
+    	
+    		var popupX = (window.screen.width / 2) - (popupWidth / 2);
+    		var popupY= (window.screen.height / 2) - (popupHeight / 2);
+    			
+    		window.open("/member/clause1", "이용약관", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
+    	});    
+    	
+    	$('#clause2').on('click', function(){
+    		var popupWidth = 880;
+    		var popupHeight = 450;
+    	
+    		var popupX = (window.screen.width / 2) - (popupWidth / 2);
+    		var popupY= (window.screen.height / 2) - (popupHeight / 2);
+    			
+    		window.open("/member/clause2", "개인정보 수집 및 이용안내", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
+    	});  
+    </script>
     
     
     

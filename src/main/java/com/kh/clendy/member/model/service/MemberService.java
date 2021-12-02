@@ -13,5 +13,9 @@ public interface MemberService extends UserDetailsService{
 
 	String findMember(String rec_id);
 
+	int idCheck(String id);
+
+	int phoneCheck(String phone);
+
 
 }

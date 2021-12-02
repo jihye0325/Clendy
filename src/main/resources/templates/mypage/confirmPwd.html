@@ -17,6 +17,20 @@
 </head>
 <body>
     <div class="outer">
+    	<div class="info">
+    		<span class="info_title">회원탈퇴 안내</span>
+    	</div>
+    	
+    	<div class="content">
+    		<span>※ 탈퇴 시 회원님의 Clendy 이용정보 복구가 불가능하오니 신중히 선택하시기 바랍니다.</span>
+    		<ul>
+    			<li>회원탈퇴 시 Clendy 이용이 불가합니다.</li>
+    			<li>회원탈퇴 시 동일 아이디로 재가입하실 수 없습니다.</li>
+    			<li>주문내역, 장바구니, 위시리스트, 포인트, 내가 작성한 글이 삭제되지 않습니다.</li>
+    			<li>회원 탈퇴로 주문이 취소되지 않으므로 주문한 상품이 있다면 상품 배송완료 후 탈퇴하시길 바랍니다.</li>
+    		</ul>
+    	</div>
+    	
     	<form th:action="@{/mypage/deleteMember}" method="post">
 	    	<div class="title">비밀번호 입력</div>
 	        <div class="input">

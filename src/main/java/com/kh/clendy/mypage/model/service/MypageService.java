@@ -9,6 +9,7 @@ import com.kh.clendy.mypage.model.vo.Cart;
 import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
+import com.kh.clendy.mypage.model.vo.Point_Category;
 import com.kh.clendy.mypage.model.vo.Product_Order;
 import com.kh.clendy.mypage.model.vo.Refund;
 import com.kh.clendy.mypage.model.vo.Review;
@@ -56,7 +57,7 @@ public interface MypageService{
 
 	int selectPostnum(int order_option_code);
 
-	int decide_buy(int order_option_code);
+	int decide_buy(int order_option_code, int user_no);
 
 	Payment selectOrderInfo(int order_code);
 
@@ -68,5 +69,9 @@ public interface MypageService{
 
 	Refund selectRefund(int order_option_code);
 
+	/* 다운 가능한 이벤트 포인트 리스트*/
+	List<Point_Category> selectDownableEventPoint(int user_no);
 
+	/* 이벤트 포인트 다운로드 */
+	int downloadEventPoint(Point_Category downloadPoint, int user_no);
 }

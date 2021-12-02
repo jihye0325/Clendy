@@ -134,6 +134,7 @@
 		<result property="p_no" column="P_NO"/>
 		<result property="p_price" column="P_PRICE"/>
 		<result property="subtotal" column="SUBTOTAL"/>
+		<result property="p_discount" column="P_DISCOUNT"/>
 		<association property="product_option" resultMap="product_optionResultMap"/>
 	</resultMap>
 	
@@ -219,6 +220,7 @@
 		<result property="imgrName" column="IMG_R_NAME"/>
 		<result property="subtotal" column="SUBTOTAL"/>
 		<result property="p_no" column="P_NO"/>
+		<result property="p_discount" column="P_DISCOUNT"/>
 	</resultMap>
 	
 	<!-- 상품 문의글  -->
@@ -330,7 +332,8 @@
 	<!-- 회원탈퇴 -> 상태 N으로 변경 --> 
 	<update id="deleteMember" parameterType="_int">
 		UPDATE MEMBER
-   		   SET USER_STATUS = 'N'
+   		   SET USER_STATUS = 'N',
+   		       PHONE = 0
  		 WHERE USER_NO = #{ user_no }
 	</update>
 	
@@ -600,8 +603,9 @@
 		    , SELLER_CODE
 		    , SELLER_NAME
 		    , P_NO
-		    , (P_PRICE * CART_AMOUNT) AS SUBTOTAL
+		    , (P_PRICE * (100 - P_DISCOUNT) / 100 * CART_AMOUNT) AS SUBTOTAL
 		    , CART.USER_NO
+		    , P_DISCOUNT
 		    FROM CART
 		    JOIN PRODUCT_OPTION USING(P_OPTION_NO)
 		    JOIN PRODUCT USING(P_NO)
@@ -652,6 +656,8 @@
 		     P_NAME,
 		     P_COLOR,
 		     P_SIZE,
+		     P_PRICE,
+		     P_DISCOUNT,
 		     ORDER_ALL_PRICE,
 		     ORDER_PRODUCT_NUM,
 		     ORDER_CODE,
@@ -692,6 +698,35 @@
 	    SET ORDER_STATUS_CODE = 'STATUS_CODE4'
 	  WHERE ORDER_OPTION_CODE = #{ order_option_code }
 	</update>
+	
+	<!-- 구매확정 시 포인트 적립 -->
+	<insert id="buy_point" parameterType="_int">
+		INSERT INTO POINT
+		(
+		    POINT_NO,
+		    ORDER_CODE,
+		    POINT_CODE,
+		    POINT,
+		    POINT_DATE,
+		    USER_NO,
+		    REC_USER
+		)
+		VALUES
+		(   
+		    SEQ_POINT_NO.NEXTVAL,
+		    (SELECT ORDER_CODE FROM ORDER_OPTION WHERE ORDER_OPTION_CODE = #{ order_option_code }),
+		    2,
+		    ((SELECT
+		        P_PRICE * (100 - P_DISCOUNT) / 100
+		        FROM ORDER_OPTION
+		        JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+		        JOIN PRODUCT USING(P_NO)
+		       WHERE ORDER_OPTION_CODE = #{ order_option_code }) * ((SELECT POINT_AMOUNT FROM POINT_CATEGORY WHERE POINT_CODE = 2) / 100)),
+		    DEFAULT,
+		    #{ user_no },
+		    NULL    
+		)
+	</insert>
 	
 	<!-- 주문상세내역 조회 -->
 	<select id="selectOrderInfo" parameterType="_int" resultMap="paymentResultMap">
@@ -801,6 +836,40 @@
 	        JOIN PRODUCT_ORDER USING(ORDER_CODE)
 	     WHERE ORDER_OPTION_CODE = #{ order_option_code }
 	</select>
+	
+	<!-- 다운로드 가능한 이벤트 포인트 리스트 -->
+	<select id="selectDownableEventPoint" resultMap="point_categoryResultMap">
+	SELECT
+	      POINT_CODE
+	    , POINT_CONTENT
+	    , POINT_AMOUNT
+	    , POINT_STATUS
+	    , POINT_GROUP
+	 FROM POINT_CATEGORY 
+	 WHERE POINT_GROUP = 2
+	   AND POINT_CODE NOT IN (SELECT
+	        POINT_CODE
+	     FROM POINT
+	     WHERE USER_NO = #{user_no})
+	</select>
+	
+	<update id="downloadEventPoint" parameterType="map">
+	INSERT INTO POINT
+	(
+	    POINT_NO
+	  , POINT_CODE
+	  , POINT
+	  , USER_NO
+	)
+	VALUES(
+	    POINT_NO.NEXTVAL
+	   , #{downloadPoint.point_code}
+	   , #{downloadPoint.point_amount}
+	   , #{user_no}
+	)
+	</update>
+	
+	
 </mapper>
 
 

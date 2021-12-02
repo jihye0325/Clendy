@@ -25,6 +25,10 @@ public interface MemberMapper {
 
 	int addRecPoint(String id, String rec_id);
 
+	int idCheck(String id);
+
+	int phoneCheck(String phone);
+
 
 	
 	

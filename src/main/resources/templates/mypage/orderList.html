@@ -51,7 +51,8 @@
                     </a>
                 </li>
                 <li class="price">
-                    <span th:text="|${p.order_all_price}원|"></span><br>
+                	<span id="origin_price" th:text="|${p.p_price}원|"></span><br>
+                    <span id="discount_price" th:text="|${p.p_price * (100 - p.p_discount) / 100}원|"></span><br>
                     <span th:text="|${p.order_product_num}개|"></span>
                 </li>
                 <li class="order_no">
@@ -64,7 +65,7 @@
                         <div class="status_info">
                             <div id="status" th:text="${p.order_status_name}"></div>
                             <th:block th:if="${p.order_status_name == '결제완료'}">
-                            <button id="decide_btn">주문취소</button>
+                            <button id="decide_btn" onclick="cancleBuy()">주문취소</button>
                             </th:block>
                             <th:block th:if="${p.order_status_name == '배송중'}">	
                             <button id="decide_btn" th:attr="onclick=|delivery('${p.order_option_code}')|">배송조회</button>
@@ -132,6 +133,8 @@
 	<!-- 구매확정 -->
 	<script>
 		function decide_buy(order_option_code){
+			if(!confirm('구매를 확정하시겠습니까? \n구매확정 이후에는 교환/반품이 불가합니다.')) return;
+			
 			var token = $("meta[name='_csrf']").attr("content");
     		var header = $("meta[name='_csrf_header']").attr("content"); 
     		
@@ -146,7 +149,7 @@
 				},
 				success : function(result){
 					if(result > 0) {
-						alert("구매확정이 완료되었습니다. 리뷰를 남겨주세요.");
+						alert("구매확정이 완료되어 구매확정 포인트가 적립되었습니다. \n리뷰를 남겨주세요.");
 						location.reload();
 					} else
 						alert("구매확정 실패!");			
@@ -188,7 +191,7 @@
 		
 		if(msg){
 			alert(msg);
-			if(msg == "리뷰가 등록되었습니다."){
+			if(msg == "리뷰가 등록되어 포인트 200원 적립되었습니다."){
 				window.close();
 			}
 		}
@@ -234,9 +237,14 @@
 			window.open("/mypage/refund/" +order_option_code, "환불신청", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
 		
 		}
-	
 	</script>
 	
+	<!-- 결제취소 -->
+	<script>
+		function cancleBuy(){
+			confirm("주문을 취소하시겠습니까? \n주문취소 시 같은 주문번호에 대한 모든 주문이 모두 취소됩니다.");
+		}
+	</script>
 </body>
 </html>
 

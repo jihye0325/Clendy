@@ -14,9 +14,26 @@
             <li><a class="side" href="/mypage/orderList">주문내역</a></li>
             <li><a class="side" href="/mypage/cart">장바구니</a></li>
             <li><a class="side" href="/mypage/wishlist">위시리스트</a></li>
-            <li><a class="side" href="/mypage/point">적립금</a></li>
+            <li><a class="side" href="/mypage/point">포인트</a></li>
             <li><a class="side" href="/mypage/myBoard">내가 쓴 글</a></li>
+            <li><a class="side" onclick="confirmDelete()">회원탈퇴</a></li>
         </ul>
     </div>
+    
+    <!-- 회원탈퇴 : 탈퇴 의사 확인 후 탈퇴 -->	
+    <!-- **비밀번호 확인로직** -->
+    <script>
+    	function confirmDelete(){
+    		if(confirm("정말 탈퇴하시겠습니까?")){
+    			var popupWidth = 800;
+    			var popupHeight = 450;
+
+    			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+    			var popupY= (window.screen.height / 2) - (popupHeight / 2);
+    			
+    			window.open("/mypage/confirmPwd", "비밀번호 확인", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);	
+    		}
+    	}
+    </script>
 </body>
 </html>
