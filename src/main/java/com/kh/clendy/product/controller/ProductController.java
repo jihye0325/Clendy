@@ -49,7 +49,8 @@ public class ProductController {
 	public String productListPage(@PathVariable String type, Model model, @ModelAttribute ProductFilter filter) {
 		
 		Map<String, Object> mapReturn = productService.productSelectList(filter);
-		System.out.println(mapReturn.get("productList"));
+		// System.out.println(mapReturn.get("productList"));
+		//System.out.println(filter);
 		// 상품 목록 
 		model.addAttribute("productList", mapReturn.get("productList"));
 		// 페이징

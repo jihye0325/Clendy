@@ -60,7 +60,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
             .antMatchers("/member/new_Pwd").authenticated()
             /* 상품 정보 인증 관련*/
             //.antMatchers("/product/**").authenticated()
-            //.antMatchers("/product/list/**").anonymous()
+            // .antMatchers("/product/list/**").anonymous()
             .antMatchers("/product/view").anonymous()
             .antMatchers("/product/cart/**").authenticated()
             .antMatchers("/product/cart/**").authenticated()

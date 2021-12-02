@@ -47,8 +47,8 @@ public class ProductOrderController {
 		
 		for(int i = 0; i < size; i++) {
 			ProductCart pc = new ProductCart();
-			pc.setSellerCode(sellerCode);
-			pc.setpNo(pNo);
+			// pc.setSellerCode(sellerCode);
+			// pc.setpNo(pNo);
 			pc.setUserNo(userNo);
 			pc.setpOptionNo(Integer.parseInt(pOptionNos[i]));
 			pc.setCartAmount(Integer.parseInt(cartAmounts[i]));
@@ -58,23 +58,11 @@ public class ProductOrderController {
 		
 		// 배송정보
 		Member member = productOrderService.orderMemberSelect(userNo);
-		System.out.println(member);
+		// System.out.println(member);
 		
 		// 주문내역
-		Map<String, List<ProductCart>> cartMap = new HashMap<>();
-		List<ProductCart> list = new ArrayList<>();
-		for(ProductCart pc : cartList) {
-			if(cartMap.containsKey(pc.getSellerCode() + "")) {
-				list = cartMap.get(pc.getSellerCode() + "");
-				list.add(pc);
-			}else {
-				list.add(pc);
-			}
-			cartMap.put(pc.getSellerCode() + "", list);
-		}
-		
-		Map<String, List<Order>> orderInfo = productOrderService.orderInfoSelect(cartMap);
-		
+		Map<String, List<Order>> orderInfo = productOrderService.orderInfoSelect(cartList);
+		 
 		// 포인트 정보
 		int point = productOrderService.orderPointSelect(userNo);
 		
@@ -83,7 +71,6 @@ public class ProductOrderController {
 		// System.out.println(couponList);
 		
 		// 결제금액 정보
-		System.out.println(orderInfo);
 		Map<String, Integer> payPrice = new HashMap<>();
 		
 		int productPrice = 0;	 // 상품금액

@@ -33,26 +33,37 @@ public class ProductOrderServiceImpl implements ProductOrderService{
 
 	// 주문 내역
 	@Override
-	public Map<String, List<Order>> orderInfoSelect(Map<String, List<ProductCart>> cartMap) {
+	public Map<String, List<Order>> orderInfoSelect(List<ProductCart> cartList) {
 		Map<String, List<Order>> returnMap = new HashMap<>();
 		
-		int result = 0;
-		
-		Iterator<String> keys = cartMap.keySet().iterator();
-		while(keys.hasNext()) {
+		/*
+		 * Iterator<String> keys = cartMap.keySet().iterator(); while(keys.hasNext()) {
+		 * 
+		 * String key = keys.next(); System.out.println(key);
+		 * 
+		 * List<ProductCart> lists = cartMap.get(key); List<Order> newList = new
+		 * ArrayList<>();
+		 * 
+		 * for(ProductCart cart : lists) {
+		 * 
+		 * System.out.println(order); newList.add(order); }
+		 * 
+		 * returnMap.put(key, newList); }
+		 */
+		for(ProductCart cart : cartList) {
 			
+			Order order = productOrderMapper.orderInfoSelect(cart);
 			
-			String key = keys.next();
+			List<Order> list = new ArrayList<>();
+			String key = order.getSellerCode() + "";
 			
-			List<ProductCart> lists = cartMap.get(key);
-			List<Order> newList = new ArrayList<>();
-			
-			for(ProductCart cart : lists) {
-				Order order = productOrderMapper.orderInfoSelect(cart);
-				newList.add(order);
+			if(returnMap.containsKey(key)) {
+				list = returnMap.get(key);
+				
 			}
+			list.add(order);
+			returnMap.put(key, list);
 			
-			returnMap.put(key, newList);
 		}
 		
 		return returnMap;
