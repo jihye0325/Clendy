@@ -8,5 +8,8 @@ public interface ReviewService {
 
 	//모든 리뷰 조회
 	List<Review> selectReviewAllList();
+	
+	//리뷰 검색
+	List<Review> searchReviewByKeyword(String keyword);
 
 }

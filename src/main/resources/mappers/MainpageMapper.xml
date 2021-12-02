@@ -12,6 +12,7 @@
 		<result property="imgRName" column="IMG_R_NAME"/>
 		<result property="imgLevel" column="IMG_LEVEL"/>
 		<result property="imgStatus" column="IMG_STATUS"/>
+		
 	</resultMap>
 	
 

@@ -27,4 +27,9 @@ public class ReviewServiceImpl implements ReviewService{
 		return reviewList;
 	}
 
+	@Override
+	public List<Review> searchReviewByKeyword(String keyword) {
+		return reviewMapper.searchReviewByKeyword(keyword);
+	}
+
 }

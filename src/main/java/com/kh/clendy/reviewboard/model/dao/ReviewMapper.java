@@ -10,4 +10,6 @@ public interface ReviewMapper {
 
 	List<Review> selectReviewAllList();
 
+	List<Review> searchReviewByKeyword(String keyword);
+
 }
