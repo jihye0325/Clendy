@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+			    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+	<!-- default header name is X-CSRF-TOKEN -->
+	<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>상품 주문 완료 페이지</title>
     <link rel="stylesheet" th:href="@{/css/product_style.css}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -34,13 +38,13 @@
                                 <div class="post_wrap type02">
                                     <div class="post_info_wrap">
                                         <div class="exist_box">
-                                            <h4 class="name">홍길동</h4>
-                                            <p class="address">(30130) 세종특별자치시 한누리대로 161(나성동)</p>
-                                            <p class="tel">010-1234-5678</p>
+                                            <h4 class="name" th:text="${orderDelInfo.ORDER_NAME}">홍길동</h4>
+                                            <p class="address" th:text="${orderDelInfo.ORDER_ADDRESS}">(30130) 세종특별자치시 한누리대로 161(나성동)</p>
+                                            <p class="tel" th:text="${orderDelInfo.ORDER_PHONE}">010-1234-5678</p>
                                         </div>   
                                     </div>
                                     
-                                    <p class="post_complete">
+                                    <p class="post_complete" th:text="${orderDelInfo.ORDER_REQUEST}">
                                         문 앞에 놓아주세요.
                                     </p>
 
@@ -50,82 +54,45 @@
                             <div class="item">
                                 <h3 class="order_title">주문내역</h3>
                                 <div class="order_list_wrap">
-                                    <div class="order_list">
-                                        <h4 class="mall_name">일번 쇼핑몰</h4>
+                                    <div class="order_list" th:each="seller : ${completeMap}">
+                                        <h4 class="mall_name" th:text="${seller.value[0].sellerName}">일번 쇼핑몰</h4>
                                         <div class="order_list">
-                                            <div class="list">
+                                            <div class="list" th:each="list : ${seller.value}">
                                                <div class="list_left">
                                                    <div class="img">
-                                                       <a href="javascript:;">
-                                                            <img src="/images/order_sample1.png" alt="">
+                                                       <a th:href="@{'/product/view/' + ${list.pNo}}">
+                                                            <img th:src="@{${list.productImage.route} + ${list.productImage.imgrName}}" alt="">
                                                         </a>
                                                    </div>
-                                                   <p class="title"><a href="javascript:;">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</a></p>
-                                                   <p class="option">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
+                                                   <p class="title">
+                                                   		<a th:href="@{'/product/view/' + ${list.pNo}}" th:text="${list.pName}">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</a>
+                                                   </p>
+                                                   <p class="option" th:text="|${list.pColor} / ${list.pSize}|">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
                                                    <div class="list_quan">
-                                                       <input type="text" name="" id="">
+                                                       <input type="text" name="" id="" th:value="${list.orderProductNum}" readonly>
                                                        개
                                                    </div>
                                                </div>
-                                               <div class="list_center">
-                                                   <p><span>31,500</span>원</p>
+                                               <div class="list_center"  th:with="perwon = ${(list.pPrice - (list.pPrice * (list.pDisCount / 100.0))) * list.orderProductNum}">
+                                                   <p><span th:text="${#numbers.formatInteger(perwon, 3, 'COMMA')}">31,500</span>원</p>
                                                </div>
                                                <div class="list_right">
-                                                   <p class="post_price"><span>2,500</span>원</p>
-                                                   <a href="javascript:;" class="post_tip">배송비</a>
+                                               	   <div class="list_right_box">
+	                                                   <p class="post_price">
+		                                                   <th:block th:if="${#aggregates.sum(seller.value.![(pPrice - (pPrice * (pDisCount / 100.0))) * orderProductNum]) >= 80000}">
+		                                               			무료배송
+		                                               		</th:block>
+		                                               		<th:block th:unless="${#aggregates.sum(seller.value.![(pPrice - (pPrice * (pDisCount / 100.0))) * orderProductNum]) >= 80000}">
+		                                               			<span>2,500</span>원
+		                                               		</th:block>
+	                                               		</p>
+	                                                   <a href="javascript:;" class="post_tip">배송비</a>
+                                                   </div>
+                                                   
+                                                   
+                                                   
                                                </div>
                                             </div>
-
-                                            <div class="list">
-                                                <div class="list_left">
-                                                    <div class="img">
-                                                        <a href="javascript:;">
-                                                            <img src="/images/order_sample1.png" alt="">
-                                                        </a>
-                                                    </div>
-                                                    <p class="title"><a href="javascript:;">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</a></p>
-                                                    <p class="option">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
-                                                    <div class="list_quan">
-                                                        <input type="text" name="" id="">
-                                                        개
-                                                    </div>
-                                                </div>
-                                                <div class="list_center">
-                                                    <p><span>31,500</span>원</p>
-                                                </div>
-                                                <div class="list_right">
-                                                    <p class="post_price"><span>2,500</span>원</p>
-                                                    <a href="javascript:;" class="post_tip">배송비</a>
-                                                </div>
- 
-                                             </div>
-                                        </div>
-
-                                        <h4 class="mall_name">이번 쇼핑몰</h4>
-                                        <div class="order_list">
-                                            <div class="list">
-                                               <div class="list_left">
-                                                   <div class="img">
-                                                        <a href="javascript:;">
-                                                            <img src="/images/order_sample1.png" alt="">
-                                                        </a>
-                                                   </div>
-                                                   <p class="title"><a href="javascript:;">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</a></p>
-                                                   <p class="option">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
-                                                   <div class="list_quan">
-                                                       <input type="text" name="" id="">
-                                                       개
-                                                   </div>
-                                               </div>
-                                               <div class="list_center">
-                                                   <p><span>31,500</span>원</p>
-                                               </div>
-                                               <div class="list_right">
-                                                   <p class="post_price"><span>2,500</span>원</p>
-                                                   <a href="javascript:;" class="post_tip">배송비</a>
-                                               </div>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -136,34 +103,32 @@
                                 <h3>결제 금액</h3>
                                 <div>
                                     <p class="title">상품금액</p>
-                                    <p class="txt"><span>121,500</span>원</p>
+                                    
+                                    <p class="txt"><span th:text="${#numbers.formatInteger(payResult.orderAllPrice, 3, 'COMMA')}">121,500</span>원</p>
                                 </div>
                                 <div>
                                     <p class="title">배송비</p>
-                                    <p><span>2,500</span>원</p>
+                                    <p class="txt"><span th:text="${#numbers.formatInteger(payResult.orderDelivery, 3, 'COMMA')}">2,500</span>원</p>
                                 </div>
                                 <div>
-                                    <p class="title">상품금액</p>
-                                    <p class="txt">(-)<span>0</span>원</p>
+                                    <p class="title">포인트사용 금액</p>
+                                    <p class="txt" th:if="${payResult.point >= 1000}">(-)<span th:text="${#numbers.formatInteger(payResult.point, 3, 'COMMA')}">0</span>원</p>
+                                    <p class="txt" th:unless="${payResult.point >= 1000}">(-)<span th:text="${payResult.point}">0</span>원</p>
                                 </div>
-                                <div>
-                                    <p class="title">상품금액</p>
-                                    <p class="txt">(-)<span>0</span>원</p>
-                                </div>
-                                <div>
+                                <!-- <div>
                                     <p class="title">총 결제금액</p>
                                     <p class="txt"><span>124,000</span>원</p>
-                                </div>
+                                </div> -->
 
                                 <div class="line">
-                                    <p class="title">신용카드</p>
-                                    <p class="txt"><span>124,000</span>원</p>
+                                    <p class="title">총 결제금액</p>
+                                    <p class="txt"><span th:text="${#numbers.formatInteger(payResult.payMoney, 3, 'COMMA')}">124,000</span>원</p>
                                 </div>
 
                                 <div>
                                     <p class="title">결제정보</p>
                                     <p class="txt">
-                                        <span class="card_num">비씨카드 1234567*******4122</span>
+                                        <span class="card_num"  th:text="|${payResult.payCardName} ${payResult.payCardNum}|">비씨카드 1234567*******4122</span>
                                         <span class="bold">일시불</span>
                                     </p>
                                 </div>

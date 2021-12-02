@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.clendy.member.model.vo.Member;
-import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.product.model.dao.ProductOrderMapper;
 import com.kh.clendy.product.model.vo.Order;
 import com.kh.clendy.product.model.vo.ProductCart;
+import com.kh.clendy.product.model.vo.ProductComplete;
 
 @Service
 @Transactional
@@ -110,11 +110,37 @@ public class ProductOrderServiceImpl implements ProductOrderService{
 		// 결제 PAYMENT 추가
 		int paymentResult = productOrderMapper.orderPayment(parameters);
 		
-		
-		
-		
-		return 0;
+		return productOrder > 0 && orderOption > 0 && pointResult >= 0 && orderDelInfo > 0 && productStock > 0 && paymentResult > 0 ? 1 : -1;
 	}
+
+	
+	// orderCode 최신
+	@Override
+	public int orderCodeSelect(int userNo) {
+		return productOrderMapper.orderCodeSelect(userNo);
+	}
+
+	// 주문완료 배송정보
+	@Override
+	public Map<String, String> completeOrderInfo(Map<String, Integer> parameters) {
+		return productOrderMapper.completeOrderInfo(parameters);
+	}
+
+	// 주문완료 주문내역
+	@Override
+	public List<ProductComplete> productCompleteList(Map<String, Integer> parameters) {
+		return productOrderMapper.productCompleteList(parameters);
+	}
+
+	// 결제정보
+	@Override
+	public ProductComplete orderPayMentEnd(Map<String, Integer> parameters) {
+		// TODO Auto-generated method stub
+		return productOrderMapper.orderPayMentEnd(parameters);
+	}
+	
+
+	
 
 }
 

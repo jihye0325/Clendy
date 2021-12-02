@@ -181,7 +181,7 @@
                                 </div>
                                 <div  class="order_post">
                                     <p class="title">배송비</p>
-                                    <p>
+                                    <p class="txt">
                                     <span th:text="${#numbers.formatInteger(payPrice.productPost, 3, 'COMMA')}" th:if="${payPrice.productPost > 0}">2,500</span>
                                     <span th:unless="${payPrice.productPost > 0}">0</span>원</p>
                                 </div>
@@ -243,8 +243,6 @@
             
             // 포인트 사용
             $(".sale_wrap dl dd .input_box input").on("propertychange change keyup paste input", function(event){
-            	
-            	
             	let dataMin = 0;
             	let dataMax = Number($(this).attr("data-max"));
             	let dataCurrent = Number($(this).val());
@@ -286,9 +284,7 @@
         	// let couponPrice = Number($(".coupon_txt span").text().replace(',',''));
         	let pointPrice = Number($(".sale_wrap dl dd .input_box input").val());
         	
-        	
-        	
-        	let totalPrice = productPrice - (productPost + pointPrice);
+        	let totalPrice = productPrice + productPost - pointPrice;
         	
         	// $(".order_coupon .txt span").text(couponPrice.toLocaleString('ko-KR'));
         	$(".order_point .txt span").text(pointPrice.toLocaleString('ko-KR'));
@@ -312,6 +308,7 @@ function pay(){
 	let postRequest = $("#post_request option:selected").val();
 	let point = Number($("#point").val());
 	let postPrice = $(".order_post span").text();
+	let orderPrice = Number(($(".order_price .txt span").text()).replace(",",""));
 	
 	let pOptionNos = [];
 	let cartMounts = [];
@@ -406,15 +403,11 @@ function pay(){
 				"cardName" : rsp.card_name,
 				"cardNumber" : rsp.card_number,
 				"payMethod" : rsp.pay_method,
-				
-				
-				
+				"orderPrice" : orderPrice,
 		}
 		
-		console.log("결제성공 " + msg);
-		
 		$.ajax({
-			url : '/product/orderPay', 
+			url : '/product/orderPay/', 
 	        type :'POST',
 	        data : JSON.stringify(result),
 	        contentType: "application/json; charset=utf-8",
@@ -424,7 +417,12 @@ function pay(){
 			},
 	        success: function(res){
 	          // 카드결제에 성공하면 
-	          console.log(res);
+	          
+	          if(res = 'success') {
+	        	  location.href = "/product/orderComplete/";
+	          }else{
+	        	  alert("결제 실패하였습니다. 다시진행해주세요!");
+	          } 
 	        },
 	        error:function(error){
 	          console.log(error);
