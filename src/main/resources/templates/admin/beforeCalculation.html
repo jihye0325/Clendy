@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>정산</title>
+<link rel="stylesheet" href="/css/admin/calculation.css">
+<link rel="stylesheet" href="/css/common/paging.css">
+<!--  알림창 -->
+<script>
+const msg = '[[${ msg }]]';
+
+if(msg){
+	alert(msg);
+}
+</script>
+</head>
+<body>
+    <div th:replace="common/header.html"></div>
+
+    <div id="wrapper">
+        <div id="sidebar">
+            <ul>
+                <li><a class="sideA " href="/admin/sellerList">판매자관리</a></li>
+                <li><a class="sideA " href="/admin/joinStore">입점승인/취소</a></li>
+                <li><a class="sideA current" href="/admin/calculation/before">정산</a></li>
+                <li><a class="sideA " href="/admin/point">적립금관리</a></li>
+            </ul>
+        </div>
+        <div id="content">
+       		<div class="sub_side">
+        	<a class="current" href="/admin/calculation/before">정산 전</a><a href="/admin/calculation/after">정산 완료</a>
+        	</div>
+            <h3 id="content-title">정산 전</h3><h6>Before Calculation</h6>
+
+            <div class="board-wrapper">
+            <th:block th:if="${beforeCalculation} == null">
+            	<div class="board-list null">
+	                	<img class="nowish" src="/images/nowish.png"><br>
+            			<span>정산 전 리스트가 없습니다.</span>
+	            </div>
+            </th:block>
+            <th:block th:if="${beforeCalculation} != null">
+                <div class="list-th">
+                    <ul><li class="list-num">번호</li><li class="list-name">이름</li>
+                    <li class="list-account">은행명/계좌번호</li><li class="list-sales">매출액</li>
+                    <li class="list-calculation">정산금액</li><li class="list-date">정산</li></ul></div>
+                <div class="board-list" th:each="before, i : ${beforeCalculation}">
+                <form th:action=@{/admin/calculation/change} method="post">
+                	<input type="hidden" name="cal_no" th:value="${before.cal_no}">
+                    <ul><li class="list-num" th:text="${(pi.listCount-(10*(pi.page-1))) - (i.count-1) }"></li>
+                    <li class="list-name" th:text="${before.seller_name}"></li>
+                    <li class="list-account "><span  th:text="${before.account_bank}"></span>/<span  th:text="${before.account_num}"></span></li>
+                    <li class="list-sales" th:text="${before.sales_price}"></li>
+                    <li class="list-calculation" th:text="${before.cal_price}"></li>
+                    <li class="list-date"><input type="submit" class="list-btn" value="정산"></li></ul>            
+                 </form>
+                </div>
+              </div>
+
+            <!-- 페이징 -->
+            <div class="pagaing_wrap" th:if="${#lists.size(beforeCalculation) > 0}">
+                        <ul class="pagaing_left">
+                            <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
+                            	<a th:href="@{/admin/calculation/before(page=1)}" th:if="${pi.page > 1}"></a>
+	                            <a href="javascript:;" th:unless="${pi.page > 1}"></a>
+                            </li>
+                            <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
+	                            <a th:href="@{/admin/calculation/before(page=${pi.page - 1})}" th:if="${pi.page > 1}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page > 1}"></a>
+                            </li>
+                        </ul>
+                        
+                        <ul class="pagaing_num">
+                        	<th:block th:each="pd : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+                        		<li th:classappend="${pi.page == pdStat.current} ? 'on'">
+                        			<a th:href="@{/admin/calculation/before(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+                        		</li>
+                        	</th:block>
+                            
+                        </ul>
+
+                        <ul class="pagaing_right" >
+                            <li class="next" th:classappend="${pi.page == pi.endPage} ? 'hide'">
+                            	<a th:href="@{/admin/calculation/before(page=${pi.page} + 1)}" th:if="${pi.page < pi.endPage}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+                            </li>
+                            <li class="allNext"  th:classappend="${pi.page == pi.endPage} ? 'hide'">
+                            	<a th:href="@{/admin/calculation/before(page=${pi.endPage})}" th:if="${pi.page < pi.endPage}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+                            </li>
+                        </ul>
+                    </div>
+        </div>
+
+    </div>
+
+    
+    <div th:replace="common/footer.html"></div>
+    
+</body>
+</html>

@@ -2,55 +2,21 @@
 <html xmlns:th="https://www.thymeleaf.org"
      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>적립금관리</title>
-    <script src="/js/jquery-3.6.0.min.js"></script> 
-    <style>
-        #wrapper {display: flex;}
-        #content-title, h6{ display: inline-block; margin-right: 15px; }
-        ul, li{list-style: none; padding-left: 0;}
-        a{text-decoration: none;}
-        /* sidebar */
-        #sidebar{    width: 160px;    padding-left :10%;}
-        #sidebar li{ width: 70px; height: 40px; }
-        #sidebar a {  color:black; width: 110px; height: 30px; display: inline-block; padding:5px; }
-        .sideA:hover{ background-color: #060032; color:white; }
-        #sidebar a:hover:not(.current){ background-color: #060032; color:white; }
-        #sidebar .current{background-color: #060032; color:white;}
-        /* content */
-        #content{  margin : 0px auto auto 11%; width: 850px;} 
-        .basic-point { margin-bottom: 65px; margin-top : 10px;} 
-        /* btn-area */
-        .btn-area{ display:flex; justify-content : flex-end; padding-top:35px; padding-bottom: 15px;}
-        .make-point{ background-color : #060032; color:white; padding:5px;} 
-        /* board-list */
-        .list-th ul{ height: 30px; border-top: 1px solid lightgray; margin: 0; border-bottom: 1px solid lightgray;}
-        .list-th li{ font-weight: bold; display: table-cell;  text-align: center; line-height: 30px; }
-        .list-num { width : 100px; text-align: center;}
-        .list-content{ width : 350px; text-align: center;}
-        .list-amount{width: 250px; text-align:center;}
-        .list-check {width: 75px; text-align: center;}
-        .list-check a, .list-event a{ color: black; cursor:pointer; text-decoration: underline; font-size:16px;}
-        .board-list li{ display: table-cell; height: 35px; line-height: 35px; border-bottom: 1px solid lightgray;}
-        .list-event{width: 150px; text-align:center;}
-         .modify{background-color:white; border:0;text-decoration: underline;  font-size: 16px; cursor: pointer;}
-         /* null */
-        .null {text-align: center;	font-size: x-large;	font-weight: bold;align-self: center; margin-top:60px;}
-        .nowish{width: 120px;margin-bottom: 20px;}
-        /* event-point*/
-        .event-point{margin-top:10px;}
-        </style>
-        <link rel="stylesheet" href="/css/common/paging.css">
-    <!--  알림창 -->
-	<script>
-		const msg = '[[${ msg }]]';
-		
-		if(msg){
-			alert(msg);
-		}
-	</script>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>적립금관리</title>
+<script src="/js/jquery-3.6.0.min.js"></script> 
+<link rel="stylesheet" href="/css/admin/Point.css">
+<link rel="stylesheet" href="/css/common/paging.css">
+<!--  알림창 -->
+<script>
+const msg = '[[${ msg }]]';
+
+if(msg){
+	alert(msg);
+}
+</script>
 </head>
 <body>
     <div th:replace="common/header.html"></div>
@@ -60,7 +26,7 @@
             <ul>
                 <li><a class="sideA " href="/admin/sellerList">판매자관리</a></li>
                 <li><a class="sideA " href="/admin/joinStore">입점승인/취소</a></li>
-                <li><a class="sideA " href="/admin/calculation">정산</a></li>
+                <li><a class="sideA " href="/admin/calculation/before">정산</a></li>
                 <li><a class="sideA current" href="/admin/point">적립금관리</a></li>
             </ul>
         </div>
