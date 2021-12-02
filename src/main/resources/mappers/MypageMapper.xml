@@ -289,6 +289,21 @@
 		<result property="ref_date" column="REF_DATE"/>
 	</resultMap>
 	
+	<!-- 교환 -->
+	<resultMap id="exchangeResultMap" type="com.kh.clendy.mypage.model.vo.Exchange">
+		<id property="ex_no" column="EX_NO"/>
+		<result property="order_option_code" column="ORDER_OPTION_CODE"/>
+		<result property="ex_id" column="EX_ID"/>
+		<result property="ex_reason" column="EX_REASON"/>
+		<result property="ex_status" column="EX_STATUS"/>
+		<result property="ex_option" column="EX_OPTION"/>
+		<result property="ex_date" column="EX_DATE"/>		
+		<result property="p_name" column="P_NAME"/>	
+		<result property="p_color" column="P_COLOR"/>
+		<result property="p_size" column="P_SIZE"/>
+		<result property="ex_name" column="EX_NAME"/>
+	</resultMap>
+	
 	<!-- id로 유저정보 조회 -->
 	<select id="selectMember" parameterType="_int" resultMap="loginMemberResultMap">
 			SELECT
@@ -466,6 +481,7 @@
 			  , P_COLOR
 			  , P_SIZE
 			  , P_PRICE
+			  , P_OPTION_NO
 			  , ROUTE
 			  , IMG_NAME
 			  , IMG_R_NAME
@@ -507,6 +523,30 @@
 			  , DEFAULT
 			  , #{ user_no }
 			  , #{ order_option_code }
+			)
+	</insert>
+	
+	<!-- 리뷰 등록시 포인트 적립 -->
+	<insert id="review_Point" parameterType="_int">
+		INSERT INTO POINT
+			(
+			    POINT_NO,
+			    ORDER_CODE,
+			    POINT_CODE,
+			    POINT,
+			    POINT_DATE,
+			    USER_NO,
+			    REC_USER
+			)
+			VALUES
+			(
+			    SEQ_POINT_NO.NEXTVAL,
+			    NULL,
+			    5,
+			    (SELECT POINT_AMOUNT FROM POINT_CATEGORY WHERE POINT_CODE = 5),
+			    DEFAULT,
+			    #{ user_no },
+			    NULL
 			)
 	</insert>
 	
@@ -600,7 +640,7 @@
 		    , P_SIZE
 		    , ROUTE
 		    , IMG_R_NAME
-		    , SELLER_CODE
+		    , SELLER_CODE AS SELLER_CODE
 		    , SELLER_NAME
 		    , P_NO
 		    , (P_PRICE * (100 - P_DISCOUNT) / 100 * CART_AMOUNT) AS SUBTOTAL
@@ -617,7 +657,7 @@
 		     AND P_STATUS = 'Y'
 		     AND P_STOCK >= CART_AMOUNT
 		     AND IMG_LEVEL = 0
-		ORDER BY CART_NO DESC
+		ORDER BY SELLER_CODE DESC, CART_NO DESC
 	</select>
 	
 	<!-- 장바구니 삭제 (개별버튼) -->
@@ -639,13 +679,13 @@
 	<update id="plusAmount" parameterType="hashMap">
 		UPDATE CART
 		   SET CART_AMOUNT = CART_AMOUNT + 1
-		 WHERE USER_NO = 4
-		   AND CART_NO = 2
-		   AND CART_AMOUNT &lt; (SELECT
-		                            P_STOCK
-		                          FROM CART
-		                          JOIN PRODUCT_OPTION USING(P_OPTION_NO)
-		                         WHERE P_OPTION_NO = 4)
+		 WHERE USER_NO = #{ user_no }
+		   AND CART_NO = #{ cart_no }
+		   AND (SELECT
+                         P_STOCK
+                       FROM CART
+                       JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+                      WHERE P_OPTION_NO = #{ p_option_no }) > CART_AMOUNT
 	</update>
 	
 	<!-- 주문내역 조회 -->
@@ -869,7 +909,86 @@
 	)
 	</update>
 	
+	<!-- 교환할 옵션 정보 -->
+	<select id="selectExOption" parameterType="_int" resultMap="product_optionResultMap">
+		SELECT 
+		     P_NO,
+		     P_OPTION_NO,
+		     P_COLOR,
+		     P_SIZE,
+		     P_STOCK
+		    FROM PRODUCT_OPTION
+		   WHERE P_NO = (SELECT P_NO
+		                    FROM ORDER_OPTION
+		                    JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+		                   WHERE ORDER_OPTION_CODE = #{ order_option_code })
+		     AND P_STOCK > 0
+	</select>
 	
+	<!-- 교환요청 -->
+	<insert id="requestExchange" parameterType="com.kh.clendy.mypage.model.vo.Exchange">
+		INSERT INTO EXCHANGE
+			(
+			    EX_NO,
+			    ORDER_OPTION_CODE,
+			    EX_ID,
+			    EX_REASON,
+			    EX_STATUS,
+			    EX_OPTION
+			)
+			VALUES
+			(
+			    SEQ_EX_NO.NEXTVAL,
+			    #{ order_option_code },
+			    #{ ex_id },
+			    #{ ex_reason },
+			    DEFAULT,
+			    #{ ex_option }
+			)
+	</insert>
+	<!-- 주문상태 교환요청으로 변경 -->
+	<update id="changeExchange_stauts" parameterType="_int">
+		UPDATE ORDER_OPTION
+		   SET ORDER_STATUS_CODE = 'STATUS_CODE6'
+		 WHERE ORDER_OPTION_CODE = #{ order_option_code }
+	</update>
+	
+	<select id="selectEx_list" parameterType="_int" resultMap="exchangeResultMap">
+			SELECT 
+		        EX_NO,
+		        ORDER_OPTION_CODE,
+		        EX_ID,
+		        EX_REASON,
+		        EX_STATUS,
+		        EX_OPTION,
+		        EX_DATE,
+		        P_NAME
+		      FROM EXCHANGE
+		      JOIN EXCHANGE_CATEGORY USING(EX_ID)
+		      JOIN ORDER_OPTION USING(ORDER_OPTION_CODE)
+		      JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+		      JOIN PRODUCT USING(P_NO)
+		      JOIN PRODUCT_ORDER USING(ORDER_CODE)
+		     WHERE USER_NO = #{ user_no }
+		    ORDER BY EX_NO DESC
+	</select>
+	
+	<select id="selectExchange" parameterType="_int" resultMap="exchangeResultMap">
+		SELECT	
+			 	EX_NO,
+			    ORDER_OPTION_CODE,
+			    EX_ID,
+			    EX_REASON,
+			    EX_STATUS,
+			    EX_OPTION,
+			    P_COLOR,
+			    P_SIZE,
+			    EX_NAME
+			 FROM EXCHANGE
+             JOIN EXCHANGE_CATEGORY USING(EX_ID)
+             JOIN PRODUCT_OPTION ON (P_OPTION_NO = EX_OPTION)
+		    WHERE ORDER_OPTION_CODE = #{ order_option_code }
+	</select>
 </mapper>
 
 

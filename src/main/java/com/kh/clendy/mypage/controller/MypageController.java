@@ -25,10 +25,12 @@ import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.member.model.vo.UserImpl;
 import com.kh.clendy.mypage.model.service.MypageService;
 import com.kh.clendy.mypage.model.vo.Cart;
+import com.kh.clendy.mypage.model.vo.Exchange;
 import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
 import com.kh.clendy.mypage.model.vo.Point_Category;
+import com.kh.clendy.mypage.model.vo.Product_Option;
 import com.kh.clendy.mypage.model.vo.Product_Order;
 import com.kh.clendy.mypage.model.vo.Refund;
 import com.kh.clendy.mypage.model.vo.Review;
@@ -275,13 +277,11 @@ public class MypageController {
 		String r_content = request.getParameter("content");
 		Review review = new Review(r_title, score, open_size, r_content, user_no, order_option_code);
 		
-		System.out.println(review);
-		
 		String msg = "";	
-		int result = mypageService.insertReview(review); 
+		int result = mypageService.insertReview(review, user_no); 
 		
 		if(result > 0) 
-			msg = "리뷰가 등록되었습니다.";
+			msg = "리뷰가 등록되어 포인트 200원 적립되었습니다.";
 		else 
 			msg = "리뷰 등록에 실패하였습니다.";
 				
@@ -310,7 +310,7 @@ public class MypageController {
 		int user_no = user.getUser_no();
 		// 상품 문의글 리스트 
 		List<ProductQnaQ> p_qna_list = mypageService.selectP_Qna_List(user_no); 
-		System.out.println(p_qna_list);
+		// System.out.println(p_qna_list);
 		mv.addObject("p_qna_list", p_qna_list);
 		// 리뷰 리스트
 		List<Review> review_list = mypageService.selectReview_List(user_no);
@@ -320,6 +320,9 @@ public class MypageController {
 		List<PersonalQ> q_list = mypageService.selectQ_list(user_no);
 		mv.addObject("q_list", q_list);
 		// 교환 리스트
+		List<Exchange> ex_list = mypageService.selectEx_list(user_no);
+		mv.addObject("ex_list", ex_list);
+		System.out.println(ex_list);
 		// 환불 리스트
 		List<Refund> r_list = mypageService.selectR_list(user_no);
 		mv.addObject("r_list", r_list);
@@ -441,30 +444,42 @@ public class MypageController {
 	// 교환신청화면
 	@GetMapping("/exchange/{order_option_code}")
 	public ModelAndView exchange(ModelAndView mv, @PathVariable int order_option_code) {
-		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int user_no = user.getUser_no();
-		Member m = mypageService.selectMember(user_no);
 		// 상품정보 조회
 		Order_Option order_option = mypageService.selectProduct(order_option_code);
+		List<Product_Option> ex_option = mypageService.selectExOption(order_option_code);
 		
 		System.out.println(order_option);	
-		mv.addObject("m", m);
+		System.out.println(ex_option);
 		mv.addObject("o", order_option);
+		mv.addObject("ex", ex_option);
 		mv.setViewName("/mypage/exchangeForm");
 		return mv;
+	}
+	
+	// 교환요청
+	@PostMapping("exchange")
+	public String exchange(RedirectAttributes redirectAttr, Exchange exchange) {
+		System.out.println(exchange);
+		int result = mypageService.requestExchange(exchange);
+		int order_option_code = exchange.getOrder_option_code();
+		
+		String msg = "";
+		if(result > 0) 
+			msg = "교환 신청이 완료되었습니다.";
+		else 
+			msg = "교환 신청이 실패하였습니다.";
+				
+		redirectAttr.addFlashAttribute("msg", msg);
+		
+		return "redirect:/mypage/exchange/" + order_option_code;
 	}
 	
 	// 환불신청화면
 	@GetMapping("/refund/{order_option_code}")
 	public ModelAndView refund(ModelAndView mv, @PathVariable int order_option_code) {
-		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int user_no = user.getUser_no();
-		Member m = mypageService.selectMember(user_no);
 		// 상품정보 조회
 		Order_Option order_option = mypageService.selectProduct(order_option_code);
 		
-		System.out.println(order_option);	
-		mv.addObject("m", m);
 		mv.addObject("o", order_option);
 		
 		mv.setViewName("/mypage/refundForm");
@@ -474,8 +489,6 @@ public class MypageController {
 	// 환불요청
 	@PostMapping("/requestRefund")
 	public String requestRefund(HttpServletRequest request, RedirectAttributes redirectAttr) {
-		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int user_no = user.getUser_no();
 		int order_option_code = Integer.parseInt(request.getParameter("order_option_code"));
 		int ref_id = Integer.parseInt(request.getParameter("ref_id"));
 		String ref_reason = request.getParameter("ref_reason");
@@ -499,21 +512,31 @@ public class MypageController {
 	// 환불요청 상세
 	@GetMapping("/refundDetail/{order_option_code}")
 	public ModelAndView refundDetail(ModelAndView mv, @PathVariable int order_option_code) {
-		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int user_no = user.getUser_no();
-		Member m = mypageService.selectMember(user_no);
 		// 상품정보 조회
 		Order_Option order_option = mypageService.selectProduct(order_option_code);
 		
-		mv.addObject("m", m);
 		mv.addObject("o", order_option);
 		
 		// 환불내역 조회
 		Refund refund = mypageService.selectRefund(order_option_code);
-		System.out.println(refund);
 		mv.addObject("r", refund);
 		
 		mv.setViewName("/mypage/refundDetail");
+		return mv;
+	}
+	
+	// 교환요청 상세
+	@GetMapping("/exchangeDetail/{order_option_code}")
+	public ModelAndView exchangeDetail(ModelAndView mv, @PathVariable int order_option_code) {
+		Order_Option order_option = mypageService.selectProduct(order_option_code);
+		mv.addObject("o", order_option);
+		
+		// 교환내역 조회
+		Exchange exchange = mypageService.selectExchange(order_option_code);
+		System.out.println(exchange);
+		
+		mv.addObject("e", exchange);
+		mv.setViewName("/mypage/exchangeDetail");
 		return mv;
 	}
 }

@@ -156,28 +156,37 @@
         <div class="board_area" id="ex_ref_List" style="display: none;">
             <div class="title">교환내역</div>
 
+			<th:block th:if="${#lists.size(ex_list) > 0}">
             <div class="board_list">
                 <ul class="board_header">
-                    <li class="b_orderno">주문번호</li>
+                    <li class="b_orderno">글번호</li>
                     <li class="b_pname">상품명</li>
                     <li class="b_date">등록일</li>
                     <li class="b_status">상태</li>
                 </ul>
 
-                <ul class="board_content">
-                    <li class="b_orderno"></li>
-                    <li class="b_pname"></li>
-                    <li class="b_date"></li>
-                    <li class="b_status"></li>
+                <ul class="board_content" th:each="ex : ${ ex_list }" th:attr="onclick=|exchangeDetail('${ex.order_option_code}')|">
+                    <li class="b_orderno" th:text="${ ex.ex_no }"></li>
+                    <li class="b_pname" th:text="${ ex.p_name }" ></li>
+                    <li class="b_date" th:text="${#dates.format(ex.ex_date, 'yyyy-MM-dd')}"></li>
+                    <li class="b_status" th:if="${ex.ex_status == 'N'}" th:text="교환요청"></li>
+                    <li class="b_status" th:if="${ex.ex_status == 'Y'}" th:text="교환완료"></li>
                 </ul>
             </div>
+            </th:block>
+            <th:block th:if="${#lists.size(ex_list) == 0}">
+            	<div class="null_list">
+            		<img id="null" src="/images/nolist.png">
+            		<div>작성한 글이 없습니다.</div>
+            	</div>
+            </th:block>
 
             <div class="title refund">환불내역</div>
 
 			<th:block th:if="${#lists.size(r_list) > 0}">
             <div class="board_list">
                 <ul class="board_header">
-                    <li class="b_orderno">주문번호</li>
+                    <li class="b_orderno">글번호</li>
                     <li class="b_pname">상품명</li>
                     <li class="b_date">등록일</li>
                     <li class="b_status">상태</li>
@@ -290,6 +299,7 @@
 	    });
     </script>
     
+    <!-- 환불 상세 (새창) -->
     <script>
 		function refundDetail(p_order_option_code){
 			var order_option_code = p_order_option_code;
@@ -300,6 +310,20 @@
 			var popupY= (window.screen.height / 2) - (popupHeight / 2);
 			
 			window.open("/mypage/refundDetail/" +order_option_code, "환불요청 내역", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
+		}
+    </script>
+    
+    <!-- 교환 상세 (새창) -->
+    <script>
+		function exchangeDetail(order_option_code){
+			var order_option_code = order_option_code;
+			var popupWidth = 900;
+			var popupHeight = 650;
+	
+			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+			var popupY= (window.screen.height / 2) - (popupHeight / 2);
+			
+			window.open("/mypage/exchangeDetail/" +order_option_code, "교환요청 내역", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
 		}
     </script>
 </body>

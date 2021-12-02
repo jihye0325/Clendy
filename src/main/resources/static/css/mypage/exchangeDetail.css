@@ -86,7 +86,6 @@ img {
 }
 
 #pname {
-    color: gray;
     font-weight: bold;
 }
 
@@ -101,23 +100,25 @@ img {
     margin-bottom: 10px;
 }
 
+#option {
+	margin-left : 35px;
+}
+
 .select_area {
     margin-left: 20px;
     margin-bottom: 10px;
+    border-top: 1px solid lightgray;
+    padding-top: 5px;
 }
 
-select[disabled] {
-	background-color: rgba(153, 153, 153, 0.2);
-    color: gray;
+#ex_name {
+	margin-left : 35px;
 }
 
 .reason_area {
     margin-left: 20px;
-}
-
-#required {
-    color: red;
-    margin-right: 25px;
+    border-top: 1px solid lightgray;
+    padding-top: 5px;
 }
 
 .reason_area {
@@ -136,7 +137,8 @@ select[disabled] {
 textarea {
     resize: none;
     width: 400px;
-    height: 80px;   
+    height: 80px;  
+    border: none;  
 }
 
 .exchange_rule {
