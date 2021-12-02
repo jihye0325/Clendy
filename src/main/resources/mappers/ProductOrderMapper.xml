@@ -42,6 +42,38 @@
 		<result property="cou_dday" column="COU_DDAY"/>
 	</resultMap>
 	
+	<resultMap id="productComplteResultMap" type="com.kh.clendy.product.model.vo.ProductComplete">
+		<id property="orderOptionCode" column="ORDER_OPTION_CODE"/>
+		<result property="orderCode" column="ORDER_CODE"/>
+		<result property="userNo" column="USER_NO"/>
+		<result property="orderDelivery" column="ORDER_DELIVERY"/>
+		<result property="orderAllPrice" column="ORDER_ALL_PRICE"/>
+		<!-- <result property="orderOptionCode" column="ORDER_OPTION_CODE"/> -->
+		<result property="orderProductNum" column="ORDER_PRODUCT_NUM"/>
+		<result property="pOptionNo" column="P_OPTION_NO"/>
+		<result property="pNo" column="P_NO"/>
+		<result property="pColor" column="P_COLOR"/>
+		<result property="pSize" column="P_SIZE"/>
+		<result property="pStock" column="P_STOCK"/>
+		<result property="pName" column="P_NAME"/>
+		<result property="pPrice" column="P_PRICE"/>
+		<result property="pDisCount" column="P_DISCOUNT"/>
+		<result property="sellerCode" column="SELLER_CODE"/>
+		<result property="aNo" column="A_NO"/>
+		<result property="sellerName" column="SELLER_NAME"/>
+		<association property="productImage" resultMap="imageResultMap"/>
+	</resultMap>
+	
+	<resultMap id="orderPayMentEnd" type="com.kh.clendy.product.model.vo.ProductComplete">
+		<result property="orderAllPrice" column="ORDER_ALL_PRICE"/>
+		<result property="orderDelivery" column="ORDER_DELIVERY"/>
+		<result property="point" column="POINT"/>
+		<result property="payMoney" column="PAY_MONEY"/>
+		<result property="payCardName" column="PAY_CARD_NAME"/>
+		<result property="payCardNum" column="PAY_CARD_NUM"/>
+	
+	</resultMap>
+	
 	<select id="orderMemberSelect" parameterType="_int" resultMap="memberResultMap">
 		SELECT
 		       USER_NAME
@@ -110,7 +142,7 @@
 		      , #{ postRequest }
 		      , SYSDATE
 		      , #{ postPrice }
-		      , #{ amount }
+		      , #{ orderPrice }
 		      , SYSDATE
 		    )
 	</insert>
@@ -222,5 +254,79 @@
       		 , DEFAULT
       	)
 	</insert>
+	
+	<select id="orderCodeSelect" parameterType="_int" resultType="_int">
+		SELECT
+			   MAX(ORDER_CODE)
+		  FROM PRODUCT_ORDER
+		 WHERE USER_NO = #{userNo}
+	</select>
+	
+	<select id="completeOrderInfo" parameterType="map" resultType="map">
+		SELECT
+		       ORDER_CODE
+		     , ORDER_NAME
+		     , ORDER_ADDRESS
+		     , ORDER_PHONE
+		     , ORDER_REQUEST
+		     FROM PRODUCT_ORDER
+		     JOIN ORDER_DEL_INFO USING(ORDER_CODE)
+		     WHERE USER_NO = #{ userNo }
+		       AND ORDER_CODE = #{ orderCode }
+	</select>
+	
+	<select id="productCompleteList" parameterType="map" resultMap="productComplteResultMap">
+		SELECT
+		       PO.ORDER_CODE
+		     , PO.USER_NO
+		     , PO.ORDER_DELIVERY
+		     , PO.ORDER_ALL_PRICE
+		     , OOP.ORDER_OPTION_CODE
+		     , OOP.ORDER_PRODUCT_NUM
+		     , POP.P_OPTION_NO
+		     , POP.P_NO
+		     , POP.P_COLOR
+		     , POP.P_SIZE
+		     , POP.P_STOCK
+		     , PRO.P_NAME
+		     , PRO.P_PRICE
+		     , PRO.P_DISCOUNT
+		     , PRO.SELLER_CODE
+		     , AST.A_NO
+		     , AST.SELLER_NAME
+		     , IMG.IMG_NO
+		     , IMG.ROUTE
+		     , IMG.IMG_NAME
+		     , IMG.IMG_R_NAME
+		     , IMG.IMG_LEVEL
+		     , IMG.IMG_STATUS
+		  FROM PRODUCT_ORDER PO
+		  JOIN MEMBER M ON(PO.USER_NO = M.USER_NO)
+		  JOIN ORDER_OPTION OOP ON(PO.ORDER_CODE = OOP.ORDER_CODE)
+		  JOIN PRODUCT_OPTION POP ON(OOP.P_OPTION_NO = POP.P_OPTION_NO)
+		  JOIN PRODUCT PRO ON(POP.P_NO = PRO.P_NO)
+		  JOIN PRODUCT_IMAGE PI ON(PRO.P_NO = PI.P_NO)
+		  JOIN IMAGE IMG ON(PI.IMG_NO = IMG.IMG_NO)
+		  JOIN SELLER SEL ON(PRO.SELLER_CODE = SEL.SELLER_CODE)
+		  JOIN APPLY_STORE AST ON(SEL.A_NO = AST.A_NO)
+		 WHERE PO.USER_NO = #{ userNo }
+		   AND PO.ORDER_CODE = #{ orderCode }
+		   AND IMG.IMG_LEVEL = 0
+	</select>
+	
+	<select id="orderPayMentEnd" parameterType="map" resultMap="orderPayMentEnd">
+		SELECT
+		       PO.ORDER_ALL_PRICE
+		     , PO.ORDER_DELIVERY
+		     , NVL(POINT,0) AS POINT
+		     , PAY_MONEY
+		     , PAY_CARD_NAME
+		     , PAY_CARD_NUM
+		    FROM PAYMENT PAY
+		    LEFT JOIN PRODUCT_ORDER PO ON(PAY.ORDER_CODE = PO.ORDER_CODE)
+		    LEFT JOIN POINT PI ON(PO.ORDER_CODE = PI.ORDER_CODE)
+		    WHERE PAY.ORDER_CODE = #{ orderCode }
+		      AND PO.USER_NO = #{ userNo }
+	</select>
 	
 </mapper>

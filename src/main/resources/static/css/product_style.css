@@ -166,7 +166,7 @@ margin-right: 15px;}
 .order .order_wrap .order_status.fixed .item{position: fixed; top:70px; width: 260px;}
 .order .order_wrap .order_status .item h3{font-size: 18px; font-weight: bold; margin-bottom: 17px;}
 .order .order_wrap .order_status .item div{display: flex; justify-content: space-between; margin-bottom: 10px;}
-.order .order_wrap .order_status .item div p{font-size: 14px;}
+.order .order_wrap .order_status .item div p{min-width:70px; font-size: 14px;}
 .order .order_wrap .order_status .item div p.title{}
 .order .order_wrap .order_status .item div p.txt{text-align:right;}
 .order .order_wrap .order_status .item div p.txt span{font-size: 16px; font-weight: bold;}

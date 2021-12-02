@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.member.model.vo.UserImpl;
-import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.product.model.service.ProductOrderService;
 import com.kh.clendy.product.model.vo.Order;
 import com.kh.clendy.product.model.vo.ProductCart;
+import com.kh.clendy.product.model.vo.ProductComplete;
 
 @Controller
 @RequestMapping("/product/")
@@ -58,6 +58,7 @@ public class ProductOrderController {
 		
 		// 배송정보
 		Member member = productOrderService.orderMemberSelect(userNo);
+		System.out.println(member);
 		
 		// 주문내역
 		Map<String, List<ProductCart>> cartMap = new HashMap<>();
@@ -116,9 +117,8 @@ public class ProductOrderController {
 	/* 주문 결제 검증 */
 	@PostMapping("/orderPay")
 	@ResponseBody
-	public String order(@RequestBody Map<String, Object> parameters) {
+	public String order(@RequestBody Map<String, Object> parameters, Model model) {
 		
-		System.out.println(parameters);
 		
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int userNo = user.getUser_no();
@@ -131,12 +131,60 @@ public class ProductOrderController {
 		
 		int result = productOrderService.order(parameters);
 		
-		return "success";
+		String msg = "fail";
+		if(result > 0) {
+			msg = "success";
+		}
+		
+		return msg;
 	}
 	
 	/* 주문 완료 페이지*/
 	@GetMapping("/orderComplete")
-	public String orderCompletePage() {
+	public String orderCompletePage(Model model) {
+		
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int userNo = user.getUser_no();
+		int orderCode = productOrderService.orderCodeSelect(userNo);
+		// System.out.println("orderCode : " + orderCode);
+		
+		Map<String, Integer> parameters = new HashMap<>();
+		parameters.put("userNo", userNo);
+		parameters.put("orderCode", orderCode);
+		
+		// 배송정보
+		Map<String, String> orderDelInfo = productOrderService.completeOrderInfo(parameters);
+		// System.out.println(orderDelInfo);
+		
+		// 주문내역
+		List<ProductComplete> completeList = productOrderService.productCompleteList(parameters);
+		System.out.println(completeList);
+		Map<String, List<ProductComplete>> completeMap = new HashMap<>();
+		for(ProductComplete pc : completeList) {
+			
+			String key = pc.getSellerCode() + "";
+			List<ProductComplete> list = new ArrayList<>();
+			if(completeMap.containsKey(key)) {
+				// 저장되어있으면
+				list = completeMap.get(key);
+			}
+			
+			list.add(pc);
+			completeMap.put(key + "", list);
+		}
+		
+		System.out.println(completeMap);
+		
+		// 결제정보
+		ProductComplete payResult = productOrderService.orderPayMentEnd(parameters);
+		// System.out.println(payResult);
+		
+		model.addAttribute("orderDelInfo", orderDelInfo);
+		model.addAttribute("completeMap", completeMap);
+		model.addAttribute("payResult", payResult);
+		
+		
+		
 		return "product/order_complete";
 	}
 }
