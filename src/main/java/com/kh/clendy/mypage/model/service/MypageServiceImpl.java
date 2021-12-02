@@ -2,6 +2,7 @@ package com.kh.clendy.mypage.model.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,7 @@ import com.kh.clendy.mypage.model.vo.Cart;
 import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
-import com.kh.clendy.mypage.model.vo.Product;
-import com.kh.clendy.mypage.model.vo.Product_Option;
+import com.kh.clendy.mypage.model.vo.Point_Category;
 import com.kh.clendy.mypage.model.vo.Product_Order;
 import com.kh.clendy.mypage.model.vo.Refund;
 import com.kh.clendy.mypage.model.vo.Review;
@@ -179,8 +179,17 @@ public class MypageServiceImpl implements MypageService {
 
 	// 구매확정
 	@Override
-	public int decide_buy(int order_option_code) {
-		return mypageMapper.decide_buy(order_option_code);
+	public int decide_buy(int order_option_code, int user_no) {
+		int result = 0;
+		// 주문상태 변경
+		int result1 = mypageMapper.decide_buy(order_option_code);
+		// 구매확정 적립금 
+		int result2 = mypageMapper.buy_point(order_option_code, user_no);
+		System.out.println(result2);		
+		if(result1 > 0 && result2 > 0)
+			result = 1;
+		
+		return result;
 	}
 
 	// 주문내역조회
@@ -223,6 +232,23 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public Refund selectRefund(int order_option_code) {
 		return mypageMapper.selectRefund(order_option_code);
+	}
+	
+	// 다운 가능한 이벤트 포인트 리스트
+	@Override
+	public List<Point_Category> selectDownableEventPoint(int user_no) {
+		return mypageMapper.selectDownableEventPoint(user_no);
+	}
+
+	// 이벤트 포인트 다운로드
+	@Override
+	public int downloadEventPoint(Point_Category downloadPoint, int user_no) {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("downloadPoint", downloadPoint);
+		map.put("user_no", user_no);
+		
+		return mypageMapper.downloadEventPoint(map);
 	}
 	
 }

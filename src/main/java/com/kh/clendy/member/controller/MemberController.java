@@ -44,12 +44,20 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	// 이용약관
+	@GetMapping("/clause1")
+	public void clause1() {}
+	
+	@GetMapping("/clause2")
+	public void clause2() {}
+	
 	@GetMapping("/deletePage")
 	public void deletePage() {}
 	
 	@GetMapping("/findId")
 	public void findId() {}
 	
+	// 아이디찾기
 	@PostMapping("/findId")
 	public String findId(HttpServletRequest request, Member member) {
 		String id = memberService.findId(member.getUser_name(), member.getPhone());
@@ -70,7 +78,7 @@ public class MemberController {
 	@GetMapping("/findPwd")
 	public void findPwd() {}
 	
-	
+	// 추천인 아이디	
 	@PostMapping("/rec_idCheck")
 	@ResponseBody
 	public int rec_idCheck(@RequestParam String rec_id) {
@@ -86,6 +94,24 @@ public class MemberController {
 	}
 	
 	
+	// 아이디 중복 검사
+	@PostMapping("/idCheck")
+	@ResponseBody
+	public int idCheck(@RequestParam String id) {
+		int result = memberService.idCheck(id);
+		System.out.println(result);
+		return result;
+	}
+	
+	// 전화번호 중복 검사
+	@PostMapping("/phoneCheck")
+	@ResponseBody
+	public int phoneCheck(@RequestParam String phone) {
+		System.out.println(phone);
+		int result = memberService.phoneCheck(phone);
+		System.out.println(result);
+		return result;
+	}
 	
 	
 	

@@ -2,6 +2,10 @@ div {
     borde: 1px solid black;
 }
 
+span {
+    borde: 1px solid black;
+}
+
 .outer {
     width: 950px;
     margin: auto;
@@ -30,15 +34,25 @@ div {
 .cart_list li {
 	margin: 0;
 	padding: 5px;
-	borde: 1px solid gray;
+	borde: 1px solid black;
 }
 
 .cart_list ul {
+	width: 850px;
     display: flex;
 	list-style: none;
     border-bottom: 1px solid lightgray;
-    margin: 0;
+    margin: auto;
 	padding: 5px;
+}
+
+.seller_name {
+	margin: auto;
+	width: 850px;
+	padding : 15px;
+	font-size: large;
+	font-weight: bold;
+	border-bottom : 1px solid gray;
 }
 
 .cart_header {
@@ -71,8 +85,11 @@ div {
 }
 
 .cart_ul .pname {
-    display: flex;
     width: 250px;
+}
+
+.pname a {
+	display: flex;
 }
 
 .img_area {
@@ -96,8 +113,12 @@ img {
 }
 
 .price {
-	width: 70px;
+	width: 110px;
 	text-align:center;
+}
+
+#origin_price{
+	text-decoration:line-through;
 }
 
 .amount {
@@ -175,7 +196,7 @@ img {
     font-weight: bold;
 }
 
-#total_price {
+#sum_price {
     color: red;
 }
 

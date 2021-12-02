@@ -28,6 +28,7 @@ import com.kh.clendy.mypage.model.vo.Cart;
 import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
+import com.kh.clendy.mypage.model.vo.Point_Category;
 import com.kh.clendy.mypage.model.vo.Product_Order;
 import com.kh.clendy.mypage.model.vo.Refund;
 import com.kh.clendy.mypage.model.vo.Review;
@@ -165,13 +166,33 @@ public class MypageController {
 		
 		// 적립금 리스트 불러오기
 		List<Point> point_list = mypageService.selectPoint(user_no);
-		System.out.println(point_list);
+		
+		// 다운 가능한 이벤트 적립금 불러오기
+		List<Point_Category> event_point_list = mypageService.selectDownableEventPoint(user_no);
+		
+		mv.addObject("event_point_list", event_point_list);
+
 		
 		mv.addObject("point_list", point_list);
 		
 		mv.setViewName("mypage/point");
 		
 		return mv;
+	}
+	
+	// 이벤트 포인트 다운로드
+	@PostMapping("/point/download")
+	public String downloadPoint(RedirectAttributes redirectAttr, Point_Category downloadPoint) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		
+		// 유저에게 포인트 지급
+		int result = mypageService.downloadEventPoint(downloadPoint, user_no);
+		
+		if(result<1) {
+			redirectAttr.addFlashAttribute("msg","다운로드에 실패하였습니다.");
+		}
+		return "redirect:/mypage/point";
 	}
 	
 	// 위시리스트 화면
@@ -313,7 +334,7 @@ public class MypageController {
 		int user_no = user.getUser_no();
 		
 		List<Cart> cart_list = mypageService.selectCart_list(user_no);
-		//System.out.println(cart_list);
+		System.out.println(cart_list);
 		mv.addObject("cart_list", cart_list);		
 		mv.setViewName("/mypage/cart");
 		return mv;
@@ -362,13 +383,14 @@ public class MypageController {
 	public int plusAmount(@RequestParam int cart_no, int p_option_no) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
-		
+		System.out.println(cart_no);
+		System.out.println(p_option_no);
 		HashMap<String, Integer> userMap = new HashMap<>();
 		userMap.put("cart_no", cart_no);
 		userMap.put("user_no", user_no);
 		userMap.put("p_option_no", p_option_no);
 		int result = mypageService.plusAmount(userMap);
-		
+		System.out.println(result);
 		return result;
 	}
 	
@@ -398,7 +420,10 @@ public class MypageController {
 	@PostMapping("/decide_buy")
 	@ResponseBody
 	public int decide_buy(@RequestParam int order_option_code) {
-		int result = mypageService.decide_buy(order_option_code);
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		
+		int result = mypageService.decide_buy(order_option_code, user_no);
 		return result;
 	}
 	

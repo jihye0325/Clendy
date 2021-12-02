@@ -92,6 +92,10 @@ img{
     margin-bottom: auto;
 }
 
+#origin_price{
+	text-decoration:line-through;
+}
+
 .order_no{
     width: 150px;
     text-align: center;

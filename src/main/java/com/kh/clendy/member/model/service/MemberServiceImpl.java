@@ -100,6 +100,18 @@ public class MemberServiceImpl implements MemberService{
 		return memberMapper.findMember(rec_id);
 	}
 
+	// 아이디 중복검사
+	@Override
+	public int idCheck(String id) {
+		return memberMapper.idCheck(id);
+	}
+
+	// 전화번호 중복검사
+	@Override
+	public int phoneCheck(String phone) {
+		return memberMapper.phoneCheck(phone);
+	}
+
 
 	
 	

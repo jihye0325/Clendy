@@ -27,7 +27,7 @@
                     <ul class="cart_header">
                         <li class="allCheck"><input type="checkbox" id="allCheck" onclick="selectAll(this)"></li>
                         <li class="pname">상품명</li>
-                        <li class="price">판매가</li>
+                        <li class="price">판매가/할인가</li>
                         <li class="amount">수량</li>
                         <li class="option">옵션</li>
                         <li class="cart_price">상품금액</li>
@@ -36,11 +36,9 @@
 					
 					<div th:each="c,index: ${cart_list}">
 						<th:block th:if="${index.index} == 0 or ${index.index} > 0 and ${c.seller_code} != ${cart_list.get(index.index - 1).seller_code}">
-						<span class="seller_name" th:text="${c.seller_name}"></span>
+						<div class="seller_name" th:text="${c.seller_name}"></div>
 						</th:block> 
-						
-						<form th:action="@{/product/order}" method="post">
-		                    	<input type="hidden" name="userNo" th:value="${c.user_no}">
+								<input type="hidden" name="userNo" th:value="${c.user_no}">
 		                    	<input type="hidden" name="sellerCode" th:value="${c.seller_code}">
 		                    	<input type="hidden" name="pNo" th:value="${c.p_no}">
 		                    	<input type="hidden" name="pOptionNo" th:value="${c.p_option_no}">
@@ -57,7 +55,10 @@
 		                            </div>
 		                        </a>
 		                        </li>
-		                        <li class="price" th:text="${c.p_price}"></li>
+		                        <li class="price">
+		                        	<span id="origin_price" th:text="|${c.p_price}원|"></span><br>
+                    				<span id="discount_price" th:text="|${c.p_price * (100 - c.p_discount) / 100}원|"></span><br>
+		                        </li>
 		                        <li class="amount">										
 		                            <button type="button" id="minus" th:attr="onclick=|minus_amount('${c.cart_no}')|">-</button>
 		                            <input type="number" class="numBox" name="cartAmount" min="1" th:value="${c.cart_amount}" readonly>
@@ -69,15 +70,14 @@
 		                        </li>
 		                        <li class="cart_price">
 		                        	<div class="subtotal" th:text="|${c.subtotal}원|" th:value="${c.subtotal}"></div>
-		                        	<div class="delivery_price" th:if="${c.subtotal >= 50000}"><input type="hidden" name= "delivery_price" value="0">배송비 0원</div>
-		                        	<div class="delivery_price" th:if="${c.subtotal < 50000}"><input type="hidden" name= "delivery_price" value="2500">배송비 2500원</div>
+		                        	<div class="delivery_price" th:if="${c.subtotal >= 80000}"><input type="hidden" name= "delivery_price" value="0">배송비 0원</div>
+		                        	<div class="delivery_price" th:if="${c.subtotal < 80000}"><input type="hidden" name= "delivery_price" value="2500">배송비 2500원</div>
 		                        </li>
 		                        <li class="delete">
-		                        	<button type="submit" th:attr="onclick=|orderOne('${c.user_no}', '${c.seller_code}', '${c.p_no}', '${c.p_option_no}', '${c.cart_amount}', '${c.p_name}')|">주문</button>
+		                        	<button type="button" id="orderOne">주문</button>
 		                            <button type="button" id="delete" th:attr="onclick=|deleteCart('${c.cart_no}', '${c.p_name}')|">삭제</button>
 		                        </li>
 		                    </ul>
-		            	</form>
 		            </div>
 		                  
 	            </div>
@@ -91,7 +91,12 @@
     
             <div class="result">
                 <span>총 주문금액 : </span>
+                <span>상품</span>
                 <span id="total_price">0원</span>
+                <span> + 배송비</span>
+                <span id="delivery_price">0원</span>
+                <span>=</span>
+                <span id="sum_price">0원</span>
             </div>
                 
             <div class="btn_area">
@@ -119,19 +124,32 @@
     		})
     		
     		var totalPrice = 0;
+    		var delivery_price = 0;
+    		var sum_price = 0;
     		
     		$('input:checkbox[name="pcheck"]').each(function(){
         		if($(this).prop("checked")){
         			
-        			var onePrice = $(this).parent().parent().children('li:eq(4)').children('div:eq(0)').attr("value");
+        			var onePrice = $(this).parent().parent().children('li:eq(5)').children('div:eq(0)').attr("value");
+        			// seller_code
+        			console.log($(this).parent().parent().parent().children('input:eq(1)').val());
+        			// 배송비
+        			var del_price = $(this).parent().parent().children('li:eq(5)').children('div:eq(1)').children().val(); 
         			
         			totalPrice = totalPrice + Number(onePrice);
+        			delivery_price = delivery_price + Number(del_price);
+        			sum_price = totalPrice + delivery_price;
         		} 
     		});
     		
     		// 천단위로 콤마 표시
     		const totalPrice2 = totalPrice.toLocaleString('ko-KR'); 
+    		const delivery_price2 = delivery_price.toLocaleString('ko-KR'); 
+    		const sum_price2 = sum_price.toLocaleString('ko-KR'); 
+    		
     		$('#total_price').html(totalPrice2 + "원");
+    		$('#delivery_price').html(delivery_price2 + "원");
+    		$('#sum_price').html(sum_price2 + "원");
     	}
     </script>
     <!-- 전체 선택 버튼 클릭 -->
@@ -141,23 +159,35 @@
     		if($('[name=pcheck]').is(":checked") == false){
     			$('[name=pcheck]').prop('checked', true);
         		var totalPrice = 0;
+        		var delivery_price = 0;
+        		var sum_price = 0;
         		
         		$('input:checkbox[name="pcheck"]').each(function(){
             		if($(this).prop("checked")){
             			
-            			var onePrice = $(this).parent().parent().children('li:eq(4)').children('div:eq(0)').attr("value");
+            			var onePrice = $(this).parent().parent().children('li:eq(5)').children('div:eq(0)').attr("value");
+            			var del_price = $(this).parent().parent().children('li:eq(5)').children('div:eq(1)').children().val(); 
             			
             			totalPrice = totalPrice + Number(onePrice);
+            			delivery_price = delivery_price + Number(del_price);
+            			sum_price = totalPrice + delivery_price;
             			
                 		// 천단위로 콤마 표시
                 		const totalPrice2 = totalPrice.toLocaleString('ko-KR'); 
+                		const delivery_price2 = delivery_price.toLocaleString('ko-KR'); 
+                		const sum_price2 = sum_price.toLocaleString('ko-KR'); 
+                		
                 		$('#total_price').html(totalPrice2 + "원");
+                		$('#delivery_price').html(delivery_price2 + "원");
+                		$('#sum_price').html(sum_price2 + "원");
             		} 
         		});
         		
     		} else {
     			$('[name=pcheck]').prop('checked', false);
     			$('#total_price').html('0원');
+    			$('#delivery_price').html('0원');
+    			$('#sum_price').html('0원');
     		}
     	
     	});
@@ -165,14 +195,24 @@
     
     <!-- 개별 주문 -->
     <script>
-    	function orderOne(user_no, p_no, seller_code, p_option_no, cart_amount, p_name){
-    		if(!confirm(p_name + "을(를) 주문하시겠습니까?")) return;
-    		alert(user_no + ", "+ p_no + ", "+seller_code + ", "+ p_option_no + ", "+ cart_amount + ", "+p_name);
-    		var form = document.forms["cartOneForm"];
-    		form.submit();
-    	}
+	    $('#orderOne').on("click", function(){
+    		var newForm = document.createElement('form');
+    		
+    		
+    		newForm.name = 'newForm';
+    		newForm.method = 'post';
+    		newForm.action = '/product/order';
+    		
+    		document.body.appendChild(newForm);
+    		
+    		if(!confirm('주문하시겠습니까?')){
+    			return;
+    		} else {
+    			newForm.submit();
+    		}
+	    });
     </script>
-    
+            
     <!-- 개별 삭제 -->
     <script>
     	function deleteCart(cart_no, p_name){
@@ -298,20 +338,32 @@
     <script>        
     	$('input:checkbox[name="pcheck"]').change(function(){
     		var totalPrice = 0;
-    		
+    		var delivery_price = 0;
+    		var sum_price = 0;
     		$('input:checkbox[name="pcheck"]').each(function(){
         		if($(this).prop("checked")){
         			
-        			console.log($(this).parent().parent().children('li:eq(4)').children('div:eq(0)').attr("value"));
-        			var onePrice = $(this).parent().parent().children('li:eq(4)').children('div:eq(0)').attr("value");
+        			var onePrice = $(this).parent().parent().children('li:eq(5)').children('div:eq(0)').attr("value");
+        			// seller_code
+        			console.log($(this).parent().parent().parent().children('input:eq(1)').val());
+        			// 배송비
+        			var del_price = $(this).parent().parent().children('li:eq(5)').children('div:eq(1)').children().val(); 
         			
         			totalPrice = totalPrice + Number(onePrice);
+        			delivery_price = delivery_price + Number(del_price);
+        			sum_price = totalPrice + delivery_price;
+        			
         		} 
     		});
     		
     		// 천단위로 콤마 표시
     		const totalPrice2 = totalPrice.toLocaleString('ko-KR'); 
+    		const delivery_price2 = delivery_price.toLocaleString('ko-KR'); 
+    		const sum_price2 = sum_price.toLocaleString('ko-KR'); 
+    		
     		$('#total_price').html(totalPrice2 + "원");
+    		$('#delivery_price').html(delivery_price2 + "원");
+    		$('#sum_price').html(sum_price2 + "원");
     	});
     
     </script>

@@ -2,6 +2,7 @@ package com.kh.clendy.mypage.model.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,8 +13,7 @@ import com.kh.clendy.mypage.model.vo.Coupon;
 import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
-import com.kh.clendy.mypage.model.vo.Product;
-import com.kh.clendy.mypage.model.vo.Product_Option;
+import com.kh.clendy.mypage.model.vo.Point_Category;
 import com.kh.clendy.mypage.model.vo.Product_Order;
 import com.kh.clendy.mypage.model.vo.Refund;
 import com.kh.clendy.mypage.model.vo.Review;
@@ -83,4 +83,12 @@ public interface MypageMapper {
 
 	Refund selectRefund(int order_option_code);
 
+	/* 다운 가능한 이벤트 포인트 리스트 */
+	List<Point_Category> selectDownableEventPoint(int user_no);
+
+	// 이벤트 포인트 다운로드
+	int downloadEventPoint(Map<String, Object> map);
+
+	int buy_point(int order_option_code, int user_no);
+	
 }

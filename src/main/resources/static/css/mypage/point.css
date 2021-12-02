@@ -12,7 +12,7 @@ div {
 .point_area {
     width: 700px;
     margin:auto;
-    margin-top: 60px;
+    margin-top: 30px;
 }
 
 #title {
@@ -49,16 +49,22 @@ ul li {
     display: flex;
     list-style: none;
     justify-content: space-around;
-    padding: 0;
     margin-top: 25px;
+}
+
+.point_list {
+	padding-bottom : 15px;
 }
 
 .point_header {
     border-top : 1px solid gray;
     border-bottom: 1px solid gray;
-    height: 30px;
     line-height: 30px;
     font-weight: bold;
+}
+
+.point_content{
+	padding-bottom: 10px;
 }
 
 .status {
@@ -77,87 +83,21 @@ ul li {
     width: 150px;
 }
 
-.coupon_area {
-    width: 700px;
-    margin:auto;
-    margin-top: 100px;
-}
 
-.coupon_title {
-    display: flex;
-    padding-left: 30px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid black;
-}
-
-.coupon_title div:first-child {
-    font-weight: bold;
-    font-size: large;
-    margin-right: 10px;
-}
-
-.coupon_title label {
-    font-size: small;
-    font-weight: bold;
-    color: gray;
-    line-height: 30px;
-    cursor: pointer;
-}
-
-/* 라디오 버튼 숨기기 */
-input[type=radio] {
-    display: none;
-    margin: 10px;
-}
-
-.able_coupon_list>ul {
-    display: flex;
-    list-style: none;
-    justify-content: space-around;
-    padding: 0;
-    margin-top: 25px;
-}
-
-.disable_coupon_list>ul {
-    display: flex;
-    list-style: none;
-    justify-content: space-around;
-    padding: 0;
-    margin-top: 25px;
-}
-
-.use_coupon_list>ul {
-    display: flex;
-    list-style: none;
-    justify-content: space-around;
-    padding: 0;
-    margin-top: 25px;
-}
-
-.coupon_header {
-    border-top : 1px solid gray;
-    border-bottom: 1px solid gray;
-    height: 30px;
-    line-height: 30px;
-    font-weight: bold;
-}
-
-.c_no {
-    width: 70px;
-}
-
-.c_name {
-    width: 150px;
-}
-
-.c_info {
-    width: 180px;
-}
-
-.c_price {
-    width: 70px;
-}
-
-.c_date {
-    width: 120px;
-}
+/* 이벤트 포인트 다운로드 */
+.event-point-wrapper{width: 700px; margin: 5px auto 50px auto;}
+.event-point-wrapper li{display: table-cell; }
+.event-point-wrapper ul {list-style: none; padding-left: 0; height: 30px; line-height:30px;}
+.event-point-wrapper li {list-style: none; padding-left: 0; height: 30px; line-height:30px;}
+.th{ font-weight:bold; border-top: 1px solid gray; border-bottom: 1px solid gray; margin-top: 20px;}
+.event-content{width: 400px;}
+.event-point{width: 200px;}
+.event-download{width : 100px;}
+.event-download input{background-color:white; text-decoration : underline; font-size : 16px; border:0; cursor:pointer;}
+/* null */
+    .null {text-align: center;	font-size: 20px;font-weight: bold;align-self: center; margin-top:30px;}
+    .nowish{width: 80px;margin-bottom: 20px;}
+/* hr */
+.hr{margin: 5px auto 55px auto; width:700px; border:-1px solid lightgray;}
+/* 보유 적립금 border-bottom 추가*/
+.point_list{border-bottom: 2px solid black;}
