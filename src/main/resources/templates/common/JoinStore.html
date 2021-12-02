@@ -64,21 +64,29 @@ input[type=checkbox]{ width:25px; height:15px; margin:5px;}
         </div>
         <form th:action="@{/common/joinStore}" method="post">
         <div id="insertInfo">
-            <label class="insertLabel"><span class="semiTitle">업체명</span><input type="text" name="seller_name" id="seller_name" maxlength="20" required></input></label><br>
-            <label class="insertLabel"><span class="semiTitle">대표자명/인원수</span><input type="text" name="rep_name" id="rep_name" maxlength="10" required> / <input type="number" id="rep_num" required></label><br>
-            <label class="insertLabel"><span class="semiTitle">사업자 등록번호</span><input type="number" name="number" id="b_license" required></label><br>
-            <label class="insertLabel"><span class="semiTitle">통신판매업신고번호</span><input type="text" name="o_b_license" id="o_b_license" maxlength="25" required></label><br>
-            <label class="insertLabel"><span class="semiTitle">전화번호</span><input type="number" name="phone" id="phone" required></label><br>
-            <label class="insertLabel"><span class="semiTitle">이메일</span><input type="text" name="email" id="email" maxlength="30" required></label><br>
-            <label class="insertLabel"><span class="semiTitle">업체주소</span><input type="text" name="address" id="address" maxlength="100" required></label><br>
-            <label class="insertLabel"><span class="semiTitle">정산계좌</span> <select name="account_bank">
-                                                                                <option value="국민은행">국민은행</option>
-                                                                                <option value="농협">농협</option>
-                                                                                <option value="신한은행">신한은행</option>
-                                                                                <option value="우리은행">우리은행</option>
-                                                                                <option value="카카오뱅크">카카오뱅크</option>
-                                                                              </select>
-                                                                <span> 계좌번호 </span><input type="number" name="account_num" id="account_num" required></label><br>
+            <label class="insertLabel"><span class="semiTitle">업체명</span>
+            <input type="text" name="seller_name" id="seller_name" maxlength="20" required></input></label><br>
+            <label class="insertLabel"><span class="semiTitle">대표자명/인원수</span>
+            <input type="text" name="rep_name" id="rep_name" maxlength="10" required> / <input type="number" id="rep_num" required></label><br>
+            <label class="insertLabel"><span class="semiTitle">사업자 등록번호</span>
+            <input type="number" name="number" id="b_license" required></label><button class="license"></button><br>
+            <label class="insertLabel"><span class="semiTitle">통신판매업신고번호</span>
+            <input type="text" name="o_b_license" id="o_b_license" maxlength="25" required></label><br>
+            <label class="insertLabel"><span class="semiTitle">전화번호</span>
+            <input type="number" name="phone" id="phone" required></label><br>
+            <label class="insertLabel"><span class="semiTitle">이메일</span>
+            <input type="text" name="email" id="email" maxlength="30" required></label><br>
+            <label class="insertLabel"><span class="semiTitle">업체주소</span>
+            <input type="text" name="address" id="address" maxlength="100" required></label><br>
+            <label class="insertLabel"><span class="semiTitle">정산계좌</span>
+             <select name="account_bank">
+                <option value="국민">국민은행</option>
+                <option value="농협">농협</option>
+                <option value="신한">신한은행</option>
+                <option value="우리">우리은행</option>
+                <option value="카카오뱅크">카카오뱅크</option>
+              </select>
+			<span> 계좌번호 </span><input type="number" name="account_num" id="account_num" required></label><br>
         </div>
         <div id="noticeBottom">
             <label>- 브랜드 정보를 가능한 상세하게 입력하셔야 빠른 처리가 가능하며 단순 입점 방식에 대한 문의는 답변드리지 않습니다.</label><br>

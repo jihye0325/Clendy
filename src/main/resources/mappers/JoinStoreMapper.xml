@@ -37,5 +37,29 @@
 		  , #{user_no}	
 	  )
 	</insert>
+	
+	<!-- 스토어 이름 중복 검사 -->
+	<select id="checkSellerName" parameterType="String" resultType="_int">
+	SELECT
+			COUNT(*) AS COUNT
+	   FROM APPLY_STORE
+	  WHERE SELLER_NAME #{seller_name}  		
+	</select>
+	
+	<!-- 사업자 등록번호 중복 검사 -->
+	<select id="checkBLicense" parameterType="_int" resultType="_int">
+	SELECT
+			COUNT(*) AS COUNT
+	   FROM APPLY_STORE
+	  WHERE B_LICENSE = #{b_lincese} 		
+	</select>
+	
+	<!-- 통신판매업신고번호 중복 검사 -->
+	<select id="checkOBLicense" parameterType="String" resultType="_int">
+	SELECT
+			COUNT(*) AS COUNT
+	   FROM APPLY_STORE
+	  WHERE O_B_LICENSE = #{o_b_lincese} 		
+	</select>	
 </mapper>
 

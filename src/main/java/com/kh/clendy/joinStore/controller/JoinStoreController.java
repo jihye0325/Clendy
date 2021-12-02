@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.clendy.joinStore.model.service.JoinStoreServiceImpl;
@@ -23,9 +24,11 @@ public class JoinStoreController {
 		this.joinStoreService = joinStoreService;
 	}
 	
+	/* 입점 신청 페이지 */
 	@GetMapping("joinStore")
 	public void toJoinStore() {}
 	
+	/* 입점 신청 */
 	@PostMapping("joinStore")
 	public String applyStore(ApplyStore newStore,  RedirectAttributes redirectAttr) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -43,6 +46,27 @@ public class JoinStoreController {
 		return "redirect:/common/joinStore";
 	}
 	
+	/* 스토어 이름 중복 검사 */
+	@PostMapping("/checkSellerList")
+	@ResponseBody
+	public int checkSellerName(String seller_name) {
+		return joinStoreService.checkSellerName(seller_name);
+	}
+	
+	/* 사업자등록번호 중복 검사 */
+	@PostMapping("/checkBLicense")
+	@ResponseBody
+	public int checkBLicense(int b_license) {
+		return joinStoreService.checkBLicense(b_license);
+	}
+	
+	/* 통신판매업신고번호 중복 검사 */
+	@PostMapping("/checkOBLicense")
+	@ResponseBody
+	public int checkOBLicense(String o_b_license) {
+		return joinStoreService.checkOBLicense(o_b_license);
+	}
+
 	
 
 }
