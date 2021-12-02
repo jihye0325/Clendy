@@ -140,6 +140,12 @@ $(function(){
 
 // 상품정보 위시리스트
 function wishListHandler(userNo, pNo){
+	
+	// 비로그인 일시
+	annoLogin();
+	if(loginUno == -1) return;
+	
+	
 	let wishList = {"userNo": userNo, "pNo": pNo};
 	
 	$.ajax({
@@ -339,6 +345,10 @@ function priceHanlder(data){
 
 // 장바구니 이벤트
 function productCartHandler(){
+
+	annoLogin()
+	if(loginUno == -1) return;
+
 	let count = $('.select_list_wrap .list').length;
 	let frm = document.forms['productFrm'];
 	console.log(frm);
@@ -354,6 +364,10 @@ function productCartHandler(){
 
 // 구매하기 이벤트
 function productBuyHandler(){
+
+	annoLogin()
+	if(loginUno == -1) return;
+
 	let count = $('.select_list_wrap .list').length;
 	let frm = document.forms['productFrm'];
 	if(count > 0){
@@ -375,4 +389,14 @@ function alertPopup(pMsg){
 	}, 3000);
 }
 
-
+// 비로그인시
+function annoLogin(){
+	if(loginUno == -1){
+		let result = confirm("로그인후 이용해주세요. 로그인페이지로 이동하시겠습니까?");
+		if(result){
+			location.href="/member/login";
+		}
+		
+		return;
+	}
+}

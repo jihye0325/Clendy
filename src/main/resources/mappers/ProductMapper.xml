@@ -11,7 +11,8 @@
 		<result property="sellerCode" column="SELLER_CODE"/>	
 		<result property="pStatus" column="P_STATUS"/>
 		<result property="selCount" column="SEL_COUNT"/>	
-		<result property="reviewCount" column="REVIEW_COUNT"/>		
+		<result property="reviewCount" column="REVIEW_COUNT"/>
+		<association property="imageList" resultMap="productImageResultMap"/>
 	</resultMap>
 	
 	<!-- 상품 상세 반환 -->
