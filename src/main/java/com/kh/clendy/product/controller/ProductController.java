@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,6 +49,7 @@ public class ProductController {
 	public String productListPage(@PathVariable String type, Model model, @ModelAttribute ProductFilter filter) {
 		
 		Map<String, Object> mapReturn = productService.productSelectList(filter);
+		System.out.println(mapReturn.get("productList"));
 		// 상품 목록 
 		model.addAttribute("productList", mapReturn.get("productList"));
 		// 페이징
@@ -61,8 +63,13 @@ public class ProductController {
 	// 상품 상세(상품번호)
 	@GetMapping("/view/{pNo}")
 	public String productViewPage(@PathVariable int pNo, Model model) {
-		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int userNo = user.getUser_no();
+		int userNo = -1;
+		//UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Object principal = auth.getPrincipal();
+		if(principal != null && principal instanceof UserImpl) {
+			userNo =  ((UserImpl)principal).getUser_no();
+		}
 		
 		Map<String, Object> mapInfo = new HashMap<>();
 		mapInfo.put("pNo", pNo);

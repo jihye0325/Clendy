@@ -45,7 +45,7 @@
                     	 <div class="item" th:each="list : ${productList}">
                             <a th:href="@{'/product/view/' + ${list.pNo}}">
                                 <div class="photo">
-                                    <img src="/images/product_sam1.png" alt="">
+                                    <img th:src="@{${list.imageList[0].route} + ${list.imageList[0].imgrName}}" alt="">
                                 </div>
                                 <p class="title" th:text="${list.pName}">남성용 여름 캐주얼 셔츠 보카시 투버튼 7부 셔츠</p>
                                 <div class="price_wrap">

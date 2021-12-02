@@ -63,7 +63,7 @@
 						       		<a href="javascript:;" th:onclick="|javascript:wishListHandler(${modelMap.loginUno} , ${modelMap.info.pNo})|" class="btn_wish" th:classappend="${modelMap.info.wishLike == 1} ? 'on'"></a>
 						       </th:block>
                                 <th:block sec:authorize="isAnonymous()">
-						       		 <a href="javascript:;" th:onclick="|javascript:wishListHandler(1 , ${modelMap.info.pNo})|" class="btn_wish" th:classappend="${modelMap.info.wishLike == 1} ? 'on'"></a>
+						       		 <a href="javascript:;" th:onclick="|javascript:wishListHandler(${modelMap.loginUno} , ${modelMap.info.pNo})|" class="btn_wish"></a>
 						       </th:block>
                                
                                 
