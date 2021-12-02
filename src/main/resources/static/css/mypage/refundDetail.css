@@ -124,7 +124,8 @@ img {
 textarea {
     resize: none;
     width: 400px;
-    height: 80px;   
+    height: 80px;
+    border: none;   
 }
 
 .refund_price {
@@ -162,9 +163,5 @@ button {
 }
 
 #ref_name {
-	margin-left: 70px;
-}
-
-#reason {
-	border: none;
+	margin-left: 35px;
 }

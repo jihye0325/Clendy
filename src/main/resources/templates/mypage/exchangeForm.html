@@ -9,22 +9,33 @@
     <meta name="_csrf" th:content="${_csrf.token}">
 	<meta name="_csrf_header" th:content="${_csrf.headerName}">
     <link href="/css/mypage/exchangeForm.css" rel="stylesheet"></link>
+    <script>
+		const msg = '[[${ msg }]]';
+		
+		if(msg){
+			alert(msg);
+			if(msg == "교환 신청이 완료되었습니다."){
+				window.opener.location.href = window.opener.document.URL;
+				window.close();
+			}
+		}
+		
+	</script>
     <title>교환 신청</title>
 </head>
 <body>
     <div class="outer">
         <div class="title">교환 신청</div>
-        <input type="hidden" th:value="${m.user_no}">
         <div class="product">
             <ul class="ul_header">
                 <li id="order_no">주문 번호</li>
-                <li id="p_info">상품명</li>
+                <li id="p_info"><span>상품</span></li>
                 <li id="p_price">주문금액(수량)</li>
             </ul>
             <ul class="ul_content">
                 <li id="order_no" th:text="${o.order_code}"></li>
                 <li id="p_info">
-                    <img th:src="@{${o.route} + ${o.img_r_name}}" >
+                    <img th:src="@{${o.route} + ${o.img_r_name}}">
                     <div>
                         <span id="pname" th:text="${o.p_name}"></span><br>
                         <span id="option">옵션 : 
@@ -39,22 +50,23 @@
                 </li>
             </ul>
         </div>
-
+		<form class="exchange" th:action="@{/mypage/exchange}" method='post'>
+		<input type="hidden" name="order_option_code" th:value="${o.order_option_code}">
         <div class="input_area">
             <div class="option_area">
                 <span>옵션선택</span><span id="required">*</span>
-                <select name="optionColor" required>
-                    <option value="none">색상 선택</option>
-                </select>
-                <select name="optionSize" required>
-                	<option value="none">사이즈 선택</option>
-
+                <select name="ex_option" required>
+                    <option value="none" disabled>옵션 선택</option>
+                    
+                    <option th:each="e : ${ ex }" 
+                    		th:if="${o.product_option.p_option_no != e.p_option_no}" th:value="${e.p_option_no}"
+                    		th:text="|${e.p_color} / ${e.p_size} (재고:${e.p_stock})|"></option>
                 </select>
             </div>
 
             <div class="select_area">
                 <span>사유선택</span><span id="required">*</span>
-                <select name="ref_id" required>
+                <select name="ex_id" required>
                     <option value="none" disabled>교환사유를 선택해주세요</option>
                     <option value="1">상품파손,오배송(판매자귀책)</option>
                     <option value="2">사이즈,색상(구매자 변심)</option>
@@ -66,7 +78,7 @@
                     <span>사유입력</span><br>
                     <span>0 / 100</span>
                 </div>
-                <textarea name="ref_reason" placeholder="교환사유를 입력해주세요(선택사항)"></textarea>
+                <textarea name="ex_reason" placeholder="교환사유를 입력해주세요(선택사항)"></textarea>
             </div>
         </div>
 
@@ -84,9 +96,10 @@
         </div>
 
         <div class="btn_area">
-            <button type="submit" disabled>교환신청</button>
+            <button type="submit">교환신청</button>
             <button type="button" onclick="cancle()">취소</button>
         </div>
+        </form>
     </div>
     
     <script>
@@ -95,37 +108,5 @@
 		}
     </script>
     
-    <!-- 상품 옵션 -->
-    <script>
-    	
-    let pNoNumber = Number('[[${o.p_no}]]');
-	
-    $(function(){
-    	
-    	options(pNoNumber);
-    
-	    function options(pNo){
-		    	let dataLimit = {"pNo" : pNo};
-		    	$.ajax({
-		    		type : "post",
-		    		url : "/product/options",
-		    		data: JSON.stringify(dataLimit),
-		    		contentType : "application/json; charset=utf-8",
-		    		dataType : "json",
-		    		beforeSend : function(xhr){
-		    			xhr.setRequestHeader(header, token);
-		    		},
-		    		success : function(data){
-		    			option(data);
-		    			priceHanlder(data);
-		    			dataSource = data;
-		    		},
-		    		error : function(error){
-		    			console.log(error);
-		    		}
-		    	})
-		    }
-    }
-    </script>   
 </body>
 </html>

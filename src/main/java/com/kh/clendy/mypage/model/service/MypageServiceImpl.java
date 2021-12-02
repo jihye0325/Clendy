@@ -12,10 +12,12 @@ import com.kh.clendy.CScenter.model.vo.PersonalQ;
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.mypage.model.dao.MypageMapper;
 import com.kh.clendy.mypage.model.vo.Cart;
+import com.kh.clendy.mypage.model.vo.Exchange;
 import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
 import com.kh.clendy.mypage.model.vo.Point_Category;
+import com.kh.clendy.mypage.model.vo.Product_Option;
 import com.kh.clendy.mypage.model.vo.Product_Order;
 import com.kh.clendy.mypage.model.vo.Refund;
 import com.kh.clendy.mypage.model.vo.Review;
@@ -116,8 +118,14 @@ public class MypageServiceImpl implements MypageService {
 
 	// 리뷰 등록
 	@Override
-	public int insertReview(Review review) {
-		return mypageMapper.insertReview(review);
+	public int insertReview(Review review, int user_no) {
+		int result = 0;
+		int result1 = mypageMapper.insertReview(review);
+		int result2 = mypageMapper.review_Point(user_no);
+				
+		if(result1 > 0 && result2 > 0)
+			result = 1;
+		return result;
 	}
 	
 	// 리뷰 상세페이지
@@ -234,6 +242,12 @@ public class MypageServiceImpl implements MypageService {
 		return mypageMapper.selectRefund(order_option_code);
 	}
 	
+	// 내가쓴글- 교환리스트
+	@Override
+	public List<Exchange> selectEx_list(int user_no) {
+		return mypageMapper.selectEx_list(user_no);
+	}
+	
 	// 다운 가능한 이벤트 포인트 리스트
 	@Override
 	public List<Point_Category> selectDownableEventPoint(int user_no) {
@@ -249,6 +263,31 @@ public class MypageServiceImpl implements MypageService {
 		map.put("user_no", user_no);
 		
 		return mypageMapper.downloadEventPoint(map);
+	}
+
+	// 교환페이지
+	@Override
+	public List<Product_Option> selectExOption(int order_option_code) {
+		return mypageMapper.selectExOption(order_option_code);
+	}
+
+	// 교환요청
+	@Override
+	public int requestExchange(Exchange exchange) {
+		int result = 0;
+		int result1 = mypageMapper.requestExchange(exchange);
+		int result2 = mypageMapper.changeExchange_stauts(exchange.getOrder_option_code());
+		
+		if(result1 > 0 && result2 > 0)
+			result = 1;
+		
+		return result;
+	}
+
+	// 교환상세페이지
+	@Override
+	public Exchange selectExchange(int order_option_code) {
+		return mypageMapper.selectExchange(order_option_code);
 	}
 	
 }

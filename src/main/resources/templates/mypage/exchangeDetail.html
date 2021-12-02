@@ -4,24 +4,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-    <link href="/css/mypage/refundDetail.css" rel="stylesheet"></link>
-    <th:block th:if="${r.ref_status == 'N'}">
-    <title>환불요청 내역</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+    <!-- csrf -->
+    <meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <link href="/css/mypage/exchangeDetail.css" rel="stylesheet"></link>
+    <th:block th:if="${e.ex_status == 'N'}">
+    <title>교환요청 내역</title>
     </th:block>
-    <th:block th:if="${r.ref_status == 'Y'}">
-    <title>환불완료 내역</title>
-    </th:block>
+    <th:block th:if="${e.ex_status == 'Y'}">
+    <title>교환완료 내역</title>
 </head>
 <body>
     <div class="outer">
-    	<th:block th:if="${r.ref_status == 'N'}"><div class="title">환불요청</div></th:block>
-        <th:block th:if="${r.ref_status == 'Y'}"><div class="title">환불완료</div></th:block>
+        <th:block th:if="${e.ex_status == 'N'}"><div class="title">교환요청</div></th:block>
+        <th:block th:if="${e.ex_status == 'Y'}"><div class="title">교환완료</div></th:block>
         
         <div class="product">
             <ul class="ul_header">
-                <li id="order_no">주문번호</li>
-                <li id="p_info">상품명</li>
+                <li id="order_no">주문 번호</li>
+                <li id="p_info"><span>상품</span></li>
                 <li id="p_price">주문금액(수량)</li>
             </ul>
             <ul class="ul_content">
@@ -42,31 +44,27 @@
                 </li>
             </ul>
         </div>
-		
-		<form id="refundForm" th:action="@{/mypage/requestRefund(${_csrf.parameterName}=${_csrf.token})}" method="post">
-		<input type="hidden" name="order_option_code" th:value="${o.order_option_code}">
-		<input type="hidden" name="ref_price" th:value="${o.subtotal}">
+        
         <div class="input_area">
             <div class="option_area">
-                <span>환불 사유</span>
-                <span id="ref_name" th:text="${r.ref_name}"></span>
+                <span>교환 옵션</span>
+                <span id="option" th:text="|${ e.p_color } / ${ e.p_size }|"></span>
+            </div>
+
+            <div class="select_area">
+                <span>교환 사유</span>
+                <span id="ex_name" th:text="${e.ex_name}"></span>
             </div>
 
             <div class="reason_area">
                 <div>
                     <span>상세 사유</span><br>
                 </div>
-                <textarea id="reason" name="ref_reason" th:text="${ r.ref_reason }" readonly></textarea>
+                <textarea name="ex_reason" th:text="${e.ex_reason}"></textarea>
             </div>
         </div>
 
-        <div class="refund_price">
-        	<th:block th:if="${r.ref_status == 'N'}"><span>환불 예정 금액 : </span></th:block>
-        	<th:block th:if="${r.ref_status == 'Y'}"><span>환불 완료 금액 : </span></th:block>
-            <span id="ref_price" th:text="|${o.subtotal}원|"></span>
-        </div>
-
-        <div class="refund_rule">
+        <div class="exchange_rule">
             <p>
                 변심반품/교환 제품의 하자나 불량이 아닌 변심건의 경우 왕복배송비를 고객부담으로 하며,<br>
                 제품 포장시 왕복배송비 5000원을 동봉해주셔야 교환/반품처리가 진행됩니다.<br>
@@ -90,5 +88,6 @@
 			window.close();
 		}
     </script>
+    
 </body>
 </html>

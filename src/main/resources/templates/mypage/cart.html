@@ -34,14 +34,14 @@
                         <li class="delete">주문/삭제</li>
                     </ul>
 					
-					<div th:each="c,index: ${cart_list}">
+					<div id="checkConfirm" name="checkConfirm" th:each="c,index: ${cart_list}">
 						<th:block th:if="${index.index} == 0 or ${index.index} > 0 and ${c.seller_code} != ${cart_list.get(index.index - 1).seller_code}">
 						<div class="seller_name" th:text="${c.seller_name}"></div>
 						</th:block> 
-								<input type="hidden" name="userNo" th:value="${c.user_no}">
-		                    	<input type="hidden" name="sellerCode" th:value="${c.seller_code}">
-		                    	<input type="hidden" name="pNo" th:value="${c.p_no}">
-		                    	<input type="hidden" name="pOptionNo" th:value="${c.p_option_no}">
+								<input type="hidden" id="userNo" name="userNo" th:value="${c.user_no}">
+		                    	<input type="hidden" id="sellerCode" name="sellerCode" th:value="${c.seller_code}">
+		                    	<input type="hidden" id= "pNo" name="pNo" th:value="${c.p_no}">
+		                    	<input type="hidden" id="pOptionNo" name="pOptionNo" th:value="${c.p_option_no}">
 		                    <ul class="cart_ul">
 		                        <li class="check"><input type="checkbox" id="pcheck" name="pcheck" th:value="${c.cart_no}"></li>
 		                    
@@ -61,8 +61,8 @@
 		                        </li>
 		                        <li class="amount">										
 		                            <button type="button" id="minus" th:attr="onclick=|minus_amount('${c.cart_no}')|">-</button>
-		                            <input type="number" class="numBox" name="cartAmount" min="1" th:value="${c.cart_amount}" readonly>
-		                            <button type="button" id="plus" th:attr="onclick=|plus_amount('${c.cart_amount}', '${c.p_option_no}')|">+</button>
+		                            <input type="number" class="numBox" id="cartAmount" name="cartAmount" min="1" th:value="${c.cart_amount}" readonly>
+		                            <button type="button" id="plus" th:attr="onclick=|plus_amount('${c.cart_no}', '${c.p_option_no}')|">+</button>
 		                        </li>
 		                        <li class="option">
 		                        	<div class="color" th:text="${c.p_color}"></div>
@@ -111,6 +111,8 @@
                 </div>
             </th:block>
       </div> 
+      
+      <form name="newForm" th:action="@{/product/order}" method="post"></form>
        
     <div th:replace="common/footer.html"></div>
     
@@ -126,21 +128,38 @@
     		var totalPrice = 0;
     		var delivery_price = 0;
     		var sum_price = 0;
+    		var seller_arr = [];
     		
     		$('input:checkbox[name="pcheck"]').each(function(){
         		if($(this).prop("checked")){
         			
         			var onePrice = $(this).parent().parent().children('li:eq(5)').children('div:eq(0)').attr("value");
+        			var priceValue = Number(onePrice);
         			// seller_code
-        			console.log($(this).parent().parent().parent().children('input:eq(1)').val());
-        			// 배송비
-        			var del_price = $(this).parent().parent().children('li:eq(5)').children('div:eq(1)').children().val(); 
+        			var sellerCode =$(this).parent().parent().parent().children('input:eq(1)').val();
         			
-        			totalPrice = totalPrice + Number(onePrice);
-        			delivery_price = delivery_price + Number(del_price);
-        			sum_price = totalPrice + delivery_price;
+        			if(seller_arr.find(x => x.sellerCode == sellerCode)){
+        				// 배송비 추가 X
+        				seller_arr.find(x => x.sellerCode == sellerCode).price = Number(seller_arr.find(x => x.sellerCode == sellerCode).price) + priceValue;
+        				
+        			} else {
+       					// 배송비 추가 
+        				seller_arr.push({sellerCode:sellerCode, price:onePrice});
+        			}
+        			
+        			totalPrice = totalPrice + priceValue;
         		} 
     		});
+    		
+    		// 선택한 상품의 상점 갯수
+    		var seller_lengh = seller_arr.length;
+    		// 상점별로 선택한 상품의 금액합계가 80000원이 넘는 상점의 갯수
+    		var nodelivery_length = seller_arr.filter(x => x.price >= 80000).length;
+    		
+    		// 총 결제해야하는 배송비
+    		var delivery_price = (seller_lengh - nodelivery_length) * 2500;
+    		
+    		sum_price = totalPrice + delivery_price;
     		
     		// 천단위로 콤마 표시
     		const totalPrice2 = totalPrice.toLocaleString('ko-KR'); 
@@ -152,6 +171,12 @@
     		$('#sum_price').html(sum_price2 + "원");
     	}
     </script>
+    
+    <!-- 체크박스 전체 체크 안 되어있으면 전체 체크박스 해제 -->
+    <script>
+    
+    </script>
+    
     <!-- 전체 선택 버튼 클릭 -->
     <script>
     	$('#checkAllBtn').on("click", function(){
@@ -161,27 +186,47 @@
         		var totalPrice = 0;
         		var delivery_price = 0;
         		var sum_price = 0;
+        		var seller_arr = [];
         		
         		$('input:checkbox[name="pcheck"]').each(function(){
             		if($(this).prop("checked")){
             			
             			var onePrice = $(this).parent().parent().children('li:eq(5)').children('div:eq(0)').attr("value");
-            			var del_price = $(this).parent().parent().children('li:eq(5)').children('div:eq(1)').children().val(); 
+            			var priceValue = Number(onePrice);
+            			// seller_code
+            			var sellerCode =$(this).parent().parent().parent().children('input:eq(1)').val();
             			
-            			totalPrice = totalPrice + Number(onePrice);
-            			delivery_price = delivery_price + Number(del_price);
-            			sum_price = totalPrice + delivery_price;
+            			if(seller_arr.find(x => x.sellerCode == sellerCode)){
+            				// 배송비 추가 X
+            				seller_arr.find(x => x.sellerCode == sellerCode).price = Number(seller_arr.find(x => x.sellerCode == sellerCode).price) + priceValue;
+            				
+            			} else {
+           					// 배송비 추가 
+            				seller_arr.push({sellerCode:sellerCode, price:onePrice});
+            			}
             			
-                		// 천단위로 콤마 표시
-                		const totalPrice2 = totalPrice.toLocaleString('ko-KR'); 
-                		const delivery_price2 = delivery_price.toLocaleString('ko-KR'); 
-                		const sum_price2 = sum_price.toLocaleString('ko-KR'); 
-                		
-                		$('#total_price').html(totalPrice2 + "원");
-                		$('#delivery_price').html(delivery_price2 + "원");
-                		$('#sum_price').html(sum_price2 + "원");
+            			totalPrice = totalPrice + priceValue;
             		} 
         		});
+        		
+        		// 선택한 상품의 상점 갯수
+        		var seller_lengh = seller_arr.length;
+        		// 상점별로 선택한 상품의 금액합계가 80000원이 넘는 상점의 갯수
+        		var nodelivery_length = seller_arr.filter(x => x.price >= 80000).length;
+        		
+        		// 총 결제해야하는 배송비
+        		var delivery_price = (seller_lengh - nodelivery_length) * 2500;
+        		
+        		sum_price = totalPrice + delivery_price;
+        		
+        		// 천단위로 콤마 표시
+        		const totalPrice2 = totalPrice.toLocaleString('ko-KR'); 
+        		const delivery_price2 = delivery_price.toLocaleString('ko-KR'); 
+        		const sum_price2 = sum_price.toLocaleString('ko-KR'); 
+        		
+        		$('#total_price').html(totalPrice2 + "원");
+        		$('#delivery_price').html(delivery_price2 + "원");
+        		$('#sum_price').html(sum_price2 + "원");
         		
     		} else {
     			$('[name=pcheck]').prop('checked', false);
@@ -195,22 +240,57 @@
     
     <!-- 개별 주문 -->
     <script>
-	    $('#orderOne').on("click", function(){
-    		var newForm = document.createElement('form');
-    		
-    		
-    		newForm.name = 'newForm';
-    		newForm.method = 'post';
-    		newForm.action = '/product/order';
-    		
-    		document.body.appendChild(newForm);
-    		
-    		if(!confirm('주문하시겠습니까?')){
-    			return;
-    		} else {
-    			newForm.submit();
-    		}
-	    });
+    	$(function(){
+    		$(document).on("click", "#orderOne", function(){
+    			var newForm = document.querySelector('[name=newForm]');
+        		
+        		var userNo = $(this).parent().parent().parent().children('input:eq(0)').val();
+        		var sellerCode = $(this).parent().parent().parent().children('input:eq(1)').val();
+        		var pNo = $(this).parent().parent().parent().children('input:eq(2)').val();
+        		var pOptionNo = $(this).parent().parent().parent().children('input:eq(3)').val();
+        		var cartAmount = $(this).parent().parent().children('li:eq(3)').children('input').val();
+        		        		
+        		var input1 = document.createElement('input'); 
+        		var input2 = document.createElement('input');
+        		var input3 = document.createElement('input'); 
+        		var input4 = document.createElement('input');
+        		var input5 = document.createElement('input'); 
+
+        		input1.setAttribute("type", "text"); 
+        		input1.setAttribute("name", "userNo"); 
+        		input1.setAttribute("value", userNo); 
+        		
+        		input2.setAttribute("type", "text"); 
+        		input2.setAttribute("name", "sellerCode"); 
+        		input2.setAttribute("value", sellerCode);
+        		
+        		input3.setAttribute("type", "text"); 
+        		input3.setAttribute("name", "pNo"); 
+        		input3.setAttribute("value", pNo);
+        		
+        		input4.setAttribute("type", "text"); 
+        		input4.setAttribute("name", "pOptionNo"); 
+        		input4.setAttribute("value", pOptionNo);
+        		
+        		input5.setAttribute("type", "text"); 
+        		input5.setAttribute("name", "cartAmount"); 
+        		input5.setAttribute("value", cartAmount);
+        		
+        		newForm.appendChild(input1);
+        		newForm.appendChild(input2);
+        		newForm.appendChild(input3);
+        		newForm.appendChild(input4);
+        		newForm.appendChild(input5);
+
+        		document.body.appendChild(newForm);
+        		
+        		if(!confirm('주문하시겠습니까?')){
+        			return;
+        		} else {
+        			newForm.submit();
+        		} 
+    		});
+    	});
     </script>
             
     <!-- 개별 삭제 -->
@@ -306,10 +386,15 @@
 				}
     		});
     	}
-    	
+    </script>
+    
+    <script>
     	function plus_amount(cart_no, p_option_no){
     		var token = $("meta[name='_csrf']").attr("content");
     		var header = $("meta[name='_csrf_header']").attr("content"); 
+    		var amount = $("#cartAmount").val();
+    		console.log(cart_no, p_option_no);
+    		console.log(amount);
     		
     		$.ajax({
     			url : "/mypage/plus_amount",
@@ -324,6 +409,7 @@
 					if(result > 0) {
 						alert("수량조절 성공!");
 						location.reload();
+						
 					} else
 						alert("재고가 부족합니다.");			
 				},
@@ -340,21 +426,38 @@
     		var totalPrice = 0;
     		var delivery_price = 0;
     		var sum_price = 0;
+    		var seller_arr = [];
+    		
     		$('input:checkbox[name="pcheck"]').each(function(){
         		if($(this).prop("checked")){
         			
         			var onePrice = $(this).parent().parent().children('li:eq(5)').children('div:eq(0)').attr("value");
+        			var priceValue = Number(onePrice);
         			// seller_code
-        			console.log($(this).parent().parent().parent().children('input:eq(1)').val());
-        			// 배송비
-        			var del_price = $(this).parent().parent().children('li:eq(5)').children('div:eq(1)').children().val(); 
+        			var sellerCode =$(this).parent().parent().parent().children('input:eq(1)').val();
         			
-        			totalPrice = totalPrice + Number(onePrice);
-        			delivery_price = delivery_price + Number(del_price);
-        			sum_price = totalPrice + delivery_price;
+        			if(seller_arr.find(x => x.sellerCode == sellerCode)){
+        				// 배송비 추가 X
+        				seller_arr.find(x => x.sellerCode == sellerCode).price = Number(seller_arr.find(x => x.sellerCode == sellerCode).price) + priceValue;
+        				
+        			} else {
+       					// 배송비 추가 
+        				seller_arr.push({sellerCode:sellerCode, price:onePrice});
+        			}
         			
+        			totalPrice = totalPrice + priceValue;
         		} 
     		});
+    		
+    		// 선택한 상품의 상점 갯수
+    		var seller_lengh = seller_arr.length;
+    		// 상점별로 선택한 상품의 금액합계가 80000원이 넘는 상점의 갯수
+    		var nodelivery_length = seller_arr.filter(x => x.price >= 80000).length;
+    		
+    		// 총 결제해야하는 배송비
+    		var delivery_price = (seller_lengh - nodelivery_length) * 2500;
+    		
+    		sum_price = totalPrice + delivery_price;
     		
     		// 천단위로 콤마 표시
     		const totalPrice2 = totalPrice.toLocaleString('ko-KR'); 
@@ -366,6 +469,18 @@
     		$('#sum_price').html(sum_price2 + "원");
     	});
     
+    </script>
+    
+    <!-- 체크리스트로 주문 -->
+    <script>
+    	$("#order_btn").on("click", function(){
+    		$(".cart_ul").each(function() { 
+    			if($(this).children('li:eq(0)').children().is(":checked") == false) {
+    				$(this).parent().html('');
+    			}
+    		});
+    	});
+    	
     </script>
     
 </body>

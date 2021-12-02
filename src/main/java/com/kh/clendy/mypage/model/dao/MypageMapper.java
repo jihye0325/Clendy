@@ -10,10 +10,12 @@ import com.kh.clendy.CScenter.model.vo.PersonalQ;
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.mypage.model.vo.Cart;
 import com.kh.clendy.mypage.model.vo.Coupon;
+import com.kh.clendy.mypage.model.vo.Exchange;
 import com.kh.clendy.mypage.model.vo.Order_Option;
 import com.kh.clendy.mypage.model.vo.Payment;
 import com.kh.clendy.mypage.model.vo.Point;
 import com.kh.clendy.mypage.model.vo.Point_Category;
+import com.kh.clendy.mypage.model.vo.Product_Option;
 import com.kh.clendy.mypage.model.vo.Product_Order;
 import com.kh.clendy.mypage.model.vo.Refund;
 import com.kh.clendy.mypage.model.vo.Review;
@@ -90,5 +92,17 @@ public interface MypageMapper {
 	int downloadEventPoint(Map<String, Object> map);
 
 	int buy_point(int order_option_code, int user_no);
+
+	List<Product_Option> selectExOption(int order_option_code);
+
+	int review_Point(int user_no);
+
+	int requestExchange(Exchange exchange);
+
+	int changeExchange_stauts(int order_option_code);
+
+	List<Exchange> selectEx_list(int user_no);
+
+	Exchange selectExchange(int order_option_code);
 	
 }

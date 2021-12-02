@@ -192,6 +192,7 @@
 		if(msg){
 			alert(msg);
 			if(msg == "리뷰가 등록되어 포인트 200원 적립되었습니다."){
+				window.opener.location.href = window.opener.document.URL;
 				window.close();
 			}
 		}

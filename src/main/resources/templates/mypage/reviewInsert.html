@@ -22,7 +22,8 @@
 		
 		if(msg){
 			alert(msg);
-			if(msg == "리뷰가 등록되었습니다."){
+			if(msg == "리뷰가 등록되었습니다. \n리뷰 등록 포인트 200원이 적립되었습니다."){
+				window.opener.location.href = window.opener.document.URL;
 				window.close();
 			}
 		}
