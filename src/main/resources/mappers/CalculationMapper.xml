@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.clendy.admin.model.dao.CalculationMapper">
+	<resultMap id="CalculationResultMap" type="com.kh.clendy.admin.model.vo.Calculation">
+			<id property="cal_no" column="CAL_NO"/>
+			<result property="cal_status" column="CAL_STATUS"/>
+			<result property="sales_price" column="SALES_PRICE"/>
+			<result property="cal_price" column="CAL_PRICE"/>
+			<result property="complete_date" column="COMPLETE_DATE"/>
+			<result property="seller_code" column="SELLER_CODE"/>
+			<result property="commission" column="COMMISSION"/>
+			<result property="seller_name" column="SELLER_NAME"/>
+			<result property="account_bank" column="ACCOUNT_BANK"/>
+			<result property="account_num" column="ACCOUNT_NUM"/>
+	</resultMap>
+	
+	<!-- 정산 전 리스트 개수 조회 -->
+	<select id="beforeCalculationGetListCount" resultType="_int">
+	SELECT 
+			COUNT(*) AS COUNT
+       FROM CALCULATION
+      WHERE CAL_STATUS = 'B'
+	</select>
+	
+	<!-- 정산전 리스트 조회 -->
+	<select id="selectBeforeCalculation" parameterType="map" resultMap="CalculationResultMap">
+	 SELECT
+            *
+            FROM(
+            SELECT
+       ROWNUM ROWN
+     , TBL.*    
+    FROM( SELECT 
+			CAL_NO
+		  , CAL_STATUS
+		  , SALES_PRICE
+		  , CAL_PRICE
+		  , COMPLETE_DATE
+		  , SELLER_CODE
+		  , COMMISSION
+		  , SELLER_NAME
+		  , ACCOUNT_BANK
+		  , ACCOUNT_NUM
+       FROM CALCULATION C
+       JOIN SELLER USING(SELLER_CODE)
+       JOIN APPLY_STORE USING(A_NO)
+      WHERE CAL_STATUS = 'B'
+      ORDER BY CAL_NO DESC) TBL)
+          WHERE ROWN BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- 정산 후 리스트 개수 조회 -->
+	<select id="afterCalculationGetListCount" resultType="_int">
+	SELECT 
+			COUNT(*) AS COUNT
+       FROM CALCULATION
+      WHERE CAL_STATUS = 'A'
+	</select>
+	
+	<!-- 정산 후 리스트 조회 -->
+	<select id="selectAfterCalculation" parameterType="map" resultMap="CalculationResultMap">
+	 SELECT
+            *
+            FROM(
+            SELECT
+       ROWNUM ROWN
+     , TBL.*    
+    FROM( SELECT 
+			CAL_NO
+		  , CAL_STATUS
+		  , SALES_PRICE
+		  , CAL_PRICE
+		  , COMPLETE_DATE
+		  , SELLER_CODE
+		  , COMMISSION
+		  , SELLER_NAME
+		  , ACCOUNT_BANK
+		  , ACCOUNT_NUM
+       FROM CALCULATION C
+       JOIN SELLER USING(SELLER_CODE)
+       JOIN APPLY_STORE USING(A_NO)
+      WHERE CAL_STATUS = 'A'
+      ORDER BY COMPLETE_DATE DESC) TBL)
+          WHERE ROWN BETWEEN #{startRow} AND #{endRow} 
+	</select>
+	
+	<!-- 정산 전 -> 정산 후로 상태 변경 -->
+	<update id="updateBeforeToAfter" parameterType="_int">
+	UPDATE CALCULATION
+	   SET CAL_STATUS = 'A'
+	     , COMPLETE_DATE = SYSDATE
+	 WHERE CAL_NO = #{cal_no}   
+	</update>
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

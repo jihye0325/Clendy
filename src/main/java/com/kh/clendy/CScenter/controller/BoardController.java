@@ -116,7 +116,7 @@ public class BoardController {
 			redirectAttr.addFlashAttribute("msg","공지사항 수정에 실패하였습니다.");
 		}
 		
-		return "redirect:/CScenter/board/delete?b_no="+ updateBoard.getB_no();
+		return "redirect:/CScenter/board/detail?b_no="+ updateBoard.getB_no();
 		
 	}
 	

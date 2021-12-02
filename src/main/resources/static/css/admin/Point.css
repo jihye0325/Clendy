@@ -1,0 +1,33 @@
+#wrapper {display: flex;}
+        #content-title, h6{ display: inline-block; margin-right: 15px; }
+        ul, li{list-style: none; padding-left: 0;}
+        a{text-decoration: none;}
+        /* sidebar */
+        #sidebar{    width: 160px;    padding-left :10%;}
+        #sidebar li{ width: 70px; height: 40px; }
+        #sidebar a {  color:black; width: 110px; height: 30px; display: inline-block; padding:5px; }
+        .sideA:hover{ background-color: #060032; color:white; }
+        #sidebar a:hover:not(.current){ background-color: #060032; color:white; }
+        #sidebar .current{background-color: #060032; color:white;}
+        /* content */
+        #content{  margin : 0px auto auto 11%; width: 850px;} 
+        .basic-point { margin-bottom: 65px; margin-top : 10px;} 
+        /* btn-area */
+        .btn-area{ display:flex; justify-content : flex-end; padding-top:35px; padding-bottom: 15px;}
+        .make-point{ background-color : #060032; color:white; padding:5px;} 
+        /* board-list */
+        .list-th ul{ height: 30px; border-top: 1px solid lightgray; margin: 0; border-bottom: 1px solid lightgray;}
+        .list-th li{ font-weight: bold; display: table-cell;  text-align: center; line-height: 30px; }
+        .list-num { width : 100px; text-align: center;}
+        .list-content{ width : 350px; text-align: center;}
+        .list-amount{width: 250px; text-align:center;}
+        .list-check {width: 75px; text-align: center;}
+        .list-check a, .list-event a{ color: black; cursor:pointer; text-decoration: underline; font-size:16px;}
+        .board-list li{ display: table-cell; height: 35px; line-height: 35px; border-bottom: 1px solid lightgray;}
+        .list-event{width: 150px; text-align:center;}
+         .modify{background-color:white; border:0;text-decoration: underline;  font-size: 16px; cursor: pointer;}
+         /* null */
+        .null {text-align: center;	font-size: x-large;	font-weight: bold;align-self: center; margin-top:60px;}
+        .nowish{width: 120px;margin-bottom: 20px;}
+        /* event-point*/
+        .event-point{margin-top:10px;}

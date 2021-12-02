@@ -62,6 +62,24 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
             .antMatchers("/product/**").authenticated()
             .antMatchers("/product/view/**").authenticated()
             .antMatchers("/product/cart/**").authenticated()
+            /* 1:1 문의 인증 */
+            .antMatchers("/CScenter/personalQ/**").authenticated()
+            /* 관리자페이지 - 관리자 인증 */
+            .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+            /* 공지사항 - 관리자 인증 */
+            .antMatchers("/CScenter/board/insert").hasAuthority("ROLE_ADMIN")
+            .antMatchers("/CScenter/board/delete").hasAuthority("ROLE_ADMIN")
+            .antMatchers("/CScenter/board/modify").hasAuthority("ROLE_ADMIN")
+            /* FAQ - 관리자 인증 */
+            .antMatchers("/CScenter/FAQ/modify").hasAuthority("ROLE_ADMIN")
+            .antMatchers("/CScenter/FAQ/delete").hasAuthority("ROLE_ADMIN")
+            .antMatchers("/CScenter/insertFAQ").hasAuthority("ROLE_ADMIN")
+            .antMatchers("/CScenter/FAQ/insert").hasAuthority("ROLE_ADMIN")
+            /* 1:1 문의 - 관리자 인증 */
+            .antMatchers("/CScenter/personalQ").hasAuthority("ROLE_ADMIN")
+            .antMatchers("/CScenter/personalQ/delete").hasAuthority("ROLE_ADMIN")
+            .antMatchers("/CScenter/personalQ/insertAnswer").hasAuthority("ROLE_ADMIN")
+            .antMatchers("/CScenter/personalQ/modify").hasAuthority("ROLE_ADMIN")
             .anyRequest().permitAll()   /* 그 외의 요청들은 모두 허가함 - 게스트 사용자 접근 가능 */
          .and()
             .formLogin()   /* 로그인 설정 */

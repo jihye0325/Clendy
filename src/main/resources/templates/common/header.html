@@ -56,8 +56,11 @@
             <div class="logoArea">
                 <a id="logoA" href="/mainpage"><img id="logo" src="/images/logo-white.png" alt="logo"></a>
                 <div class="searchArea">
-                    <input id="searchItem" type="text" placeholder="상품명,카테고리 검색"></input>
-                    <span id="img-wrapper"><img id="finding" src="/images/magnifying-glass-white.png" alt="돋보기"></span>
+                	<form th:action="@{}" method="post">
+                    <input id="searchItem" name="keyword" type="text" placeholder="상품명,카테고리 검색"></input>
+                    <span id="img-wrapper">
+                    <img id="finding" src="/images/magnifying-glass-white.png" alt="돋보기"></span>
+                	</form>
                 </div>
             </div>
         </div>
