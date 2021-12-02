@@ -115,9 +115,9 @@
 		
 	<select id="orderPointSelect" parameterType="_int" resultType="_int">
 		SELECT
-	      (SELECT SUM(POINT) FROM POINT WHERE POINT_CODE IN(1, 2, 4, 5) AND USER_NO = #{userNo}) 
+	      NVL((SELECT SUM(POINT) FROM POINT WHERE POINT_CODE IN(1, 2, 4, 5) AND USER_NO = #{userNo}) 
 	      -
-	      (SELECT SUM(POINT) FROM POINT WHERE POINT_CODE IN(3) AND USER_NO = #{userNo})
+	      (SELECT SUM(POINT) FROM POINT WHERE POINT_CODE IN(3) AND USER_NO = #{userNo}), 0)
 	      AS POINT
 	  FROM DUAL
 	</select>

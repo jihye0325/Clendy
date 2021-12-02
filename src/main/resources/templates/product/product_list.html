@@ -52,7 +52,7 @@
                                     <p class="price" th:with="perwon = ${list.pPrice - (list.pPrice * (list.pDiscount / 100.0))}">
                                         <span class="won" th:text="${#numbers.formatInteger(perwon, 3, 'COMMA')}">17,000</span>원
                                     </p>
-                                    <p class="price_sale" th:text="|${#numbers.formatInteger(list.pPrice, 3, 'COMMA')}원|">25,000원</p>
+                                    <p class="price_sale" th:if="${list.pDiscount > 0}" th:text="|${#numbers.formatInteger(list.pPrice, 3, 'COMMA')}원|">25,000원</p>
                                 </div>
                                 <div class="product_status">
                                     <p th:text="|리뷰 ${list.reviewCount}|">리뷰 10</p>
@@ -94,7 +94,7 @@
 	                            <a href="javascript:;" th:unless="${pi.page > 1}"></a>
                             </li>
                             <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
-	                            <a th:href="@{/product/list/{type}(type=${type}, page=${pipage - 1}, align=${param.align}, category=${param.category})}" th:if="${pi.page > 1}"></a>
+	                            <a th:href="@{/product/list/{type}(type=${type}, page=${pi.page - 1}, align=${param.align}, category=${param.category})}" th:if="${pi.page > 1}"></a>
                             	<a href="javascript:;" th:unless="${pi.page > 1}"></a>
                             </li>
                         </ul>

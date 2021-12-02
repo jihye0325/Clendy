@@ -37,6 +37,7 @@ public class ProductServiceImpl implements ProductService{
 		
 		// 페이징
 		PageInfo pageInfo = new PageInfo(filter.getPage(), listCount, 10, 12);
+		System.out.println(pageInfo);
 		
 		// 상품 목록 호출에 필요한 값
 		int startRow = (pageInfo.getPage() - 1) * pageInfo.getBoardLimit() + 1;

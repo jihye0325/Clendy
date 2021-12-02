@@ -15,7 +15,7 @@ public interface ProductOrderService {
 	Member orderMemberSelect(int userNo);
 
 	// 주문내역
-	Map<String, List<Order>> orderInfoSelect(Map<String, List<ProductCart>> cartMap);
+	Map<String, List<Order>> orderInfoSelect(List<ProductCart> cartList);
 
 	// 포인트 조회
 	int orderPointSelect(int userNo);

@@ -89,7 +89,6 @@
             		AND PRODUCT_CATEGORY.CATEGORY_NAME IS NOT NULL
             	</otherwise>
             </choose>
-             OR IMG_LEVEL IS NULL
 	</select>
 	
 	<!-- 상품 목록 -->
@@ -105,6 +104,7 @@
                PD.P_NO
              , PD.P_NAME
              , PD.P_PRICE
+             , PD.P_PRICE - (PD.P_PRICE * (PD.P_DISCOUNT / 100.0)) AS SALE_PRICE
              , PD.P_DISCOUNT
              , PD.CATEGORY_CODE
              , PD.SELLER_CODE
@@ -190,7 +190,6 @@
             		AND PRODUCT_CATEGORY.CATEGORY_NAME IS NOT NULL
             	</otherwise>
             </choose>
-             OR IMG_LEVEL IS NULL
            <choose>
             	<when test="filter.align.equals('hot')">
             		ORDER BY ALIGN_HOT DESC, PD.P_NO DESC 
@@ -199,10 +198,10 @@
             		ORDER BY PD.P_NO DESC 
             	</when>
             	<when test="filter.align.equals('lowPrice')">
-            		ORDER BY PD.P_PRICE, P_NO DESC
+            		ORDER BY SALE_PRICE, P_NO DESC
             	</when>
             	<when test="filter.align.equals('highPrice')">
-            		ORDER BY PD.P_PRICE DESC, P_NO DESC
+            		ORDER BY SALE_PRICE DESC, P_NO DESC
             	</when>
             </choose>
      ) TBL)

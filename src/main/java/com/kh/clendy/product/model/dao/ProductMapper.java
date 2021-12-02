@@ -21,7 +21,6 @@ public interface ProductMapper {
 
 	// 상품 상세 정보
 	Product productViewInfo(Map<String, Object> mapInfo);
-
 	
 	int productViewIsWish(Map<String, Integer> returnMap);
 
