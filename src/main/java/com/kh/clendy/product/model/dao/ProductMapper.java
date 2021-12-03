@@ -40,6 +40,8 @@ public interface ProductMapper {
 
 	int productCartUpdate(ProductCart productCart);
 
+	Map<String, Integer> productCategoryCount(ProductFilter filter);
+
 	
 
 	

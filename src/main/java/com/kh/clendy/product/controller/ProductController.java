@@ -53,6 +53,8 @@ public class ProductController {
 		//System.out.println(filter);
 		// 상품 목록 
 		model.addAttribute("productList", mapReturn.get("productList"));
+		// 상품 갯수
+		model.addAttribute("categoryCount", mapReturn.get("categoryCount"));
 		// 페이징
 		model.addAttribute("pi", mapReturn.get("pageInfo"));
 		// 페이지

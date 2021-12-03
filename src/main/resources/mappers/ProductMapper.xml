@@ -326,7 +326,7 @@
 		  )
 		VALUES
 		  (
-		       CART_NO.NEXTVAL
+		       SEQ_CART_NO.NEXTVAL
 		     , #{ cartAmount }
 		     , #{ pOptionNo }
 		     , #{ userNo }
@@ -339,5 +339,100 @@
 		 WHERE USER_NO = #{ userNo }
 		   AND P_OPTION_NO = #{ pOptionNo }
 	</update>
+	
+	<select id="productCategoryCount" parameterType="com.kh.clendy.product.model.vo.ProductFilter" resultType="map">
+		SELECT
+		       (SELECT
+		               COUNT(*)
+		          FROM PRODUCT
+		          JOIN PRODUCT_CATEGORY USING(CATEGORY_CODE)
+		          WHERE REF_CATEGORY_CODE =	
+		          <choose>
+		          	<when test="type.equals('public')">
+		          		1
+		          	</when>
+		          	<when test="type.equals('man')">
+		          		2
+		          	</when>
+		          	<when test="type.equals('woman')">
+		          		3
+		          	</when>
+		          </choose>
+		          
+		          ) AS CATEGORY_ALL
+		        ,
+		        (SELECT
+		               COUNT(*)
+		          FROM PRODUCT
+		          JOIN PRODUCT_CATEGORY USING(CATEGORY_CODE)
+		          WHERE REF_CATEGORY_CODE = 
+		         <choose>
+		          	<when test="type.equals('public')">
+		          		1
+		          	</when>
+		          	<when test="type.equals('man')">
+		          		2
+		          	</when>
+		          	<when test="type.equals('woman')">
+		          		3
+		          	</when>
+		          </choose>
+		            AND CATEGORY_NAME = '아우터') AS CATEGORY_OUTER
+		        ,
+		        (SELECT
+		               COUNT(*)
+		          FROM PRODUCT
+		          JOIN PRODUCT_CATEGORY USING(CATEGORY_CODE)
+		          WHERE REF_CATEGORY_CODE = 
+		          <choose>
+		          	<when test="type.equals('public')">
+		          		1
+		          	</when>
+		          	<when test="type.equals('man')">
+		          		2
+		          	</when>
+		          	<when test="type.equals('woman')">
+		          		3
+		          	</when>
+		          </choose>
+		            AND CATEGORY_NAME = '상의') AS CATEGORY_TOP
+		        ,
+		        (SELECT
+		               COUNT(*)
+		          FROM PRODUCT
+		          JOIN PRODUCT_CATEGORY USING(CATEGORY_CODE)
+		          WHERE REF_CATEGORY_CODE = 
+		         <choose>
+		          	<when test="type.equals('public')">
+		          		1
+		          	</when>
+		          	<when test="type.equals('man')">
+		          		2
+		          	</when>
+		          	<when test="type.equals('woman')">
+		          		3
+		          	</when>
+		          </choose>
+		            AND CATEGORY_NAME = '하의') AS CATEGORY_UNDER
+		        ,
+		        (SELECT
+		               COUNT(*)
+		          FROM PRODUCT
+		          JOIN PRODUCT_CATEGORY USING(CATEGORY_CODE)
+		          WHERE REF_CATEGORY_CODE = 
+		          <choose>
+		          	<when test="type.equals('public')">
+		          		1
+		          	</when>
+		          	<when test="type.equals('man')">
+		          		2
+		          	</when>
+		          	<when test="type.equals('woman')">
+		          		3
+		          	</when>
+		          </choose>
+		            AND CATEGORY_NAME = 'ACC') AS CATEGORY_ACC
+		       FROM DUAL
+	</select>
 	
 </mapper>
