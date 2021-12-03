@@ -18,7 +18,7 @@
 #img-wrapper { width: 30px; height: 30px; border-radius: 5px; display:inline-block; transform: translateY(10%); cursor: pointer;}
 .searchArea {display:inline-block;   top: 50%;  transform: translateY(-50%);}
 #searchItem{ resize: none; height: 30px; border : none;}
-#finding { width: 22px; transform: translateY(20%);}
+.finding{ background:url(/images/magnifying-glass-white.png); border:0;}
 .header-btnArea .btn { padding-left: 10px;}
 .header-btnArea{ text-align: right;  padding-top: 25px; padding-right: 39px;}
 /* nav */
@@ -59,7 +59,8 @@
                 	<form th:action="@{/mainpage/search}" method="post">
                     <input id="searchItem" name="keyword" type="text" placeholder="상품명,카테고리 검색"></input>
                     <span id="img-wrapper">
-                    <img id="finding" src="/images/magnifying-glass-white.png" alt="돋보기"></span>
+                    <input type="submit" class="finding" alt="finding" value="">
+                    </span>
                 	</form>
                 </div>
             </div>
