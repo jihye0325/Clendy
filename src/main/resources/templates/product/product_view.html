@@ -51,7 +51,7 @@
                                     <img th:src="@{${modelMap.info.imageList[0].route} + ${modelMap.info.imageList[0].imgrName}}" alt="" th:if="${modelMap.info.imageList != null}">
                                 </div>
                                 <div class="img_list" th:if="${modelMap.info.imageList != null}">
-                                    <a href="javascript:;" class="on" th:each="image : ${modelMap.info.imageList}">
+                                    <a href="javascript:;" th:each="image : ${modelMap.info.imageList}" th:classappend="${imageStat.first} ? 'on'">
                                         <img th:src="${image.route} + ${image.imgrName}" alt="">
                                     </a>
                                 </div>
@@ -474,6 +474,22 @@
           observer: true,
           observeParents: true
         });
+        
+        $(function(){
+        	// 상품 상세 이미지 이벤트
+        	$(".slide_wrap .img_list a").mouseenter(function(){
+        		$(".slide_wrap .img_list a").removeClass("on");
+        		$(this).addClass("on");
+        		
+        		let imgAttr = $(this).find("img").attr("src");
+        		console.log(imgAttr);
+        		
+        		$(".slide_wrap .img img").attr("src", imgAttr);
+        		
+        	})
+        	
+        	
+        })
       </script>
     <!-- 상품 리뷰 상세 E -->
     

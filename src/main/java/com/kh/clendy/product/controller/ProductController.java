@@ -173,7 +173,7 @@ public class ProductController {
 			redirectAttr.addFlashAttribute("pMsg", "장바구니 추가/변경이 실패하였습니다.");
 		}
 		
-		return "redirect:/product/view/1";
+		return "redirect:/product/view/" + pNo;
 	}
 	
 }
