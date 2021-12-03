@@ -185,7 +185,10 @@
 		                                    <option value="INQUIRY_CODE6">취소</option>
 		                                </select>
                                     </div>
-                                    <a href="javascript:popOpen('productQna', 'insert');" class="btn_qna">상품 문의하기</a>
+                                    
+                                    <th:block sec:authorize="isAuthenticated()">
+							       		<a href="javascript:popOpen('productQna', 'insert');" class="btn_qna">상품 문의하기</a>
+							       </th:block>
                                 </div>
                             </div>
 	
@@ -505,11 +508,18 @@
         		postTxt = "익일" + dayType + "배송";
         	}
         	
+        	console.log(weekday);
         	if(weekday == 0){
-        		postToday.setDate(postToday.getDate() + 1);
+        		postToday.setDate(postToday.getDate() + 2);
+        		dayType = "(" + (postToday.getMonth() + 1)  + "/" + postToday.getDate() + ")";
         		postTxt = "월요일" + dayType + " 배송"
         	}else if(weekday == 6){
         		postToday.setDate(postToday.getDate() + 2);
+        		dayType = "(" + (postToday.getMonth() + 1)  + "/" + postToday.getDate() + ")";
+        		postTxt = "월요일" + dayType + " 배송"
+        	}else if(weekday == 5){
+        		postToday.setDate(postToday.getDate() + 2);
+        		dayType = "(" + (postToday.getMonth() + 1)  + "/" + postToday.getDate() + ")";
         		postTxt = "월요일" + dayType + " 배송"
         	}
         	
