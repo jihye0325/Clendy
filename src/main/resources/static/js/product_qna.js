@@ -35,6 +35,19 @@ function qnaInsert(pNo){
    const piqTitle = $("#productQna [name=piqTitle]").val();
    const piqContent = $("#productQna [name=piqContent]").val();
    
+   console.log(piqTitle);
+   console.log(piqContent);
+   
+   if(piqTitle.length <= 0){
+   	alert("제목을 입력해주세요.");
+   	return;
+   }
+   
+   if(piqContent.length <= 0){
+   	alert("내용을 입력해주세요.");
+   	return;
+   }
+   
    const insertData = {'userNo' : loginUno,'pNo': pNo, 'piqSecret': piqSecret, 'piCateCode': piCateCode, 'piqTitle': piqTitle, 'piqContent': piqContent};
    // console.log(insertData);
    
@@ -111,7 +124,17 @@ function qnaModify(piqCode){
    const piqSecret = $("#productQna [name=piqSecret]").val();
    const piCateCode = $("#productQna [name=piCateCode]").val();
    const piqTitle = $("#productQna [name=piqTitle]").val();
-   const piqContent = $("#productQna [name=piqContent]").val();
+   const piqContent = $("#productQna [name=piqContent]").val(); 
+   
+    if(piqTitle.length > 0){
+	   	alert("제목을 입력해주세요.");
+	   	return;
+   	}
+   
+   if(piqContent.length > 0){
+	   	alert("내용을 입력해주세요.");
+	   	return;
+   }
    
    const insertData = {'piqCode': piqCode, 'piqSecret': piqSecret, 'piCateCode': piCateCode, 'piqTitle': piqTitle, 'piqContent': piqContent};
    // console.log(insertData);
