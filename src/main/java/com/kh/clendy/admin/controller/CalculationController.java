@@ -3,7 +3,6 @@ package com.kh.clendy.admin.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +36,6 @@ public class CalculationController {
 		return "/admin/beforeCalculation";
 	}
 
-	
 	/* 정산 후 리스트 조회 */
 	@GetMapping("/after")
 	public String toCalculationAfter(Model model, @RequestParam(defaultValue="1") int page) {
@@ -66,11 +64,6 @@ public class CalculationController {
 		return "redirect:/admin/calculation/before";
 	}
 	
-	/* 정산 스케쥴러 */
-	@Scheduled(cron = "")
-	public void makeCalculation() {
-		
-	}
 }
 
 

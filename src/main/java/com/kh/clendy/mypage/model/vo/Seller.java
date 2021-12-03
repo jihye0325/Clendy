@@ -1,6 +1,6 @@
 package com.kh.clendy.mypage.model.vo;
 
-import com.kh.clendy.joinStore.model.vo.ApplyStore;
+import com.kh.clendy.common.model.vo.ApplyStore;
 
 public class Seller {
 	private int seller_code;

@@ -82,6 +82,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
             .antMatchers("/CScenter/personalQ/delete").hasAuthority("ROLE_ADMIN")
             .antMatchers("/CScenter/personalQ/insertAnswer").hasAuthority("ROLE_ADMIN")
             .antMatchers("/CScenter/personalQ/modify").hasAuthority("ROLE_ADMIN")
+            /* 입점 신청 권한 */
+            .antMatchers("/common/joinStore").authenticated()
             .anyRequest().permitAll()   /* 그 외의 요청들은 모두 허가함 - 게스트 사용자 접근 가능 */
          .and()
             .formLogin()   /* 로그인 설정 */

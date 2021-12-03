@@ -92,7 +92,8 @@
 	 WHERE CAL_NO = #{cal_no}   
 	</update>
 
-
+	<insert id="makeCalculation">
+	</insert>
 
 
 

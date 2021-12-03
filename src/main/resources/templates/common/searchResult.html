@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"  
+				xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 검색</title>
+    <link rel="stylesheet" href="/css/product_style.css">
+    <style>
+    	#nav-wrapper{margin-bottom: 0 !important;}
+    	.resultText{margin:0 auto;letter-spacing: 1px;}
+    	.keyword, .count{font-weight : bold; font-size: 35px; color:#060032;}
+    	.text{font-size: 25px; }
+    	.resultText img {width: 35px;  margin-right: 10px;}
+    </style>
+</head>
+<body>
+    <div id="wrap">
+       <div th:replace="common/header.html"></div>
+        <section id="product_list">
+            <div class="container">
+                <div class="product_list">
+                    <div class="p_header">
+							<label class="resultText"><img src="/images/magnifying-glass-navy.png" alt="finding">
+							<span class="keyword" th:text="${keyword}"></span>에 대한 검색 결과가
+							<span class="count" th:text="${count}"></span>건 있습니다.</label>
+					</div>
+                    <div class="product_items" th:if="${#lists.size(productList) > 0}">
+                    
+                    	 <div class="item" th:each="list : ${productList}">
+                            <a th:href="@{'/product/view/' + ${list.pNo}}">
+                                <div class="photo">
+                                    <img th:src="@{${list.imageList[0].route} + ${list.imageList[0].imgrName}}" alt="">
+                                </div>
+                                <p class="title" th:text="${list.pName}"></p>
+                                <div class="price_wrap">
+                                    <p class="price" th:with="perwon = ${list.pPrice - (list.pPrice * (list.pDiscount / 100.0))}">
+                                        <span class="won" th:text="${#numbers.formatInteger(perwon, 3, 'COMMA')}"></span>원
+                                    </p>
+                                    <p class="price_sale" th:if="${list.pDiscount > 0}" th:text="|${#numbers.formatInteger(list.pPrice, 3, 'COMMA')}원|"></p>
+                                </div>
+                                <div class="product_status">
+                                    <p th:text="|리뷰 ${list.reviewCount}|"></p>
+                                    <p th:text="|구매 ${list.selCount}|"></p>
+                                </div>
+                            </a>    
+                        </div>
+
+                    </div>
+                    
+                    <div class="product_items nodata" th:unless="${#lists.size(productList) > 0}">
+                    
+                   </div>
+                </div>
+            </div>
+        </section>
+        
+        <div th:replace="common/footer.html"></div>
+    </div>
+    
+    
+</body>
+</html>

@@ -54,6 +54,10 @@ public class PersonalQController {
 	public String selectPersonalQDetail(@RequestParam int p_no, Model model) {
 		PersonalQ result = personalQService.selectPersonalQDetail(p_no); 
 		
+		if(result.getP_answer() != null) {
+			model.addAttribute("enter","\n");
+		}
+		
 		model.addAttribute("personalQ" , result);
 		
 		return "CScenter/detailPersonal";
@@ -84,7 +88,7 @@ public class PersonalQController {
 	}
 	
 	/* 1:1 문의 답변 삭제 */
-	@GetMapping("/delete")
+	@PostMapping("/delete")
 	public String deleteAnswer(@RequestParam int p_no, RedirectAttributes redirectAttr) {
 		
 		int result = personalQService.deleteAnswer(p_no);
@@ -99,7 +103,7 @@ public class PersonalQController {
 	}
 	
 	/* 1:1 문의 답변 등록 */
-	@GetMapping("/insertAnswer")
+	@PostMapping("/insertAnswer")
 	public String insertAnswer(@RequestParam int p_no, @RequestParam String p_answer, RedirectAttributes redirectAttr) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -120,7 +124,7 @@ public class PersonalQController {
 	}
 	
 	/* 1:1문의 답변 수정 */
-	@GetMapping("/modify")
+	@PostMapping("/modify")
 	public String updateAnswer(@RequestParam int p_no, @RequestParam String p_answer, RedirectAttributes redirectAttr) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();

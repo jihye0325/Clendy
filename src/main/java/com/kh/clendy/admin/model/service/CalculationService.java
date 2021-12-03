@@ -12,4 +12,6 @@ public interface CalculationService {
 	
 	int updateBeforeToAfter(int cal_no);
 
+	int makeCalculation();
+
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+                xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -48,7 +48,7 @@
 	                    <label class="enroll-date" th:text="${#dates.format(b.b_enroll_date, 'yyyy-MM-dd')}"></label></div>
 	                </div>
 	                <div class="board-content">
-						<label class="content" th:utext=${b.b_content}></label>
+						<label class="detail" th:utext=${b.b_content}></label>
 	                </div>
 				</div>
             </div>

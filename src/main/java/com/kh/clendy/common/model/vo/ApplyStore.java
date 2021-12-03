@@ -1,4 +1,4 @@
-package com.kh.clendy.joinStore.model.vo;
+package com.kh.clendy.common.model.vo;
 
 import java.util.Date;
 

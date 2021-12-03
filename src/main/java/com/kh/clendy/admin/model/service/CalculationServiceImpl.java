@@ -84,4 +84,9 @@ public class CalculationServiceImpl implements CalculationService{
 		return calculationMapper.updateBeforeToAfter(cal_no);
 	}
 
+	@Override
+	public int makeCalculation() {
+		return calculationMapper.makeCalculation();
+	}
+
 }

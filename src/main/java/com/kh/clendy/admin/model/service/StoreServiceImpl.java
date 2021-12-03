@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.clendy.admin.model.dao.StoreMapper;
 import com.kh.clendy.admin.model.vo.CancelStore;
 import com.kh.clendy.admin.model.vo.Seller;
-import com.kh.clendy.joinStore.model.vo.ApplyStore;
+import com.kh.clendy.common.model.vo.ApplyStore;
 import com.kh.clendy.product.model.vo.PageInfo;
 
 @Service

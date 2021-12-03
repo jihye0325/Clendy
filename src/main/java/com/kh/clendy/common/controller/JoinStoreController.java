@@ -1,4 +1,4 @@
-package com.kh.clendy.joinStore.controller;
+package com.kh.clendy.common.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kh.clendy.joinStore.model.service.JoinStoreServiceImpl;
-import com.kh.clendy.joinStore.model.vo.ApplyStore;
+import com.kh.clendy.common.model.service.JoinStoreServiceImpl;
+import com.kh.clendy.common.model.vo.ApplyStore;
 import com.kh.clendy.member.model.vo.UserImpl;
 
 @Controller
