@@ -3,13 +3,13 @@ div {
 }
 
 .outer {
-    width: 950px;
+    width: 1000px;
     margin: auto;
     min-height: 500px;
 }
 
 .title{
-    width: 950px;
+    width: 1000px;
     margin: auto;
     font-size: x-large;
     font-weight: bold;
@@ -52,7 +52,7 @@ input[type=radio] {
 .outer_div {
     display: grid;
     grid-template-columns: repeat(3, 300px);
-    gap: 15px;
+    gap: 20px;
     padding: 0px;
 }
 
@@ -63,21 +63,21 @@ input[type=radio] {
 .top_div {
     display: grid;
     grid-template-columns: repeat(3, 300px);
-    gap: 15px;
+    gap: 20px;
     padding: 0px;
 }
 
 .bottom_div {
     display: grid;
     grid-template-columns: repeat(3, 300px);
-    gap: 15px;
+    gap: 20px;
     padding: 0px;
 }
 
 .acc_div {
     display: grid;
     grid-template-columns: repeat(3, 300px);
-    gap: 15px;
+    gap: 20px;
     padding: 0px;
 }
 
@@ -91,8 +91,8 @@ input[type=radio] {
     margin-bottom: 5px;
 }
 
-.product {
-    display: flex;
+.product_in {
+	display: flex;
 }
 
 .name {
@@ -102,12 +102,12 @@ input[type=radio] {
 #delete {
     background-color: white;
     border: 1px solid lightgray;
-    align-self: end;
     margin-bottom: 10px;
     margin-left: 20px;
     width: 40px;
 	height: 20px;
 	cursor:pointer;
+	float: right;
 }
 
 .wish_list a:link{
@@ -122,4 +122,8 @@ input[type=radio] {
 
 .wish_list a:hover{
     cursor: pointer;
+}
+
+img {
+	width:100px;
 }

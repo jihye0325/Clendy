@@ -32,14 +32,16 @@
             <ul class="wish_list" th:each="outer : ${outer_list.product_list}">
                 <li>
                     <div class="product">
-                   		<a th:href="@{'/product/view/' + ${outer.p_no}}">
-                        <img th:src="@{${outer.imageList[0].route} + ${outer.imageList[0].imgrName}}">
-                        </a>
-                        <div class="p_info">
-                        <a th:href="@{'/product/view/' + ${outer.p_no}}">
-                            <div class="name" th:text="${outer.p_name}"></div>
-                            <div class="price" th:text="|${outer.p_price}원|"></div>
-                        </a>
+                    	<div class="product_in">
+	                   		<a th:href="@{'/product/view/' + ${outer.p_no}}">
+	                        <img th:src="@{${outer.imageList[0].route} + ${outer.imageList[0].imgrName}}">
+	                        </a>
+	                        <div class="p_info">
+	                        <a th:href="@{'/product/view/' + ${outer.p_no}}">
+	                            <div class="name" th:text="${outer.p_name}"></div>
+	                            <div class="price" th:text="|${outer.p_price}원|"></div>
+	                        </a>
+	                        </div>
                         </div>
                         <button type="button" id="delete" th:value="${outer.p_no}">삭제</button>
                     </div>
@@ -59,14 +61,16 @@
             <ul class="wish_list" th:each="top : ${top_list.product_list}">
                 <li>
                     <div class="product">
-                    	<a th:href="@{'/product/view/' + ${top.p_no}}">
-                        <img th:src="@{${top.imageList[0].route} + ${top.imageList[0].imgrName}}">
-                        </a>
-                        <div class="p_info">
-                        <a th:href="@{'/product/view/' + ${top.p_no}}">
-                            <div class="name" th:text="${top.p_name}"></div>
-                            <div class="price" th:text="|${top.p_price}원|"></div>
-                        </a>
+                   		<div class="product_in">
+	                    	<a th:href="@{'/product/view/' + ${top.p_no}}">
+	                        <img th:src="@{${top.imageList[0].route} + ${top.imageList[0].imgrName}}">
+	                        </a>
+	                        <div class="p_info">
+	                        <a th:href="@{'/product/view/' + ${top.p_no}}">
+	                            <div class="name" th:text="${top.p_name}"></div>
+	                            <div class="price" th:text="|${top.p_price}원|"></div>
+	                        </a>
+	                        </div>
                         </div>
                         <button type="button" id="delete" th:value="${top.p_no}">삭제</button>
                     </div>
@@ -86,15 +90,17 @@
             <ul class="wish_list" th:each="bottom : ${bottom_list.product_list}">
                 <li>
                     <div class="product">
-                        <a th:href="@{'/product/view/' + ${bottom.p_no}}">
-                        <img th:src="@{${bottom.imageList[0].route} + ${bottom.imageList[0].imgrName}}">
-                        </a>
-                        <div class="p_info">
-                        <a th:href="@{'/product/view/' + ${bottom.p_no}}">
-                            <div class="name" th:text="${bottom.p_name}"></div>
-                            <div class="price" th:text="|${bottom.p_price}원|"></div>
-                        </a>
-                        </div>
+                    	<div class="product_in">
+	                        <a th:href="@{'/product/view/' + ${bottom.p_no}}">
+	                        <img th:src="@{${bottom.imageList[0].route} + ${bottom.imageList[0].imgrName}}">
+	                        </a>
+	                        <div class="p_info">
+	                        <a th:href="@{'/product/view/' + ${bottom.p_no}}">
+	                            <div class="name" th:text="${bottom.p_name}"></div>
+	                            <div class="price" th:text="|${bottom.p_price}원|"></div>
+	                        </a>
+	                        </div>
+	                    </div>
                         <button type="button" id="delete" th:value="${bottom.p_no}">삭제</button>
                     </div>
                 </li>
@@ -113,15 +119,17 @@
             <ul class="wish_list" th:each="acc : ${acc_list.product_list}">
                 <li>	
                     <div class="product" >
-                        <a th:href="@{'/product/view/' + ${acc.p_no}}">
-                        <img th:src="@{${acc.imageList[0].route} + ${acc.imageList[0].imgrName}}">
-                        </a>
-                        <div class="p_info">
-                        <a th:href="@{'/product/view/' + ${acc.p_no}}">
-                            <div class="name" th:text="${acc.p_name}"></div>
-                            <div class="price" th:text="|${acc.p_price}원|"></div>
-                        </a>
-                        </div>
+                    	<div class="product_in">
+	                        <a th:href="@{'/product/view/' + ${acc.p_no}}">
+	                        <img th:src="@{${acc.imageList[0].route} + ${acc.imageList[0].imgrName}}">
+	                        </a>
+	                        <div class="p_info">
+	                        <a th:href="@{'/product/view/' + ${acc.p_no}}">
+	                            <div class="name" th:text="${acc.p_name}"></div>
+	                            <div class="price" th:text="|${acc.p_price}원|"></div>
+	                        </a>
+	                        </div>
+	                    </div>
                         <button type="button" id="delete" th:value="${acc.p_no}">삭제</button>
                     </div>
                 </li>
