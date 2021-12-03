@@ -539,4 +539,24 @@ public class MypageController {
 		mv.setViewName("/mypage/exchangeDetail");
 		return mv;
 	}
+	
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

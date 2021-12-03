@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/mypage/orderList.css" rel="stylesheet"></link>
-    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <!-- csrf 토큰 -->
     <meta name="_csrf" th:content="${_csrf.token}"/>
 	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -65,7 +65,7 @@
                         <div class="status_info">
                             <div id="status" th:text="${p.order_status_name}"></div>
                             <th:block th:if="${p.order_status_name == '결제완료'}">
-                            <button id="decide_btn" onclick="cancleBuy()">주문취소</button>
+                            <button id="decide_btn" th:attr="onclick=|canclePay('${p.merchant_uid}', ${p.p_price * (100 - p.p_discount) / 100})|">주문취소</button>
                             </th:block>
                             <th:block th:if="${p.order_status_name == '배송중'}">	
                             <button id="decide_btn" th:attr="onclick=|delivery('${p.order_option_code}')|">배송조회</button>
@@ -242,8 +242,128 @@
 	
 	<!-- 결제취소 -->
 	<script>
-		function cancleBuy(){
-			confirm("주문을 취소하시겠습니까? \n주문취소 시 같은 주문번호에 대한 모든 주문이 모두 취소됩니다.");
+		function canclePay(merchant_uid, canclePrice){
+			if(!confirm("주문을 취소하시겠습니까? \n주문취소 시 같은 주문번호에 대한 모든 주문이 모두 취소됩니다.")) return;
+		    
+		    $.ajax({
+		        "url": "/mypage/canclePay", // 예: http://www.myservice.com/payments/cancel
+		        "type": "POST",
+		        "contentType": "application/json",
+		        "data": JSON.stringify({
+		          "merchant_uid": merchant_uid, 
+		          "cancel_request_amount": canclePrice, // 환불금액
+		          "reason": "테스트 결제 환불" // 환불사유
+		        }),
+		        "dataType": "json",
+		        success : function(result) {
+		        	alert("환불 성공");
+		        }, 
+		        error : function(e)	{
+		        	alert("환불 실패");
+		        }
+		      });
+			  
+		    
+		    /* ... model/payments.js ... */
+		    var mongoose = require('mongoose');
+		    var Schema = mongoose.Schema;
+		    var PaymentsSchema = new Schema({
+		      imp_uid: imp77229220, // 아임포트 `unique key`(환불 요청시 `unique key`로 사용)
+		      merchant_uid: String, // 주문번호(결제정보 조회시 사용)
+		      amount: { type: Number, default: 0 }, // 결제 금액(환불 가능 금액 계산시 사용)
+		      cancel_amount: { type: Number, default: 0 }, // 환불 된 총 금액(환불 가능 금액 계산시 사용)
+		    });
+		    module.exports = mongoose.model('Payments', PaymentsSchema);
+		    
+		    /* ... 중략 ... */
+		    var Payments = require('./models/payments');
+		    app.post('/payments/cancel', async (req, res, next) => {
+		      try {
+		        /* 액세스 토큰(access token) 발급 */
+		        /* ... 중략 ... */
+		        /* 결제정보 조회 */
+		        const { body } = req;
+		        const { merchant_uid } = body; // 클라이언트로부터 전달받은 주문번호
+		        Payments.find({ merchant_uid }, async function(err, payment) { 
+		          if (err) {
+		            return res.json(err);
+		          }
+		          const paymentData = payment[0]; // 조회된 결제정보
+		          /* 아임포트 REST API로 결제환불 요청 */
+		        });
+		      } catch (error) {
+		        res.status(400).send(error);
+		      }
+		    });
+		    
+		    /* ... 중략 ... */
+		    app.post('/payments/cancel', async (req, res, next) => {
+		      try {
+		        /* 액세스 토큰(access token) 발급 */
+		        /* ... 중략 ... */
+		        /* 결제정보 조회 */
+		        const { body } = req;
+		        const { merchant_uid, reason, cancel_request_amount } = body; // 클라이언트로부터 전달받은 주문번호, 환불사유, 환불금액
+		        Payments.find({ merchant_uid }, async function(err, payment) { 
+		          /* ... 중략 ... */
+		          const paymentData = payment[0]; // 조회된 결제정보
+		          const { imp_uid, amount, cancel_amount } = paymentData; // 조회한 결제정보로부터 imp_uid, amount(결제금액), cancel_amount(환불된 총 금액) 추출
+		          const cancelableAmount = amount - cancel_amount; // 환불 가능 금액(= 결제금액 - 환불 된 총 금액) 계산
+		          if (cancelableAmount <= 0) { // 이미 전액 환불된 경우
+		            return res.status(400).json({ message: "이미 전액환불된 주문입니다." });
+		          }
+		          /* 아임포트 REST API로 결제환불 요청 */
+		          const getCancelData = await axios({
+		            url: "https://api.iamport.kr/payments/cancel",
+		            method: "post",
+		            headers: {
+		              "Content-Type": "application/json",
+		              "Authorization": b26f35c4e598e5be41979266728988e82027ec199ea7982b485f0910dc0492ca73c19d48f82b68e9 // 아임포트 서버로부터 발급받은 엑세스 토큰
+		            },
+		            data: {
+		              reason, // 가맹점 클라이언트로부터 받은 환불사유
+		              imp_uid, // imp_uid를 환불 `unique key`로 입력
+		              amount: cancel_request_amount, // 가맹점 클라이언트로부터 받은 환불금액
+		              checksum: cancelableAmount // [권장] 환불 가능 금액 입력
+		            }
+		          });
+		          const { response } = getCancelData.data; // 환불 결과
+		          /* 환불 결과 동기화 */
+		        });
+		      } catch (error) {
+		        res.status(400).send(error);
+		      }
+		    });
+		    
+		    /* ... 중략 ... */
+		    app.post('/payments/cancel', async (req, res, next) => {
+		      try {
+		        /* 액세스 토큰(access token) 발급 */
+		        /* ... 중략 ... */
+		        /* 결제정보 조회 */
+		        Payments.find({ merchant_uid }, async function(err, payment) { 
+		          /* ... 중략 ... */
+		          /* 아임포트 REST API로 결제환불 요청 */
+		          /* ... 중략 ... */
+		          const { response } = getCancelData.data; // 환불 결과
+		          /* 환불 결과 동기화 */
+		          const { merchant_uid } = response; // 환불 결과에서 주문정보 추출
+		          Payments.findOneAndUpdate({ merchant_uid }, response, { new: true }, function(err, payment) { // 주문정보가 일치하는 결제정보를 추출해 동기화
+		            if (err) {
+		              return res.json(err);
+		            }
+		            res.json(payment); // 가맹점 클라이언트로 환불 결과 반환
+		          });
+		        });
+		      } catch (error) {
+		        res.status(400).send(error);
+		      }
+		    });
+		    
+		    
+		    
+		    
+		    
 		}
 	</script>
 </body>

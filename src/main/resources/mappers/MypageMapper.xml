@@ -135,6 +135,7 @@
 		<result property="p_price" column="P_PRICE"/>
 		<result property="subtotal" column="SUBTOTAL"/>
 		<result property="p_discount" column="P_DISCOUNT"/>
+		<result property="merchant_uid" column ="MERCHANT_UID"/>
 		<association property="product_option" resultMap="product_optionResultMap"/>
 	</resultMap>
 	
@@ -701,6 +702,7 @@
 		     ORDER_ALL_PRICE,
 		     ORDER_PRODUCT_NUM,
 		     ORDER_CODE,
+		     MERCHANT_UID,
 		     ORDER_OPTION_CODE,
 		     ORDER_NAME,
 		     ORDER_ADDRESS,
@@ -719,6 +721,7 @@
 		  JOIN ORDER_DEL_INFO USING(ORDER_CODE)
 		  JOIN ORDER_STATUS USING(ORDER_STATUS_CODE)
 		  LEFT JOIN REVIEW USING(ORDER_OPTION_CODE)
+		  JOIN PAYMENT USING(ORDER_CODE)
 		 WHERE PRODUCT_ORDER.USER_NO = #{ user_no }
 		   AND IMG_LEVEL = 0
 		 ORDER BY ORDER_CODE DESC
@@ -735,8 +738,10 @@
 	<!-- 구매확정 -->
 	<update id="decide_buy" parameterType="_int">
 	 UPDATE ORDER_OPTION
-	    SET ORDER_STATUS_CODE = 'STATUS_CODE4'
+	    SET ORDER_STATUS_CODE = 'STATUS_CODE4',
+	    	PURCHASE_CONFIRM_DATE = SYSDATE
 	  WHERE ORDER_OPTION_CODE = #{ order_option_code }
+
 	</update>
 	
 	<!-- 구매확정 시 포인트 적립 -->
