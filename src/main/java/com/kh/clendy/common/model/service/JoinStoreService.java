@@ -1,6 +1,6 @@
-package com.kh.clendy.joinStore.model.service;
+package com.kh.clendy.common.model.service;
 
-import com.kh.clendy.joinStore.model.vo.ApplyStore;
+import com.kh.clendy.common.model.vo.ApplyStore;
 
 public interface JoinStoreService {
 	

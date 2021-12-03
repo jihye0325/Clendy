@@ -1,11 +1,13 @@
-package com.kh.clendy.joinStore.model.service;
+package com.kh.clendy.common.model.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kh.clendy.joinStore.model.dao.JoinStoreMapper;
-import com.kh.clendy.joinStore.model.vo.ApplyStore;
+import com.kh.clendy.common.model.dao.JoinStoreMapper;
+import com.kh.clendy.common.model.vo.ApplyStore;
+
+
 
 @Service
 @Transactional

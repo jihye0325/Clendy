@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.clendy.common.model.dao.SearchProductMapper">
+	
+	<!-- Product 맵 -->
+	<resultMap id="ProductMapper" type="com.kh.clendy.product.model.vo.Product">
+			<id property="pNo" column="P_NO"/>
+			<result property="pName" column="P_NAME"/>	
+			<result property="pPrice" column="P_PRICE"/>	
+			<result property="pDiscount" column="P_DISCOUNT"/>	
+			<result property="CategoryCode" column="CATEGORY_CODE"/>	
+			<result property="sellerCode" column="SELLER_CODE"/>	
+			<result property="pStatus" column="P_STATUS"/>
+			<result property="selCount" column="SEL_COUNT"/>	
+			<result property="reviewCount" column="REVIEW_COUNT"/>
+			<association property="imageList" resultMap="productImageResultMap"/>
+		</resultMap>
+	
+	<!-- ProductImage 맵 -->
+	<resultMap id="productImageResultMap" type="com.kh.clendy.product.model.vo.ProductImage">
+		<result property="imgNo" column="IMG_NO"/>
+		<result property="route" column="ROUTE"/>
+		<result property="imgName" column="IMG_NAME"/>
+		<result property="imgrName" column="IMG_R_NAME"/>
+		<result property="imgLevel" column="IMG_LEVEL"/>
+		<result property="imgStatus" column="IMG_STATUS"/>
+	</resultMap>
+		
+	<!-- 검색된 상품 개수 조회 -->
+	<select id="countSearchProductList" parameterType="String" resultType="_int">
+	SELECT
+          COUNT(PD.P_NO) AS COUNT
+          FROM PRODUCT PD
+          LEFT JOIN PRODUCT_IMAGE PI ON (PD.P_NO = PI.P_NO)
+          LEFT JOIN IMAGE IMG ON(PI.IMG_NO = IMG.IMG_NO)
+          LEFT JOIN PRODUCT_CATEGORY C ON(PD.CATEGORY_CODE = C.CATEGORY_CODE)
+          WHERE PD.P_STATUS = 'Y'
+            AND IMG.IMG_LEVEL = 0
+            AND (C.CATEGORY_NAME = #{keyword}
+            OR  PD.P_NAME IN '%' || #{keyword} || '%'  
+            OR  C.REF_CATEGORY_CODE IN (SELECT CATEGORY_CODE FROM PRODUCT_CATEGORY WHERE CATEGORY_NAME = #{keyword} ))                
+	</select>
+	
+	<!-- 상품 검색 리스트 조회 -->
+	<select id="searchProductList" parameterType="String" resultMap="ProductMapper">
+	SELECT
+               PD.P_NO
+             , PD.P_NAME
+             , PD.P_PRICE
+             , PD.P_PRICE - (PD.P_PRICE * (PD.P_DISCOUNT / 100.0)) AS SALE_PRICE
+             , PD.P_DISCOUNT
+             , PD.CATEGORY_CODE
+             , PD.SELLER_CODE
+             , PD.P_STATUS
+             , PI.IMG_NO
+             , IMG.ROUTE
+             , IMG.IMG_NAME
+             , IMG.IMG_R_NAME
+             , IMG.IMG_LEVEL
+             , IMG.IMG_STATUS
+             , (SELECT
+                       COUNT(*) AS COUNT
+                  FROM PRODUCT_ORDER
+                  JOIN ORDER_OPTION USING(ORDER_CODE)
+                  JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+                  JOIN PRODUCT USING(P_NO)
+                 WHERE P_NO = PD.P_NO
+            ) AS SEL_COUNT
+            ,NVL(( SELECT
+                      SUM(SCORE)
+                FROM REVIEW
+                JOIN ORDER_OPTION USING(ORDER_OPTION_CODE)
+                 JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+                  JOIN PRODUCT USING(P_NO)
+                   WHERE P_NO = PD.P_NO
+            ), 0) AS REVIEW_COUNT
+          FROM PRODUCT PD
+          LEFT JOIN PRODUCT_IMAGE PI ON (PD.P_NO = PI.P_NO)
+          LEFT JOIN IMAGE IMG ON(PI.IMG_NO = IMG.IMG_NO)
+          LEFT JOIN PRODUCT_CATEGORY C ON(PD.CATEGORY_CODE = C.CATEGORY_CODE)
+          WHERE PD.P_STATUS = 'Y'
+            AND IMG.IMG_LEVEL = 0
+            AND (C.CATEGORY_NAME = #{keyword}
+            OR  PD.P_NAME IN '%' || #{keyword} || '%' 
+            OR  C.REF_CATEGORY_CODE IN (SELECT CATEGORY_CODE FROM PRODUCT_CATEGORY WHERE CATEGORY_NAME = #{keyword} ) )                  
+          ORDER BY P_NO DESC
+  
+	</select>
+</mapper>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+                xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -36,7 +36,6 @@
         
             <div class="question-detail" >
                 <div class="detail-title" >
-                	<input type="hidden" class="p_no" name="p_no" th:value="${p.p_no}">
                     <div class="title-wrapper"><label class="title">제목</label>
                     <label class="name" th:text="${p.p_title}"></label></div>
                     <div class="date-wrapper"><label class="title">등록일</label>
@@ -61,16 +60,18 @@
                 </th:block>
             </div>
 			</th:block>
+			<form id="insertAnswer" th:action="@{/CScenter/personalQ/insertAnswer}" method="post">
+            <input type="hidden" class="p_no" name="p_no" th:value="${p.p_no}">
             <div class="answer-content">
 				<th:block th:if="${p.p_answer == null}">        
-	            		<span class="answer null">등록된 답변이 없습니다.</span>
+	            		<span class="answer null" style="line-height:200px;">등록된 답변이 없습니다.</span>
 				</th:block>
 				<th:block th:if="${p.p_answer != null}">
-	            <p class="answer notnull" th:text="${p.p_answer}"></p>
+	            <label class="answer notnull" th:utext="${#strings.replace(p.p_answer, enter, '&lt;br&gt;')}"></label>
 	            
 				</th:block>
             </div>
-
+			</form>
             <div class="btn-area">
                 <a type="button" class="to-list" href="/CScenter/personalQ">목록</a>
             </div>
@@ -88,19 +89,18 @@
     	 /* 등록 버튼을 한번 눌렀을 때*/
     	 if($(this).val()=='등록'){
 		    	 $(this).val("등록완료");
-		    	 $(".null").replaceWith("<textarea class='textarea' cols='30' rows= '50' wrap='hard' style='resize:none;'></textarea>");
+		    	 $(".null").replaceWith("<textarea name='p_answer' class='textarea' cols='30' rows= '50' style='resize:none;'></textarea>");
     	  /* 등록 완료되면 컨트롤러로 값 넘기기 */ 
     	 }else if($(this).val()=='등록완료'){
-    		 var p_answer = $(".textarea").val();
-    		 var p_no = $(".p_no").val();
-    	     location.href="/CScenter/personalQ/insertAnswer?p_no="+p_no+"&p_answer="+p_answer;
+    		 console.log($(".textarea").val());
+    	     $("#insertAnswer").submit();
     	 }
      });
      
     /* 1:1문의 답변 삭제 */
     $(".delete").click(function(){
-    	var p_no = $(".p_no").val();
-    	location.href="/CScenter/personalQ/delete?p_no="+p_no;
+    	$("#insertAnswer").prop("action", "/CScenter/personalQ/delete");
+    	$("#insertAnswer").submit();
     });
      
      /* 1:1 문의 답변 수정 */
@@ -109,13 +109,11 @@
     	 if($(this).val() == '수정'){
 			$(this).val("수정완료");
  	    	var p_answer = $(".notnull").text(); 	    	
- 	    	$(".notnull").replaceWith("<textarea class='textarea' cols='30' rows= '50' wrap='hard' style='resize:none;'>"+p_answer+"</textarea>");
+ 	    	$(".notnull").replaceWith("<textarea class='textarea' name='p_answer' cols='30' rows= '50' wrap='hard' style='resize:none;'>"+p_answer+"</textarea>");
     	 /* 수정 완료 할 때*/
   		  }else if($(this).val() == '수정완료'){
- 	    	var p_no = $(".p_no").val();
- 	    	var p_answer = $(".textarea").val();
- 	    	console.log(p_answer);
- 	    	 location.href="/CScenter/personalQ/modify?p_no="+p_no+"&p_answer="+p_answer;
+ 	    	$("#insertAnswer").prop("action", "/CScenter/personalQ/modify");
+  			$("#insertAnswer").submit();
   		  }
  
      });

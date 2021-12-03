@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.clendy.admin.model.vo.CancelStore;
 import com.kh.clendy.admin.model.vo.Seller;
-import com.kh.clendy.joinStore.model.vo.ApplyStore;
+import com.kh.clendy.common.model.vo.ApplyStore;
 
 @Mapper
 public interface StoreMapper {

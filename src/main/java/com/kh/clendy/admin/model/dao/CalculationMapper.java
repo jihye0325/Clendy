@@ -21,5 +21,7 @@ public interface CalculationMapper {
 	
 	/* 정산전 -> 정산 후 상태 변경 */
 	int updateBeforeToAfter(int cal_no);
+	
+	int makeCalculation();
 
 }

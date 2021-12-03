@@ -120,8 +120,6 @@
 		}else if(!regName.test($("#rep_name").val())){
 			alert("대표자명은 한글, 영어 포함 최대 10자리까지 입력가능합니다.");
 		}else if(!regExpPhone.test($("#phone").val()) && !regExpTel.test($("#phone").val())){
-			console.log(regExpPhone.test($("#phone").val()));
-			console.log(regExpTel.test($("#phone").val()));
 			alert("유효하지 않은 전화번호 입니다.");
 	   	}else if(!$("#admit").is(":checked")){
 			alert("개인정보 수집에 동의해주세요.");
