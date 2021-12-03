@@ -325,12 +325,10 @@ function pay(){
 	
 	// 구매상품 담기
 	let orderListSize = $(".order_list_box").length;
-	console.log("orderListSize : " + orderListSize);
 	
 	
 	for(let i = 0; i < orderListSize; i++){
 		let listSize = $(".order_list_box:eq("+i+") .list").length;
-		console.log("listSize : " + listSize);
 		
 		for(let j = 0; j < listSize; j++){
 			pOptionNos.push(Number($(".order_list_box:eq("+i+") .list:eq("+j+") input[name=pOptionNo]").val()));
@@ -379,11 +377,7 @@ function pay(){
 				 alert("연락처를 숫자, 4자리로 입력해주세요!");
 				return;
 			 }
-			 
-
 		 }
-		 
-		 
 		 
 	 }
 	
@@ -404,8 +398,6 @@ function pay(){
 			
 			return;
 		}
-		
-		
 		
 	}
 	

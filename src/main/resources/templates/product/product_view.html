@@ -67,19 +67,19 @@
 						       </th:block>
                                
                                 
-                                <p class="sale_price" th:text="|${#numbers.formatInteger(modelMap.info.pPrice, 3, 'COMMA')}원|">25,000원</p>
+                                <p class="sale_price" th:text="|${#numbers.formatInteger(modelMap.info.pPrice, 3, 'COMMA')}원|" th:if="${modelMap.info.pDiscount > 0}">25,000원</p>
                                 <div class="price_wrap" >
-                                    <p class="price" th:with="perwon = ${modelMap.info.pPrice - (modelMap.info.pPrice * (modelMap.info.pDiscount / 100.0))}">
+                                    <p class="price" th:with="perwon = ${modelMap.info.pPrice - (modelMap.info.pPrice * (modelMap.info.pDiscount / 100.0))}" >
                                         <span th:text="${#numbers.formatInteger(perwon, 3, 'COMMA')}">17,000</span>원
                                     </p>
-                                    <p class="price_per">
+                                    <p class="price_per" th:if="${modelMap.info.pDiscount > 0}">
                                         <span th:text="${modelMap.info.pDiscount}">32</span>%
                                     </p>
                                 </div>
                                 <div class="view_status">
                                     <strong>택배</strong>
                                     <p class="post_price">2,500원 <span>(총 구매금액 8만원 이상 무료배송)</span></p>
-                                    <p class="post_day"><span>10월 20일</span>도착예정</p>
+                                    <p class="post_day">지금 주문시 <span>금일 배송</span> 출발!</p>
                                     <p class="tip">주문 시, 발송일자를 확인해주세요</p>
                                 </div>
                             </div>
@@ -485,10 +485,35 @@
         		console.log(imgAttr);
         		
         		$(".slide_wrap .img img").attr("src", imgAttr);
-        		
-        	})
+        	});
         	
+        	// 배송 날짜 계산
+        	let postToday = new Date();
+        	let weekday = postToday.getDay();
         	
+        	let hours = postToday.getHours();
+        	
+        	let postTxt = "";
+        	let dayType = "";
+        	
+        	if(0 <= hours && hours <= 15){
+        		dayType = "(" + (postToday.getMonth() + 1)  + "/" + postToday.getDate() + ")";
+        		postTxt = "금일" + dayType + " 배송";
+        	} else{
+        		postToday.setDate(postToday.getDate() + 1)
+        		dayType = "(" + (postToday.getMonth() + 1)  + "/" + postToday.getDate() + ")";
+        		postTxt = "익일" + dayType + "배송";
+        	}
+        	
+        	if(weekday == 0){
+        		postToday.setDate(postToday.getDate() + 1);
+        		postTxt = "월요일" + dayType + " 배송"
+        	}else if(weekday == 6){
+        		postToday.setDate(postToday.getDate() + 2);
+        		postTxt = "월요일" + dayType + " 배송"
+        	}
+        	
+        	$(".view_status .post_day span").text(postTxt);
         })
       </script>
     <!-- 상품 리뷰 상세 E -->

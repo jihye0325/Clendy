@@ -52,9 +52,14 @@ public class ProductServiceImpl implements ProductService{
 		// 상품 목록
 		List<Product> productList = productMapper.productSelectList(mapMapper);
 		
+		// 상품 카테고리 상품 갯수
+		Map<String, Integer> categoryCount = productMapper.productCategoryCount(filter);
+		System.out.println(categoryCount);
+		
 		Map<String, Object> mapReturn = new HashMap<>();
 		mapReturn.put("productList", productList);
 		mapReturn.put("pageInfo", pageInfo);
+		mapReturn.put("categoryCount", categoryCount);
 		
 		return mapReturn;
 	}
