@@ -5,35 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- csrf 토큰 -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>입점신청</title>
     <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-   <!--<script type="text/javascript">
-        $(document).ready(function(){
-            $("#header").load("header.html");
-            $("#footer").load("footer.html");
-        });
-    </script> -->
-<style>
-#content{ margin-left: 580px; margin-right: 250px; }
-#title, h6{ display: inline-block; margin-right: 15px; } 
-#noticeTop, #noticeBottom, #numNorice label{margin: 20px;}
-/* notice */
-#noticeTop{ margin-bottom: 40px; }       
-#noticeBottom{ margin-top: 40px; }
-#numNotice{ margin-top: 20px;}
-/* insertInfo */
-#insertInfo{ margin:20px; }
-.semiTitle{ display:inline-block; width: 145px; font-weight: bold; margin-right: 30px;}
-.insertLabel{ display: inline-block;  margin: 10px; padding-bottom: 15px;  border-bottom: 0.5px solid #BBBBBB;  width: 700px; }
-#rep_name, #rep_num{ width : 125px; }
-/* check agreement */
-input[type=checkbox]{ width:25px; height:15px; margin:5px;}
-#agree{ font-weight: bold; margin:0px}
-/* button */
-.notice { background-color : #26C826; color :White;}
-#btnArea{ text-align: center; margin:10px;}
-#apply{ background-color: #060032; color:white; border:0; width: 85px; height: 40px; font-size: 15px; margin: 10px; cursor: pointer;}
-</style>
+    <link rel="stylesheet" href="/css/common/JoinStore.css">    
 <!-- 등록 성공여부 알림창 -->
 	<script>
 		const msg = '[[${ msg }]]';
@@ -62,22 +39,34 @@ input[type=checkbox]{ width:25px; height:15px; margin:5px;}
                 <label>5. 입점 후 MD/배송/CS 업무를 진행해 주실 담당자가 지정되어 있어야 합니다.</label><br>
             </div>
         </div>
-        <form th:action="@{/common/joinStore}" method="post">
+        <input type="hidden" class="user_no" th:value="${user_no}">
+        <form th:action="@{/common/joinStore}" method="post" class="joinStoreForm">
         <div id="insertInfo">
             <label class="insertLabel"><span class="semiTitle">업체명</span>
-            <input type="text" name="seller_name" id="seller_name" maxlength="20" required></input></label><br>
+            <input type="text" class="input" name="seller_name" id="seller_name" maxlength="20" placeholder="20글자 이하"required>
+            <a class="name btn" onclick="checkSellerName();">중복확인</a></label><br>
+            
             <label class="insertLabel"><span class="semiTitle">대표자명/인원수</span>
-            <input type="text" name="rep_name" id="rep_name" maxlength="10" required> / <input type="number" id="rep_num" required></label><br>
+            <input type="text" class="input" name="rep_name" id="rep_name" maxlength="10" required> / 
+            <input type="number" class="input" id="rep_num" required></label><br>
+            
             <label class="insertLabel"><span class="semiTitle">사업자 등록번호</span>
-            <input type="number" name="number" id="b_license" required></label><button class="license"></button><br>
+            <input type="number" class="input" name="number" id="b_license" placeholder="예:1234567890" required>
+            <a class="bLicense btn" onclick="checkBLicense();">중복확인</a></label><br>
+            
             <label class="insertLabel"><span class="semiTitle">통신판매업신고번호</span>
-            <input type="text" name="o_b_license" id="o_b_license" maxlength="25" required></label><br>
+            <input type="text" class="input" name="o_b_license" id="o_b_license" maxlength="25"
+             placeholder="예:1234-서울강남-56789" required><a class="OBLicense btn" onclick="checkOBLicense();">중복확인</a></label><br>
+             
             <label class="insertLabel"><span class="semiTitle">전화번호</span>
-            <input type="number" name="phone" id="phone" required></label><br>
+            <input type="number" class="input" name="phone" id="phone" required></label><br>
+            
             <label class="insertLabel"><span class="semiTitle">이메일</span>
-            <input type="text" name="email" id="email" maxlength="30" required></label><br>
+            <input type="email" class="input" name="email" id="email" maxlength="30" required></label><br>
+            
             <label class="insertLabel"><span class="semiTitle">업체주소</span>
-            <input type="text" name="address" id="address" maxlength="100" required></label><br>
+            <input type="text" class="input" name="address" id="address" maxlength="100" required></label><br>
+            
             <label class="insertLabel"><span class="semiTitle">정산계좌</span>
              <select name="account_bank">
                 <option value="국민">국민은행</option>
@@ -86,7 +75,7 @@ input[type=checkbox]{ width:25px; height:15px; margin:5px;}
                 <option value="우리">우리은행</option>
                 <option value="카카오뱅크">카카오뱅크</option>
               </select>
-			<span> 계좌번호 </span><input type="number" name="account_num" id="account_num" required></label><br>
+			<span> 계좌번호 </span><input type="number" class="input" name="account_num" id="account_num" placeholder='숫자만 입력해주세요.'required></label><br>
         </div>
         <div id="noticeBottom">
             <label>- 브랜드 정보를 가능한 상세하게 입력하셔야 빠른 처리가 가능하며 단순 입점 방식에 대한 문의는 답변드리지 않습니다.</label><br>
@@ -100,7 +89,7 @@ input[type=checkbox]{ width:25px; height:15px; margin:5px;}
         	<h2 class="notice">로그인 후 신청 가능합니다.</h2>
         </th:block>
         <th:block sec:authorize="isAuthenticated()">
-            <button id="apply">입점신청</button>
+            <button type="button" id="apply" onclick="check();">입점신청</button>
         </th:block>
         </div>
         </form>
@@ -109,14 +98,184 @@ input[type=checkbox]{ width:25px; height:15px; margin:5px;}
     <div th:replace="common/footer.html"></div>
     
     <script>
-    /* 체크박스 check 확인 */
-    $("#apply").click(function(){
-    	if(!$("#admit").is(":checked")){
-    		alert("개인정보 수집에 동의해주세요.");
-    		return false;
-    	}
-    });
+    var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	var user_no = $(".user_no").val();
+    /* 신청 시 체크 확인 */
+ 	var checked_name = false;
+ 	var checked_bLicense = false;
+ 	var checked_OBLicense = false;
+ 	var checked_userNo = false;
+    	
     
+ 	/* 대표자명 유효성 검사 */
+ 	var regName = /^[가-힣a-zA-Z/d]{0,10}$/; 
+ 	/* 핸드폰 번호 유효성 검사 */
+    var regExpPhone = /^01[0|1|6|7|8|9][0-9]{3,4}[0-9]{4}$/;
+   	var regExpTel = /^0[1,2,3,4,5,6]{2,3}[0-9]{3,4}[0-9]{3,4}$/;
+	   	
+    function check(){
+    	if(!checked_name || !checked_bLicense || !checked_OBLicense){
+	  		alert("중복검사를 하지 않은 항목이 존재합니다.");	
+		}else if(!regName.test($("#rep_name").val())){
+			alert("대표자명은 한글, 영어 포함 최대 10자리까지 입력가능합니다.");
+		}else if(!regExpPhone.test($("#phone").val()) && !regExpTel.test($("#phone").val())){
+			console.log(regExpPhone.test($("#phone").val()));
+			console.log(regExpTel.test($("#phone").val()));
+			alert("유효하지 않은 전화번호 입니다.");
+	   	}else if(!$("#admit").is(":checked")){
+			alert("개인정보 수집에 동의해주세요.");
+	   	}else if(!checked_userNo){
+	   		alert("이미 신청하신 내역이 있습니다.");
+	   	}else if(checked_name && checked_bLicense && checked_OBLicense && checked_userNo){
+	  		$(".joinStoreForm").submit();
+	  	}    	
+    }
+    	/* 유저 번호 검사 */
+    	$.ajax({
+    		type : "post",
+    		url : "/common/checkUserNo",
+    		data : { user_no : user_no },
+    		dataType : "JSON",
+    		beforeSend : function(xhr)
+            {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				xhr.setRequestHeader(header, token);
+            },
+    		success : function(result){
+    			if(result > 0){
+    				var checked_name = false;
+    			}else{
+    				checked_userNo = true;
+    			}
+    		},
+    	   error : function(e){
+    		   console.log(e);
+    	   }	
+    	});	
+    
+    /* 스토어 이름 유효성, 중복 검사*/
+    function checkSellerName(){
+    	var seller_name = $("#seller_name");
+    	
+    	var regExp = /^[가-힣a-zA-Z\d]{0,20}$/;
+    	if( !regExp.test(seller_name.val())){
+    		alert("한글, 숫자, 영어 대소문자 포함 20자 이하만 가능합니다.");
+    		seller_name.focus();
+    	}else{
+    		$.ajax({
+        		type: "post",
+        		url : "/common/checkSellerList",
+        		data : { seller_name : seller_name.val() },
+        		dataType : "JSON",
+        		beforeSend : function(xhr)
+                {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+    				xhr.setRequestHeader(header, token);
+                },
+        		success : function(result){
+        			if(result > 0){
+        				alert("이미 사용중인 이름입니다.");
+        				seller_name.focus();
+        			}else{
+        				if(confirm("사용가능한 이름입니다. 사용하시겠습니까?")){
+        					seller_name.attr('readonly', true);
+        					checked_name = true;
+        				}else{
+        					seller_name.attr('readonly', false);
+        					seller_name.focus();
+        					checked_name = false;
+        				}
+        			}
+        			
+        		},
+        	   error : function(e){
+        		   console.log(e);
+        	   }	
+        	});	
+    	}
+
+    };
+    /* 사업자등복번호 중복 검사*/
+    function checkBLicense(){
+    	var b_license = $("#b_license");
+    	
+    	var regExp = /^[0-9]{10}$/;
+    	
+    	if(!regExp.test(b_license.val())){
+    		alert("10자리의 숫자만 입력가능합니다.");
+    		b_license.focus();
+    	}else{
+    		$.ajax({
+        		type: "post",
+        		url : "/common/checkBLicense",
+        		data : { b_license : b_license.val() },
+        		dataType : "JSON",
+        		beforeSend : function(xhr)
+                {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+    				xhr.setRequestHeader(header, token);
+                },
+        		success : function(result){
+        			if(result > 0){
+        				alert("이미 등록된 번호입니다.");
+        				b_license.focus();
+        			}else{
+        				if(confirm("사용가능한 번호입니다. 사용하시겠습니까?")){
+        					b_license.attr('readonly', true);
+        					checked_bLicense = true;
+        				}else{
+        					b_license.attr('readonly', false);
+        					b_license.focus();
+        					checked_bLicense = false;
+        				}
+        			}
+        		},
+        	   error : function(e){
+        		   console.log(e);
+        	   }	
+        	});	
+    	}
+    	
+    };
+    /* 통신판매업번호 중복 검사*/
+    function checkOBLicense(){
+    	var o_b_license = $("#o_b_license");	
+    	
+    	var regExp = /^[0-9]{4}-[가-힣]{4}-[0-9]{1,5}$/;
+   
+    
+    	if(!regExp.test(o_b_license.val())){
+    		alert("유효하지 않은 번호 이거나 형식에 맞지 않는 번호입니다.");
+    		o_b_license.focus();
+    	}else{
+    		
+    	$.ajax({
+    		type:"post",
+    		url : "/common/checkOBLicense",
+    		data : { o_b_license : o_b_license.val() },
+    		beforeSend : function(xhr)
+            {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				xhr.setRequestHeader(header, token);
+            },
+    		success : function(result){
+    			if(result > 0){
+    				alert("이미 등록된 번호입니다.");
+    				o_b_license.focus();
+    			}else{
+    				if(confirm("사용가능한 번호입니다. 사용하시겠습니까?")){
+    					o_b_license.attr('readonly', true);
+    					checked_OBLicense = true;
+    				}else{
+    					o_b_license.attr('readonly', false);
+    					o_b_license.focus();
+    					checked_OBLicense = false;
+    				}
+    			}
+    		},
+    	   error : function(e){
+    		   console.log(e);
+    	   }	
+    	});	
+    	}
+    };
     </script>
     
     

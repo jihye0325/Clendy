@@ -7,6 +7,9 @@ public interface JoinStoreService {
 	/* 입점신청 */
 	int applyStore(ApplyStore newStore);
 	
+	/* 입점 신청한 유저 번호 검사 */
+	int checkUserNo(int user_no);
+	
 	/* 스토어 이름 중복 검사 */
 	int checkSellerName(String seller_name);
 	

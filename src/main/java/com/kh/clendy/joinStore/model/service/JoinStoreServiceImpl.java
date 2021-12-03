@@ -13,7 +13,6 @@ public class JoinStoreServiceImpl implements JoinStoreService{
 
 	private JoinStoreMapper joinStoreMapper;
 	
-	
 	@Autowired
 	public JoinStoreServiceImpl(JoinStoreMapper joinStoreMapper) {
 		this.joinStoreMapper = joinStoreMapper;
@@ -41,6 +40,12 @@ public class JoinStoreServiceImpl implements JoinStoreService{
 	@Override
 	public int checkOBLicense(String o_b_license) {
 		return joinStoreMapper.checkOBLicense(o_b_license);
+	}
+
+	/* 이미 신청한 유저 검사 */
+	@Override
+	public int checkUserNo(int user_no) {
+		return joinStoreMapper.checkUserNo(user_no);
 	}
 
 }

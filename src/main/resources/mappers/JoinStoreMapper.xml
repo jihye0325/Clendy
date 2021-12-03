@@ -38,12 +38,20 @@
 	  )
 	</insert>
 	
+	<!-- 입점 신청한 유저 검사 -->
+	<select id="checkUserNo" parameterType="_int" resultType="_int">
+	SELECT
+		   COUNT(*) AS COUNT
+	  FROM APPLY_STORE
+	 WHERE USER_NO = #{user_no} 	
+	</select>
+	
 	<!-- 스토어 이름 중복 검사 -->
 	<select id="checkSellerName" parameterType="String" resultType="_int">
 	SELECT
 			COUNT(*) AS COUNT
 	   FROM APPLY_STORE
-	  WHERE SELLER_NAME #{seller_name}  		
+	  WHERE SELLER_NAME = #{seller_name}  		
 	</select>
 	
 	<!-- 사업자 등록번호 중복 검사 -->
