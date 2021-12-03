@@ -15,6 +15,9 @@
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
     <script th:src="@{/js/product_common.js}"></script>
     <script src="https://d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+    <style>
+    	#nav-wrapper{margin-bottom:0 !important;}
+    </style>
 </head>
 <body>
     <div id="wrap">
@@ -155,7 +158,9 @@
                                                 <span>원</span>
                                             </div>
                                             <p class="point_txt">
-                                               사용가능포인트 <span th:text="${#numbers.formatInteger(point, 3, 'COMMA')}">3,000</span>P
+                                               사용가능포인트 
+                                               <span th:text="${#numbers.formatInteger(point, 3, 'COMMA')}" th:if="${point > 1000}">3,000</span>
+                                               <span th:text="${point}" th:unless="${point > 1000}">3,000</span>P
                                             </p>
                                         </dd>
                                     </dl>
@@ -207,8 +212,12 @@
         <div th:replace="common/footer.html"></div>
     </div>
     
-    <script>
+    <script th:inline="javascript">
         $(function(){
+        	// 휴대전화 정규화
+        	let userPhone = [[${postMember.phone}]].replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3");
+			$(".exist_box .tel").text(userPhone);
+
             // 배송정보 이벤트
             $("input[name=post_info]").change(function(){
                let value = $(this).val();
@@ -303,6 +312,7 @@ function pay(){
 	let buyerName = [[${postMember.user_name}]];
 	let buyerTel = [[${postMember.phone}]];
 	let buyerAddr = [[${postMember.address}]];
+	console.log(buyerAddr);
 	let buyerEmail = "";
 	let postCheck = $("input[name=post_info]:checked").val();
 	let postRequest = $("#post_request option:selected").val();
@@ -315,12 +325,16 @@ function pay(){
 	
 	// 구매상품 담기
 	let orderListSize = $(".order_list_box").length;
-	let listSize = $(".order_list .list").length;
+	console.log("orderListSize : " + orderListSize);
+	
 	
 	for(let i = 0; i < orderListSize; i++){
+		let listSize = $(".order_list_box:eq("+i+") .list").length;
+		console.log("listSize : " + listSize);
+		
 		for(let j = 0; j < listSize; j++){
-			pOptionNos.push(Number($(".order_list:eq("+i+") .list:eq("+j+") input[name=pOptionNo]").val()));
-			cartMounts.push(Number($(".order_list:eq("+i+") .list:eq("+j+") input[name=cartMount]").val()));	
+			pOptionNos.push(Number($(".order_list_box:eq("+i+") .list:eq("+j+") input[name=pOptionNo]").val()));
+			cartMounts.push(Number($(".order_list_box:eq("+i+") .list:eq("+j+") input[name=cartMount]").val()));	
 		}
 	}
 	
@@ -328,7 +342,49 @@ function pay(){
 	 if(postCheck == 'directly'){
 		 buyerName = $(".new_exist_box .name").val();
 		 buyerAddr = $(".new_exist_box .add1").val() + ", " + $(".new_exist_box .add2").val() + ", " + $(".new_exist_box .add3").val();
-		 buyerTel = $("#tel_one option:selected").val() + $("#tel_two").val() + $("#tel_three").val(); 
+		 buyerTel = $("#tel_one option:selected").val() + $("#tel_two").val() + $("#tel_three").val();
+		 
+		 if(buyerName.length <= 0){
+			 alert("이름을 입력해주세요");
+			 
+			 return;
+		 }else{
+			 const regex = /^[가-힣]{2,5}$/;
+			 if(!regex.test(buyerName)){
+				 alert("이름은 2~5자 이내로 작성해주세요.")
+				 return; 
+			 }
+			 
+		 }
+		 
+		 if($(".new_exist_box .add1").val().length <= 0 && $(".new_exist_box .add2").val().length <= 0 && $(".new_exist_box .add3").val().length <= 0){
+			alert("주소를 입력해주세요");
+			
+			return;
+		 }
+		
+		 if($("#tel_two").length <= 0 && $("#tel_three").length <= 0){
+			 alert("연락처를 입력해주세요");
+			 
+			 return;
+		 }else{
+			 const regex = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
+			 
+			 if(!regex.test($("#tel_two").val())){
+				 alert("연락처를 숫자, 4자리로 입력해주세요!");
+				return;
+			 }
+			 
+			 if(!regex.test($("#tel_three").val())){
+				 alert("연락처를 숫자, 4자리로 입력해주세요!");
+				return;
+			 }
+			 
+
+		 }
+		 
+		 
+		 
 	 }
 	
 	// 배송요청 사항 선택안했을시
@@ -339,10 +395,22 @@ function pay(){
 	// 배송요청 사항 직접입력 일시
 	if(postRequest == 'edit'){
 		postRequest = $("#post_edit").val();
+		
+		let editCount = postRequest.length;
+		console.log(editCount);
+		if(editCount <= 0){
+			alert("배송요청 사항을 입력해주세요.");
+			$("#post_edit").focus();
+			
+			return;
+		}
+		
+		
+		
 	}
 	
 	var IMP = window.IMP; // 생략가능
-	IMP.init("imp25356398");
+	IMP.init("imp77229220");
 	IMP.request_pay({
 	pg: 'danal', // version 1.1.0부터 지원.
 	pay_method: 'card',

@@ -106,7 +106,7 @@ public class ProductOrderController {
 	@ResponseBody
 	public String order(@RequestBody Map<String, Object> parameters, Model model) {
 		
-		
+		System.out.println(parameters);
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int userNo = user.getUser_no();
 		int amount = Integer.parseInt(((String)parameters.get("amount")).replace(",", ""));

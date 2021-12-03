@@ -356,7 +356,7 @@ function productCartHandler(){
 		frm.method = "GET";
 		frm.action = "/product/cartInsert";
 		frm.submit();
-		console.log(frm);
+		// console.log(frm);
 	}else{
 		alert("상품 옵션을 추가해주세요.");
 	}
