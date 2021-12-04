@@ -193,8 +193,10 @@ public class MypageServiceImpl implements MypageService {
 		int result1 = mypageMapper.decide_buy(order_option_code);
 		// 구매확정 적립금 
 		int result2 = mypageMapper.buy_point(order_option_code, user_no);
-		System.out.println(result2);		
-		if(result1 > 0 && result2 > 0)
+		// 구매확정 날짜
+		int result3 = mypageMapper.decide_buyDate(order_option_code);
+		
+		if(result1 > 0 && result2 > 0 && result3 > 0)
 			result = 1;
 		
 		return result;
@@ -215,10 +217,10 @@ public class MypageServiceImpl implements MypageService {
 		int result1 = mypageMapper.requestRefund(refund);
 		// 주문상태 변경
 		int result2 = mypageMapper.changeOrder_Status(refund.getOrder_option_code());
-		System.out.println(result1);
-		System.out.println(result2);
+		// 상태변경 날짜
+		int result3 = mypageMapper.requestRefund_date(refund.getOrder_option_code());
 		
-		if(result1 > 0 && result2 > 0)
+		if(result1 > 0 && result2 > 0 && result3 >0)
 			result = 1;
 		
 		return result;
@@ -277,8 +279,9 @@ public class MypageServiceImpl implements MypageService {
 		int result = 0;
 		int result1 = mypageMapper.requestExchange(exchange);
 		int result2 = mypageMapper.changeExchange_stauts(exchange.getOrder_option_code());
+		int result3 = mypageMapper.requestExchange_date(exchange.getOrder_option_code());
 		
-		if(result1 > 0 && result2 > 0)
+		if(result1 > 0 && result2 > 0 && result3 > 0)
 			result = 1;
 		
 		return result;
@@ -288,6 +291,35 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public Exchange selectExchange(int order_option_code) {
 		return mypageMapper.selectExchange(order_option_code);
+	}
+
+	// 결제취소
+	@Override
+	public Payment selectPayment(String merchant_uid) {
+		return mypageMapper.selectPayment(merchant_uid);
+	}
+
+	// 결제 취소 후 상태변경
+	@Override
+	public int canclePay(String merchant_uid_Value) {
+		int result = 0;
+		
+		// order_option 변경
+		int result1 = mypageMapper.o_o_status(merchant_uid_Value);
+		
+		// product_order 변경
+		int result2 = mypageMapper.p_o_status(merchant_uid_Value);
+		
+		// payment 변경
+		int result3 = mypageMapper.payment_status(merchant_uid_Value);
+		
+		// product_option 재고 원래대로
+		int result4 = mypageMapper.re_stock(merchant_uid_Value);
+		
+		if(result1 > 0 )
+			result = 1; 
+				
+		return result;
 	}
 	
 }

@@ -136,6 +136,7 @@
 		<result property="subtotal" column="SUBTOTAL"/>
 		<result property="p_discount" column="P_DISCOUNT"/>
 		<result property="merchant_uid" column ="MERCHANT_UID"/>
+		<result property="pay_money" column="PAY_MONEY"/>
 		<association property="product_option" resultMap="product_optionResultMap"/>
 	</resultMap>
 	
@@ -259,6 +260,8 @@
 		<result property="order_name" column="ORDER_NAME"/>
 		<result property="order_address" column="ORDER_ADDRESS"/>
 		<result property="order_phone" column="ORDER_PHONE"/>
+		<result property="imp_uid" column="IMP_UID"/>
+		<result property="merchant_uid" column="MERCHANT_UID"/>
 	</resultMap>
 	
 	<!-- 1:1 문의글 -->
@@ -703,6 +706,7 @@
 		     ORDER_PRODUCT_NUM,
 		     ORDER_CODE,
 		     MERCHANT_UID,
+		     PAY_MONEY,
 		     ORDER_OPTION_CODE,
 		     ORDER_NAME,
 		     ORDER_ADDRESS,
@@ -773,6 +777,13 @@
 		)
 	</insert>
 	
+	<!-- 구매확정날짜 입력 -->
+	<update id="decide_buyDate" parameterType="_int">
+		UPDATE ORDER_OPTION
+		   SET PURCHASE_CONFIRM_DATE = SYSDATE
+		 WHERE ORDER_OPTION_CODE = #{ order_option_code }
+	</update>
+	
 	<!-- 주문상세내역 조회 -->
 	<select id="selectOrderInfo" parameterType="_int" resultMap="paymentResultMap">
 		SELECT
@@ -819,6 +830,13 @@
 	<update id="changeOrder_Status" parameterType="_int">
 		UPDATE ORDER_OPTION
 		   SET ORDER_STATUS_CODE = 'STATUS_CODE5'
+		 WHERE ORDER_OPTION_CODE = #{ order_option_code }
+	</update>
+	
+	<!-- 환불 요청시 주문상태 변경날짜 -->
+	<update id="requestRefund_date" parameterType="_int">
+		UPDATE ORDER_OPTION
+		   SET PURCHASE_CONFIRM_DATE = SYSDATE
 		 WHERE ORDER_OPTION_CODE = #{ order_option_code }
 	</update>
 		
@@ -957,6 +975,12 @@
 		   SET ORDER_STATUS_CODE = 'STATUS_CODE6'
 		 WHERE ORDER_OPTION_CODE = #{ order_option_code }
 	</update>
+	<!-- 교환요청 날짜 -->
+	<update id="requestExchange_date" parameterType="_int">
+		UPDATE ORDER_OPTION
+			   SET PURCHASE_CONFIRM_DATE = SYSDATE
+			 WHERE ORDER_OPTION_CODE = #{ order_option_code }
+	</update>
 	
 	<select id="selectEx_list" parameterType="_int" resultMap="exchangeResultMap">
 			SELECT 
@@ -994,6 +1018,53 @@
              JOIN PRODUCT_OPTION ON (P_OPTION_NO = EX_OPTION)
 		    WHERE ORDER_OPTION_CODE = #{ order_option_code }
 	</select>
+	
+	<select id="selectPayment" parameterType="String" resultMap="paymentResultMap">
+		SELECT
+			PAY_CODE,
+			ORDER_CODE,
+			IMP_UID,
+			MERCHANT_UID,
+			PAY_MONEY,
+			PAY_MEANS,
+			PAY_CARD_NAME,
+			PAY_CARD_NUM,
+			PAY_REFUND
+		  FROM PAYMENT
+		 WHERE MERCHANT_UID = #{ merchant_uid }
+	</select>
+	
+	<!-- 결제취소 상태변경1 -->
+	<update id="o_o_status" parameterType="String">
+		UPDATE ORDER_OPTION
+		   SET ORDER_STATUS_CODE = 'STATUS_CODE9'
+		 WHERE ORDER_CODE = (SELECT 
+		                        ORDER_CODE
+		                      FROM PAYMENT
+		                     WHERE MERCHANT_UID = #{ merchant_uid_Value })
+	</update>
+	
+	<!-- 결제취소 상태변경2 -->
+	<update id="p_o_status" parameterType="String">
+		UPDATE PRODUCT_ORDER
+		   SET ORDER_MODIFY_DATE = SYSDATE
+		 WHERE ORDER_CODE = (SELECT 
+		                        ORDER_CODE
+		                      FROM PAYMENT
+		                     WHERE MERCHANT_UID = #{ merchant_uid_Value })
+	</update>
+	
+	<!-- 결제취소 상태변경3 -->
+	<update id="payment_status" parameterType="String">
+		UPDATE PAYMENT
+		   SET PAY_REFUND = 'Y'
+		 WHERE  MERCHANT_UID = #{ merchant_uid_Value }
+	</update>
+	
+	<!-- 결제취소 상태변경4 재고+ -->
+	<update id="re_stock" parameterType="String">
+	
+	</update>
 </mapper>
 
 

@@ -79,6 +79,8 @@ public interface MypageMapper {
 
 	int changeOrder_Status(int order_option_code);
 
+	int requestRefund_date(int order_option_code);
+	
 	List<PersonalQ> selectQ_list(int user_no);
 
 	List<Refund> selectR_list(int user_no);
@@ -92,6 +94,8 @@ public interface MypageMapper {
 	int downloadEventPoint(Map<String, Object> map);
 
 	int buy_point(int order_option_code, int user_no);
+	
+	int decide_buyDate(int order_option_code);
 
 	List<Product_Option> selectExOption(int order_option_code);
 
@@ -104,5 +108,20 @@ public interface MypageMapper {
 	List<Exchange> selectEx_list(int user_no);
 
 	Exchange selectExchange(int order_option_code);
+
+	int requestExchange_date(int order_option_code);
+	
+	Payment selectPayment(String merchant_uid);
+
+	int o_o_status(String merchant_uid_Value);
+
+	int p_o_status(String merchant_uid_Value);
+
+	int payment_status(String merchant_uid_Value);
+
+	int re_stock(String merchant_uid_Value);
+
+	
+
 	
 }

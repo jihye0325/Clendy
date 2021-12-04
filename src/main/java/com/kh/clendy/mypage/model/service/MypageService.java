@@ -84,4 +84,9 @@ public interface MypageService{
 	List<Exchange> selectEx_list(int user_no);
 
 	Exchange selectExchange(int order_option_code);
+
+	Payment selectPayment(String merchant_uid);
+
+	int canclePay(String merchant_uid_Value);
+
 }

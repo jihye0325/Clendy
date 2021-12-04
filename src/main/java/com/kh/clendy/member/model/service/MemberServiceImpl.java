@@ -111,6 +111,13 @@ public class MemberServiceImpl implements MemberService{
 	public int phoneCheck(String phone) {
 		return memberMapper.phoneCheck(phone);
 	}
+	
+	// 이메일, 아이디 일치하는 회원
+	@Override
+	public int findMemberById_Email(String id, String email){
+		return memberMapper.findMemberById_Email(id, email);
+	}
+
 
 
 	

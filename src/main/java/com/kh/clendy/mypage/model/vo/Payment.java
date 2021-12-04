@@ -3,6 +3,8 @@ package com.kh.clendy.mypage.model.vo;
 public class Payment {
 	private int pay_code;
 	private int order_code;
+	private String imp_uid;
+	private String merchant_uid;
 	private int pay_money;
 	private String pay_means;
 	private String pay_card_name;
@@ -17,12 +19,14 @@ public class Payment {
 
 	public Payment() {}
 
-	public Payment(int pay_code, int order_code, int pay_money, String pay_means, String pay_card_name,
-			String pay_card_num, String pay_refund, String order_request, String order_name, String order_address,
-			String order_phone) {
+	public Payment(int pay_code, int order_code, String imp_uid, String merchant_uid, int pay_money, String pay_means,
+			String pay_card_name, String pay_card_num, String pay_refund, String order_request, String order_name,
+			String order_address, String order_phone) {
 		super();
 		this.pay_code = pay_code;
 		this.order_code = order_code;
+		this.imp_uid = imp_uid;
+		this.merchant_uid = merchant_uid;
 		this.pay_money = pay_money;
 		this.pay_means = pay_means;
 		this.pay_card_name = pay_card_name;
@@ -48,6 +52,22 @@ public class Payment {
 
 	public void setOrder_code(int order_code) {
 		this.order_code = order_code;
+	}
+
+	public String getImp_uid() {
+		return imp_uid;
+	}
+
+	public void setImp_uid(String imp_uid) {
+		this.imp_uid = imp_uid;
+	}
+
+	public String getMerchant_uid() {
+		return merchant_uid;
+	}
+
+	public void setMerchant_uid(String merchant_uid) {
+		this.merchant_uid = merchant_uid;
 	}
 
 	public int getPay_money() {
@@ -124,10 +144,11 @@ public class Payment {
 
 	@Override
 	public String toString() {
-		return "Payment [pay_code=" + pay_code + ", order_code=" + order_code + ", pay_money=" + pay_money
-				+ ", pay_means=" + pay_means + ", pay_card_name=" + pay_card_name + ", pay_card_num=" + pay_card_num
-				+ ", pay_refund=" + pay_refund + ", order_request=" + order_request + ", order_name=" + order_name
-				+ ", order_address=" + order_address + ", order_phone=" + order_phone + "]";
+		return "Payment [pay_code=" + pay_code + ", order_code=" + order_code + ", imp_uid=" + imp_uid
+				+ ", merchant_uid=" + merchant_uid + ", pay_money=" + pay_money + ", pay_means=" + pay_means
+				+ ", pay_card_name=" + pay_card_name + ", pay_card_num=" + pay_card_num + ", pay_refund=" + pay_refund
+				+ ", order_request=" + order_request + ", order_name=" + order_name + ", order_address=" + order_address
+				+ ", order_phone=" + order_phone + "]";
 	}
-	
+
 }
