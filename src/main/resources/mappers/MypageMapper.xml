@@ -137,6 +137,7 @@
 		<result property="p_discount" column="P_DISCOUNT"/>
 		<result property="merchant_uid" column ="MERCHANT_UID"/>
 		<result property="pay_money" column="PAY_MONEY"/>
+		<result property="r_status" column="R_STATUS"/>
 		<association property="product_option" resultMap="product_optionResultMap"/>
 	</resultMap>
 	
@@ -715,7 +716,8 @@
 		     ORDER_STATUS_NAME,
 		     ROUTE,
 		     IMG_R_NAME,
-		     R_NO
+		     R_NO,
+		     R_STATUS
 		  FROM PRODUCT_ORDER
 		  JOIN ORDER_OPTION USING(ORDER_CODE)
 		  JOIN PRODUCT_OPTION USING(P_OPTION_NO)
@@ -1061,10 +1063,48 @@
 		 WHERE  MERCHANT_UID = #{ merchant_uid_Value }
 	</update>
 	
-	<!-- 결제취소 상태변경4 재고+ -->
-	<update id="re_stock" parameterType="String">
+	<!-- 결제취소 상태변경할 order_option_code목록 -->
+	<select id="selectO_Olist" parameterType="String" resultMap="order_option_listResultMap">
+		SELECT 
+		        ORDER_OPTION_CODE
+		       FROM PAYMENT
+		       JOIN ORDER_OPTION USING(ORDER_CODE)
+		     WHERE MERCHANT_UID = #{ merchant_uid_Value }
+	</select>
 	
+	<!-- 결제취소 후 재고 원래대로 -->
+	<update id="stock_Status" parameterType="_int">
+	UPDATE PRODUCT_OPTION
+	   SET P_STOCK = P_STOCK + (SELECT 
+	                                ORDER_PRODUCT_NUM 
+	                                FROM ORDER_OPTION
+	                                WHERE ORDER_OPTION_CODE = #{ order_option_code })
+	  WHERE P_OPTION_NO = (SELECT
+	                            P_OPTION_NO
+	                            FROM ORDER_OPTION
+	                            WHERE ORDER_OPTION_CODE = #{ order_option_code })
 	</update>
+	
+	<!-- 리뷰 수정 -->
+	<update id="reviewModify" parameterType="com.kh.clendy.mypage.model.vo.Review">
+		UPDATE REVIEW
+		   SET R_TITLE = #{ r_title },
+		       SCORE = #{ score },
+		       OPEN_SIZE = #{ open_size },
+		       R_CONTENT = #{ r_content },
+		       R_MODIFY_DATE = SYSDATE
+		 WHERE R_NO = #{ r_no }
+	</update>
+	
+	<!-- 리뷰 삭제 전 날짜 확인 -->
+	<select id="reviewDate" parameterType="_int" resultMap="reviewResultMap">
+			SELECT 
+		    R_NO
+		 FROM REVIEW
+		 WHERE ORDER_OPTION_CODE = #{ order_option_code }
+		   AND TO_DATE(SYSDATE, 'YYYY/MM/DD') > 
+		   			(SELECT TRUNC(TO_DATE((SELECT R_CREATE_DATE FROM REVIEW WHERE ORDER_OPTION_CODE = #{ order_option_code }), 'YYYY/MM/DD')) + 30 FROM DUAL) 
+	</select>
 </mapper>
 
 

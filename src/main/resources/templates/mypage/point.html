@@ -17,7 +17,7 @@
 		    	<div class="event-point-title">
 				<ul class="th"><li class="event-content">내용</li><li class="event-point">금액</li><li class="event-download">다운</li></ul>
 		    	</div>
-		    	<th:block th:if="${event_point_list} == null or ${#strings.listIsEmpty(event_point_list)}">
+		    	<th:block th:if="${#lists.size(event_point_list) == 0}">
 		    		<div class="null">
 	                	<img class="nowish" src="/images/nowish.png"><br>
 	           			<span>다운 가능한 이벤트 포인트가 없습니다.</span>

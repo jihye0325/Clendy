@@ -6,7 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/mypage/reviewDetail.css" rel="stylesheet"></head>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+    <!-- csrf 토큰 -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>리뷰 상세페이지</title>
+    <script>
+		const msg = '[[${ msg }]]';
+		
+		if(msg){
+			alert(msg);
+			if(msg == "리뷰가 수정되었습니다."){
+				location.reload();
+			}
+		}
+		
+	</script>
 </head>
 <body>
     <div class="outer">
@@ -15,7 +29,7 @@
             <img th:src="@{${r.order_option.product_option.product.imageList[0].route} + ${r.order_option.product_option.product.imageList[0].imgrName}}">
             <div class="product_info">
                 <div id="pname" th:text="${r.order_option.product_option.product.p_name}"></div>
-                <div id="option" th:text="|옵션 : ${r.order_option.product_option.p_color}, ${r.order_option.product_option.p_size}|">>옵션 : M</div>
+                <div id="option" th:text="|옵션 : ${r.order_option.product_option.p_color}, ${r.order_option.product_option.p_size}|">></div>
             </div>
         </div>
         <div class="like_cnt">
@@ -55,7 +69,7 @@
 	            <th:block th:if="${r.open_size == 'Y'}">
 	            <div class="size">
 	                <span>사이즈</span>
-	                <span id="size_info">남/180cm/75kg</span>
+	                <span id="size_info" th:text="|${m.gender} ${m.height}cm, ${m.weight}kg|"></span>
 	            </div>
 	            </th:block>
 	            
@@ -66,8 +80,8 @@
 	        </div>
 	
 	        <div class="btn_area">
-	            <button type="submit" id="modify">수정</button>
-	            <button type="button" id="delete">삭제</button>
+	            <button type="button" id="modify" th:attr="onclick=|reviewModify('${r.order_option_code}')|">수정</button>
+	            <button type="button" id="delete" th:attr="onclick=|reviewDelete('${r.order_option_code}')|">삭제</button>
 	            <button type="button" id="close">닫기</button>
 	        </div>
 	   </form>
@@ -75,20 +89,43 @@
     
     <!-- 리뷰 수정 -->
     <script>
-    	$(function(){
-    		$(document).on("click", "#modify", function(){
-    			alert("수정 기능");
-    		});
-    	});
+    	function reviewModify(order_option_code){
+    		location.href="/mypage/reviewModify/" +order_option_code;
+    	}
     </script>
+    
     <!-- 리뷰 삭제 -->
     <script>
-    	$(function(){
-    		$(document).on("click", "#delete", function(){
-    			alert("삭제 기능");
-    		});
-    	});
+		function reviewDelete(order_option_code){
+			if(!confirm("리뷰를 삭제하시겠습니까?\n리뷰를 삭제한 후에는 리뷰를 다시 작성할 수 없습니다.")) return;
+			
+    		var token = $("meta[name='_csrf']").attr("content");
+    		var header = $("meta[name='_csrf_header']").attr("content"); 
+			
+			$.ajax({
+				url : "/mypage/reviewDate",
+				type : "post",
+				data : {order_option_code : order_option_code},  
+				/* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+				beforeSend : function(xhr)		
+				{
+					xhr.setRequestHeader(header, token);    					
+				},
+				success : function(result){
+					if(result > 0) {
+						alert("리뷰를 삭제기능넣기.");
+						window.opener.location.href = window.opener.document.URL;
+						window.close();
+				}	else 
+						alert("리뷰 삭제는 리뷰 등록 30일 이후부터 가능합니다.");
+				},
+				error : function(e){
+					console.log(e);
+				}
+			});
+		}
     </script>
+    
     <!-- 창 닫기 -->
     <script>
     	$(function(){

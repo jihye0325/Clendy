@@ -2,12 +2,8 @@ div {
     borde: 1px solid black;
 }
 
-span { 
-    borde: 1px solid black;
-}
-
 .outer {
-    width: 900px;
+    width: 935px;
     margin: auto;
     
 }
@@ -35,29 +31,29 @@ img {
     margin-bottom: auto;
 }
 
-.like_cnt {
-    width: 900px;
-    height: 30px;
-    text-align: right;
-}
-
-.like_cnt > span {
-    border: 1px solid lightgray;
-    border-radius: 15px;
-    padding: 3px 10px 3px 10px;
-}
-
 #pname {
-    color: gray;
     font-weight: bold;
 }
 
-.content {
-    margin-top: 10px;
+.title_area {
+    height: 50px;
+    display: flex;
+    align-items:center;
+}
+
+.title_area span {
+    margin-left: 15px;
+    margin-right: 55px;
+}
+
+#r_title {
+    width: 350px;
+    height: 30px;
+    border: 1px solid lightgray;
 }
 
 .title_date_area {
-    height: 35px;
+    height: 50px;
     display: flex;
     align-items:center;
     border-top: 1px solid lightgray;
@@ -67,7 +63,7 @@ img {
 
 .title_area span {
     margin-left: 5px;
-    margin-right: 30px;
+    margin-right: 50px;
 }
 
 .title_date_area span:first-child{
@@ -82,6 +78,18 @@ img {
     margin-right: 15px;
 }
 
+.like_cnt {
+    width: 935px;
+    height: 30px;
+    text-align: right;
+}
+
+.like_cnt > span {
+    border: 1px solid lightgray;
+    border-radius: 15px;
+    padding: 3px 10px 3px 10px;
+}
+
 .score {
     border-bottom: 1px solid lightgray;
     height: 35px;
@@ -89,14 +97,22 @@ img {
     align-items:center;
 }
 
+#score {
+	margin-left:15px;
+}
+
 .score span {
+	font-weight: bold;
     margin-left: 5px;
-    margin-right: 40px;
-    font-weight: bold;
+    margin-right: 55px;
 }
 
 .score img {
     width: 20px;
+}
+
+select {
+	height: 25px;
 }
 
 .size {
@@ -109,39 +125,17 @@ img {
 
 .size span {
     margin-left: 5px;
-    margin-right: 20px;
-}
-
-.size span:first-child{
+    margin-right: 15px;
     font-weight: bold;
 }
 
 #size_info {
     font-size: small;
+    color: gray;
 }
 
-#content {
-	min-height: 300px;
-	padding: 20px;
-}
-
-.content_area {
-    border-bottom: 1px solid lightgray;
-    margin-bottom: 15px;
-}
-
-.img_box {
-    display: flex;
-    margin-bottom: 20px;
-}
-
-.img_area {
-    margin-right: 30px;
-}
-
-.img_area img{
-    width: 200px;
-    cursor: not-allowed;
+.container {
+	width: 900px;
 }
 
 .btn_area {
@@ -149,7 +143,7 @@ img {
     text-align: center;
 }
 
-button {
+.btn_area button {
     background-color: #060032;
     color: white;
     font-size: large;
@@ -159,6 +153,44 @@ button {
     cursor: pointer;
 }
 
-.btn_area button{
+.btn_area button:first-child{
     margin-right: 10px;
+}
+
+/* 체크박스 색상 변경 */
+input[type="checkbox"] {
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 1px solid gray;
+  background: white;
+  height: 12.8px;
+  width: 12.8px;
+  border: 1px solid white;
+}
+
+input[type="checkbox"]:checked {
+  background: #060032;
+}
+
+input[type="checkbox"]:hover {
+  filter: brightness(90%);
+}
+
+input[type="checkbox"]:after {
+  content: '';
+  position: relative;
+  left: 40%;
+  top: 20%;
+  width: 15%;
+  height: 40%;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  display: none;
+}
+
+input[type="checkbox"]:checked:after {
+  display: block;
 }
