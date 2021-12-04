@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/mypage/modify.css" rel="stylesheet"></link>
+    <!-- csrf 토큰 -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>회원정보</title>
     <!-- 회원정보 수정 후 알림창 -->
     <script>
@@ -38,7 +41,7 @@
                 <div class="pwd_area">
                     <span>현재 비밀번호</span><span class="required">*</span>
                     <div class="pwd_input area">
-                        <input type="password" name="originPwd" maxlength="8" placeholder="비밀번호를 입력하세요" required>
+                        <input type="password" name="originPwd" placeholder="비밀번호를 입력하세요" required>
                         <img class="pwd_img" src="/images/show.png">
                     </div>
                 </div>
@@ -46,16 +49,20 @@
                 <div class="newPwd_area">
                     <span>새로운 비밀번호</span>
                     <div class="newPwd_input area">
-                        <input type="password" name="password" maxlength="8" placeholder="비밀번호(영문,숫자,특수문자 조합 최소 8자리)">
+                        <input type="password" name="password" id="password" minlength="8" placeholder="비밀번호(영문,숫자,특수문자 조합 최소 8자리)">
                         <img class="pwd_img" src="/images/show.png">
+                        <span id="pwd1_img"></span><br>
+                    	<span id="pwd1Confirm"></span>
                     </div>
                 </div>
 
                 <div class="newPwdCheck_area">
                     <span>새로운 비밀번호 확인</span>
                     <div class="newPwdCheck_input area">
-                        <input type="password" name="pwdCheck" maxlength="8" placeholder="비밀번호 재입력">
+                        <input type="password" name="password2" id="password2" minlength="8" placeholder="비밀번호 재입력">
                         <img class="pwd_img" src="/images/show.png">
+                        <span id="pwd2_img"></span><br>
+                    	<span id="pwd2Confirm"></span>
                     </div>
                 </div>
 
@@ -67,16 +74,19 @@
                 </div>
 
                 <div class="email_area">
-                    <span>이메일</span><span class="required">*</span>
+                    <span>이메일</span><span class="required">*</span><span id="emailConfirm"></span>
                     <div class="email_input area">
-                        <input type="email" name="email" th:value="${ m.email }" required>
+                        <input type="email" name="email" id="email" th:value="${ m.email }" required>
+                        <span id="e_confirm_img"></span>
                     </div>
                 </div>
 
                 <div class="phone_area">
-                    <span>휴대폰 번호</span><span class="required">*</span>
+                    <span>휴대폰 번호</span><span class="required">*</span><span id="phoneConfirm"></span>
                     <div class="phone_input area">
-                        <input type="tel" name="phone" th:value="${ m.phone }" placeholder="(-)없이 입력" required>
+                        <input type="tel" name="phone" id="phone" th:value="${ m.phone }" placeholder="(-)포함 입력" required>
+                        <button id="phoneCheck" type="button">중복확인</button>
+                   		<span id="p_confirm_img"></span>
                     </div>
                 </div>
 					
@@ -133,6 +143,170 @@
 	
 	<!-- '검색' 단추 누르면 팝업 레이어 열리도록 설정 -->
     <script> $(function() { $("#postcodify_search_button").postcodifyPopUp(); }); </script>
+    
+    <!-- 유효성 -->
+    <script>
+ 	// 이메일 유효성
+	email.addEventListener('input', () => {
+		var emailCheck = false;
+		$("#modify").attr("disabled", true);
+		
+		if(!email_Confirm(email.value)){
+			emailConfirm.innerHTML = '(이메일 형식을 확인해주세요)';
+			e_confirm_img.innerHTML = '';
+			emailCheck = false;    			
+		} else {
+			emailConfirm.innerHTML = '';
+			e_confirm_img.innerHTML = '<img src="/images/check.png">';
+			emailCheck = true;
+		}
+		
+		if(emailCheck){
+			$("#modify").removeAttr("disabled");
+		} else {
+			$("#modify").attr("disabled", true);
+		}
+		
+	});
+	
+	function email_Confirm(email){
+		var regExp = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+
+    	return regExp.test(email);
+	}
+    
+	// 비밀번호 유효성, 비밀번호 재입력 일치 확인
+	
+	password.addEventListener('input', () => {
+		
+		 if(!pwdConfirm(password.value)){
+			 pwd1Confirm.innerHTML = '(비밀번호 형식을 확인해주세요)';
+			 pwd1_img.innerHTML = '';
+			 var pwdCheck = false;
+		 } else {
+			 pwd1Confirm.innerHTML = '';
+			 pwd1_img.innerHTML = '<img src="/images/check.png">';
+			 if(password.value == ""){
+				 pwd1_img.innerHTML = '';
+			 }
+			 var pwdCheck = true;
+			 $("#password2").attr("required", true);
+		 }
+		 
+			if(pwdCheck){
+			$("#modify").removeAttr("disabled");
+		} else {
+			$("#modify").attr("disabled", true);
+		}
+		 
+	 });
+	 
+	 function pwdConfirm(password){
+ 		var regExp = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/; 
+		if(password == "")
+			return true;
+ 		
+    	return regExp.test(password);
+	 }
+	 	 
+ 	password2.addEventListener('input', () => {
+ 		var pwdCheck = false;
+ 	 	$("#modify").attr("disabled", true);
+ 	 	
+         if(password.value != password2.value){
+        	 password.classList.add('invalid');
+        	 password2.classList.add('invalid');
+             pwd2Confirm.innerHTML = '비밀번호가 일치하지 않습니다';
+             pwd2_img.innerHTML = '';
+             var pwdCheck = false;
+         } else {
+        	 password.classList.remove('invalid');
+        	 password2.classList.remove('invalid');
+             pwd2Confirm.innerHTML = '';
+             pwd2_img.innerHTML = '<img src="/images/check.png">';
+             var pwdCheck = true;
+         }
+         
+			if(pwdCheck){
+			$("#modify").removeAttr("disabled");
+		} else {
+			$("#modify").attr("disabled", true);
+		}
+     });
+    
+ // 전화번호 유효성  	
+ 	const origin_phone = $('[name=phone]').val();
+ 	console.log(origin_phone);
+ 
+    phone.addEventListener('input', () => {
+    	$("#modify").attr("disabled", true);
+		var isUsable = false;
+		phoneConfirm.innerHTML = '중복확인 버튼 눌러주세요';
+    });	
+	
+    
+	$('#phoneCheck').on('click', function(){
+		var phone = $('[name=phone]');
+		var phoneValue = phone.val();
+		
+		if(origin_phone == phoneValue){
+			alert('현재 전화번호와 같습니다.');
+			$("#modify").removeAttr("disabled");
+			isUsable = true;
+			return;
+		}
+		
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content"); 
+		
+		if(!phone_Confirm(phoneValue)) {
+			alert('01x-xxx(x)-xxxx 형태로 입력해주세요.');
+			phone.focus();
+		} else{
+    		$.ajax({
+    			url : "/member/phoneCheck",
+    			type : "post",
+    			data : {phone : phoneValue},
+    			/* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+				beforeSend : function(xhr)		
+				{
+					xhr.setRequestHeader(header, token);    					
+				},
+				success : function(result){
+					if(result > 0) {
+						alert("전화번호가 이미 사용 중입니다. 다른 전화번호를 입력해주세요.");
+						phone.focus();
+					} else	{
+						if(confirm("사용하실 수 있는 전화번호입니다.")){
+							phone.attr('readonly', true);
+							isUsable = true;
+							p_confirm_img.innerHTML = '<img src="/images/check.png">';
+						} else {
+							phone.attr('readonly', false);
+							phone.focus();
+							isUsable = false;
+						}	
+					}
+	
+					if(isUsable){
+						$("#modify").removeAttr("disabled");
+					} else {
+						$("#modify").attr("disabled", true);
+					}
+				},
+				error : function(e){
+					console.log(e);
+				}
+    		});	
+		}
+	});
+
+	function phone_Confirm(phone){
+		var regExp = /^01[\d]{1}-\d{3,4}-\d{4}$/; 
+
+    	return regExp.test(phone);
+	}
+    </script>
     
 </body>
 </head>

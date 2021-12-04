@@ -33,6 +33,7 @@ public class Order_Option {
 	private int subtotal;
 	private int p_discount;
 	private String merchant_uid;
+	private int pay_money;
 	
 	public Order_Option() {}
 
@@ -41,7 +42,7 @@ public class Order_Option {
 			String order_address, String order_phone, String order_status_name, String route, String img_r_name,
 			int user_no, String order_request, Date order_create_date, int order_delivery, int order_all_price,
 			String order_postnum, Date order_modify_date, int r_no, int p_price, int subtotal, int p_discount,
-			String merchant_uid) {
+			String merchant_uid, int pay_money) {
 		super();
 		this.order_option_code = order_option_code;
 		this.order_code = order_code;
@@ -71,6 +72,7 @@ public class Order_Option {
 		this.subtotal = subtotal;
 		this.p_discount = p_discount;
 		this.merchant_uid = merchant_uid;
+		this.pay_money = pay_money;
 	}
 
 	public int getOrder_option_code() {
@@ -297,6 +299,14 @@ public class Order_Option {
 		this.merchant_uid = merchant_uid;
 	}
 
+	public int getPay_money() {
+		return pay_money;
+	}
+
+	public void setPay_money(int pay_money) {
+		this.pay_money = pay_money;
+	}
+
 	@Override
 	public String toString() {
 		return "Order_Option [order_option_code=" + order_option_code + ", order_code=" + order_code
@@ -308,7 +318,7 @@ public class Order_Option {
 				+ ", order_create_date=" + order_create_date + ", order_delivery=" + order_delivery
 				+ ", order_all_price=" + order_all_price + ", order_postnum=" + order_postnum + ", order_modify_date="
 				+ order_modify_date + ", r_no=" + r_no + ", p_price=" + p_price + ", subtotal=" + subtotal
-				+ ", p_discount=" + p_discount + ", merchant_uid=" + merchant_uid + "]";
+				+ ", p_discount=" + p_discount + ", merchant_uid=" + merchant_uid + ", pay_money=" + pay_money + "]";
 	}
 
 }

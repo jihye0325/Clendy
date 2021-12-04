@@ -17,5 +17,9 @@ public interface MemberService extends UserDetailsService{
 
 	int phoneCheck(String phone);
 
+	int findMemberById_Email(String id, String email);
+
+	void updatePassword(String id, String tempPw);
+
 
 }

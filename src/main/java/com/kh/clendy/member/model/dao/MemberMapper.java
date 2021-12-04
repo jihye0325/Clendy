@@ -29,6 +29,10 @@ public interface MemberMapper {
 
 	int phoneCheck(String phone);
 
+	int findMemberById_Email(String id, String email);
+
+	void updatePassword(String id, String pw);
+
 
 	
 	

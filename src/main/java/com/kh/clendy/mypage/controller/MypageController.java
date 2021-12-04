@@ -1,22 +1,38 @@
 package com.kh.clendy.mypage.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -540,6 +556,97 @@ public class MypageController {
 		return mv;
 	}
 	
+	// 토큰 요청
+	@GetMapping("/users/getToken")
+	public String getToken() {
+		String imp_key = "6905996150362685";
+		String imp_secret = "b26f35c4e598e5be41979266728988e82027ec199ea7982b485f0910dc0492ca73c19d48f82b68e9";
+		
+	    List<HttpMessageConverter<?>> converters = new ArrayList<HttpMessageConverter<?>>();
+	    converters.add(new FormHttpMessageConverter());
+	    converters.add(new StringHttpMessageConverter());
+	    
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+		
+	    RestTemplate restTemplate = new RestTemplate();
+	    restTemplate.setMessageConverters(converters);
+	    
+	    MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+	    map.add("imp_key", imp_key);
+	    map.add("imp_secret", imp_secret);
+	    
+	    JSONParser jsonParser = new JSONParser();
+		JSONObject jsonObject;
+		String token = "";
+		try {
+			jsonObject = (JSONObject) jsonParser.parse(restTemplate.postForObject("https://api.iamport.kr/users/getToken", map, String.class));
+			JSONObject response = (JSONObject)jsonObject.get("response");
+			token = (String) response.get("access_token");
+			
+		} catch (RestClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		// 토큰 값 넘기기
+		return token;
+	}
+	
+	// 결제취소 
+	@PostMapping("/canclePay")
+	@ResponseBody
+	public int canclePay(@RequestBody Map<String, String> u_map) {
+		
+		Payment payment = mypageService.selectPayment(u_map.get("merchant_uid"));
+		String imp_uid = payment.getImp_uid();
+		String merchant_uid = payment.getMerchant_uid();
+		String reason = u_map.get("reason");
+		
+		//메소드호출해서리턴값을 토큰값으로 헤더에 추가해주기
+		String access_token = getToken();
+		
+	    List<HttpMessageConverter<?>> converters = new ArrayList<HttpMessageConverter<?>>();
+	    converters.add(new FormHttpMessageConverter());
+	    converters.add(new StringHttpMessageConverter());
+	    
+	    // 헤더 설정
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+	    headers.setBearerAuth(access_token);	// 토큰 값 넣어주기
+	    
+	    RestTemplate restTemplate = new RestTemplate();
+	    restTemplate.setMessageConverters(converters);
+	    
+	    // 파라미터 세팅
+	    MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+	    map.add("imp_uid", imp_uid);
+	    map.add("merchant_uid", merchant_uid);
+	    map.add("reason", reason);
+	    
+	    // 요청 세팅 완료
+	    HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+	    
+	    // 실제 요청부 
+	    ResponseEntity<String> response = restTemplate.postForEntity("https://api.iamport.kr/payments/cancel", request , String.class);
+	    
+	    
+	    String merchant_uid_Value = "";
+	    JSONParser parser = new JSONParser();
+	    JSONObject jsonObject;
+	    try {
+			jsonObject = (JSONObject) parser.parse(response.getBody());
+			JSONObject json_response = (JSONObject) jsonObject.get("response");
+			merchant_uid_Value = (String) json_response.get("merchant_uid");
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	    
+	    System.out.println(merchant_uid_Value);
+	    
+	    int result = mypageService.canclePay(merchant_uid_Value);
+	    
+		return result;
+	}
 	
 	
 }
