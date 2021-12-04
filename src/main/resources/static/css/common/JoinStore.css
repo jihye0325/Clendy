@@ -10,11 +10,15 @@
 .input {
     height: 18px;
     font-size: 14px;
+    padding: 1px;
 }
 .semiTitle{ display:inline-block; width: 145px; font-weight: bold; margin-right: 30px;}
 .insertLabel{ display: inline-block;  margin: 10px; padding-bottom: 15px;  
 				border-bottom: 0.5px solid #BBBBBB;  width: 700px; }
 #rep_name, #rep_num{ width : 125px; }
+#address{ width : 300px;}
+#detail-address{width : 200px; margin-left: 180px;  margin-top: 10px;}
+#phone, #account_num{width : 190px;}
 /* check agreement */
 input[type=checkbox]{ width:25px; height:15px; margin:5px;}
 #agree{ font-weight: bold; margin:0px}
