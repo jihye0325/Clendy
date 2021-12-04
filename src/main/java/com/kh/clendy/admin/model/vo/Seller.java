@@ -18,13 +18,13 @@ public class Seller {
 	private Date apply_date;
 	private int user_no;
 	private int sales; 			// 매출액
-	private int comission; 		// 수수료
+	private int commission; 		// 수수료
 	
 	public Seller() {}
 
 	public Seller(int seller_code, int a_no, String seller_name, String rep_name, int rep_num, int b_license,
 			String o_b_license, int phone, String email, String address, String account_bank, int account_num,
-			Date apply_date, int user_no, int sales, int comission) {
+			Date apply_date, int user_no, int sales, int commission) {
 		super();
 		this.seller_code = seller_code;
 		this.a_no = a_no;
@@ -41,7 +41,7 @@ public class Seller {
 		this.apply_date = apply_date;
 		this.user_no = user_no;
 		this.sales = sales;
-		this.comission = comission;
+		this.commission = commission;
 	}
 
 	public int getSeller_code() {
@@ -164,12 +164,12 @@ public class Seller {
 		this.sales = sales;
 	}
 
-	public int getComission() {
-		return comission;
+	public int getCommission() {
+		return commission;
 	}
 
-	public void setComission(int comission) {
-		this.comission = comission;
+	public void setCommission(int commission) {
+		this.commission = commission;
 	}
 
 	@Override
@@ -178,7 +178,7 @@ public class Seller {
 				+ rep_name + ", rep_num=" + rep_num + ", b_license=" + b_license + ", o_b_license=" + o_b_license
 				+ ", phone=" + phone + ", email=" + email + ", address=" + address + ", account_bank=" + account_bank
 				+ ", account_num=" + account_num + ", apply_date=" + apply_date + ", user_no=" + user_no + ", sales="
-				+ sales + ", comission=" + comission + "]";
+				+ sales + ", commission=" + commission + "]";
 	}
-	
+
 }

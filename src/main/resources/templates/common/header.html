@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
     <title>header</title>
 <style>
 *{ margin : 0; padding : 0; }
@@ -33,7 +34,11 @@
 .a-wrapper{ width : 830px; margin:0 auto; display:flex; text-align: center;}
 .nav{ font-weight: bold; font-size: 20px; margin: 30px;}
 </style>
-
+<script>
+function searchForm(){
+	$(".searchProductForm").submit();
+}
+</script>
 </head>
 <body>
     <div class="wrapper">
@@ -56,10 +61,10 @@
             <div class="logoArea">
                 <a id="logoA" href="/mainpage"><img id="logo" src="/images/logo-white.png" alt="logo"></a>
                 <div class="searchArea">
-                	<form th:action="@{/searchProduct}" method="post">
+                	<form class="searchProductForm" th:action="@{/searchProduct}" method="post">
                     <input id="searchItem" name="keyword" type="text" placeholder="상품명,카테고리 검색"></input>
                     <span id="img-wrapper">
-                    <img class="finding" src="/images/magnifying-glass-white.png" alt="finding">
+                    <img class="finding" onclick="searchForm();" src="/images/magnifying-glass-white.png" alt="finding">
                     </span>
                 	</form>
                 </div>
@@ -85,6 +90,7 @@
         	</div>
         </div>
     </div>
+    
 </body>
 </html>
 

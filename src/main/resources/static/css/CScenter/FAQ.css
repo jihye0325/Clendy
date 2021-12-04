@@ -24,6 +24,7 @@
 	.question li{ display: table-cell; height: 40px; line-height: 40px;}
 	.answer-wrapper { display : none; border-bottom: 1px solid lightgray;}
 	.answer{ padding-left: 119px; margin:10px;}
+	#finding img{    vertical-align: sub;}
 	/* btn */
 	.btnArea{ display: flex; justify-content: flex-end; width: 850px; padding-bottom: 15px;}
 	.mOrd{ margin-right: 5px; border:0; background-color: lightgray; width : 40px; height : 25px;}

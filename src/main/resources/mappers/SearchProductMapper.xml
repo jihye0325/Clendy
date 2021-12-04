@@ -81,9 +81,8 @@
           WHERE PD.P_STATUS = 'Y'
             AND IMG.IMG_LEVEL = 0
             AND (C.CATEGORY_NAME = #{keyword}
-            OR  PD.P_NAME IN '%' || #{keyword} || '%' 
+            OR  PD.P_NAME LIKE '%' || #{keyword} || '%' 
             OR  C.REF_CATEGORY_CODE IN (SELECT CATEGORY_CODE FROM PRODUCT_CATEGORY WHERE CATEGORY_NAME = #{keyword} ) )                  
           ORDER BY P_NO DESC
-  
 	</select>
 </mapper>

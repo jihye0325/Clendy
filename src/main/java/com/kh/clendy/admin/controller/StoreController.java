@@ -1,5 +1,6 @@
 package com.kh.clendy.admin.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.clendy.admin.model.service.StoreService;
+import com.kh.clendy.admin.model.vo.Seller;
 
 @Controller
 @RequestMapping("/admin")
@@ -28,11 +30,11 @@ public class StoreController {
 	@GetMapping("/sellerList")
 	public void toStore(Model model, @RequestParam(defaultValue="1") int page) {
 		
-		Map<String, Object> sellerList = storeSerivce.selectAllSellerList(page);
+		Map<String, Object> sellerListMap = storeSerivce.selectAllSellerList(page);
 		
-		/* 리스트, 페이징 - (매출액, 수수료) ?*/
-		model.addAttribute("sellerList", sellerList.get("sellerList"));
-		model.addAttribute("pi", sellerList.get("pi"));
+		/* 리스트, 페이징 */
+		model.addAttribute("sellerList", sellerListMap.get("sellerList"));
+		model.addAttribute("pi", sellerListMap.get("pi"));
 	}
 	
 	/* 판매자 리스트에서 입점 취소 */

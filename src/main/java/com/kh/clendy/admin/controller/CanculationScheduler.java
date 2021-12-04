@@ -21,9 +21,8 @@ public class CanculationScheduler {
 	/* 정산 스케쥴러
 	  (cron = "초(0-59) 분(0-59) 시간(0-23) 일(1-31) 월(1-12) 요일(0-7)") 
 	  요일 : 0,7은 일요일, 1=월요일 6=토요일 */
-	@Scheduled(cron = "0 0 0 4 * *")
+	@Scheduled(cron = "0 1 0 5 * *")
 	public void makeCalculation() {
-		System.out.println("스케쥴러 성공");
-		//calculationService.makeCalculation();
+		calculationService.makeCalculation();
 	}
 }

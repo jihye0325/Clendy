@@ -1,7 +1,6 @@
 package com.kh.clendy.CScenter.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kh.clendy.CScenter.model.service.BoardService;
 import com.kh.clendy.CScenter.model.service.FAQService;
-import com.kh.clendy.CScenter.model.vo.Board;
 import com.kh.clendy.CScenter.model.vo.FAQ;
 import com.kh.clendy.member.model.vo.UserImpl;
 
@@ -35,17 +32,30 @@ public class FAQController {
 	/* faq 전체 조회 */
 	@GetMapping("/FAQ")
 	public void toFAQ(Model model) {
-		List<FAQ> faqList = faqService.selectAllFAQ();	
+		List<FAQ> faqList = faqService.selectAllFAQ();
+		
+		model.addAttribute("enter", "\n");
 		
 		model.addAttribute("faqList", faqList);			
 	}
 	
 	/* faq 카테고리별 조회 */
-	@GetMapping("/FAQ/category/{categoryCode}")
-	@ResponseBody
-	public List<FAQ> selectFAQByCategory(@PathVariable int categoryCode){
-		return faqService.selectFAQByCategory(categoryCode);
+	@GetMapping("/FAQ/category")
+	public String selectFAQByCategory(@RequestParam int categoryCode, Model model){ 
+		
+		List<FAQ> faqList = faqService.selectFAQByCategory(categoryCode); 
+		
+		model.addAttribute("enter", "\n");
+		
+		model.addAttribute("faqList", faqList);	
+		
+		return "/CScenter/CategoryFAQ";		
 	}
+	/*
+	 * @ResponseBody 
+	 * public List<FAQ> selectFAQByCategory(@PathVariable int
+	 * categoryCode){ return faqService.selectFAQByCategory(categoryCode); }
+	 */
 	
 	/* faq 검색 */
 	@PostMapping("/FAQ/search")
