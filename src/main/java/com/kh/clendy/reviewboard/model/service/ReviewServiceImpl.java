@@ -3,6 +3,7 @@ package com.kh.clendy.reviewboard.model.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +29,8 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 
 	@Override
-	public List<Review> searchReviewByKeyword(String keyword) {
-		return reviewMapper.searchReviewByKeyword(keyword);
+	public List<Review> searchReviewByKeyword(String keyword, String categoryCode) {
+		return reviewMapper.searchReviewByKeyword(keyword, categoryCode);
 	}
 
 }

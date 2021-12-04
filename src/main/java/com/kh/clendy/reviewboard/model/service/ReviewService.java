@@ -10,6 +10,8 @@ public interface ReviewService {
 	List<Review> selectReviewAllList();
 	
 	//리뷰 검색
-	List<Review> searchReviewByKeyword(String keyword);
+	List<Review> searchReviewByKeyword(String keyword, String categoryCode);
+	
+	
 
 }

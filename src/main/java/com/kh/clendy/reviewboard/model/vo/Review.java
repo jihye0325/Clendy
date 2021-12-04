@@ -17,6 +17,9 @@ public class Review {
 	private String rvimg;
 	private String rvroute;
 	private String route;
+	private String pColor;
+	private String pSize;
+	private String openSize;
 	private String categoryName;
 
 	public Review() {
@@ -25,7 +28,7 @@ public class Review {
 
 	public Review(String pName, int pNo, int rNo, int pPrice, String pImgName, int height, int weight, String rTitle,
 			String rContent, String id, String gender, double ss, int cntlike, String rvimg, String rvroute,
-			String route, String categoryName) {
+			String route, String pColor, String pSize, String openSize, String categoryName) {
 		super();
 		this.pName = pName;
 		this.pNo = pNo;
@@ -43,6 +46,9 @@ public class Review {
 		this.rvimg = rvimg;
 		this.rvroute = rvroute;
 		this.route = route;
+		this.pColor = pColor;
+		this.pSize = pSize;
+		this.openSize = openSize;
 		this.categoryName = categoryName;
 	}
 
@@ -174,6 +180,30 @@ public class Review {
 		this.route = route;
 	}
 
+	public String getpColor() {
+		return pColor;
+	}
+
+	public void setpColor(String pColor) {
+		this.pColor = pColor;
+	}
+
+	public String getpSize() {
+		return pSize;
+	}
+
+	public void setpSize(String pSize) {
+		this.pSize = pSize;
+	}
+
+	public String getOpenSize() {
+		return openSize;
+	}
+
+	public void setOpenSize(String openSize) {
+		this.openSize = openSize;
+	}
+
 	public String getCategoryName() {
 		return categoryName;
 	}
@@ -187,8 +217,10 @@ public class Review {
 		return "Review [pName=" + pName + ", pNo=" + pNo + ", rNo=" + rNo + ", pPrice=" + pPrice + ", pImgName="
 				+ pImgName + ", height=" + height + ", weight=" + weight + ", rTitle=" + rTitle + ", rContent="
 				+ rContent + ", id=" + id + ", gender=" + gender + ", ss=" + ss + ", cntlike=" + cntlike + ", rvimg="
-				+ rvimg + ", rvroute=" + rvroute + ", route=" + route + ", categoryName=" + categoryName + "]";
+				+ rvimg + ", rvroute=" + rvroute + ", route=" + route + ", pColor=" + pColor + ", pSize=" + pSize
+				+ ", openSize=" + openSize + ", categoryName=" + categoryName + "]";
 	}
+
 	
 	
 }

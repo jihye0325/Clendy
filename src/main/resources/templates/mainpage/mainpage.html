@@ -293,7 +293,7 @@ button {
 	<div class="wrapper1">
 
 		<div class="searchdiv">
-			<input class = "inputbar" type="text" placeholder="검색어 입력">
+			<input class="inputbar" type="text" placeholder="검색어 입력">
 			<button>검색</button>
 		</div>
 		<div class="container">
@@ -303,17 +303,17 @@ button {
 					name="slide" id="slide03">
 				<div class="slidewrap">
 
-					<ul class="slidelist" >
+					<ul class="slidelist">
 						<!-- 슬라이드 영역 -->
-						<li class="slideitem" th:each="mainproduct, i : ${mainProductList}">
-							<a th:href="@{'/product/view/' + ${mainproduct.pNo}}">
+						<li class="slideitem"
+							th:each="mainproduct, i : ${mainProductList}"><a
+							th:href="@{'/product/view/' + ${mainproduct.pNo}}">
 								<div class="textbox">
-										<h3 th:text="${mainproduct.pName}"></h3>
-										<p th:text="${mainproduct.pPrice}"></p>
+									<h3 th:text="${mainproduct.pName}"></h3>
+									<p th:text="${mainproduct.pPrice}"></p>
 								</div> <img th:src="@{/images/}+${mainproduct.imgName}">
-							</a>
-						</li>
-						
+						</a></li>
+
 
 						<!-- 좌,우 슬라이드 버튼 -->
 						<div class="slide-control">
@@ -345,37 +345,165 @@ button {
 			<hr>
 			<div class="ranking">
 				<h1>랭킹 top10</h1>
-				<ul class="productimg" >
-					<li th:each="mainproduct, i : ${mainProductList}"><span class="product_ranking" th:text="|${i.count}위|"></span>
-					 <a th:href="@{'/product/view/' + ${mainproduct.pNo}}"><img th:src="@{/images/}+${mainproduct.imgName}"></a>
-						<div class="product_txt" >
-							<p class="product_title" th:text="${mainproduct.pName}"/>
-							<p th:text="${mainproduct.pPrice}"/>
-							
+				<ul class="productimg">
+					<li th:each="mainproduct, i : ${mainProductList}"><span
+						class="product_ranking" th:text="|${i.count}위|"></span> <a
+						th:href="@{'/product/view/' + ${mainproduct.pNo}}"><img
+							th:src="@{/images/}+${mainproduct.imgName}"></a>
+						<div class="product_txt">
+							<p class="product_title" th:text="${mainproduct.pName}" />
+							<p th:text="${mainproduct.pPrice}" />
+
 						</div></li>
 				</ul>
 			</div>
 			<hr>
-			<div class="RVproduct">
-				<h1>최근본상품</h1>
-				<ul class="productimg">
-					<li><img src="/images/1.jpg"></li>
-					<li><img src="/images/2.jpg"></li>
-					<li><img src="/images/3.jpg"></li>
-					<li><img src="/images/4.jpg"></li>
-					<li><img src="/images/5.jpg"></li>
-					<li><img src="/images/6.jpg"></li>
-					<li><img src="/images/7.jpg"></li>
-					<li><img src="/images/8.jpg"></li>
-					<li><img src="/images/9.jpg"></li>
-					<li><img src="/images/10.jpg"></li>
-				</ul>
+			
+			
+			<div id="rightSide">
+				<div id="right_zzim">
+					<div class="recTit">
+						<h1>최근본상품</h1>
+						 <span id=recentCnt></span>
+					</div>
+					<ul></ul>
+					<!-- 본 상품이 뿌려질 부분  -->
+					<div id="paging">
+						<a class="btn_prev" style="cursor: pointer">이전</a><span
+							id="currentPage"></span><span id="totalPageCount"></span><a
+							class="btn_next" style="cursor: pointer">다음</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 	<div th:replace="common/footer.html"></div>
-	
-	
+
+	<script>
+		//
+		// recent item    
+		var Cpage; // 현재 페이지 
+		var pagingSize = 4; // 원하는 페이지 사이즈로 조정하세용 
+		function chkRecent(a) {
+			var itemID = getCookie("itemID");
+			$("#right_zzim ul").html(''); // 일단 Ul 내용 지우기... 
+			if (itemID) {
+				var totcount = itemID.split('&').length - 1; //
+				var totpage = Math.ceil(totcount / pagingSize) * 1;
+
+				Cpage = (totpage >= a) ? a : 1;
+
+				Cpage = (Cpage < 1) ? totpage : Cpage;
+
+				var start = (Cpage - 1) * pagingSize;
+
+				for (i = start; i <= start + (pagingSize - 1); i++) {
+
+					var thisItem = itemID.split('&')[i];
+
+					if (thisItem) {
+						var itemId = thisItem.split(':')[0];
+						var itemImg = thisItem.split(':')[1];
+						$("#right_zzim ul")
+								.append(
+										'<li><a href="/_detail.php?id='
+												+ itemId
+												+ '" target="_top"><img src="http://www.xxx.com/images/s'+itemImg+'"  width="75" border=1></a><div class="detail"><a href="javascript:removeRecentItem(\''
+												+ thisItem
+												+ '\')" class="btn_delete">삭제</a></div></li>')
+					}
+				}
+
+				$("#paging").show();
+
+			} else {
+
+				$("#right_zzim ul").append(
+						'<p class="noData">최근 본 상품이<br> 없습니다.</p>');
+
+				$("#paging").hide();
+				$("#recentCnt").text('');
+
+			}
+			updateRecentPage(totcount, Cpage);
+		}
+
+		chkRecent(1);
+
+		function removeRecentItem(itemname) {
+
+			var itemID = getCookie("itemID");
+
+			itemID = itemID.replace(itemname + "&", "");
+
+			setCookie("itemID", itemID, 1);
+
+			chkRecent(Cpage);
+
+		}
+
+		function updateRecentPage(totcount, Cpage) { //  
+			$("#recentCnt").text(totcount); //
+			$("#totalPageCount").text(
+					"/" + Math.ceil((totcount / pagingSize) * 1));
+
+			if (Math.ceil((totcount / pagingSize) * 1) < Cpage) {
+
+				$("#currentPage").text(Math.ceil((totcount / pagingSize) * 1));
+
+			} else {
+
+				$("#currentPage").text(Cpage); //
+
+			}
+
+		}
+
+		$(".btn_next").on('click', function() {
+			chkRecent(Cpage + 1);
+		});
+
+		$(".btn_prev").on('click', function() {
+			chkRecent(Cpage - 1);
+		});
+
+		function checkCookie() {
+
+			var itemID = getCookie("itemID");
+
+			var thisItem = '<?=$bookID?>:<?=$itemImage ?>'; // 제품 아이디와 이미지 이름을 저장  2차원 배열처럼 쓸려고 짱구를 굴림...  json 형태로 저장도 가능할텐데.... 그건 취향대로 
+
+			if (thisItem) {
+
+				if (itemID != "" && itemID != null) {
+
+					if (itemID.indexOf(thisItem) == -1) { //값이 없으면 
+
+						setCookie("itemID", thisItem + "&" + itemID, 1);
+
+					}
+
+				} else {
+
+					if (itemID == "" || itemID == null) {
+
+						setCookie("itemID", thisItem + "&", 1);
+
+					}
+
+				}
+
+			}
+
+		}
+
+		checkCookie();
+	</script>
+
+
+
+
+
 
 </body>
 </html>
