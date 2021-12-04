@@ -37,10 +37,11 @@ public class JoinStoreController {
 	
 	/* 입점 신청 */
 	@PostMapping("joinStore")
-	public String applyStore(ApplyStore newStore,  RedirectAttributes redirectAttr) {
+	public String applyStore(ApplyStore newStore, @RequestParam String detailAddress, RedirectAttributes redirectAttr) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		newStore.setUser_no(user_no);
+		newStore.setAddress(newStore.getAddress()+" " + detailAddress);
 		
 		int result = joinStoreService.applyStore(newStore);
 		

@@ -8,6 +8,8 @@
     <!-- csrf 토큰 -->
     <meta name="_csrf" th:content="${_csrf.token}"/>
 	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+	<!-- 다음 주소 api -->
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <title>입점신청</title>
     <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
     <link rel="stylesheet" href="/css/common/JoinStore.css">    
@@ -48,24 +50,27 @@
             
             <label class="insertLabel"><span class="semiTitle">대표자명/인원수</span>
             <input type="text" class="input" name="rep_name" id="rep_name" maxlength="10" required> / 
-            <input type="number" class="input" id="rep_num" required></label><br>
+            <input type="number" class="input" name="rep_num" id="rep_num" required></label><br>
             
             <label class="insertLabel"><span class="semiTitle">사업자 등록번호</span>
-            <input type="number" class="input" name="number" id="b_license" placeholder="예:1234567890" required>
+            <input type="number" class="input" name="b_license" id="b_license" placeholder="예:1234567890" required>
             <a class="bLicense btn" onclick="checkBLicense();">중복확인</a></label><br>
             
             <label class="insertLabel"><span class="semiTitle">통신판매업신고번호</span>
             <input type="text" class="input" name="o_b_license" id="o_b_license" maxlength="25"
-             placeholder="예:1234-서울강남-56789" required><a class="OBLicense btn" onclick="checkOBLicense();">중복확인</a></label><br>
+             placeholder="예:1234-서울강남-56789" required>
+             <a class="OBLicense btn" onclick="checkOBLicense();">중복확인</a></label><br>
              
             <label class="insertLabel"><span class="semiTitle">전화번호</span>
-            <input type="number" class="input" name="phone" id="phone" required></label><br>
+            <input type="number" class="input" name="phone" id="phone" placeholder="-없이 숫자만 입력해주세요."required></label><br>
             
             <label class="insertLabel"><span class="semiTitle">이메일</span>
             <input type="email" class="input" name="email" id="email" maxlength="30" required></label><br>
             
             <label class="insertLabel"><span class="semiTitle">업체주소</span>
-            <input type="text" class="input" name="address" id="address" maxlength="100" required></label><br>
+            <input type="text" class="input" name="address" id="address" placeholder="주소" readonly required>
+            <a class="findAddress btn" onclick="findAddress()">주소찾기</a><br>
+            <input type="text" class="input" id="detail-address" name="detailAddress" placeholder="상세 주소" required> </label><br>
             
             <label class="insertLabel"><span class="semiTitle">정산계좌</span>
              <select name="account_bank">
@@ -75,7 +80,7 @@
                 <option value="우리">우리은행</option>
                 <option value="카카오뱅크">카카오뱅크</option>
               </select>
-			<span> 계좌번호 </span><input type="number" class="input" name="account_num" id="account_num" placeholder='숫자만 입력해주세요.'required></label><br>
+			<span> 계좌번호 </span><input type="number" class="input" name="account_num" id="account_num" placeholder='-없이 숫자만 입력해주세요.'required></label><br>
         </div>
         <div id="noticeBottom">
             <label>- 브랜드 정보를 가능한 상세하게 입력하셔야 빠른 처리가 가능하며 단순 입점 방식에 대한 문의는 답변드리지 않습니다.</label><br>
@@ -105,14 +110,16 @@
  	var checked_name = false;
  	var checked_bLicense = false;
  	var checked_OBLicense = false;
- 	var checked_userNo = false;
-    	
-    
+ 	var checked_userNo = false;    
+ 	var checked_address = false;
  	/* 대표자명 유효성 검사 */
  	var regName = /^[가-힣a-zA-Z/d]{0,10}$/; 
+ 	
  	/* 핸드폰 번호 유효성 검사 */
     var regExpPhone = /^01[0|1|6|7|8|9][0-9]{3,4}[0-9]{4}$/;
    	var regExpTel = /^0[1,2,3,4,5,6]{2,3}[0-9]{3,4}[0-9]{3,4}$/;
+   	/* 계좌번호 유효성 검사 */
+   	var regAccount = /\d/;
 	   	
     function check(){
     	if(!checked_name || !checked_bLicense || !checked_OBLicense){
@@ -121,11 +128,15 @@
 			alert("대표자명은 한글, 영어 포함 최대 10자리까지 입력가능합니다.");
 		}else if(!regExpPhone.test($("#phone").val()) && !regExpTel.test($("#phone").val())){
 			alert("유효하지 않은 전화번호 입니다.");
+	   	}else if(!regAccount.test($("#account_num").val())){
+	   		alert("계좌번호는 숫자만 입력해주세요.");
+	   	}else if($("#detail-address").val()=='' || !checked_address){
+	   		alert("주소와 상세주소를 입력해주세요.")
 	   	}else if(!$("#admit").is(":checked")){
 			alert("개인정보 수집에 동의해주세요.");
 	   	}else if(!checked_userNo){
 	   		alert("이미 신청하신 내역이 있습니다.");
-	   	}else if(checked_name && checked_bLicense && checked_OBLicense && checked_userNo){
+	   	}else if(checked_name && checked_bLicense && checked_OBLicense && checked_userNo && checked_address){
 	  		$(".joinStoreForm").submit();
 	  	}    	
     }
@@ -274,6 +285,32 @@
     	});	
     	}
     };
+    
+    /* 다음 주소 api */
+    function findAddress(){
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+	        	// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+                // 주소 정보를 해당 필드에 넣는다.
+                document.getElementById("address").value = addr;
+                checked_address = true;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("detail-address").focus();
+	        }
+	    }).open();
+    	
+    }
+
     </script>
     
     
