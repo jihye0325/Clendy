@@ -85,7 +85,8 @@
                             <button id="disable_review_btn" th:attr="onclick=|disable_review()|" >리뷰등록</button>
                             </th:block>
                             <th:block th:if="${p.r_no != 0}">
-                            <button id="review_detail" th:attr="onclick=|reviewDetail('${p.order_option_code}')|">리뷰확인</button>
+                            <button id="review_detail" th:if="${p.r_status == 'Y'}" th:attr="onclick=|reviewDetail('${p.order_option_code}', '${p.r_status}')|">리뷰확인</button>
+                            <button id="review_detail" th:if="${p.r_status == 'N'}" th:attr="onclick=|reviewDetail('${p.order_option_code}', '${p.r_status}')|">리뷰등록 불가</button>
                             </th:block>
                         </div>
                     </div>
@@ -162,9 +163,14 @@
 	</script>
 	<!-- 리뷰 확인 -->
 	<script>
-		function reviewDetail(order_option_code){
+		function reviewDetail(order_option_code, r_status){
+			if(r_status == 'N') {
+				alert("리뷰가 삭제되어 리뷰를 재등록할 수 없습니다.");
+				return;
+			}
+			
 			var popupWidth = 900;
-			var popupHeight = 600;
+			var popupHeight = 650;
 	
 			var popupX = (window.screen.width / 2) - (popupWidth / 2);
 			var popupY= (window.screen.height / 2) - (popupHeight / 2);
@@ -177,7 +183,7 @@
 	<script>
 		function insert_review(order_option_code){
 			var popupWidth = 900;
-			var popupHeight = 600;
+			var popupHeight = 650;
 	
 			var popupX = (window.screen.width / 2) - (popupWidth / 2);
 			var popupY= (window.screen.height / 2) - (popupHeight / 2);
@@ -263,10 +269,13 @@
 					xhr.setRequestHeader(header, token);    					
 				},
 		        success : function(result) {
-		        	if(result > 0)
+		        	if(result > 0){
 		        		alert("결제가 취소되어 환불이 완료되었습니다.");
-		        	else 
+		        		location.reload();
+		        	} else {
 		        		alert("결제 취소에 오류가 발생했습니다. 다시 시도해주세요.");
+		        		location.reload();
+		        	}
 		        }, 
 		        error : function(e)	{
 		        	console.log(e);

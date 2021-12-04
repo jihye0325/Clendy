@@ -119,7 +119,15 @@ public interface MypageMapper {
 
 	int payment_status(String merchant_uid_Value);
 
-	int re_stock(String merchant_uid_Value);
+	List<Order_Option> selectO_Olist(String merchant_uid_Value);
+
+	int stock_Status(int order_option_code);
+
+	int reviewModify(Review review);
+
+	Review reviewDate(int order_option_code);
+	
+	
 
 	
 

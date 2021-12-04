@@ -263,7 +263,7 @@ public class MypageServiceImpl implements MypageService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("downloadPoint", downloadPoint);
 		map.put("user_no", user_no);
-		
+	
 		return mypageMapper.downloadEventPoint(map);
 	}
 
@@ -314,12 +314,36 @@ public class MypageServiceImpl implements MypageService {
 		int result3 = mypageMapper.payment_status(merchant_uid_Value);
 		
 		// product_option 재고 원래대로
-		int result4 = mypageMapper.re_stock(merchant_uid_Value);
+		List<Order_Option> order_optionList = mypageMapper.selectO_Olist(merchant_uid_Value);
+
+		int result4 = 0;
 		
-		if(result1 > 0 )
+		for(Order_Option o : order_optionList) {
+			int r = mypageMapper.stock_Status(o.getOrder_option_code());
+			if(r > 0)
+				result4 = 1;
+		}
+		System.out.println("result1" + result1);
+		System.out.println("result2" + result2);
+		System.out.println("result3" + result3);
+		System.out.println("result4" + result4);
+		
+		if(result1 > 0 && result2 > 0 && result3 > 0 && result4 > 0)
 			result = 1; 
 				
 		return result;
+	}
+
+	// 리뷰수정
+	@Override
+	public int reviewModify(Review review) {
+		return mypageMapper.reviewModify(review);
+	}
+
+	// 리뷰 삭제 전 날짜 확인
+	@Override
+	public Review reviewDate(int order_option_code) {
+		return mypageMapper.reviewDate(order_option_code);
 	}
 	
 }

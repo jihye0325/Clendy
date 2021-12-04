@@ -10,6 +10,19 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
 	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>회원가입</title>
+    <script>
+		const msg = '[[${ msg }]]';
+		
+		if(msg){
+			if(msg == "성공"){
+				alert("회원가입에 성공했습니다. \n회원가입 축하 포인트 2000점이 적립되었습니다.");
+				location.href="/";
+			} else {
+				alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+			}
+		}
+		
+	</script>
 </head>
 <body>
 	<div th:replace="common/header.html"></div>
@@ -35,7 +48,7 @@
                 <span id="input_rule">영문,숫자,특수문자 조합 최소 8자리</span>
                 <div class="pwd_input area">
                     <input type="password" name="password" id="password" minlength="8" placeholder="비밀번호 입력" required>
-                    <img class="pwd_img" src="/images/show.png">
+                    <span id="imgarea"><img id="pwd_img" class="pwd_img" src="/images/show.png"></span>
                     <span id="pwd1_img"></span><br>
                     <span id="pwd1Confirm"></span>
                 </div>
@@ -45,7 +58,7 @@
                 <span>비밀번호 확인</span><span class="required">*</span>
                 <div class="pwdCheck_input area">
                     <input type="password" name="password2" id="password2" minlength="8" placeholder="비밀번호 재입력" required>
-                    <img class="pwd_img" src="/images/show.png">
+                    <span id="imgarea2"><img id="pwd_img" class="pwd_img" src="/images/show.png"></span>
                     <span id="pwd2_img"></span><br>
                     <span id="pwd2Confirm"></span>
                 </div>
@@ -188,7 +201,9 @@
 				success : function(result){
 					if(result > 0) {
 						alert("추천 회원이 존재합니다.");
+						$("#recommender").attr('readonly', true);
 						rec_Check = true;
+						
 					} else {
 						alert("해당 회원이 존재하지 않습니다. 아이디를 확인해주세요.");
 						rec_Check = false; 
@@ -466,7 +481,31 @@
     	});  
     </script>
     
+    <!-- 비밀번호보기 -->
+    <script>
+		$('#imgarea').on('click', function(){
+			$('#password').toggleClass('active');
+			if($('#password').hasClass('active')){
+				imgarea.innerHTML = '<img id="pwd_img" class="pwd_img" src="/images/blind.png">';
+				$('#password').attr('type', "text");
+			} else {
+				imgarea.innerHTML = '<img id="pwd_img" class="pwd_img" src="/images/show.png">';
+				$('#password').attr('type', "password");
+			}
+		});
+		
+		$('#imgarea2').on('click', function(){
+			$('#password2').toggleClass('active');
+			if($('#password2').hasClass('active')){
+				imgarea2.innerHTML = '<img id="pwd_img" class="pwd_img" src="/images/blind.png">';
+				$('#password2').attr('type', "text");
+			} else {
+				imgarea2.innerHTML = '<img id="pwd_img" class="pwd_img" src="/images/show.png">';
+				$('#password2').attr('type', "password");
+			}
+		});
     
+    </script>
     
     
     

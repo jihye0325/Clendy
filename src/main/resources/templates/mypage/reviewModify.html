@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/mypage/reviewModify.css" rel="stylesheet"></head>
+    <!-- csrf -->
+    <meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+	<!-- include libraries(jQuery, bootstrap) -->
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+	<!-- include summernote css/js-->
+	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+	<!-- include summernote-ko-KR -->
+	<script src="/resources/js/summernote-ko-KR.js"></script>
+    <title>리뷰 수정</title>
+</head>
+<body>
+    <div class="outer">
+        <div class="title">리뷰 수정</div>
+        <div class="product">
+            <img th:src="@{${r.order_option.product_option.product.imageList[0].route} + ${r.order_option.product_option.product.imageList[0].imgrName}}">
+            <div class="product_info">
+                <div id="pname" th:text="${r.order_option.product_option.product.p_name}"></div>
+                <div id="option" th:text="|옵션 : ${r.order_option.product_option.p_color}, ${r.order_option.product_option.p_size}|">></div>
+            </div>
+        </div>
+        <div class="like_cnt">
+            <span th:text="|좋아요 ${r.like_cnt}|"></span>
+        </div>
+        
+        <form id="reviewModifyForm" th:action="@{/mypage/reviewModify(${_csrf.parameterName}=${_csrf.token})}" method="post">
+	        <input type="hidden" name="order_option_code" th:value="${r.order_option.order_option_code}" >
+	        <input type="hidden" name="r_no" th:value="${r.r_no}">
+	        <div class="content">
+	            <div class="title_date_area">
+	                <div class="title_area">
+	                    <span>제목</span>
+	                    <input type="text" class="btitle" id="r_title" name="r_title" th:value="${r.r_title}">
+	                </div>
+	                
+	                <div class="date_area">
+	                    <div class="create_date">
+	                        <span>작성일 |</span>
+	                        <span id="c_date" th:text="${#dates.format(r.r_create_date, 'yyyy-MM-dd')}"></span>
+	                    </div>
+	    
+	                    <div class="modify_date">
+	                        <span>수정일 |</span>
+	                        <span id="m_date" th:text="${#dates.format(r.r_modify_date, 'yyyy-MM-dd')}"></span>
+	                    </div>
+	                </div>
+	            </div>
+	
+	            <div class="score">
+	                <span>별점</span> 
+	                <img src="/images/star_yes.png"> 
+	                <th:block th:if="${r.score >= 2}"><img src="/images/star_yes.png"></th:block>
+	                <th:block th:if="${r.score >= 3}"><img src="/images/star_yes.png"></th:block>
+	                <th:block th:if="${r.score >= 4}"><img src="/images/star_yes.png"></th:block>
+	                <th:block th:if="${r.score == 5}"><img src="/images/star_yes.png"></th:block>
+	                
+	                <select id="score">
+	                    <option value="1">1점</option>
+	                    <option value="2">2점</option>
+	                    <option value="3">3점</option>
+	                    <option value="4">4점</option>
+	                    <option value="5">5점</option>
+	                </select> 
+	            </div>
+	            
+	            <div class="size">
+	                <span>사이즈공개</span>	                
+	                <input type="checkbox" id="size_yn" name="open_size" value="Y" th:if="${r.open_size == 'Y'}" checked>
+	                <input type="checkbox" id="size_yn" name="open_size" th:if="${r.open_size == 'N'}" value="Y">
+	                <span id="size_info" th:text="|${m.gender}/${m.height}cm/${m.weight}kg|"></span>
+	            </div>
+	            
+	            <!-- summernote 연결-->
+				<div class="container">
+					<textarea id="summernote" name="content" th:utext="${r.r_content}"></textarea>
+				</div>
+	        </div>
+	
+	        <div class="btn_area">
+	            <button type="submit">수정</button>
+	            <button type="button" id="delete">삭제</button>
+	            <button type="button" onclick="reviewCancle()">닫기</button>
+	        </div>
+        </form>
+    </div>
+	
+	<script>
+		$(document).ready(function() {
+		     $('#summernote').summernote({
+		    	 	 width: 900,
+		             height: 300,                
+		             minHeight: null,            
+		             maxHeight: null,             
+		             focus: true,
+		             lang: "ko-KR"
+		     });
+		});
+		
+		var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
+				
+		function reviewCancle(){
+			window.close();
+		}
+	</script>
+	
+	    <!-- 리뷰 삭제 -->
+    <script>
+    	$(function(){
+    		$(document).on("click", "#delete", function(){
+    			alert("삭제 기능");
+    		});
+    	});
+    </script>
+</body>
+</html>

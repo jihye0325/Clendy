@@ -157,6 +157,11 @@ img{
 	color: lightgray;
 }
 
+.noReview {
+	border : 1px solid lightgray;
+	color: lightgray;
+}
+
 .pname a:link{
     color: black;
     text-decoration: none;

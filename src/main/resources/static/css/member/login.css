@@ -26,7 +26,7 @@ span{
     padding-left: 70px;
 }
 
-.id {
+#username {
     margin-top: 10px;
     width: 392px;
     height: 35px;
@@ -39,7 +39,7 @@ span{
     height: 35px;
 }
 
-.pwd_img{
+.pwd_area img{
     width: 20px;
     vertical-align: middle;
     margin-left: 5px;

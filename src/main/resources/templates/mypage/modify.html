@@ -41,8 +41,8 @@
                 <div class="pwd_area">
                     <span>현재 비밀번호</span><span class="required">*</span>
                     <div class="pwd_input area">
-                        <input type="password" name="originPwd" placeholder="비밀번호를 입력하세요" required>
-                        <img class="pwd_img" src="/images/show.png">
+                        <input type="password" id="originPwd" name="originPwd" placeholder="비밀번호를 입력하세요" required>
+                        <span id="imgarea"><img id="pwd_img" class="pwd_img" src="/images/show.png"></span>
                     </div>
                 </div>
                 
@@ -50,7 +50,7 @@
                     <span>새로운 비밀번호</span>
                     <div class="newPwd_input area">
                         <input type="password" name="password" id="password" minlength="8" placeholder="비밀번호(영문,숫자,특수문자 조합 최소 8자리)">
-                        <img class="pwd_img" src="/images/show.png">
+                        <span id="imgarea2"><img id="pwd_img" class="pwd_img" src="/images/show.png"></span>
                         <span id="pwd1_img"></span><br>
                     	<span id="pwd1Confirm"></span>
                     </div>
@@ -60,7 +60,7 @@
                     <span>새로운 비밀번호 확인</span>
                     <div class="newPwdCheck_input area">
                         <input type="password" name="password2" id="password2" minlength="8" placeholder="비밀번호 재입력">
-                        <img class="pwd_img" src="/images/show.png">
+                        <span id="imgarea3"><img id="pwd_img" class="pwd_img" src="/images/show.png"></span>
                         <span id="pwd2_img"></span><br>
                     	<span id="pwd2Confirm"></span>
                     </div>
@@ -307,6 +307,53 @@
     	return regExp.test(phone);
 	}
     </script>
+    
+    <!-- 비밀번호 보기 -->
+    <script>
+	$('#imgarea').on('click', function(){
+		$('#originPwd').toggleClass('active');
+		if($('#originPwd').hasClass('active')){
+			imgarea.innerHTML = '<img id="pwd_img" class="pwd_img" src="/images/blind.png">';
+			$('#originPwd').attr('type', "text");
+		} else {
+			imgarea.innerHTML = '<img id="pwd_img" class="pwd_img" src="/images/show.png">';
+			$('#originPwd').attr('type', "password");
+		}
+	});
+    
+	$('#imgarea2').on('click', function(){
+		$('#password').toggleClass('active');
+		if($('#password').hasClass('active')){
+			imgarea2.innerHTML = '<img id="pwd_img" class="pwd_img" src="/images/blind.png">';
+			$('#password').attr('type', "text");
+		} else {
+			imgarea2.innerHTML = '<img id="pwd_img" class="pwd_img" src="/images/show.png">';
+			$('#password').attr('type', "password");
+		}
+	});
+	
+	$('#imgarea3').on('click', function(){
+		$('#password2').toggleClass('active');
+		if($('#password2').hasClass('active')){
+			imgarea3.innerHTML = '<img id="pwd_img" class="pwd_img" src="/images/blind.png">';
+			$('#password2').attr('type', "text");
+		} else {
+			imgarea3.innerHTML = '<img id="pwd_img" class="pwd_img" src="/images/show.png">';
+			$('#password2').attr('type', "password");
+		}
+	});
+    </script>
+    
+    <script>
+    	$("#modify").on('click', function(){
+    		if($("#modify").prop("disabled")){
+    			alert("확인");
+    		}
+    	});
+    
+    </script>
+    
+    
     
 </body>
 </head>

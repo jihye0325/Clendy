@@ -298,18 +298,25 @@ public class MypageController {
 		
 		if(result > 0) 
 			msg = "리뷰가 등록되어 포인트 200원 적립되었습니다.";
-		else 
+		else {
 			msg = "리뷰 등록에 실패하였습니다.";
+			redirectAttr.addFlashAttribute("msg", msg);
+			return "recirect:/mypage/reviewInsert/" + order_option_code;
+		}
 				
 		redirectAttr.addFlashAttribute("msg", msg);
 		
-		return "redirect:/mypage/orderList";
+		return "redirect:/mypage/reviewDetail/" + order_option_code;
 	}
 	
 	// 리뷰 상세화면
 	@GetMapping("/reviewDetail/{order_option_code}")
 	public ModelAndView reviewDetail(ModelAndView mv, @PathVariable int order_option_code) {
-		// *** 리뷰 보기 클릭시 주문옵션번호(order_option_code)가 넘어오게 구현해야함 ***
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		Member m = mypageService.selectMember(user_no);
+		mv.addObject("m", m);
+		
 		// 상품정보 조회
 		Review review = mypageService.selectReview(order_option_code);
 		
@@ -318,6 +325,69 @@ public class MypageController {
 		return mv;
 	}
 	
+	// 리뷰 수정화면
+	@GetMapping("reviewModify/{order_option_code}")
+	public ModelAndView reviewModify(ModelAndView mv, @PathVariable int order_option_code) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		Member m = mypageService.selectMember(user_no);
+		mv.addObject("m", m);
+		// 리뷰정보 조회
+		Review review = mypageService.selectReview(order_option_code);
+		System.out.println(review);
+		mv.addObject("r", review);
+		mv.setViewName("/mypage/reviewModify");
+		return mv;
+	}
+	
+	// 리뷰 수정
+	@PostMapping("reviewModify")
+	public String reviewModify(HttpServletRequest request, RedirectAttributes redirectAttr) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		
+		int r_no = Integer.parseInt(request.getParameter("r_no"));
+		int order_option_code = Integer.parseInt(request.getParameter("order_option_code"));
+		String r_title = request.getParameter("r_title");
+		int score = Integer.parseInt(request.getParameter("score"));
+		String open_size = "";
+		
+		if(request.getParameter("open_size") == null) {
+			open_size = "N";
+		} else {
+			open_size = "Y";
+		}
+		
+		String r_content = request.getParameter("content");
+		Review review = new Review(r_no, r_title, score, open_size, r_content, user_no, order_option_code);
+		System.out.println(review);
+		
+		String msg = "";	
+		int result = mypageService.reviewModify(review); 
+		
+		if(result > 0) 
+			msg = "리뷰가 수정되었습니다.";
+		else 
+			msg = "리뷰 수정에 실패하였습니다.";
+				
+		redirectAttr.addFlashAttribute("msg", msg);
+		
+		return "redirect:/mypage/reviewDetail/" + order_option_code;
+	}
+	
+	// 리뷰 삭제 전 등록 날짜 확인
+	@PostMapping("/reviewDate")
+	@ResponseBody
+	public int reviewDate(@RequestParam int order_option_code) {
+		Review review = mypageService.reviewDate(order_option_code);
+		
+		int result = 0;
+		
+		if(review != null) 
+			result = 1;
+		
+		return result;
+	}
 	
 	// 내가 쓴 글 화면 
 	@GetMapping("/myBoard")
@@ -420,7 +490,6 @@ public class MypageController {
 		int user_no = user.getUser_no();
 		
 		List<Product_Order> po_list = mypageService.selectProduct_Order(user_no);
-		
 		System.out.println(po_list);
 		mv.addObject("po_list", po_list);
 		mv.setViewName("/mypage/orderList");

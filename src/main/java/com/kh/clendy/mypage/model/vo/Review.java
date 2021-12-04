@@ -51,6 +51,18 @@ public class Review {
 		this.order_option_code = order_option_code;
 	}
 
+	public Review(int r_no, String r_title, int score, String open_size, String r_content, int user_no,
+			int order_option_code) {
+		super();
+		this.r_no = r_no;
+		this.r_title = r_title;
+		this.score = score;
+		this.open_size = open_size;
+		this.r_content = r_content;
+		this.user_no = user_no;
+		this.order_option_code = order_option_code;
+	}
+
 	public int getR_no() {
 		return r_no;
 	}

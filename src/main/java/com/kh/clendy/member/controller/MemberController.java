@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.clendy.member.dto.MailDto;
 import com.kh.clendy.member.model.service.MemberService;
@@ -43,12 +44,18 @@ public class MemberController {
 	public void signUpForm() {}
 	
 	@PostMapping("/signUp")	
-	public String signUp(Member member, HttpServletRequest request) {
+	public String signUp(Member member, HttpServletRequest request, RedirectAttributes redirectAttr) {
 		String rec_id = request.getParameter("recommender");
 		
-		memberService.signUp(member, rec_id);
+		int result = memberService.signUp(member, rec_id);
 		
-		return "redirect:/";
+		if(result > 0) {
+			redirectAttr.addFlashAttribute("msg", "성공");
+		} else {
+			redirectAttr.addFlashAttribute("msg", "실패");
+		}
+		
+		return "redirect:/member/signUp";
 	}
 	
 	// 이용약관

@@ -89,4 +89,8 @@ public interface MypageService{
 
 	int canclePay(String merchant_uid_Value);
 
+	int reviewModify(Review review);
+
+	Review reviewDate(int order_option_code);
+
 }
