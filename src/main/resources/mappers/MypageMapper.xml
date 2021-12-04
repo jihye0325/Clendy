@@ -173,7 +173,7 @@
 	</resultMap>
 	
 	<!-- applystore -->
-	<resultMap id="applystoreResultMap" type="com.kh.clendy.joinStore.model.vo.ApplyStore">
+	<resultMap id="applystoreResultMap" type="com.kh.clendy.common.model.vo.ApplyStore">
 		<id property="a_no" column="A_NO"/>
 		<result property="seller_name" column="SELLER_NAME"/>
 		<result property="rep_name" column="REP_NAME"/>
