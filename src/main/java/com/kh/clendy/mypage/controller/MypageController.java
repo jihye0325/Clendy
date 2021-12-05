@@ -178,20 +178,20 @@ public class MypageController {
 	
 	// 적립금 화면
 	@GetMapping("/point")
-	public ModelAndView point(ModelAndView mv) {
+	public ModelAndView point(ModelAndView mv, @RequestParam(defaultValue="1") int page) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		
 		// 적립금 리스트 불러오기
-		List<Point> point_list = mypageService.selectPoint(user_no);
+		Map<String, Object> resultList = mypageService.selectPoint(user_no, page);
 		
+		mv.addObject("point_list", resultList.get("point_list"));
+		mv.addObject("pi", resultList.get("pi"));
+		System.out.println(resultList.get("point_list"));
 		// 다운 가능한 이벤트 적립금 불러오기
 		List<Point_Category> event_point_list = mypageService.selectDownableEventPoint(user_no);
 		
 		mv.addObject("event_point_list", event_point_list);
-
-		
-		mv.addObject("point_list", point_list);
 		
 		mv.setViewName("mypage/point");
 		
@@ -215,28 +215,33 @@ public class MypageController {
 	
 	// 위시리스트 화면
 	@GetMapping("/wishlist")
-	public ModelAndView wishlist(ModelAndView mv) {
+	public ModelAndView wishlist(ModelAndView mv, @RequestParam(defaultValue="1") int page) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
+		
 		// 위시리스트 불러오기(아우터)
-		Wishlist outer_list = mypageService.selectOuterlist(user_no);
-		mv.addObject("outer_list", outer_list);
-		System.out.println(outer_list);
+		Map<String, Object> resultList1 = mypageService.selectOuterlist(user_no, page);
+		
+		mv.addObject("outer_list", resultList1.get("outer_list"));
+		mv.addObject("pi1", resultList1.get("pi1"));
 		
 		// 위시리스트 불러오기(상의)
-		Wishlist top_list = mypageService.selectToplist(user_no);
-		mv.addObject("top_list", top_list);
-		System.out.println(top_list);
+		Map<String, Object> resultList2 = mypageService.selectToplist(user_no, page);
+		
+		mv.addObject("top_list", resultList2.get("top_list"));
+		mv.addObject("pi2", resultList2.get("pi2"));
 		
 		// 위시리스트 불러오기(하의)
-		Wishlist bottom_list = mypageService.selectBottomlist(user_no);
-		mv.addObject("bottom_list", bottom_list);
-		System.out.println(bottom_list);
+		Map<String, Object> resultList3 = mypageService.selectBottomlist(user_no, page);
+		
+		mv.addObject("bottom_list", resultList3.get("bottom_list"));
+		mv.addObject("pi3", resultList3.get("pi3"));
 		
 		// 위시리스트 불러오기(ACC)
-		Wishlist acc_list = mypageService.selectAcclist(user_no);
-		mv.addObject("acc_list", acc_list);
-		System.out.println(acc_list);
+		Map<String, Object> resultList4 = mypageService.selectAcclist(user_no, page);
+		
+		mv.addObject("acc_list", resultList4.get("acc_list"));
+		mv.addObject("pi4", resultList4.get("pi4"));
 		
 		mv.setViewName("mypage/wishlist");
 		
@@ -391,27 +396,42 @@ public class MypageController {
 	
 	// 내가 쓴 글 화면 
 	@GetMapping("/myBoard")
-	public ModelAndView myBoard(ModelAndView mv) {
+	public ModelAndView myBoard(ModelAndView mv, @RequestParam(defaultValue="1") int page) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
+		
 		// 상품 문의글 리스트 
-		List<ProductQnaQ> p_qna_list = mypageService.selectP_Qna_List(user_no); 
-		// System.out.println(p_qna_list);
-		mv.addObject("p_qna_list", p_qna_list);
+		Map<String, Object> resultList = mypageService.selectP_Qna_List(user_no, page);
+					
+		mv.addObject("p_qna_list", resultList.get("p_qna_list"));
+		mv.addObject("pi", resultList.get("pi"));
+		System.out.println(resultList);
+		System.out.println(resultList.get("pi"));
+		
 		// 리뷰 리스트
-		List<Review> review_list = mypageService.selectReview_List(user_no);
-		mv.addObject("review_list", review_list);
-		//System.out.println(review_list);		
+		Map<String, Object> resultList2 = mypageService.selectReview_List(user_no, page);
+		
+		mv.addObject("review_list", resultList2.get("review_list"));
+		mv.addObject("pi2", resultList2.get("pi2"));
+		
 		// 1:1 문의 리스트  
-		List<PersonalQ> q_list = mypageService.selectQ_list(user_no);
-		mv.addObject("q_list", q_list);
+		Map<String, Object> resultList3 = mypageService.selectQ_list(user_no, page);
+		
+		mv.addObject("q_list", resultList3.get("q_list"));
+		mv.addObject("pi3", resultList3.get("pi3"));
+		
 		// 교환 리스트
-		List<Exchange> ex_list = mypageService.selectEx_list(user_no);
-		mv.addObject("ex_list", ex_list);
-		System.out.println(ex_list);
+		Map<String, Object> resultList4 = mypageService.selectEx_list(user_no, page);
+		
+		mv.addObject("ex_list", resultList4.get("ex_list"));
+		mv.addObject("pi4", resultList4.get("pi4"));
+		
 		// 환불 리스트
-		List<Refund> r_list = mypageService.selectR_list(user_no);
-		mv.addObject("r_list", r_list);
+		Map<String, Object> resultList5 = mypageService.selectR_list(user_no, page);
+		
+		mv.addObject("r_list", resultList5.get("r_list"));
+		mv.addObject("pi5", resultList5.get("pi5"));
+		
 		mv.setViewName("mypage/myBoard");
 		return mv;
 	}
@@ -485,13 +505,15 @@ public class MypageController {
 	
 	// 주문내역 화면
 	@GetMapping("/orderList")
-	public ModelAndView orderList(ModelAndView mv) {
+	public ModelAndView orderList(ModelAndView mv, @RequestParam(defaultValue="1") int page) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		
-		List<Product_Order> po_list = mypageService.selectProduct_Order(user_no);
-		System.out.println(po_list);
-		mv.addObject("po_list", po_list);
+		Map<String, Object> resultList = mypageService.selectProduct_Order(user_no, page);
+		
+		System.out.println(resultList);
+		mv.addObject("po_list", resultList.get("po_list"));
+		mv.addObject("pi", resultList.get("pi"));
 		mv.setViewName("/mypage/orderList");
 		return mv;
 	}

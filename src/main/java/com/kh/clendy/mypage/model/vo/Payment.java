@@ -16,12 +16,15 @@ public class Payment {
 	private String order_name;
 	private String order_address;
 	private String order_phone;
+	private String p_name;
+	private int point;
+	private int point_amount;
 
 	public Payment() {}
 
 	public Payment(int pay_code, int order_code, String imp_uid, String merchant_uid, int pay_money, String pay_means,
 			String pay_card_name, String pay_card_num, String pay_refund, String order_request, String order_name,
-			String order_address, String order_phone) {
+			String order_address, String order_phone, String p_name, int point, int point_amount) {
 		super();
 		this.pay_code = pay_code;
 		this.order_code = order_code;
@@ -36,6 +39,9 @@ public class Payment {
 		this.order_name = order_name;
 		this.order_address = order_address;
 		this.order_phone = order_phone;
+		this.p_name = p_name;
+		this.point = point;
+		this.point_amount = point_amount;
 	}
 
 	public int getPay_code() {
@@ -142,13 +148,38 @@ public class Payment {
 		this.order_phone = order_phone;
 	}
 
+	public String getP_name() {
+		return p_name;
+	}
+
+	public void setP_name(String p_name) {
+		this.p_name = p_name;
+	}
+
+	public int getPoint() {
+		return point;
+	}
+
+	public void setPoint(int point) {
+		this.point = point;
+	}
+
+	public int getPoint_amount() {
+		return point_amount;
+	}
+
+	public void setPoint_amount(int point_amount) {
+		this.point_amount = point_amount;
+	}
+
 	@Override
 	public String toString() {
 		return "Payment [pay_code=" + pay_code + ", order_code=" + order_code + ", imp_uid=" + imp_uid
 				+ ", merchant_uid=" + merchant_uid + ", pay_money=" + pay_money + ", pay_means=" + pay_means
 				+ ", pay_card_name=" + pay_card_name + ", pay_card_num=" + pay_card_num + ", pay_refund=" + pay_refund
 				+ ", order_request=" + order_request + ", order_name=" + order_name + ", order_address=" + order_address
-				+ ", order_phone=" + order_phone + "]";
+				+ ", order_phone=" + order_phone + ", p_name=" + p_name + ", point=" + point + ", point_amount="
+				+ point_amount + "]";
 	}
 
 }

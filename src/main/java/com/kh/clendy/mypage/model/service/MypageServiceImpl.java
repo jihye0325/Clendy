@@ -22,6 +22,7 @@ import com.kh.clendy.mypage.model.vo.Product_Order;
 import com.kh.clendy.mypage.model.vo.Refund;
 import com.kh.clendy.mypage.model.vo.Review;
 import com.kh.clendy.mypage.model.vo.Wishlist;
+import com.kh.clendy.product.model.vo.PageInfo;
 import com.kh.clendy.product.model.vo.ProductQnaQ;
 
 @Service	
@@ -69,39 +70,154 @@ public class MypageServiceImpl implements MypageService {
 
 	// 적립금 리스트 불러오기
 	@Override
-	public List<Point> selectPoint(int user_no) {
-		List<Point> point_list = mypageMapper.selectPoint(user_no);
+	public Map<String, Object> selectPoint(int user_no, int page) {
+		// 적립금 개수
+		int listCount = mypageMapper.countPoint_List(user_no);
 		
-		return point_list;
+		// 페이징
+		PageInfo pageInfo = new PageInfo(page, listCount, 5, 5);
+		
+		// 목록 호출에 필요한 값
+		int startRow = (pageInfo.getPage()-1) * pageInfo.getBoardLimit() + 1;
+		int endRow = startRow + pageInfo.getBoardLimit() -1;
+		
+		// 목록 호출에 넘기는 값
+		Map<String, Object> mapMapper = new HashMap<>();
+		mapMapper.put("page", page);
+		mapMapper.put("startRow", startRow);
+		mapMapper.put("endRow", endRow);
+		mapMapper.put("user_no", user_no);
+		
+		// 적립금 조회
+		List<Point> point_list = mypageMapper.selectPoint(mapMapper);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("point_list", point_list);
+		result.put("pi", pageInfo);
+		
+		return result;
 	}
 
 	// 위시리스트 불러오기(아우터)
 	@Override
-	public Wishlist selectOuterlist(int user_no) {
-		Wishlist outer_list = mypageMapper.selectOuterlist(user_no);
-		return outer_list;
+	public Map<String, Object> selectOuterlist(int user_no, int page) {
+		// 아우터 개수
+		int listCount = mypageMapper.countOuter_List(user_no);
+		
+		// 페이징
+		PageInfo pageInfo = new PageInfo(page, listCount, 5, 9);
+		
+		// 목록 호출에 필요한 값
+		int startRow = (pageInfo.getPage()-1) * pageInfo.getBoardLimit() + 1;
+		int endRow = startRow + pageInfo.getBoardLimit() -1;
+		
+		// 목록 호출에 넘기는 값
+		Map<String, Object> mapMapper = new HashMap<>();
+		mapMapper.put("page", page);
+		mapMapper.put("startRow", startRow);
+		mapMapper.put("endRow", endRow);
+		mapMapper.put("user_no", user_no);
+		
+		// 아우터 조회
+		Wishlist outer_list = mypageMapper.selectOuterlist(mapMapper);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("outer_list", outer_list);
+		result.put("pi1", pageInfo);
+		
+		return result;
 	}
 
 	// 위시리스트 불러오기(상의)
 	@Override
-	public Wishlist selectToplist(int user_no) {
-		Wishlist top_list = mypageMapper.selectToplist(user_no);
-		return top_list;
+	public Map<String, Object> selectToplist(int user_no, int page) {
+		// 상의 개수
+		int listCount = mypageMapper.countTop_List(user_no);
+		
+		// 페이징
+		PageInfo pageInfo = new PageInfo(page, listCount, 5, 9);
+		
+		// 목록 호출에 필요한 값
+		int startRow = (pageInfo.getPage()-1) * pageInfo.getBoardLimit() + 1;
+		int endRow = startRow + pageInfo.getBoardLimit() -1;
+		
+		// 목록 호출에 넘기는 값
+		Map<String, Object> mapMapper = new HashMap<>();
+		mapMapper.put("page", page);
+		mapMapper.put("startRow", startRow);
+		mapMapper.put("endRow", endRow);
+		mapMapper.put("user_no", user_no);
+		
+		// 상의 조회
+		Wishlist top_list = mypageMapper.selectToplist(mapMapper);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("top_list", top_list);
+		result.put("pi2", pageInfo);
+		
+		return result;
 	}
 
 	// 위시리스트 불러오기(하의)
 	@Override
-	public Wishlist selectBottomlist(int user_no) {
-		Wishlist bottom_list = mypageMapper.selectBottomlist(user_no);
-		return bottom_list;
+	public Map<String, Object> selectBottomlist(int user_no, int page) {
+		// 하의 개수
+		int listCount = mypageMapper.countBottom_List(user_no);
+		
+		// 페이징
+		PageInfo pageInfo = new PageInfo(page, listCount, 5, 9);
+		
+		// 목록 호출에 필요한 값
+		int startRow = (pageInfo.getPage()-1) * pageInfo.getBoardLimit() + 1;
+		int endRow = startRow + pageInfo.getBoardLimit() -1;
+		
+		// 목록 호출에 넘기는 값
+		Map<String, Object> mapMapper = new HashMap<>();
+		mapMapper.put("page", page);
+		mapMapper.put("startRow", startRow);
+		mapMapper.put("endRow", endRow);
+		mapMapper.put("user_no", user_no);
+		
+		// 하의 조회
+		Wishlist bottom_list = mypageMapper.selectBottomlist(mapMapper);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("bottom_list", bottom_list);
+		result.put("pi3", pageInfo);
+		
+		return result;
 	}
-
+	
 	// 위시리스트 불러오기(acc)
 	@Override
-	public Wishlist selectAcclist(int user_no) {
-		Wishlist acc_list = mypageMapper.selectAcclist(user_no);
-		return acc_list;
+	public Map<String, Object> selectAcclist(int user_no, int page) {
+		// acc 개수
+		int listCount = mypageMapper.countAcc_List(user_no);
+		
+		// 페이징
+		PageInfo pageInfo = new PageInfo(page, listCount, 5, 9);
+		
+		// 목록 호출에 필요한 값
+		int startRow = (pageInfo.getPage()-1) * pageInfo.getBoardLimit() + 1;
+		int endRow = startRow + pageInfo.getBoardLimit() -1;
+		
+		// 목록 호출에 넘기는 값
+		Map<String, Object> mapMapper = new HashMap<>();
+		mapMapper.put("page", page);
+		mapMapper.put("startRow", startRow);
+		mapMapper.put("endRow", endRow);
+		mapMapper.put("user_no", user_no);
+		
+		// acc 조회
+		Wishlist acc_list = mypageMapper.selectAcclist(mapMapper);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("acc_list", acc_list);
+		result.put("pi4", pageInfo);
+		
+		return result;
 	}
+	
 	
 	// 위시리스트 삭제
 	@Override
@@ -136,16 +252,63 @@ public class MypageServiceImpl implements MypageService {
 
 	// 내가 쓴 글 - 상품문의글 리스트
 	@Override
-	public List<ProductQnaQ> selectP_Qna_List(int user_no) {
-		List<ProductQnaQ> p_qna_list = mypageMapper.selectP_Qna_List(user_no);
-		return p_qna_list;
+	public Map<String, Object> selectP_Qna_List(int user_no, int page) {
+		// 문의글 개수
+		int listCount = mypageMapper.countP_Qna_List(user_no);
+		
+		// 페이징
+		PageInfo pageInfo = new PageInfo(page, listCount, 10, 10);
+		
+		// 목록 호출에 필요한 값
+		int startRow = (pageInfo.getPage()-1) * pageInfo.getBoardLimit() + 1;
+		int endRow = startRow + pageInfo.getBoardLimit() -1;
+		
+		// 목록 호출에 넘기는 값
+		Map<String, Object> mapMapper = new HashMap<>();
+		mapMapper.put("page", page);
+		mapMapper.put("startRow", startRow);
+		mapMapper.put("endRow", endRow);
+		mapMapper.put("user_no", user_no);
+		
+		// 상품문의글 조회
+		List<ProductQnaQ> p_qna_list = mypageMapper.selectP_Qna_List(mapMapper);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("p_qna_list", p_qna_list);
+		result.put("pi", pageInfo);
+		
+		return result;
 	}
+	
 
 	// 내가 쓴 글 - 리뷰 리스트
 	@Override
-	public List<Review> selectReview_List(int user_no) {
-		List<Review> review_list = mypageMapper.selectReview_List(user_no);
-		return review_list;
+	public Map<String, Object> selectReview_List(int user_no, int page) {
+		// 리뷰 개수
+		int listCount = mypageMapper.countReviewList(user_no);
+		
+		// 페이징
+		PageInfo pageInfo = new PageInfo(page, listCount, 10, 10);
+		
+		// 목록 호출에 필요한 값
+		int startRow = (pageInfo.getPage()-1) * pageInfo.getBoardLimit() + 1;
+		int endRow = startRow + pageInfo.getBoardLimit() -1;
+		
+		// 목록 호출에 넘기는 값
+		Map<String, Object> mapMapper = new HashMap<>();
+		mapMapper.put("page", page);
+		mapMapper.put("startRow", startRow);
+		mapMapper.put("endRow", endRow);
+		mapMapper.put("user_no", user_no);
+		
+		// 리뷰 목록 조회
+		List<Review> review_list = mypageMapper.selectReview_List(mapMapper);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("review_list", review_list);
+		result.put("pi2", pageInfo);
+		
+		return result;
 	}
 	
 
@@ -175,8 +338,32 @@ public class MypageServiceImpl implements MypageService {
 
 	// 주문내역 화면
 	@Override
-	public List<Product_Order> selectProduct_Order(int user_no) {
-		return mypageMapper.selectProduct_Order(user_no);
+	public Map<String, Object> selectProduct_Order(int user_no, int page) {
+		// 주문 내역 개수
+		int listCount = mypageMapper.countOrderList(user_no);
+		
+		// 페이징
+		PageInfo pageInfo = new PageInfo(page, listCount, 10, 10);
+		
+		// 목록 호출에 필요한 값
+		int startRow = (pageInfo.getPage()-1) * pageInfo.getBoardLimit() + 1;
+		int endRow = startRow + pageInfo.getBoardLimit() -1;
+		
+		// 목록 호출에 넘기는 값
+		Map<String, Object> mapMapper = new HashMap<>();
+		mapMapper.put("page", page);
+		mapMapper.put("startRow", startRow);
+		mapMapper.put("endRow", endRow);
+		mapMapper.put("user_no", user_no);
+		
+		// 주문내역 목록 조회
+		List<Product_Order> po_list = mypageMapper.selectProduct_Order(mapMapper);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("po_list", po_list);
+		result.put("pi", pageInfo);
+		
+		return result;
 	}
 	
 	// 운송장번호 조회
@@ -228,14 +415,62 @@ public class MypageServiceImpl implements MypageService {
 
 	// 내가 쓴 글 (1:1 조회)
 	@Override
-	public List<PersonalQ> selectQ_list(int user_no) {
-		return mypageMapper.selectQ_list(user_no);
+	public Map<String, Object> selectQ_list(int user_no, int page) {
+		// 1:1문의 개수
+		int listCount = mypageMapper.countQ_list(user_no);
+		
+		// 페이징
+		PageInfo pageInfo = new PageInfo(page, listCount, 10, 10);
+		
+		// 목록 호출에 필요한 값
+		int startRow = (pageInfo.getPage()-1) * pageInfo.getBoardLimit() + 1;
+		int endRow = startRow + pageInfo.getBoardLimit() -1;
+		
+		// 목록 호출에 넘기는 값
+		Map<String, Object> mapMapper = new HashMap<>();
+		mapMapper.put("page", page);
+		mapMapper.put("startRow", startRow);
+		mapMapper.put("endRow", endRow);
+		mapMapper.put("user_no", user_no);
+		
+		// 1:1문의 목록 조회
+		List<PersonalQ> q_list = mypageMapper.selectQ_list(mapMapper);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("q_list", q_list);
+		result.put("pi3", pageInfo);
+		
+		return result;
 	}
 
 	// 내가 쓴 글 (환불)
 	@Override
-	public List<Refund> selectR_list(int user_no) {
-		return mypageMapper.selectR_list(user_no);
+	public Map<String, Object> selectR_list(int user_no, int page) {
+		// 환불요청 내역 개수
+		int listCount = mypageMapper.countR_list(user_no);
+		
+		// 페이징
+		PageInfo pageInfo = new PageInfo(page, listCount, 10, 10);
+		
+		// 목록 호출에 필요한 값
+		int startRow = (pageInfo.getPage()-1) * pageInfo.getBoardLimit() + 1;
+		int endRow = startRow + pageInfo.getBoardLimit() -1;
+		
+		// 목록 호출에 넘기는 값
+		Map<String, Object> mapMapper = new HashMap<>();
+		mapMapper.put("page", page);
+		mapMapper.put("startRow", startRow);
+		mapMapper.put("endRow", endRow);
+		mapMapper.put("user_no", user_no);
+		
+		// 환불요청 목록 조회
+		List<Refund> r_list = mypageMapper.selectR_list(mapMapper);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("r_list", r_list);
+		result.put("pi5", pageInfo);
+		
+		return result;
 	}
 
 	// 환불요청 상세
@@ -246,8 +481,32 @@ public class MypageServiceImpl implements MypageService {
 	
 	// 내가쓴글- 교환리스트
 	@Override
-	public List<Exchange> selectEx_list(int user_no) {
-		return mypageMapper.selectEx_list(user_no);
+	public Map<String, Object> selectEx_list(int user_no, int page) {
+		// 교환 내역 개수
+		int listCount = mypageMapper.countEx_list(user_no);
+		
+		// 페이징
+		PageInfo pageInfo = new PageInfo(page, listCount, 10, 10);
+		
+		// 목록 호출에 필요한 값
+		int startRow = (pageInfo.getPage()-1) * pageInfo.getBoardLimit() + 1;
+		int endRow = startRow + pageInfo.getBoardLimit() -1;
+		
+		// 목록 호출에 넘기는 값
+		Map<String, Object> mapMapper = new HashMap<>();
+		mapMapper.put("page", page);
+		mapMapper.put("startRow", startRow);
+		mapMapper.put("endRow", endRow);
+		mapMapper.put("user_no", user_no);
+		
+		// 교환 목록 조회
+		List<Exchange> ex_list = mypageMapper.selectEx_list(mapMapper);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("ex_list", ex_list);
+		result.put("pi4", pageInfo);
+		
+		return result;
 	}
 	
 	// 다운 가능한 이벤트 포인트 리스트
@@ -345,5 +604,5 @@ public class MypageServiceImpl implements MypageService {
 	public Review reviewDate(int order_option_code) {
 		return mypageMapper.reviewDate(order_option_code);
 	}
-	
+
 }

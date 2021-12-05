@@ -2,6 +2,7 @@ package com.kh.clendy.mypage.model.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.kh.clendy.CScenter.model.vo.PersonalQ;
 import com.kh.clendy.member.model.vo.Member;
@@ -25,15 +26,15 @@ public interface MypageService{
 
 	int deleteMember(int user_no);
 
-	List<Point> selectPoint(int user_no);
+	Map<String, Object> selectPoint(int user_no, int page);
 	
-	Wishlist selectOuterlist(int user_no);
+	Map<String, Object> selectOuterlist(int user_no, int page);
 
-	Wishlist selectToplist(int user_no);
-
-	Wishlist selectBottomlist(int user_no);
-
-	Wishlist selectAcclist(int user_no);
+	Map<String, Object> selectToplist(int user_no, int page);
+	
+	Map<String, Object> selectBottomlist(int user_no, int page);
+	
+	Map<String, Object> selectAcclist(int user_no, int page);
 	
 	int deleteWish(HashMap<String, Integer> userMap);
 
@@ -41,9 +42,9 @@ public interface MypageService{
 
 	int insertReview(Review review, int user_no);
 
-	List<ProductQnaQ> selectP_Qna_List(int user_no);
+	Map<String, Object> selectP_Qna_List(int user_no, int page);
 
-	List<Review> selectReview_List(int user_no);
+	Map<String, Object> selectReview_List(int user_no, int page);
 	
 	Review selectReview(int order_option_code);
 	
@@ -55,7 +56,7 @@ public interface MypageService{
 
 	int plusAmount(HashMap<String, Integer> userMap);
 
-	List<Product_Order> selectProduct_Order(int user_no);
+	Map<String, Object> selectProduct_Order(int user_no, int page);
 
 	int selectPostnum(int order_option_code);
 
@@ -65,9 +66,9 @@ public interface MypageService{
 
 	int requestRefund(Refund refund);
 
-	List<PersonalQ> selectQ_list(int user_no);
+	Map<String, Object> selectQ_list(int user_no, int page);
 
-	List<Refund> selectR_list(int user_no);
+	Map<String, Object> selectR_list(int user_no, int page);
 
 	Refund selectRefund(int order_option_code);
 
@@ -81,7 +82,7 @@ public interface MypageService{
 
 	int requestExchange(Exchange exchange);
 
-	List<Exchange> selectEx_list(int user_no);
+	Map<String, Object> selectEx_list(int user_no, int page);
 
 	Exchange selectExchange(int order_option_code);
 
@@ -91,6 +92,6 @@ public interface MypageService{
 
 	int reviewModify(Review review);
 
-	Review reviewDate(int order_option_code);
+	Review reviewDate(int order_option_code);	
 
 }

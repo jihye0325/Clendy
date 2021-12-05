@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/mypage/orderList.css" rel="stylesheet"></link>
+    <link href="/css/common/paging.css" rel="stylesheet" >
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <!-- csrf 토큰 -->
     <meta name="_csrf" th:content="${_csrf.token}"/>
@@ -16,7 +17,67 @@
  	<div th:replace="mypage/sideMenu.html"></div>
     <div class="outer">
         <div class="title">주문내역</div>
-    
+    	
+    	<div class="info_search_area">
+    		<div class="info_area">
+    			<div class="delivery_count">
+    				<div class="img_count">
+    					<div>
+    						<img src="/images/delivery.png">
+    						<div class="status_count">배송중
+    							<span id="count">2</span>
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+    			
+    			<div class="delivery_complete_count">
+    				<div class="img_count">
+    					<div>
+    						<img src="/images/complete.png">
+    						<div class="status_count">배송완료
+    							<span id="count">2</span>
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+    			
+    			<div class="cancle_count">
+    				<div class="img_count">
+    					<div>
+    						<img src="/images/cancle.png">
+    						<div class="status_count">취소/반품
+    							<span id="count">2</span>
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+    		
+    		<div class="search_area">
+    			<div class="calendar">
+	    			<div>기간</div>
+	    			<span>~</span>
+	    			<div>기간</div>
+    			</div>
+    			<div>
+    				<select class="search_status">
+		    			<option>전체상태</option>
+		    			<option>결제완료</option>
+		    			<option>배송중</option>
+		    			<option>배송완료</option>
+		    			<option>구매확정</option>
+		    			<option>환불신청</option>
+		    			<option>교환신청</option>
+		    			<option>환불완료</option>
+		    			<option>교환완료</option>
+		    			<option>결제취소</option>
+	    			</select>
+	    			<button id="search">조회</button>
+    			</div>
+    		</div>
+    	</div>
+    	
         <div class="info">
             <p>
             주문취소는 결제완료 상태일때만 가능하며 판매자가 배송을 시작하면 주문취소할 수 없습니다.<br>
@@ -93,6 +154,39 @@
                 </li>
             </ul>
         </div>
+            <!-- 페이징 -->
+            <div class="pagaing_wrap" th:if="${#lists.size(po_list) > 0}">
+	            <ul class="pagaing_left">
+	                <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
+	                	<a th:href="@{/mypage/orderList/(page=1)}" th:if="${pi.page > 1}"></a>
+	                 <a href="javascript:;" th:unless="${pi.page > 1}"></a>
+	                </li>
+	                <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
+	                 <a th:href="@{/mypage/orderList/(page=${pi.page - 1})}" th:if="${pi.page > 1}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page > 1}"></a>
+	                </li>
+	            </ul>
+	            
+	            <ul class="pagaing_num">
+	            	<th:block th:each="pd : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+	            		<li th:classappend="${pi.page == pdStat.current} ? 'on'">
+	            			<a th:href="@{/mypage/orderList/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+	            		</li>
+	            	</th:block>
+	                
+	            </ul>
+	
+	            <ul class="pagaing_right" >
+	                <li class="next" th:classappend="${pi.page == pi.endPage} ? 'hide'">
+	                	<a th:href="@{/mypage/orderList/(page=${pi.page} + 1)}" th:if="${pi.page < pi.endPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+	                </li>
+	                <li class="allNext"  th:classappend="${pi.page == pi.endPage} ? 'hide'">
+	                	<a th:href="@{/mypage/orderList/(page=${pi.endPage})}" th:if="${pi.page < pi.endPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+	                </li>
+	            </ul>
+            </div>
     </div>
 	<div th:replace="common/footer.html"></div>
 	
@@ -208,8 +302,8 @@
 	<!-- 주문상세 -->
 	<script>
 		function orderInfo(order_code){
-			var popupWidth = 900;
-			var popupHeight = 600;
+			var popupWidth = 500;
+			var popupHeight = 550;
 	
 			var popupX = (window.screen.width / 2) - (popupWidth / 2);
 			var popupY= (window.screen.height / 2) - (popupHeight / 2);

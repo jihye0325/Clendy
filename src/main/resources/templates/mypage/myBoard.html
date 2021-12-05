@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/mypage/myBoard.css" rel="stylesheet"></link>
+    <link href="/css/common/paging.css" rel="stylesheet" >
     <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
     <!-- csrf 토큰 -->
     <meta name="_csrf" th:content="${_csrf.token}"/>
@@ -21,9 +22,9 @@
             <label for="reviewList" class="radio">리뷰</label>
             <input type="radio" class="selectType" name="selectType" id="qna" onclick="selectType(event)" value="qna">
             <label for="qna" class="radio">1:1 문의</label>
-            <input type="radio" class="selectType" name="selectType" id="ex_ref" onclick="selectType(event)" value="ex_ref">
-            <label for="ex_ref" class="radio">교환/환불</label>
-            
+            <input type="radio" class="selectType" name="selectType" id="ex" onclick="selectType(event)" value="ex">
+            <label for="ex" class="radio" id="ex_ref">교환/환불</label>
+                        
         </div>
 
         <div class="board_area" id="pQna_List">
@@ -92,6 +93,41 @@
             		<div>작성한 글이 없습니다.</div>
             	</div>
             </th:block>
+            
+            <!-- 페이징 -->
+            <div class="pagaing_wrap" th:if="${#lists.size(p_qna_list) > 0}">
+	            <ul class="pagaing_left">
+	                <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard/(page=1)}" th:if="${pi.page > 1}"></a>
+	                 <a href="javascript:;" th:unless="${pi.page > 1}"></a>
+	                </li>
+	                <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
+	                 <a th:href="@{/mypage/myBoard/(page=${pi.page - 1})}" th:if="${pi.page > 1}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page > 1}"></a>
+	                </li>
+	            </ul>
+	            
+	            <ul class="pagaing_num">
+	            	<th:block th:each="pd : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+	            		<li th:classappend="${pi.page == pdStat.current} ? 'on'">
+	            			<a th:href="@{/mypage/myBoard/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+	            		</li>
+	            	</th:block>
+	                
+	            </ul>
+	
+	            <ul class="pagaing_right" >
+	                <li class="next" th:classappend="${pi.page == pi.endPage} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard/(page=${pi.page} + 1)}" th:if="${pi.page < pi.endPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+	                </li>
+	                <li class="allNext"  th:classappend="${pi.page == pi.endPage} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard/(page=${pi.endPage})}" th:if="${pi.page < pi.endPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+	                </li>
+	            </ul>
+            </div>
+            
         </div>
 
         <div class="board_area" id="review_List" style="display: none;">
@@ -120,6 +156,40 @@
             		<div>작성한 글이 없습니다.</div>
             	</div>
             </th:block>
+            
+            <!-- 페이징 -->
+            <div class="pagaing_wrap" th:if="${#lists.size(review_list) > 0}">
+	            <ul class="pagaing_left">
+	                <li class="allPrev" th:classappend="${pi2.page == 1} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard/(page=1)}" th:if="${pi2.page > 1}"></a>
+	                 <a href="javascript:;" th:unless="${pi2.page > 1}"></a>
+	                </li>
+	                <li class="prev" th:classappend="${pi2.page == 1} ? 'hide'">
+	                 <a th:href="@{/mypage/myBoard/(page=${pi2.page - 1})}" th:if="${pi2.page > 1}"></a>
+	                	<a href="javascript:;" th:unless="${pi2.page > 1}"></a>
+	                </li>
+	            </ul>
+	            
+	            <ul class="pagaing_num">
+	            	<th:block th:each="pd : ${#numbers.sequence(pi2.startPage, pi2.endPage)}">
+	            		<li th:classappend="${pi2.page == pdStat.current} ? 'on'">
+	            			<a th:href="@{/mypage/myBoard/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+	            		</li>
+	            	</th:block>
+	                
+	            </ul>
+	
+	            <ul class="pagaing_right" >
+	                <li class="next" th:classappend="${pi2.page == pi.endPage} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard/(page=${pi2.page} + 1)}" th:if="${pi2.page < pi2.endPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi2.page < pi2.endPage}"></a>
+	                </li>
+	                <li class="allNext"  th:classappend="${pi2.page == pi2.endPage} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard/(page=${pi2.endPage})}" th:if="${pi2.page < pi2.endPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi2.page < pi2.endPage}"></a>
+	                </li>
+	            </ul>
+            </div>
         </div>
 
         <div class="board_area" id="qna_List" style="display: none;">
@@ -151,10 +221,48 @@
             		<div>작성한 글이 없습니다.</div>
             	</div>
             </th:block>
+           
+            <!-- 페이징 -->
+            <div class="pagaing_wrap" th:if="${#lists.size(q_list) > 0}">
+	            <ul class="pagaing_left">
+	                <li class="allPrev" th:classappend="${pi3.page == 1} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard/(page=1)}" th:if="${pi3.page > 1}"></a>
+	                 <a href="javascript:;" th:unless="${pi3.page > 1}"></a>
+	                </li>
+	                <li class="prev" th:classappend="${pi3.page == 1} ? 'hide'">
+	                 <a th:href="@{/mypage/myBoard/(page=${pi3.page - 1})}" th:if="${pi3.page > 1}"></a>
+	                	<a href="javascript:;" th:unless="${pi3.page > 1}"></a>
+	                </li>
+	            </ul>
+	            
+	            <ul class="pagaing_num">
+	            	<th:block th:each="pd : ${#numbers.sequence(pi3.startPage, pi3.endPage)}">
+	            		<li th:classappend="${pi3.page == pdStat.current} ? 'on'">
+	            			<a th:href="@{/mypage/myBoard/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+	            		</li>
+	            	</th:block>
+	                
+	            </ul>
+	
+	            <ul class="pagaing_right" >
+	                <li class="next" th:classappend="${pi3.page == pi.endPage} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard/(page=${pi3.page} + 1)}" th:if="${pi3.page < pi3.endPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi3.page < pi3.endPage}"></a>
+	                </li>
+	                <li class="allNext"  th:classappend="${pi3.page == pi3.endPage} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard/(page=${pi3.endPage})}" th:if="${pi3.page < pi3.endPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi3.page < pi3.endPage}"></a>
+	                </li>
+	            </ul>
+            </div>
+            
         </div>
 
-        <div class="board_area" id="ex_ref_List" style="display: none;">
-            <div class="title">교환내역</div>
+        <div class="board_area" id="ex_List" style="display: none;">
+             <input type="radio" class="selectType" name="selectType" id="ex" onclick="selectType(event)" value="ex">
+             <label for="ex" class="radio">교환내역</label>
+             <input type="radio" class="selectType" name="selectType" id="ref" onclick="selectType(event)" value="ref">
+             <label for="ref" class="radio">/ 환불내역</label>
 
 			<th:block th:if="${#lists.size(ex_list) > 0}">
             <div class="board_list">
@@ -180,8 +288,47 @@
             		<div>작성한 글이 없습니다.</div>
             	</div>
             </th:block>
-
-            <div class="title refund">환불내역</div>
+            
+            <!-- 페이징 -->
+            <div class="pagaing_wrap" th:if="${#lists.size(ex_list) > 0}">
+	            <ul class="pagaing_left">
+	                <li class="allPrev" th:classappend="${pi4.page == 1} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard/(page=1)}" th:if="${pi4.page > 1}"></a>
+	                 <a href="javascript:;" th:unless="${pi4.page > 1}"></a>
+	                </li>
+	                <li class="prev" th:classappend="${pi4.page == 1} ? 'hide'">
+	                 <a th:href="@{/mypage/myBoard/(page=${pi4.page - 1})}" th:if="${pi4.page > 1}"></a>
+	                	<a href="javascript:;" th:unless="${pi4.page > 1}"></a>
+	                </li>
+	            </ul>
+	            
+	            <ul class="pagaing_num">
+	            	<th:block th:each="pd : ${#numbers.sequence(pi4.startPage, pi4.endPage)}">
+	            		<li th:classappend="${pi4.page == pdStat.current} ? 'on'">
+	            			<a th:href="@{/mypage/myBoard/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+	            		</li>
+	            	</th:block>
+	                
+	            </ul>
+	
+	            <ul class="pagaing_right" >
+	                <li class="next" th:classappend="${pi4.page == pi.endPage} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard/(page=${pi4.page} + 1)}" th:if="${pi4.page < pi4.endPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi4.page < pi4.endPage}"></a>
+	                </li>
+	                <li class="allNext"  th:classappend="${pi4.page == pi4.endPage} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard/(page=${pi4.endPage})}" th:if="${pi4.page < pi4.endPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi4.page < pi4.endPage}"></a>
+	                </li>
+	            </ul>
+            </div>
+         </div>
+         
+ 		 <div class="board_area" id="ref_List" style="display: none;">
+            <input type="radio" class="selectType" name="selectType" id="ex" onclick="selectType(event)" value="ex">
+            <label for="ex" class="radio">교환내역</label>
+            <input type="radio" class="selectType" name="selectType" id="ref" onclick="selectType(event)" value="ref">
+            <label for="ref" class="radio">/ 환불내역</label>
 
 			<th:block th:if="${#lists.size(r_list) > 0}">
             <div class="board_list">
@@ -207,7 +354,43 @@
             		<div>작성한 글이 없습니다.</div>
             	</div>
             </th:block>
-        </div>
+            
+            <!-- 페이징 -->
+            <div class="pagaing_wrap" th:if="${#lists.size(r_list) > 0}">
+	            <ul class="pagaing_left">
+	                <li class="allPrev" th:classappend="${pi5.page == 1} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard/(page=1)}" th:if="${pi5.page > 1}"></a>
+	                 <a href="javascript:;" th:unless="${pi5.page > 1}"></a>
+	                </li>
+	                <li class="prev" th:classappend="${pi5.page == 1} ? 'hide'">
+	                 <a th:href="@{/mypage/myBoard/(page=${pi5.page - 1})}" th:if="${pi5.page > 1}"></a>
+	                	<a href="javascript:;" th:unless="${pi5.page > 1}"></a>
+	                </li>
+	            </ul>
+	            
+	            <ul class="pagaing_num">
+	            	<th:block th:each="pd : ${#numbers.sequence(pi5.startPage, pi5.endPage)}">
+	            		<li th:classappend="${pi5.page == pdStat.current} ? 'on'">
+	            			<a th:href="@{/mypage/myBoard/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+	            		</li>
+	            	</th:block>
+	                
+	            </ul>
+	
+	            <ul class="pagaing_right" >
+	                <li class="next" th:classappend="${pi5.page == pi.endPage} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard/(page=${pi5.page} + 1)}" th:if="${pi5.page < pi5.endPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi5.page < pi5.endPage}"></a>
+	                </li>
+	                <li class="allNext"  th:classappend="${pi5.page == pi5.endPage} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard/(page=${pi5.endPage})}" th:if="${pi5.page < pi5.endPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi5.page < pi5.endPage}"></a>
+	                </li>
+	            </ul>
+            </div>
+         </div>
+         
+         
     </div>
 	<div th:replace="common/footer.html"></div>
 
@@ -220,22 +403,33 @@
                 $('#pQna_List').show();
                 $("#review_List").hide();
                 $("#qna_List").hide();
-                $("#ex_ref_List").hide();
+                $("#ex_List").hide();
+                $("#ref_List").hide();
             } else if(type == 'reviewList'){
                 $('#pQna_List').hide();
                 $("#review_List").show();
                 $("#qna_List").hide();
-                $("#ex_ref_List").hide();
+                $("#ex_List").hide();
+                $("#ref_List").hide();
             }  else if(type =='qna') {
                 $('#pQna_List').hide();
                 $("#review_List").hide();
                 $("#qna_List").show();
-                $("#ex_ref_List").hide();
+                $("#ex_List").hide();
+                $("#ref_List").hide();
+            } else if(type == 'ex'){
+                $('#pQna_List').hide();
+                $("#review_List").hide();
+                $("#qna_List").hide();
+                $("#ex_List").show();
+                $("#ref_List").hide();
             } else {
                 $('#pQna_List').hide();
                 $("#review_List").hide();
                 $("#qna_List").hide();
-                $("#ex_ref_List").show();
+                $("#ex_List").hide();
+                $("#ref_List").show();
+                $('#ex_ref').attr('style', 'border-bottom: 1px solid black');
             }
         }
     </script>

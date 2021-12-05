@@ -1,15 +1,18 @@
 div { 
-    border: 1px solid black;
+    borde: 1px solid black;
 }
 
 
 .outer {
     width: 600px;
     margin: auto;
-    
+    margin-top: 20px;
 }
 
 .title {
+	width: 450px;
+	margin: auto;
+	text-align: center;
     font-size: x-large;
     font-weight: bold;
     padding: 10px;
@@ -17,8 +20,43 @@ div {
     margin-bottom: 20px;
 }
 
-.product {
-    border: 1px solid lightgray;
+#subtitle {
+	font-weight :bold;
+	font-size: large;
+}
+
+.delivery_info {
+	width: 450px;
+	margin: auto;
+	border: 1px solid lightgray;
+	border-bottom: 2px solid lightgray;
+	padding: 10px;
+}
+
+.pay {
+	width: 450px;
+	margin: auto;
+	border: 1px solid lightgray;
+	border-top: none;
+	border-bottom: 2px solid lightgray;
+	padding: 10px;
+}
+
+.payment {
+	width: 450px;
+	margin: auto;
+	border: 1px solid lightgray;
+	border-top: none;
+	border-bottom: 2px solid lightgray;
+	padding: 10px;
+}
+
+.point {
+	width: 450px;
+	margin: auto;
+	border: 1px solid lightgray;
+	border-top: none;
+	padding: 10px;
 }
 
 .btn_area {
