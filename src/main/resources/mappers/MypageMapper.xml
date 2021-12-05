@@ -263,6 +263,9 @@
 		<result property="order_phone" column="ORDER_PHONE"/>
 		<result property="imp_uid" column="IMP_UID"/>
 		<result property="merchant_uid" column="MERCHANT_UID"/>
+		<result property="p_name" column="P_NAME"/>
+		<result property="point" column="POINT"/>
+		<result property="point_amount" column="POINT_AMOUNT"/>
 	</resultMap>
 	
 	<!-- 1:1 문의글 -->
@@ -357,9 +360,23 @@
  		 WHERE USER_NO = #{ user_no }
 	</update>
 	
+	<!-- 적립금 개수 -->
+	<select id="countPoint_List" parameterType="_int" resultType="_int">
+		SELECT
+		    COUNT(*)
+		  FROM POINT
+		 WHERE USER_NO = #{ user_no }
+	</select>
+	
 	<!-- 적립금 리스트 불러오기 -->
 	<select id="selectPoint" parameterType="_int" resultMap="pointResultMap">
 		SELECT
+			*
+			FROM(
+			SELECT
+		ROWNUM ROWN
+		, TBL.*
+		FROM( SELECT
                 POINT_NO,
                 ORDER_CODE,
                 POINT_CODE,
@@ -372,12 +389,29 @@
 		    FROM POINT 
 		    JOIN POINT_CATEGORY USING(POINT_CODE)
 		   WHERE USER_NO = #{ user_no }
-		  ORDER BY POINT_DATE DESC
+		  ORDER BY POINT_NO DESC ) TBL)
+    	   WHERE ROWN BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- 아우터 개수 -->
+	<select id="countOuter_List" parameterType="_int" resultType="_int">
+		SELECT    
+		    COUNT(*)
+		 FROM WISHLIST
+		 JOIN PRODUCT USING(P_NO)
+		WHERE USER_NO = #{ user_no }
+		  AND CATEGORY_CODE IN (SELECT CATEGORY_CODE FROM PRODUCT_CATEGORY WHERE CATEGORY_NAME = '아우터')
 	</select>
 	
 	<!-- 위시리스트 불러오기 (아우터)-->
 	<select id="selectOuterlist" parameterType="_int" resultMap="wishListResultMap">
-		SELECT 
+		SELECT
+			*
+			FROM(
+			SELECT
+		ROWNUM ROWN
+		, TBL.*
+		FROM( SELECT 
 		        USER_NO
               , P_NO
               , P_NAME
@@ -396,12 +430,29 @@
              AND CATEGORY_NAME = '아우터'
 		     AND IMG_LEVEL = 0
 		     AND P_STATUS = 'Y'
-		    ORDER BY CREATE_DATE DESC
+		    ORDER BY CREATE_DATE DESC ) TBL)
+    	   WHERE ROWN BETWEEN #{startRow} AND #{endRow}
 	</select>
 	
-		<!-- 위시리스트 불러오기 (상의)-->
+	<!-- 상의개수 -->
+	<select id="countTop_List" parameterType="_int" resultType="_int">
+		SELECT    
+		    COUNT(*)
+		 FROM WISHLIST
+		 JOIN PRODUCT USING(P_NO)
+		WHERE USER_NO = #{ user_no }
+		  AND CATEGORY_CODE IN (SELECT CATEGORY_CODE FROM PRODUCT_CATEGORY WHERE CATEGORY_NAME = '상의')
+	</select>
+	
+	<!-- 위시리스트 불러오기 (상의)-->
 	<select id="selectToplist" parameterType="_int" resultMap="wishListResultMap">
-		SELECT 
+		SELECT
+			*
+			FROM(
+			SELECT
+		ROWNUM ROWN
+		, TBL.*
+		FROM(SELECT 
 		        USER_NO
               , P_NO
               , P_NAME
@@ -420,12 +471,29 @@
              AND CATEGORY_NAME = '상의'
 		     AND IMG_LEVEL = 0
 		     AND P_STATUS = 'Y'
-		     ORDER BY CREATE_DATE DESC
+		     ORDER BY CREATE_DATE DESC ) TBL)
+    	   WHERE ROWN BETWEEN #{startRow} AND #{endRow}
 	</select>
 	
-		<!-- 위시리스트 불러오기 (하의)-->
+	<!-- 하의개수 -->
+	<select id="countBottom_List" parameterType="_int" resultType="_int">
+		SELECT    
+		    COUNT(*)
+		 FROM WISHLIST
+		 JOIN PRODUCT USING(P_NO)
+		WHERE USER_NO = #{ user_no }
+		  AND CATEGORY_CODE IN (SELECT CATEGORY_CODE FROM PRODUCT_CATEGORY WHERE CATEGORY_NAME = '하의')
+	</select>
+	
+	<!-- 위시리스트 불러오기 (하의)-->
 	<select id="selectBottomlist" parameterType="_int" resultMap="wishListResultMap">
-		SELECT 
+		SELECT
+			*
+			FROM(
+			SELECT
+		ROWNUM ROWN
+		, TBL.*
+		FROM(SELECT 
 		        USER_NO
               , P_NO
               , P_NAME
@@ -444,12 +512,29 @@
              AND CATEGORY_NAME = '하의'
 		     AND IMG_LEVEL = 0
 		     AND P_STATUS = 'Y'
-		     ORDER BY CREATE_DATE DESC
+		     ORDER BY CREATE_DATE DESC ) TBL)
+    	   WHERE ROWN BETWEEN #{startRow} AND #{endRow}
 	</select>
 	
-		<!-- 위시리스트 불러오기 (ACC)-->
+	<!-- acc 개수 -->
+	<select id="countAcc_List" parameterType="_int" resultType="_int">
+		SELECT    
+		    COUNT(*)
+		 FROM WISHLIST
+		 JOIN PRODUCT USING(P_NO)
+		WHERE USER_NO = #{ user_no }
+		  AND CATEGORY_CODE IN (SELECT CATEGORY_CODE FROM PRODUCT_CATEGORY WHERE CATEGORY_NAME = 'ACC')
+	</select>
+	
+	<!-- 위시리스트 불러오기 (ACC)-->
 	<select id="selectAcclist" parameterType="_int" resultMap="wishListResultMap">
-		SELECT 
+		SELECT
+			*
+			FROM(
+			SELECT
+		ROWNUM ROWN
+		, TBL.*
+		FROM( SELECT 
 		        USER_NO
               , P_NO
               , P_NAME
@@ -468,7 +553,8 @@
              AND CATEGORY_NAME = 'ACC'
 		     AND IMG_LEVEL = 0
 		     AND P_STATUS = 'Y'
-		     ORDER BY CREATE_DATE DESC
+		     ORDER BY CREATE_DATE DESC ) TBL)
+    	   WHERE ROWN BETWEEN #{startRow} AND #{endRow}
 	</select>
 	
 	<!-- 위시리스트 삭제 -->
@@ -591,34 +677,63 @@
    			   AND IMG_LEVEL = 0
 	</select>
 	
+	<!-- 상품문의글 개수 -->
+	<select id="countP_Qna_List" parameterType="_int" resultType="_int">
+		SELECT    
+		    COUNT(*)
+		 FROM PRODUCT_INQUIRY_Q
+		WHERE USER_NO = #{ user_no }
+	</select>
+	
 	<!-- 상품문의글 불러오기 -->
-	<select id="selectP_Qna_List" parameterType="_int" resultMap="productQnaQresultMap">
- 		SELECT
-      		  P_I_Q_CODE
-            , P_I_CATE_CODE
-            , P_I_CATE_NAME
-            , P_NO
-            , P_NAME
-            , P_I_Q_TITLE
-            , P_I_Q_CONTENT
-            , P_I_Q_CREATE_DATE
-            , P_I_Q_MODIFY_DATE
-            , P_I_A_CODE
-            , P_I_A_CONTENT
-            , P_I_A_CREATE_DATE
-            , P_I_A_DEL_STATUS
-    		FROM PRODUCT_INQUIRY_Q
-    		JOIN PRODUCT_INQUIRY_CATEGORY USING(P_I_CATE_CODE)
-    		JOIN PRODUCT USING(P_NO)
-            LEFT JOIN PRODUCT_INQUIRY_A USING(P_I_Q_CODE)
-    	   WHERE USER_NO = #{ user_no }
+	<select id="selectP_Qna_List" parameterType="map" resultMap="productQnaQresultMap">
+		SELECT
+			*
+			FROM(
+			SELECT
+		ROWNUM ROWN
+		, TBL.*
+		FROM( SELECT
+	      		  P_I_Q_CODE
+	            , P_I_CATE_CODE
+	            , P_I_CATE_NAME
+	            , P_NO
+	            , P_NAME
+	            , P_I_Q_TITLE
+	            , P_I_Q_CONTENT
+	            , P_I_Q_CREATE_DATE
+	            , P_I_Q_MODIFY_DATE
+	            , P_I_A_CODE
+	            , P_I_A_CONTENT
+	            , P_I_A_CREATE_DATE
+	            , P_I_A_DEL_STATUS
+	    		FROM PRODUCT_INQUIRY_Q
+	    		JOIN PRODUCT_INQUIRY_CATEGORY USING(P_I_CATE_CODE)
+	    		JOIN PRODUCT USING(P_NO)
+	            LEFT JOIN PRODUCT_INQUIRY_A USING(P_I_Q_CODE)
+	    	   WHERE USER_NO = #{ user_no }
              AND P_I_Q_DEL_STATUS = 'N'
-    	   ORDER BY P_I_Q_CODE DESC
+    	   ORDER BY P_I_Q_CODE DESC ) TBL)
+    	   WHERE ROWN BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- 리뷰 개수 -->
+	<select id="countReviewList" parameterType="_int" resultType="_int">
+		SELECT    
+		    COUNT(*)
+		 FROM REVIEW
+		WHERE USER_NO = #{ user_no }
 	</select>
 	
 	<!-- 리뷰리스트 불러오기 -->
-	<select id="selectReview_List" parameterType="_int" resultMap="reviewResultMap">
-		SELECT 
+	<select id="selectReview_List" parameterType="map" resultMap="reviewResultMap">
+		SELECT
+			*
+			FROM(
+			SELECT
+		ROWNUM ROWN
+		, TBL.*
+		FROM(SELECT 
 		    R_NO
 		  , P_NAME
 		  , R_TITLE
@@ -630,7 +745,8 @@
 		  JOIN PRODUCT USING(P_NO)
 		  WHERE USER_NO = #{ user_no }
 		    AND R_STATUS = 'Y'
-		  ORDER BY R_NO DESC
+		  ORDER BY R_NO DESC ) TBL)
+    	   WHERE ROWN BETWEEN #{startRow} AND #{endRow}
 	</select>
 	
 	<!-- 장바구니 조회 -->
@@ -693,9 +809,25 @@
                       WHERE P_OPTION_NO = #{ p_option_no }) > CART_AMOUNT
 	</update>
 	
+	<!-- 주문내역 카운트 -->
+	<select id="countOrderList" parameterType="_int" resultType="_int">
+		SELECT    
+		    COUNT(*)
+		 FROM ORDER_OPTION
+		 JOIN PRODUCT_ORDER USING(ORDER_CODE)
+		WHERE USER_NO = #{ user_no }
+	</select>
+	
 	<!-- 주문내역 조회 -->
-	<select id="selectProduct_Order" parameterType="_int" resultMap="order_option_listResultMap">
+	<select id="selectProduct_Order" parameterType="map" resultMap="order_option_listResultMap">
 		SELECT
+				*
+			FROM (
+			SELECT
+		ROWNUM ROWN
+	  , TBL.*
+	  FROM(
+	  SELECT
 			 PRODUCT_ORDER.USER_NO, 
 			 P_NO,
 		     P_NAME,
@@ -730,7 +862,8 @@
 		  JOIN PAYMENT USING(ORDER_CODE)
 		 WHERE PRODUCT_ORDER.USER_NO = #{ user_no }
 		   AND IMG_LEVEL = 0
-		 ORDER BY ORDER_CODE DESC
+		 ORDER BY ORDER_CODE DESC) TBL)
+		 	WHERE ROWN BETWEEN #{startRow} AND #{endRow}
 	</select>
 	
 	<!-- 운송장조회 -->
@@ -799,10 +932,17 @@
 		    ORDER_CREATE_DATE,
 		    ORDER_NAME,
 		    ORDER_ADDRESS,
-		    ORDER_PHONE
+		    ORDER_PHONE,
+            P_NAME,
+            POINT,
+            (SELECT POINT_AMOUNT FROM POINT_CATEGORY WHERE POINT_CODE = 2) POINT_AMOUNT
 		  FROM PAYMENT
 		  JOIN PRODUCT_ORDER USING(ORDER_CODE)
 		  JOIN ORDER_DEL_INFO USING(ORDER_CODE)
+          JOIN ORDER_OPTION USING(ORDER_CODE)
+          JOIN PRODUCT_OPTION USING(P_OPTION_NO)
+          JOIN PRODUCT USING(P_NO)
+          LEFT JOIN POINT USING(ORDER_CODE)
 		 WHERE ORDER_CODE = #{ order_code }
 	</select>
 	
@@ -842,9 +982,23 @@
 		 WHERE ORDER_OPTION_CODE = #{ order_option_code }
 	</update>
 		
+	<!-- 1:1 문의글 개수 -->	
+	<select id="countQ_list" parameterType="_int" resultType="_int">
+		SELECT    
+		    COUNT(*)
+		 FROM PERSONAL_Q
+		WHERE Q_WRITER = #{ user_no }
+	</select>
+		
 	<!-- 내가쓴글조회 1:1 -->
 	<select id="selectQ_list" parameterType="_int" resultMap="PersonalQMap">
 		SELECT
+			*
+			FROM(
+			SELECT
+		ROWNUM ROWN
+		, TBL.*
+		FROM(SELECT
 			    P_NO,
 			    P_TITLE,
 			    P_CONTENT,
@@ -859,10 +1013,29 @@
 			  FROM PERSONAL_Q
 			  JOIN Q_CATEGORY USING(QC_NO)
 			 WHERE Q_WRITER = #{ user_no }
+			 ORDER BY P_NO DESC ) TBL)
+    	   WHERE ROWN BETWEEN #{startRow} AND #{endRow}
 	</select>	
 	
+	<!-- 환불요청 개수 -->
+	<select id="countR_list" parameterType="_int" resultType="_int">
+		SELECT    
+		    COUNT(*)
+		 FROM REFUND
+		 JOIN ORDER_OPTION USING(ORDER_OPTION_CODE)
+		 JOIN PRODUCT_ORDER USING(ORDER_CODE)
+		WHERE USER_NO = #{ user_no }
+	</select>
+	
+	<!-- 환불요청 목록 조회 -->
 	<select id="selectR_list" parameterType="_int" resultMap="refundResultMap">
-		SELECT 
+			SELECT
+			*
+			FROM(
+			SELECT
+		ROWNUM ROWN
+		, TBL.*
+		FROM( SELECT 
 			    REF_NO,
 			    ORDER_OPTION_CODE,
 			    REF_ID,
@@ -880,7 +1053,8 @@
 			  JOIN PRODUCT USING(P_NO)
 			  JOIN PRODUCT_ORDER USING(ORDER_CODE)
 			WHERE USER_NO = #{ user_no }
-			ORDER BY REF_NO DESC
+			ORDER BY REF_NO DESC ) TBL)
+    	   WHERE ROWN BETWEEN #{startRow} AND #{endRow}
 	</select>
 	
 	<select id="selectRefund" parameterType="_int" resultMap="refundResultMap">
@@ -984,8 +1158,25 @@
 			 WHERE ORDER_OPTION_CODE = #{ order_option_code }
 	</update>
 	
+	<!-- 교환요청 개수 -->
+	<select id="countEx_list" parameterType="_int" resultType="_int">
+		SELECT    
+		    COUNT(*)
+		 FROM EXCHANGE
+		 JOIN ORDER_OPTION USING(ORDER_OPTION_CODE)
+		 JOIN PRODUCT_ORDER USING(ORDER_CODE)
+		WHERE USER_NO = #{ user_no }
+	</select>
+	
+	<!-- 교환요청 리스트 -->
 	<select id="selectEx_list" parameterType="_int" resultMap="exchangeResultMap">
-			SELECT 
+			SELECT
+			*
+			FROM(
+			SELECT
+		ROWNUM ROWN
+		, TBL.*
+		FROM(SELECT 
 		        EX_NO,
 		        ORDER_OPTION_CODE,
 		        EX_ID,
@@ -1001,7 +1192,8 @@
 		      JOIN PRODUCT USING(P_NO)
 		      JOIN PRODUCT_ORDER USING(ORDER_CODE)
 		     WHERE USER_NO = #{ user_no }
-		    ORDER BY EX_NO DESC
+		    ORDER BY EX_NO DESC ) TBL)
+    	   WHERE ROWN BETWEEN #{startRow} AND #{endRow}
 	</select>
 	
 	<select id="selectExchange" parameterType="_int" resultMap="exchangeResultMap">

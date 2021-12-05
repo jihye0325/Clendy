@@ -21,6 +21,80 @@ span {
     margin-bottom: 15px;
 }
 
+.info_search_area {
+	background-color : #e6e6e6;
+	padding: 15px;
+	margin-bottom: 15px;
+}
+
+.info_area {
+	display:flex;
+	width: 350px;
+	margin:auto;
+	margin-bottom: 20px;
+}
+
+.info_area div{
+	margin-right: 20px;
+}
+
+.img_count	{
+	display:flex;
+	text-align: center;
+	width: 100px;
+}
+
+.delivery_count {
+	text-align:center;
+}
+
+.delivery_count img{
+	width: 100px;
+}
+
+.delivery_complete_count img{
+	width: 80px;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.cancle_count img{
+	width: 80px;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.status_count {
+	width: 100px;
+}
+
+.search_area {
+	display: flex;
+	width: 280px;
+	justify-content: space-between;
+	margin:auto;
+}
+
+.calendar {
+	display: flex;
+	margin-right: 30px;
+}
+
+select {
+	width: 100px;
+	height: 25px;
+}
+
+#search{
+	width: 50px;
+    height: 23px;
+    line-height: 23px;
+    background-color: #060032;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
 .info {
     width: 800px;
     font-size: small;
@@ -174,4 +248,18 @@ img{
 
 .pname a:hover{
     cursor: pointer;
+}
+
+/* 페이징 css */
+
+ul {
+	list-style: none;
+}
+
+.pagaing_wrap ul.pagaing_num li a:link{
+    text-decoration: none;
+}
+
+.pagaing_wrap ul.pagaing_num li a:visited{
+    text-decoration: none;
 }

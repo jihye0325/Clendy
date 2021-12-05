@@ -67,6 +67,10 @@ ul li {
 	padding-bottom: 10px;
 }
 
+.p_no {
+	width: 45px;
+}
+
 .status {
     width: 80px;
 }
@@ -83,6 +87,19 @@ ul li {
     width: 150px;
 }
 
+/* 페이징 css */
+
+ul {
+	list-style: none;
+}
+
+.pagaing_wrap ul.pagaing_num li a:link{
+    text-decoration: none;
+}
+
+.pagaing_wrap ul.pagaing_num li a:visited{
+    text-decoration: none;
+}
 
 /* 이벤트 포인트 다운로드 */
 .event-point-wrapper{width: 700px; margin: 5px auto 50px auto;}

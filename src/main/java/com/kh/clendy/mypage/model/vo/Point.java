@@ -138,7 +138,14 @@ public class Point {
 		return "Point [point_no=" + point_no + ", order_code=" + order_code + ", point_code=" + point_code + ", point="
 				+ point + ", point_date=" + point_date + ", user_no=" + user_no + ", rec_user=" + rec_user
 				+ ", point_content=" + point_content + ", point_amount=" + point_amount + ", point_group=" + point_group
-				+ ", point_status=" + point_status + ", point_category=" + point_category + "]";
+				+ ", point_status=" + point_status + ", point_category=" + point_category + ", getPoint_no()="
+				+ getPoint_no() + ", getOrder_code()=" + getOrder_code() + ", getPoint_code()=" + getPoint_code()
+				+ ", getPoint()=" + getPoint() + ", getPoint_date()=" + getPoint_date() + ", getUser_no()="
+				+ getUser_no() + ", getRec_user()=" + getRec_user() + ", getPoint_content()=" + getPoint_content()
+				+ ", getPoint_amount()=" + getPoint_amount() + ", getPoint_group()=" + getPoint_group()
+				+ ", getPoint_status()=" + getPoint_status() + ", getPoint_category()=" + getPoint_category()
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+				+ "]";
 	}
 
 }

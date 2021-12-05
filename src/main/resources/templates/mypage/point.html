@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/mypage/point.css" rel="stylesheet"></link>
+    <link href="/css/common/paging.css" rel="stylesheet" >
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>포인트</title>
 </head>
@@ -52,6 +53,7 @@
             
             <div class="point_list">
                 <ul class="point_header">
+                	<li class="p_no">번호</li>
                     <li class="status">상태</li> 
                     <li class="point">포인트</li>
                     <li class="info">적립 내용</li>
@@ -59,6 +61,7 @@
                 </ul>
 			
                 <ul class="point_content" th:each="p : ${point_list}">
+                	<li class="p_no" th:text="${p.point_no}"></li>
                     <li class="status" th:if="${p.point_status} == 1" th:text="적립" style="color: blue;"></li>
                     <li class="status" th:if="${p.point_status} == 2" th:text="차감" style="color: red;"></li>
                     <li class="point" th:text="|+${p.point}|" th:if="${p.point_status} == 1" style="color: blue;"></li>
@@ -71,6 +74,40 @@
           			</li>
                     <li class="date" th:text="${#dates.format(p.point_date, 'yyyy-MM-dd')}"></li>
                 </ul>
+            </div>
+            
+            <!-- 페이징 -->
+            <div class="pagaing_wrap" th:if="${#lists.size(point_list) > 0}">
+	            <ul class="pagaing_left">
+	                <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
+	                	<a th:href="@{/mypage/point/(page=1)}" th:if="${pi.page > 1}"></a>
+	                 <a href="javascript:;" th:unless="${pi.page > 1}"></a>
+	                </li>
+	                <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
+	                 <a th:href="@{/mypage/point/(page=${pi.page - 1})}" th:if="${pi.page > 1}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page > 1}"></a>
+	                </li>
+	            </ul>
+	            
+	            <ul class="pagaing_num">
+	            	<th:block th:each="pd : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+	            		<li th:classappend="${pi.page == pdStat.current} ? 'on'">
+	            			<a th:href="@{/mypage/point/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+	            		</li>
+	            	</th:block>
+	                
+	            </ul>
+	
+	            <ul class="pagaing_right" >
+	                <li class="next" th:classappend="${pi.page == pi.endPage} ? 'hide'">
+	                	<a th:href="@{/mypage/point/(page=${pi.page} + 1)}" th:if="${pi.page < pi.endPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+	                </li>
+	                <li class="allNext"  th:classappend="${pi.page == pi.endPage} ? 'hide'">
+	                	<a th:href="@{/mypage/point/(page=${pi.endPage})}" th:if="${pi.page < pi.endPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+	                </li>
+	            </ul>
             </div>
         </div>
 

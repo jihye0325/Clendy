@@ -201,11 +201,52 @@ textarea {
 	cursor : pointer;
 }
 
-#ex_ref_List img {
+#ex_List img {
 	width: 80px;
 }
 
-#ex_ref_List .null_list {
+#ex_List .null_list {
 	font-size: large;
 	font-weight: bold;
+}
+
+#ref_List img {
+	width: 80px;
+}
+
+#ref_List .null_list {
+	font-size: large;
+	font-weight: bold;
+}
+
+#ex_List label{
+	font-weight: bold;
+	font-size: large;
+}
+
+#ex_List .board_list {
+	margin-top: 20px;
+}
+
+#ref_List label{
+	font-weight: bold;
+	font-size: large;
+}
+
+#ref_List .board_list {
+	margin-top: 20px;
+}
+
+/* 페이징 css */
+
+ul {
+	list-style: none;
+}
+
+.pagaing_wrap ul.pagaing_num li a:link{
+    text-decoration: none;
+}
+
+.pagaing_wrap ul.pagaing_num li a:visited{
+    text-decoration: none;
 }

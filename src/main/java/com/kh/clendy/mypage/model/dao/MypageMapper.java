@@ -31,7 +31,7 @@ public interface MypageMapper {
 
 	int deleteMember(int user_no);
 
-	List<Point> selectPoint(int user_no);
+	List<Point> selectPoint(Map<String, Object> mapMapper);
 
 	List<Coupon> selectCou_List(int user_no);
 
@@ -39,13 +39,13 @@ public interface MypageMapper {
 
 	List<Coupon> selectUse_Cou_List(int user_no);
 
-	Wishlist selectOuterlist(int user_no);
+	Wishlist selectOuterlist(Map<String, Object> mapMapper);
 
-	Wishlist selectToplist(int user_no);
-
-	Wishlist selectBottomlist(int user_no);
-
-	Wishlist selectAcclist(int user_no); 
+	Wishlist selectToplist(Map<String, Object> mapMapper);
+	
+	Wishlist selectBottomlist(Map<String, Object> mapMapper);
+	
+	Wishlist selectAcclist(Map<String, Object> mapMapper);
 	
 	int deleteWish(HashMap<String, Integer> userMap);
 
@@ -55,9 +55,9 @@ public interface MypageMapper {
 	
 	Review selectReview(int order_option_code);
 
-	List<ProductQnaQ> selectP_Qna_List(int user_no);
+	List<ProductQnaQ> selectP_Qna_List(Map<String, Object> mapMapper);
 
-	List<Review> selectReview_List(int user_no);
+	List<Review> selectReview_List(Map<String, Object> mapMapper);
 	
 	List<Cart> selectCart_list(int user_no);
 
@@ -67,8 +67,8 @@ public interface MypageMapper {
 
 	int plusAmount(HashMap<String, Integer> userMap);
 
-	List<Product_Order> selectProduct_Order(int user_no);
-
+	List<Product_Order> selectProduct_Order(Map<String, Object> mapMapper);
+	
 	int selectPostnum(int order_option_code);
 
 	int decide_buy(int order_option_code);
@@ -81,9 +81,9 @@ public interface MypageMapper {
 
 	int requestRefund_date(int order_option_code);
 	
-	List<PersonalQ> selectQ_list(int user_no);
+	List<PersonalQ> selectQ_list(Map<String, Object> mapMapper);
 
-	List<Refund> selectR_list(int user_no);
+	List<Refund> selectR_list(Map<String, Object> mapMapper);
 
 	Refund selectRefund(int order_option_code);
 
@@ -105,7 +105,7 @@ public interface MypageMapper {
 
 	int changeExchange_stauts(int order_option_code);
 
-	List<Exchange> selectEx_list(int user_no);
+	List<Exchange> selectEx_list(Map<String, Object> mapMapper);
 
 	Exchange selectExchange(int order_option_code);
 
@@ -126,10 +126,27 @@ public interface MypageMapper {
 	int reviewModify(Review review);
 
 	Review reviewDate(int order_option_code);
-	
-	
 
-	
+	int countOrderList(int user_no);
 
+	int countP_Qna_List(int user_no);
+
+	int countReviewList(int user_no);
+
+	int countQ_list(int user_no);
+
+	int countEx_list(int user_no);
+
+	int countR_list(int user_no);
+
+	int countOuter_List(int user_no);
+
+	int countTop_List(int user_no);
+
+	int countBottom_List(int user_no);
+
+	int countAcc_List(int user_no);
+
+	int countPoint_List(int user_no);
 	
 }
