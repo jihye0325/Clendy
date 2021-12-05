@@ -47,7 +47,7 @@
         <div class="point_area">
             <div class="point_title">
                 <div>포인트</div>
-                <div id="point" th:if="${#lists.size(point_list) != 0}" th:text="|${#aggregates.sum(point_list.![point])}원|"></div>
+                <div id="point" th:if="${#lists.size(point_list) != 0}" th:text="|${total_point}원|"></div>
                 <div id="point" th:if="${#lists.size(point_list) == 0}" th:text="0원"></div>
             </div>
             
