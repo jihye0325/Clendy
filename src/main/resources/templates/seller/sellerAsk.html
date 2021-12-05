@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>문의게시판</title>
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+ 
+<link rel="stylesheet" href="/css/CScenter/FAQ.css">
+<link rel="stylesheet" href="/css/common/sidebar.css">
+<style>
+
+</style>
+</head>
+<body>
+	<div th:replace="common/header.html"></div>
+	<div class="wrapper1" style="display: flex;">
+		<div id="sidebar">
+			<ul>
+				<li><a class="sideA current" href="#">내 정보</a></li>
+				<li><a class="sideA" href="#">등록 상품</a></li>
+				<li><a class="sideA" href="#">문의</a></li>
+				<li><a class="sideA" href="#">주문 내역</a></li>
+				<li><a class="sideA" href="#">배송 현황</a></li>
+				<li><a class="sideA" href="#">반송 요청</a></li>
+				<li><a class="sideA" href="#">교환 요청</a></li>
+			</ul>
+		</div>
+		<div id="content">
+		</th:block>
+		
+		 
+		<div id="FAQList">
+			<div class="title">
+				<ul style="text-align: center;">
+					<li class="FAQ_num">번호</li>
+					<li class="FAQ_content">상품명</li>
+					<li class="FAQ_content">제목</li>
+					<li class="FAQ_content">등록일</li>
+					<li class="FAQ_content">상태</li>
+				</ul>
+			</div>
+			
+			
+			<div class="FAQList"  th:if="${#lists.size(sellerAskList) > 0}">
+				<div class="title">
+				<ul style="text-align: center; "  th:each="SellerAsk : ${sellerAskList}">
+					<li class="FAQ_num"  th:text="${SellerAsk.PIQCode}">번호</li>
+					<li class="FAQ_content"  th:text="${SellerAsk.pName}">상품명</li>
+					<li class="FAQ_content"  th:text="${SellerAsk.PIQTitle}">제목</li>
+					<li class="FAQ_content"  th:text="${SellerAsk.PIQCDate}">등록일</li>
+					<li class="FAQ_content"></li>
+					<hr>
+				</ul>
+					
+					
+					
+					
+					
+					
+									
+							
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+						</div>
+
+				</div>
+
+			</div>
+
+		</div>
+		</div>
+			<div th:unless="${#lists.size(sellerAskList) > 0}">
+					<h1>검색 결과가 없습니다.</h1>
+				</div>
+			<!-- 페이징 -->
+           <div class="pagaing_wrap" th:if="${#lists.size(sellerAskList) > 0}">
+                        <ul class="pagaing_left">
+                            <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
+                            	<a th:href="@{/seller/sellerAsk/(page=1)}" th:if="${pi.page > 1}"></a>
+	                            <a href="javascript:;" th:unless="${pi.page > 1}"></a>
+                            </li>
+                            <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
+	                            <a th:href="@{/seller/sellerAsk/(page=${pi.page - 1})}" th:if="${pi.page > 1}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page > 1}"></a>
+                            </li>
+                        </ul>
+                        
+                        <ul class="pagaing_num">
+                        	<th:block th:each="pd : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+                        		<li th:classappend="${pi.page == pdStat.current} ? 'on'">
+                        			<a th:href="@{/seller/sellerAsk/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+                        		</li>
+                        	</th:block>
+                            
+                        </ul>
+
+                        <ul class="pagaing_right" >
+                            <li class="next" th:classappend="${pi.page == pi.endPage} ? 'hide'">
+                            	<a th:href="@{/seller/sellerAsk/(page=${pi.page} + 1)}" th:if="${pi.page < pi.endPage}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+                            </li>
+                            <li class="allNext"  th:classappend="${pi.page == pi.endPage} ? 'hide'">
+                            	<a th:href="@{/seller/sellerAsk/(page=${pi.endPage})}" th:if="${pi.page < pi.endPage}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+                            </li>
+                        </ul>
+                    </div>
+		
+		
+
+	<div th:replace="common/footer.html"></div>
+	<script>
+		/* $(document).on('click', '.question', function() {
+			if ($(this).next().css('display') == 'none') {
+				$(this).next().slideUp();
+				$(this).next().slideDown();
+			} else if ($(this).next().css('display') == 'block') {
+				$(this).next().slideUp();
+			}
+		}); */
+	</script>
+
+</body>
+</html>

@@ -246,45 +246,12 @@
 	padding: 70px 0;
 }
 
-.searchdiv {
-	margin-top: 100px;
-	margin-left: auto;
-	margin-right: auto;
-	border: 1px solid #060032;
-	height: 60px;
-	width: 600px;
-}
 
-.inputbar {
-	font-size: 16px;
-	width: px;
-	padding: 20px;
-	border: 0px;
-	outline: none;
-	float: left;
-}
 
-input:-ms-input-placeholder {
-	color: #a8a8a8;
-}
 
-input::-webkit-input-placeholder {
-	color: #a8a8a8;
-}
 
-input::-moz-placeholder {
-	color: #a8a8a8;
-}
 
-button {
-	width: 50px;
-	height: 100%;
-	border: 0px;
-	background: #060032;
-	outline: none;
-	float: right;
-	color: #fff;
-}
+
 </style>
 </head>
 
@@ -293,9 +260,16 @@ button {
 	<div class="wrapper1">
 
 		<div class="searchdiv">
-			<input class="inputbar" type="text" placeholder="검색어 입력">
-			<button>검색</button>
+		<form class="searchProductForm" th:action="@{/searchProduct}" method="post">
+			<input class="inputbar" type="search" name="keyword" placeholder="상품명,카테고리 검색">
+			<span id="img-wrapper">
+             	<img class="finding" onclick="searchForm();" src="/images/magnifying-glass-white.png" alt="finding">
+            </span>
+		</form>
 		</div>
+		
+		
+		
 		<div class="container">
 			<div class="section">
 				<input type="radio" name="slide" id="slide01" checked> <input
