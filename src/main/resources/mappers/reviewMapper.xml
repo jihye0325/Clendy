@@ -25,8 +25,21 @@
 		<result property="pColor" column="P_COLOR" />
 		<result property="pSize" column="P_SIZE" />
 	</resultMap>
+	
+	<select id="reviewListCount" resultType="_int">
+		SELECT
+				COUNT(*) AS COUNT
+		   FROM REVIEW
+		  WHERE R_STATUS = 'Y'
+	</select>
 
-	<select id="selectReviewAllList" resultMap="reviewAllList">
+	<select id="selectReviewAllList" parameterType="map" resultMap="reviewAllList">
+		SELECT
+		*
+		FROM(SELECT
+       ROWNUM ROWN
+     , TBL.*    
+    FROM(
 		SELECT
 		P.P_NAME
 		,P.P_NO
@@ -90,12 +103,14 @@
 		WHERE R.R_STATUS =
 		'Y'
 		AND PRI.IMG_LEVEL = 0
-		ORDER BY CNT.CNTLIKE ASC
+		ORDER BY CNT.CNTLIKE ASC) TBL)
+		WHERE ROWN BETWEEN #{startRow} AND #{endRow}
 	</select>
 
 	<!-- 리뷰검색 -->
 	<select id="searchReviewByKeyword" parameterType="String"
 		resultMap="reviewAllList">
+		
 		SELECT
 		P.P_NAME
 		,P.P_NO

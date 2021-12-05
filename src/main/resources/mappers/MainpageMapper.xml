@@ -17,6 +17,8 @@
 	
 
 	<select id="selectMainProduct" resultMap="MainProductResultMap">
+		 
+		 SELECT * FROM(
 		 SELECT
 			p.P_NO
 			,P_NAME
@@ -28,6 +30,8 @@
 		   ON p.P_NO = pi.P_NO
            LEFT OUTER JOIN IMAGE i
               ON pi.IMG_NO = i.IMG_NO
+        WHERE P_STATUS = 'Y')
+        WHERE ROWNUM <![CDATA[<=]]> 10
 	</select>
 
 
