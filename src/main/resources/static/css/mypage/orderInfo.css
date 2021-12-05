@@ -4,13 +4,13 @@ div {
 
 
 .outer {
-    width: 600px;
+    width: 650px;
     margin: auto;
     margin-top: 20px;
 }
 
 .title {
-	width: 450px;
+	width: 500px;
 	margin: auto;
 	text-align: center;
     font-size: x-large;
@@ -26,15 +26,31 @@ div {
 }
 
 .delivery_info {
-	width: 450px;
+	width: 500px;
 	margin: auto;
 	border: 1px solid lightgray;
 	border-bottom: 2px solid lightgray;
 	padding: 10px;
 }
 
+.del {
+	color:gray;
+	font-weight: bold;
+	margin-right: 45px;
+}
+
+#memo {
+	margin-right: 25px;
+}
+
+.info {
+	color:gray;
+	font-weight: bold;
+	margin-right: 25px;
+}
+
 .pay {
-	width: 450px;
+	width: 500px;
 	margin: auto;
 	border: 1px solid lightgray;
 	border-top: none;
@@ -43,7 +59,7 @@ div {
 }
 
 .payment {
-	width: 450px;
+	width: 500px;
 	margin: auto;
 	border: 1px solid lightgray;
 	border-top: none;
@@ -51,8 +67,18 @@ div {
 	padding: 10px;
 }
 
+.payinfo {
+	color:gray;
+	font-weight: bold;
+	margin-right: 30px;
+}
+
+#pinfo {
+	margin-right: 10px;
+}
+
 .point {
-	width: 450px;
+	width: 500px;
 	margin: auto;
 	border: 1px solid lightgray;
 	border-top: none;

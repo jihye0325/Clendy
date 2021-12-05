@@ -62,7 +62,7 @@
 	        </div>
 	
 	        <div class="btn_area">
-	            <button type="submit">등록</button>
+	            <button type="button" onclick="insertReview()">등록</button>
 	            <button type="button" onclick="reviewCancle()">취소</button>
 	        </div>
         </form>
@@ -86,6 +86,34 @@
 				
 		function reviewCancle(){
 			window.close();
+		}
+	</script>
+	
+	<!-- 등록유효성 -->
+	<script>
+		function insertReview(){
+			var form = $("#reviewForm");
+			var title = $("#r_title");
+			var content = $("#summernote");
+			
+			if(title.val().length == 0){
+				alert('제목을 작성해주세요.');
+				title.focus();
+				return;					
+			} else if (title.val().length > 30){
+				alert('제목은 30자 이내로 입력 가능합니다.');
+				title.focus();
+				return;					
+			}
+			
+			if(content.val().length < 10){
+				alert('리뷰를 10자 이상으로 작성해주세요.');
+				content.focus();
+				return;	
+			}
+			
+			form.submit();
+			
 		}
 	</script>
 </body>

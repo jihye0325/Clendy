@@ -17,6 +17,8 @@ public class Payment {
 	private String order_address;
 	private String order_phone;
 	private String p_name;
+	private String p_color;
+	private String p_size;
 	private int point;
 	private int point_amount;
 
@@ -24,7 +26,8 @@ public class Payment {
 
 	public Payment(int pay_code, int order_code, String imp_uid, String merchant_uid, int pay_money, String pay_means,
 			String pay_card_name, String pay_card_num, String pay_refund, String order_request, String order_name,
-			String order_address, String order_phone, String p_name, int point, int point_amount) {
+			String order_address, String order_phone, String p_name, String p_color, String p_size, int point,
+			int point_amount) {
 		super();
 		this.pay_code = pay_code;
 		this.order_code = order_code;
@@ -40,6 +43,8 @@ public class Payment {
 		this.order_address = order_address;
 		this.order_phone = order_phone;
 		this.p_name = p_name;
+		this.p_color = p_color;
+		this.p_size = p_size;
 		this.point = point;
 		this.point_amount = point_amount;
 	}
@@ -156,6 +161,22 @@ public class Payment {
 		this.p_name = p_name;
 	}
 
+	public String getP_color() {
+		return p_color;
+	}
+
+	public void setP_color(String p_color) {
+		this.p_color = p_color;
+	}
+
+	public String getP_size() {
+		return p_size;
+	}
+
+	public void setP_size(String p_size) {
+		this.p_size = p_size;
+	}
+
 	public int getPoint() {
 		return point;
 	}
@@ -178,8 +199,8 @@ public class Payment {
 				+ ", merchant_uid=" + merchant_uid + ", pay_money=" + pay_money + ", pay_means=" + pay_means
 				+ ", pay_card_name=" + pay_card_name + ", pay_card_num=" + pay_card_num + ", pay_refund=" + pay_refund
 				+ ", order_request=" + order_request + ", order_name=" + order_name + ", order_address=" + order_address
-				+ ", order_phone=" + order_phone + ", p_name=" + p_name + ", point=" + point + ", point_amount="
-				+ point_amount + "]";
+				+ ", order_phone=" + order_phone + ", p_name=" + p_name + ", p_color=" + p_color + ", p_size=" + p_size
+				+ ", point=" + point + ", point_amount=" + point_amount + "]";
 	}
 
 }

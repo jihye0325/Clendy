@@ -64,7 +64,7 @@
 	                <th:block th:if="${r.score >= 4}"><img src="/images/star_yes.png"></th:block>
 	                <th:block th:if="${r.score == 5}"><img src="/images/star_yes.png"></th:block>
 	                
-	                <select id="score">
+	                <select id="score" name="score">
 	                    <option value="1">1점</option>
 	                    <option value="2">2점</option>
 	                    <option value="3">3점</option>
@@ -87,7 +87,7 @@
 	        </div>
 	
 	        <div class="btn_area">
-	            <button type="submit">수정</button>
+	            <button type="button" onclick="modifyReview()">수정</button>
 	            <button type="button" id="delete">삭제</button>
 	            <button type="button" onclick="reviewCancle()">닫기</button>
 	        </div>
@@ -115,7 +115,35 @@
 		}
 	</script>
 	
-	    <!-- 리뷰 삭제 -->
+	<!-- 유효성 -->
+	<script>
+		function modifyReview(){
+			var form = $("#reviewModifyForm");
+			var title = $("#r_title");
+			var content = $("#summernote");
+			
+			if(title.val().length == 0){
+				alert('제목을 작성해주세요.');
+				title.focus();
+				return;					
+			} else if(title.val().length > 30){
+				alert('제목은 30자 이내로 입력 가능합니다.');
+				title.focus();
+				return;					
+			}
+			
+			if(content.val().length < 10){
+				alert('리뷰를 10자 이상으로 작성해주세요.');
+				content.focus();
+				return;	
+			}
+			
+			form.submit();
+			
+		}
+	</script>
+	
+	<!-- 리뷰 삭제 -->
     <script>
     	$(function(){
     		$(document).on("click", "#delete", function(){

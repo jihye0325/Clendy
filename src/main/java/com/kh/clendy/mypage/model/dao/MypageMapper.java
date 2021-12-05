@@ -73,7 +73,7 @@ public interface MypageMapper {
 
 	int decide_buy(int order_option_code);
 
-	Payment selectOrderInfo(int order_code);
+	Payment selectOrderInfo(int order_option_code);
 
 	int requestRefund(Refund refund);
 

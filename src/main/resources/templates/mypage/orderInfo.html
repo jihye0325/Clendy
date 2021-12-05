@@ -18,55 +18,55 @@
         <div class="delivery_info">
         	<span id="subtitle">배송지정보</span>
         	<hr>
-       		<span>수령인 | </span>
+       		<span class="del">수령인</span>
        		<span th:text="${p.order_name}"></span>
        		<br>
-       		<span>연락처 | </span>
+       		<span class="del">연락처</span>
        		<span th:text="${p.order_phone}"></span>
        		<br>
-       		<span>배송지 | </span>
-       		<span class="add_info" th:text="${p.order_address}"></span>
+       		<span class="del">배송지</span>
+       		<span th:text="${p.order_address}"></span>
        		<br>
-       		<span>배송메모 | </span>
+       		<span class="info" id="memo">배송메모</span>
        		<span th:text="${p.order_request}"></span>
         </div>
         
         <div class="pay">
         	<span id="subtitle">주문정보</span>
         	<hr>
-        	<span>상품명 | </span>
-       		<span th:text="${p.p_name}"></span>
+        	<span class="payinfo">주문상품</span>
+       		<span th:text="|${p.p_name} / 옵션 : ${p.p_color}, ${p.p_size}|"></span>
        		<br>
-       	    <span>주문금액 | </span>
+       	    <span class="payinfo">주문금액</span>
        		<span th:text="|${p.pay_money}원|"></span>
        		<br>
-        	<span>포인트 사용 | </span>
+        	<span class="info" id="pinfo">포인트 사용</span>
         	<span th:text="|${p.point}원|"></span>
         </div>
         
         <div class="payment">
         	<span id="subtitle">결제정보</span>
         	<hr>
-        	<span>결제번호 | </span>
+        	<span class="info">결제번호</span>
         	<span th:text="${p.pay_code}"></span>
         	<br>
-            <span>결제가격 | </span>
+            <span class="info">결제가격</span>
             <span th:text="|${p.pay_money}원|"></span>
             <br>
-            <span>결제수단 | </span>
+            <span class="info">결제수단</span>
             <span th:text="${p.pay_card_name}"></span>
             <br>
-            <span>카드번호 | </span>
+            <span class="info">카드번호</span>
             <span th:text="${p.pay_card_num}"></span>
         </div>
 		
 		<div class="point">
 			<span id="subtitle">포인트 적립 예정</span>
 			<hr>
-			<span>구매적립 | </span>
+			<span class="info">구매적립</span>
 			<span th:text="|${p.pay_money * p.point_amount / 100}원 적립|"></span>
 			<br>
-			<span>리뷰적립 | </span>
+			<span class="info">리뷰적립</span>
 			<span>리뷰 등록시 200원 적립</span>
 		</div>
         <div class="btn_area">

@@ -400,8 +400,8 @@ public class MypageServiceImpl implements MypageService {
 
 	// 주문내역조회
 	@Override
-	public Payment selectOrderInfo(int order_code) {
-		return mypageMapper.selectOrderInfo(order_code);
+	public Payment selectOrderInfo(int order_option_code) {
+		return mypageMapper.selectOrderInfo(order_option_code);
 	}
 
 	// 환불요청
