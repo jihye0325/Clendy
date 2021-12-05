@@ -29,27 +29,48 @@ span {
 
 .info_area {
 	display:flex;
-	width: 350px;
 	margin:auto;
 	margin-bottom: 20px;
-}
-
-.info_area div{
-	margin-right: 20px;
+	text-align:center;
+	justify-content:center;
 }
 
 .img_count	{
-	display:flex;
 	text-align: center;
-	width: 100px;
+	width: 120px;
+}
+.status_count {
+	font-weight: bold;
 }
 
 .delivery_count {
 	text-align:center;
+	display:flex;
+	justify-content: space-between;
+	margin-right: 25px;
 }
 
 .delivery_count img{
 	width: 100px;
+}
+
+#count {
+	margin:auto;
+	line-height: 80px;
+	font-size: xxx-large;
+	font-weight: bold;
+	margin-left: 15px;
+	background-color: #c7c6c6;
+	border-radius: 50px;
+    width: 80px;
+    height: 80px;
+}
+
+.delivery_complete_count {
+	text-align:center;
+	display:flex;
+	justify-content: space-between;
+	margin-right: 25px;
 }
 
 .delivery_complete_count img{
@@ -58,14 +79,16 @@ span {
 	margin-bottom:10px;
 }
 
+.cancle_count {
+	text-align:center;
+	display:flex;
+	justify-content: space-between;
+}
+
 .cancle_count img{
 	width: 80px;
 	margin-top:10px;
 	margin-bottom:10px;
-}
-
-.status_count {
-	width: 100px;
 }
 
 .search_area {

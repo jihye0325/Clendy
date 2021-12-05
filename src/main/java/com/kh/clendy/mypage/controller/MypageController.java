@@ -181,13 +181,15 @@ public class MypageController {
 	public ModelAndView point(ModelAndView mv, @RequestParam(defaultValue="1") int page) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
+		// 적립금 총합계
+		int total_point = mypageService.selectTotalPoint(user_no);
 		
 		// 적립금 리스트 불러오기
 		Map<String, Object> resultList = mypageService.selectPoint(user_no, page);
 		
+		mv.addObject("total_point", total_point);
 		mv.addObject("point_list", resultList.get("point_list"));
 		mv.addObject("pi", resultList.get("pi"));
-		System.out.println(resultList.get("point_list"));
 		// 다운 가능한 이벤트 적립금 불러오기
 		List<Point_Category> event_point_list = mypageService.selectDownableEventPoint(user_no);
 		
@@ -514,6 +516,9 @@ public class MypageController {
 		System.out.println(resultList);
 		mv.addObject("po_list", resultList.get("po_list"));
 		mv.addObject("pi", resultList.get("pi"));
+		mv.addObject("del_cnt", resultList.get("del_cnt"));
+		mv.addObject("del_complete_cnt", resultList.get("del_complete_cnt"));
+		mv.addObject("cancle_cnt", resultList.get("cancle_cnt"));
 		mv.setViewName("/mypage/orderList");
 		return mv;
 	}

@@ -1297,6 +1297,51 @@
 		   AND TO_DATE(SYSDATE, 'YYYY/MM/DD') > 
 		   			(SELECT TRUNC(TO_DATE((SELECT R_CREATE_DATE FROM REVIEW WHERE ORDER_OPTION_CODE = #{ order_option_code }), 'YYYY/MM/DD')) + 30 FROM DUAL) 
 	</select>
+	
+	<!-- 포인트 총합 -->
+	<select id="selectTotalPoint" parameterType="_int" resultType="_int">
+		SELECT
+		    SUM(POINT) TOTALPOINT
+		 FROM POINT 
+		WHERE USER_NO = #{ user_no }
+	</select>
+	
+	<!-- 배송중 상품 개수 -->
+	<select id="selectDel_cnt" parameterType="_int" resultType="_int">
+		SELECT
+		    COUNT(*)
+		 FROM ORDER_OPTION
+		 JOIN PRODUCT_ORDER USING(ORDER_CODE)
+		WHERE USER_NO = #{ user_no }
+		  AND ORDER_STATUS_CODE = (SELECT ORDER_STATUS_CODE FROM ORDER_STATUS WHERE ORDER_STATUS_NAME = '배송중')
+	</select>
+	
+	<!-- 배송완료 상품 개수 -->
+	<select id="selectDel_Complete_cnt" parameterType="_int" resultType="_int">
+		SELECT
+		    COUNT(*)
+		 FROM ORDER_OPTION
+		 JOIN PRODUCT_ORDER USING(ORDER_CODE)
+		WHERE USER_NO = #{ user_no }
+		  AND ORDER_STATUS_CODE = (SELECT ORDER_STATUS_CODE FROM ORDER_STATUS WHERE ORDER_STATUS_NAME = '배송완료')
+	</select>
+	
+	<!-- 취소/반품 상품 개수 -->
+	<select id="selectCancle_cnt" parameterType="_int" resultType="_int">
+		SELECT
+		    COUNT(*)
+		 FROM ORDER_OPTION
+		 JOIN PRODUCT_ORDER USING(ORDER_CODE)
+		WHERE USER_NO = #{ user_no }
+		  AND ORDER_STATUS_CODE IN (SELECT ORDER_STATUS_CODE 
+                                    FROM ORDER_STATUS 
+                                   WHERE ORDER_STATUS_NAME IN ('환불신청','교환신청', '환불완료', '교환완료', '결제취소'))
+	</select>
+	
+	
+	
+	
+	
 </mapper>
 
 

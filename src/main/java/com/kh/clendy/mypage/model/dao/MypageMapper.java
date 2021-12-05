@@ -148,5 +148,13 @@ public interface MypageMapper {
 	int countAcc_List(int user_no);
 
 	int countPoint_List(int user_no);
+
+	int selectTotalPoint(int user_no);
+
+	int selectDel_cnt(int user_no);
+
+	int selectDel_Complete_cnt(int user_no);
+
+	int selectCancle_cnt(int user_no);
 	
 }

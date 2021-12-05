@@ -358,10 +358,19 @@ public class MypageServiceImpl implements MypageService {
 		
 		// 주문내역 목록 조회
 		List<Product_Order> po_list = mypageMapper.selectProduct_Order(mapMapper);
+		// 배송중인 상품의 개수
+		int del_cnt = mypageMapper.selectDel_cnt(user_no);
+		// 배송완료 개수
+		int del_complete_cnt = mypageMapper.selectDel_Complete_cnt(user_no);
+		// 취소/반품 개수
+		int cancle_cnt = mypageMapper.selectCancle_cnt(user_no);
 		
 		Map<String, Object> result = new HashMap<>();
 		result.put("po_list", po_list);
 		result.put("pi", pageInfo);
+		result.put("del_cnt", del_cnt);
+		result.put("del_complete_cnt", del_complete_cnt);
+		result.put("cancle_cnt", cancle_cnt);
 		
 		return result;
 	}
@@ -603,6 +612,12 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public Review reviewDate(int order_option_code) {
 		return mypageMapper.reviewDate(order_option_code);
+	}
+
+	// 포인트 총합
+	@Override
+	public int selectTotalPoint(int user_no) {
+		return mypageMapper.selectTotalPoint(user_no);
 	}
 
 }

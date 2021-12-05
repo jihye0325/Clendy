@@ -16,42 +16,34 @@
     <div th:replace="common/header.html"></div>
  	<div th:replace="mypage/sideMenu.html"></div>
     <div class="outer">
-        <div class="title">주문내역</div>
+        <div class="title">주문내역(<span th:text="${#lists.size(po_list)}"></span>)</div>
     	
     	<div class="info_search_area">
     		<div class="info_area">
     			<div class="delivery_count">
     				<div class="img_count">
-    					<div>
-    						<img src="/images/delivery.png">
-    						<div class="status_count">배송중
-    							<span id="count">2</span>
-    						</div>
-    					</div>
-    				</div>
+   						<img src="/images/delivery.png">
+   						<div class="status_count">배송중</div>
+  					</div>
+  					<div id="count" th:text="${del_cnt}"></div>
     			</div>
     			
     			<div class="delivery_complete_count">
     				<div class="img_count">
-    					<div>
-    						<img src="/images/complete.png">
-    						<div class="status_count">배송완료
-    							<span id="count">2</span>
-    						</div>
-    					</div>
-    				</div>
+   						<img src="/images/complete.png">
+   						<div class="status_count">배송완료</div>
+  					</div>
+  					<div id="count" th:text="${del_complete_cnt}"></div>
     			</div>
     			
     			<div class="cancle_count">
     				<div class="img_count">
-    					<div>
-    						<img src="/images/cancle.png">
-    						<div class="status_count">취소/반품
-    							<span id="count">2</span>
-    						</div>
-    					</div>
-    				</div>
+   						<img src="/images/cancle.png">
+   						<div class="status_count">취소/교환/환불</div>
+  					</div>
+  					<div id="count" th:text="${cancle_cnt}"></div>
     			</div>
+    			
     		</div>
     		
     		<div class="search_area">
