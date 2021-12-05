@@ -85,13 +85,11 @@ public class BoardController {
 		
 		if(result >0) {
 			redirectAttr.addFlashAttribute("msg","공지사항이 등록되었습니다.");
-			resultPage = "redirect:/CScenter/board/delete?b_no="+ newBoard.getB_no();
 		}else {
 			redirectAttr.addFlashAttribute("msg","공지사항 등록에 실패하였습니다.");
-			resultPage = "redirect:/CScenter/board";
 		}
 		
-		return resultPage;
+		return "redirect:/CScenter/board";
 	}
 	
 	/* 공지사항 수정 */

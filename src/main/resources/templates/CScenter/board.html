@@ -61,7 +61,7 @@
             <div class="board-wrapper">
                 <div class="list-th">
                     <ul><li class="list-num">번호</li><li class="list-title">제목</li><li class="list-date">등록일</li></ul></div>
-                <th:block th:if ="${boardList} == null" >
+                <th:block th:if ="${#lists.size(boardList) == 0}" >
 	                	<div class="board-list null">
 		                	<img class="nowish" src="/images/nowish.png"><br>
 	            			<span>등록된 공지사항이 없습니다.</span>

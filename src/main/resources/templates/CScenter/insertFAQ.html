@@ -9,17 +9,19 @@
     <style>
     	*{margin:0;}
         ul, li{list-style: none; padding-left: 0;}
-        li{display: table-cell; }
+        li{display: table-cell;}
+        ul{margin : 10px;}
         h2 {text-align : center;}
-        .FAQ_detail{margin : 50px auto; width:450px;}
+        .FAQ_detail{margin : 50px auto; width:470px;}
         .fAQ_detail input[type="text"]{ margin: 5px;}
-        .title{width : 150px; text-align: center; font-weight: bold;}
-        .question{ width : 300px;}
+        .title{width : 140px; text-align: center; font-weight: bold;}
+        .question{ padding: 3px;  width: 300px;  font-size: 13px;}
         .price, .condition{width : 80px;}
         .btn_area{display:flex; justify-content: center;}
         .make-btn{ width: 55px; height: 30px; border: 0; background-color: #060032; color:white;  cursor: pointer; margin : 40px auto;}
-        .answer{ width : 300px; height: 150px; margin-top :5px;}
-       
+        .answer{ width : 300px; height: 150px; margin-top :5px; padding:3px;}
+        .category{height : 25px; padding:2px;}
+        .answer-title{ vertical-align : top;}
     </style>
 </head>
 <body>
@@ -30,16 +32,18 @@
     
     <form th:action="@{/CScenter/FAQ/insert}" method="post">
     <div class="FAQ_detail">
-        <ul><li class="title">제목/질문 : </li><li><input type="text" class="question" name="q_title" id="question" maxlength="100" required></li></ul>
+        <ul>
+        <li class="title">제목/질문 : </li>
+        <li><input type="text" class="question" name="q_title" id="question" maxlength="100" required></li></ul>
         <ul><li class="title">카테고리 : </li>
-            <li><select name="qc_no">
+            <li><select class="category" name="qc_no">
                 <option value="1">주문</option>
                 <option value="2">배송</option>
                 <option value="3">교환/환불</option>
                 <option value="4">적립금/쿠폰</option>
                 <option value="5">회원관련</option>
             </select></li></ul>    
-        <ul><li class="title">답변 : </li>
+        <ul><li class="title answer-title">답변 : </li>
             <li><textarea class="answer" name="q_answer" maxlength="490" placeholder="답변을 작성하세요."></textarea></li></ul>
     </div>
 	    <div class="btn_area">
