@@ -63,8 +63,9 @@
                 	<div class="qna-detail" th:each="faq, i : ${faqList}">
                 	<form th:action="@{/CScenter/FAQ/modify}" method="post">
                 	<input type="hidden" name="q_no" id="q_no" th:value=${faq.q_no}>
-	                <div class=" question"><ul><li class="FAQ_num" th:text= "${i.count}"></li>
-	                	<li class="FAQ_content cursor"><span th:text="${faq.q_title}"></span></li></ul></div>
+	                <div class=" question">
+	                	<ul><li class="FAQ_num" th:text= "${i.count}"></li>
+	                	<li class="FAQ_content cursor" id="q_title"><span th:text="${faq.q_title}"></span></li></ul></div>
 	                <div class="answer-wrapper">
 	                <p class="answer" th:utext="${#strings.replace(faq.q_answer, enter, '&lt;br&gt;')}"></p>
 	                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
@@ -87,13 +88,15 @@
 
     <script>
     	/* faq 답변 클릭 시 슬라이드 효과 */
-    	$(document).on('click', '.question', function(){
-            if($(this).next().css('display') == 'none'){
-                $(this).next().slideUp();
-                $(this).next().slideDown();
-            }else if($(this).next().css('display') == 'block'){
-                $(this).next().slideUp();
-            }  
+    	$(document).on('click', '.question', function(){  
+    		if(!$(this).hasClass('modifying')){
+	            if($(this).next().css('display') == 'none'){
+	                $(this).next().slideUp();
+	                $(this).next().slideDown();
+	            }else if($(this).next().css('display') == 'block'){
+	                $(this).next().slideUp();
+	            }  	
+    		}
         });
     	
     	/* 검색시 검색keyword 체크*/
@@ -166,10 +169,12 @@
             var questionBefore = question.text();
             var answerBefore = answer.text();
             
+            $(this).parent().parent().prev().addClass("modifying");
+            console.log($(this).parent().parent().prev())
             
             $(this).parent().html("<input type='submit' class='complete' style='margin-right: 5px; border:0; background-color: lightgray; width : 65px; height : 25px;' value='수정완료'>");
             
-            question.replaceWith('<textarea name="q_title" style="width:640px; resize:none;">'+questionBefore+'</textarea>');
+            question.replaceWith('<textarea id="q_title" name="q_title" class="modifying" style="width:640px; resize:none;">'+questionBefore+'</textarea>');
             answer.replaceWith('<textarea name="q_answer" style="width: 640px; height: 80px; resize:none; margin-top:10px; margin-left:119px;">'+answerBefore+'</textarea>');
 
     	});   	
