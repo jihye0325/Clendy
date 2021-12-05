@@ -110,7 +110,7 @@
                 </li>
                 <li class="order_no">
                     <span th:text="${p.order_code}"></span><br>
-                    <button type="button" id="order_info" th:attr="onclick=|orderInfo('${p.order_code}')|">주문상세</button>
+                    <button type="button" id="order_info" th:attr="onclick=|orderInfo('${p.order_option_code}')|">주문상세</button>
                 </li>
                 <li class="date" th:text="${#dates.format(p.order_create_date, 'yyyy-MM-dd')}"></li>
                 <li class="pstatus">
@@ -293,14 +293,14 @@
 	
 	<!-- 주문상세 -->
 	<script>
-		function orderInfo(order_code){
+		function orderInfo(order_option_code){
 			var popupWidth = 500;
-			var popupHeight = 550;
+			var popupHeight = 580;
 	
 			var popupX = (window.screen.width / 2) - (popupWidth / 2);
 			var popupY= (window.screen.height / 2) - (popupHeight / 2);
 			
-			window.open("/mypage/orderInfo/" +order_code, "주문상세", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
+			window.open("/mypage/orderInfo/" +order_option_code, "주문상세", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
 		}
 		
 	</script>

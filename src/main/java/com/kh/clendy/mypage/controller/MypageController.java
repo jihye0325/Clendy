@@ -326,6 +326,7 @@ public class MypageController {
 		
 		// 상품정보 조회
 		Review review = mypageService.selectReview(order_option_code);
+		System.out.println(review);
 		
 		mv.addObject("r", review);
 		mv.setViewName("/mypage/reviewDetail");
@@ -543,10 +544,10 @@ public class MypageController {
 	}
 	
 	// 주문상세내역조회
-	@GetMapping("/orderInfo/{order_code}")
-	public ModelAndView orderInfo(ModelAndView mv, @PathVariable int order_code) {
+	@GetMapping("/orderInfo/{order_option_code}")
+	public ModelAndView orderInfo(ModelAndView mv, @PathVariable int order_option_code) {
 		// 주문내역조회
-		Payment p = mypageService.selectOrderInfo(order_code);
+		Payment p = mypageService.selectOrderInfo(order_option_code);
 		System.err.println(p);
 		mv.addObject("p", p);
 		mv.setViewName("/mypage/orderInfo");

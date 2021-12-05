@@ -62,7 +62,7 @@ public interface MypageService{
 
 	int decide_buy(int order_option_code, int user_no);
 
-	Payment selectOrderInfo(int order_code);
+	Payment selectOrderInfo(int order_option_code);
 
 	int requestRefund(Refund refund);
 

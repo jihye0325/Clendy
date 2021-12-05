@@ -265,6 +265,8 @@
 		<result property="merchant_uid" column="MERCHANT_UID"/>
 		<result property="p_name" column="P_NAME"/>
 		<result property="point" column="POINT"/>
+		<result property="p_color" column="P_COLOR"/>
+		<result property="p_size" column="P_SIZE"/>
 		<result property="point_amount" column="POINT_AMOUNT"/>
 	</resultMap>
 	
@@ -778,7 +780,11 @@
 		     AND P_STATUS = 'Y'
 		     AND P_STOCK >= CART_AMOUNT
 		     AND IMG_LEVEL = 0
-		ORDER BY SELLER_CODE DESC, CART_NO DESC
+             AND P_OPTION_NO NOT IN (SELECT P_OPTION_NO 
+                                        FROM ORDER_OPTION
+                                        JOIN PRODUCT_ORDER USING(ORDER_CODE)
+                                       WHERE USER_NO = #{ user_no })
+		ORDER BY SELLER_CODE DESC, CART_NO DESC		
 	</select>
 	
 	<!-- 장바구니 삭제 (개별버튼) -->
@@ -934,6 +940,8 @@
 		    ORDER_ADDRESS,
 		    ORDER_PHONE,
             P_NAME,
+            P_COLOR,
+            P_SIZE,
             POINT,
             (SELECT POINT_AMOUNT FROM POINT_CATEGORY WHERE POINT_CODE = 2) POINT_AMOUNT
 		  FROM PAYMENT
@@ -943,7 +951,7 @@
           JOIN PRODUCT_OPTION USING(P_OPTION_NO)
           JOIN PRODUCT USING(P_NO)
           LEFT JOIN POINT USING(ORDER_CODE)
-		 WHERE ORDER_CODE = #{ order_code }
+		 WHERE ORDER_OPTION_CODE = #{ order_option_code }
 	</select>
 	
 	<!-- 환불요청 등록 -->
