@@ -17,21 +17,23 @@
 	
 
 	<select id="selectMainProduct" resultMap="MainProductResultMap">
-		 
-		 SELECT * FROM(
-		 SELECT
-			p.P_NO
-			,P_NAME
-			,P_PRICE
-			,P_STATUS
-            ,PI.IMG_NO
+		select
+            p.p_name
+            ,p.p_price
+            ,p.p_no
+            ,i.route
             ,I.IMG_NAME
-		FROM PRODUCT p LEFT OUTER JOIN PRODUCT_IMAGE pi
-		   ON p.P_NO = pi.P_NO
-           LEFT OUTER JOIN IMAGE i
-              ON pi.IMG_NO = i.IMG_NO
-        WHERE P_STATUS = 'Y')
-        WHERE ROWNUM <![CDATA[<=]]> 10
+            ,I.IMG_LEVEL
+            ,I.IMG_R_NAME
+            from product p
+            LEFT OUTER JOIN PRODUCT_IMAGE pi
+               ON p.p_no = PI.P_NO
+               LEFT OUTER JOIN image i
+                  ON pi.img_no  = I.IMG_NO
+                  WHERE I.IMG_LEVEL = 0
+                  AND ROWNUM <![CDATA[<=]]> 10 
+			 
+		
 	</select>
 
 

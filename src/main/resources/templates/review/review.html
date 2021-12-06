@@ -59,14 +59,14 @@ ul{
 			</div>
 
 			<div class="reviewBoard">
-				<form class="searcharea" th:action="@{/review/review/search}"
-					method="post">
+				<form class="searcharea" th:action="@{/review/review}"
+					method="get">
 					<div class="searchdiv">
 						<select class="searchbar2" name="categoryCode">
 							<!-- 카테고리 선택  -->
 							<option value="">=== 카테고리 선택===</option>
 							<option value="0">전체</option>
-							<option Value="1">공용</option>
+							<option value="1">공용</option>
 							<option value="2">남성</option>
 							<option value="3">여성</option>
 						</select> <input type="search" name="keyword" title="검색" class="searchbar2"
@@ -84,9 +84,13 @@ ul{
 								style="height: 50%; border-style: solid; border-width: 1px 1px; padding-right: 20px; margin-bottom: 10px;">
 								<span class="username"
 									style="margin-top: 10px; font-size: 20px; float: left; margin-left: 20px; font-weight: bolder;"
-									th:text="${Review.id}"></span> <span class="like"
-									style="float: right; font-size: 20px; padding: 10px; margin-top: 10px; border-style: double; border-radius: 20px; border-width: 1px 1px;"
-									th:text="|🧡 ${Review.cntlike}|"></span> <br> <br> <span
+									th:text="${Review.id}"></span>
+									<span class="like" style="float: right; font-size: 20px; padding: 10px; margin-top: 10px; border-style: double; border-radius: 20px; border-width: 1px 1px;" th:text="|🧡 ${Review.cntlike}|">
+										<input type="hidden">
+									</span>
+									 <br>
+									  <br>
+									   <span
 									style="margin-left: 20px; color: gray;"
 									th:if="${Review.openSize}=='Y'"
 									th:text="|${Review.gender}성,${Review.height}cm,${Review.weight}kg|"></span>

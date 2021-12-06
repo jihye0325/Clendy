@@ -25,6 +25,7 @@ public class MainpageController {
 	public String main(Model model) {
 		List<MainProduct> mainProductList = mainpageService.selectMainProdudct();
 		model.addAttribute("mainProductList", mainProductList);
+		System.out.println("11: " + model);
 		return "mainpage/mainpage";
 	}
 

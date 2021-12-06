@@ -1,6 +1,6 @@
 package com.kh.clendy.sellerAsk.model.vo;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class SellerAsk {
 	private int PIQCode;

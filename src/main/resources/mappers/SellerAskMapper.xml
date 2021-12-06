@@ -6,7 +6,7 @@
 		<id property="PIQCode" column="P_I_Q_CODE"/>
 		<result property="pName" column="P_NAME"/>
 		<result property="PIQTitle" column="P_I_Q_TITLE"/>
-		<result property="PIQCDate" column="P_I_CREATE_DATE"/>
+		<result property="PIQCDate" column="P_I_Q_CREATE_DATE"/>
 		<result property="id" column="ID"/>
 		<result property="PIQContent" column="P_I_Q_CONTENT"/>
 		<result property="pNo" column="P_NO"/>
