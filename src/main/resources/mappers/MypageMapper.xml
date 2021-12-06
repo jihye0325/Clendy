@@ -1309,7 +1309,7 @@
 	<!-- 포인트 총합 -->
 	<select id="selectTotalPoint" parameterType="_int" resultType="_int">
 		SELECT
-		    SUM(POINT) TOTALPOINT
+		    NVL(SUM(POINT), 0) TOTALPOINT
 		 FROM POINT 
 		WHERE USER_NO = #{ user_no }
 	</select>

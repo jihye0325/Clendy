@@ -69,14 +69,8 @@ public class MypageController {
 	public ModelAndView modifyForm(ModelAndView mv) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
-		// System.out.println(user_no);
 		Member m = mypageService.selectMember(user_no);
 		String address[] = m.getAddress().split(",");
-		
-		
-		//System.out.println(address[0]);
-		//System.out.println(address[1]);
-		//System.out.println(address[2]);
 		
 		mv.addObject("m", m);
 		mv.setViewName("mypage/modify");
@@ -96,8 +90,6 @@ public class MypageController {
 		// 현재 비밀번호 일치 확인
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		if(encoder.matches(originPwd,user.getPassword())) {
-			System.out.println("비밀번호 일치");
-			System.out.println(m.getPassword());
 			
 			// 새로운 비밀번호 입력 O
 			if(m.getPassword() != "") {
@@ -130,7 +122,6 @@ public class MypageController {
 			}
 			
 		} else {
-			System.out.println("비밀번호 불일치");
 			redirectAttr.addFlashAttribute("msg", "비밀번호가 일치하지 않습니다.");
 			model.addAttribute(m);
 			
@@ -151,17 +142,14 @@ public class MypageController {
 		/* 암호화 되어있는 기존 암호와 입력받은 암호 일치 확인 */
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		if(encoder.matches(password, originPwd)) {
-			System.out.println("일치");
 			
 			int result = mypageService.deleteMember(user_no);
 					
 			if(result > 0) {
-				System.out.println("탈퇴 성공");		
 				SecurityContextHolder.clearContext();
 				redirectAttr.addFlashAttribute("msg", "Clendy 탈퇴가 완료되었습니다. 감사합니다.");	// ** 개행처리 **
 			}
 			else {
-				System.out.println("탈퇴 실패");
 				redirectAttr.addFlashAttribute("msg", "탈퇴에 실패하셨습니다.");
 				return "redirect:/mypage/modify";
 			}
@@ -169,7 +157,6 @@ public class MypageController {
 			return "redirect:/member/deletePage";
 			
 		} else {
-			System.out.println("불일치");
 			redirectAttr.addFlashAttribute("msg", "비밀번호가 일치하지 않습니다.");
 			
 			return "redirect:/mypage/confirmPwd";
@@ -190,6 +177,7 @@ public class MypageController {
 		mv.addObject("total_point", total_point);
 		mv.addObject("point_list", resultList.get("point_list"));
 		mv.addObject("pi", resultList.get("pi"));
+		System.out.println(resultList.get("point_list"));
 		// 다운 가능한 이벤트 적립금 불러오기
 		List<Point_Category> event_point_list = mypageService.selectDownableEventPoint(user_no);
 		
@@ -326,7 +314,6 @@ public class MypageController {
 		
 		// 상품정보 조회
 		Review review = mypageService.selectReview(order_option_code);
-		System.out.println(review);
 		
 		mv.addObject("r", review);
 		mv.setViewName("/mypage/reviewDetail");
@@ -342,7 +329,6 @@ public class MypageController {
 		mv.addObject("m", m);
 		// 리뷰정보 조회
 		Review review = mypageService.selectReview(order_option_code);
-		System.out.println(review);
 		mv.addObject("r", review);
 		mv.setViewName("/mypage/reviewModify");
 		return mv;
@@ -368,7 +354,6 @@ public class MypageController {
 		
 		String r_content = request.getParameter("content");
 		Review review = new Review(r_no, r_title, score, open_size, r_content, user_no, order_option_code);
-		System.out.println(review);
 		
 		String msg = "";	
 		int result = mypageService.reviewModify(review); 
@@ -408,8 +393,6 @@ public class MypageController {
 					
 		mv.addObject("p_qna_list", resultList.get("p_qna_list"));
 		mv.addObject("pi", resultList.get("pi"));
-		System.out.println(resultList);
-		System.out.println(resultList.get("pi"));
 		
 		// 리뷰 리스트
 		Map<String, Object> resultList2 = mypageService.selectReview_List(user_no, page);
@@ -446,7 +429,6 @@ public class MypageController {
 		int user_no = user.getUser_no();
 		
 		List<Cart> cart_list = mypageService.selectCart_list(user_no);
-		System.out.println(cart_list);
 		mv.addObject("cart_list", cart_list);		
 		mv.setViewName("/mypage/cart");
 		return mv;
@@ -495,14 +477,11 @@ public class MypageController {
 	public int plusAmount(@RequestParam int cart_no, int p_option_no) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
-		System.out.println(cart_no);
-		System.out.println(p_option_no);
 		HashMap<String, Integer> userMap = new HashMap<>();
 		userMap.put("cart_no", cart_no);
 		userMap.put("user_no", user_no);
 		userMap.put("p_option_no", p_option_no);
 		int result = mypageService.plusAmount(userMap);
-		System.out.println(result);
 		return result;
 	}
 	
@@ -514,7 +493,6 @@ public class MypageController {
 		
 		Map<String, Object> resultList = mypageService.selectProduct_Order(user_no, page);
 		
-		System.out.println(resultList);
 		mv.addObject("po_list", resultList.get("po_list"));
 		mv.addObject("pi", resultList.get("pi"));
 		mv.addObject("del_cnt", resultList.get("del_cnt"));
@@ -548,7 +526,6 @@ public class MypageController {
 	public ModelAndView orderInfo(ModelAndView mv, @PathVariable int order_option_code) {
 		// 주문내역조회
 		Payment p = mypageService.selectOrderInfo(order_option_code);
-		System.err.println(p);
 		mv.addObject("p", p);
 		mv.setViewName("/mypage/orderInfo");
 		return mv;
@@ -561,8 +538,6 @@ public class MypageController {
 		Order_Option order_option = mypageService.selectProduct(order_option_code);
 		List<Product_Option> ex_option = mypageService.selectExOption(order_option_code);
 		
-		System.out.println(order_option);	
-		System.out.println(ex_option);
 		mv.addObject("o", order_option);
 		mv.addObject("ex", ex_option);
 		mv.setViewName("/mypage/exchangeForm");
@@ -572,7 +547,6 @@ public class MypageController {
 	// 교환요청
 	@PostMapping("exchange")
 	public String exchange(RedirectAttributes redirectAttr, Exchange exchange) {
-		System.out.println(exchange);
 		int result = mypageService.requestExchange(exchange);
 		int order_option_code = exchange.getOrder_option_code();
 		
@@ -608,10 +582,10 @@ public class MypageController {
 		int ref_price = Integer.parseInt(request.getParameter("ref_price"));
 		
 		Refund refund = new Refund(order_option_code, ref_id, ref_reason, ref_price);
-		System.out.println(refund);
+
 		String msg = "";
 		int result = mypageService.requestRefund(refund);
-		System.out.println(result);
+
 		if(result > 0) 
 			msg = "환불 신청이 완료되었습니다.";
 		else 
@@ -646,7 +620,6 @@ public class MypageController {
 		
 		// 교환내역 조회
 		Exchange exchange = mypageService.selectExchange(order_option_code);
-		System.out.println(exchange);
 		
 		mv.addObject("e", exchange);
 		mv.setViewName("/mypage/exchangeDetail");
@@ -737,8 +710,6 @@ public class MypageController {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-	    
-	    System.out.println(merchant_uid_Value);
 	    
 	    int result = mypageService.canclePay(merchant_uid_Value);
 	    

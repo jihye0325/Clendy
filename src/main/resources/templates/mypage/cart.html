@@ -326,7 +326,6 @@
     		var checkBoxArr = [];
     		$("input:checkbox[name='pcheck']:checked").each(function(){
     			checkBoxArr.push($(this).val());
-    			console.log(checkBoxArr);
     		})
     		
     		var token = $("meta[name='_csrf']").attr("content");
@@ -389,8 +388,6 @@
     		var token = $("meta[name='_csrf']").attr("content");
     		var header = $("meta[name='_csrf_header']").attr("content"); 
     		var amount = $("#cartAmount").val();
-    		console.log(cart_no, p_option_no);
-    		console.log(amount);
     		
     		$.ajax({
     			url : "/mypage/plus_amount",
