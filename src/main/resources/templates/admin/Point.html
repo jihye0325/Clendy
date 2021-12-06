@@ -107,13 +107,13 @@ if(msg){
                         </ul>
 
                         <ul class="pagaing_right" >
-                            <li class="next" th:classappend="${pi.page == pi.endPage} ? 'hide'">
-                            	<a th:href="@{/admin/point/(page=${pi.page} + 1)}" th:if="${pi.page < pi.endPage}"></a>
-                            	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+                            <li class="next" th:classappend="${pi.page == pi.maxPage} ? 'hide'">
+                            	<a th:href="@{/admin/point/(page=${pi.page} + 1)}" th:if="${pi.page < pi.maxPage}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page < pi.maxPage}"></a>
                             </li>
-                            <li class="allNext"  th:classappend="${pi.page == pi.endPage} ? 'hide'">
-                            	<a th:href="@{/admin/point/(page=${pi.endPage})}" th:if="${pi.page < pi.endPage}"></a>
-                            	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+                            <li class="allNext"  th:classappend="${pi.page == pi.maxPage} ? 'hide'">
+                            	<a th:href="@{/admin/point/(page=${pi.maxPage})}" th:if="${pi.page < pi.maxPage}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page < pi.maxPage}"></a>
                             </li>
                         </ul>
                     </div> 

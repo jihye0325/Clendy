@@ -59,26 +59,32 @@
             
             <div id="FAQList">
                 <div class="title"><ul><li class="FAQ_num">번호</li><li class="FAQ_content">내용</li></ul></div>
-                <div class="qna-detail-wrapper" >
-                	<div class="qna-detail" th:each="faq, i : ${faqList}">
-                	<form th:action="@{/CScenter/FAQ/modify}" method="post">
-                	<input type="hidden" name="q_no" id="q_no" th:value=${faq.q_no}>
-	                <div class=" question">
-	                	<ul><li class="FAQ_num" th:text= "${i.count}"></li>
-	                	<li class="FAQ_content cursor" id="q_title"><span th:text="${faq.q_title}"></span></li></ul></div>
-	                <div class="answer-wrapper">
-	                <p class="answer" th:utext="${#strings.replace(faq.q_answer, enter, '&lt;br&gt;')}"></p>
-	                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-	                    <div class="btnArea">
-	                    <button type="button" class="mOrd modify">수정</button>
-	                    <button type="button" class="mOrd delete">삭제</button>
-	                    </div>
-	                    </th:block>
-	                </div>
-	                </form>
-	                </div>
-	                
-                </div>
+               		 <th:block th:if="${faqList == null || #strings.isEmpty(faqList)}">
+                	<div class="qna-detail-wrapper null" >
+	            		<span>FAQ가 존재하지 않습니다.</span>
+	            	</div>
+                	</th:block>
+                	<th:block th:if="${#lists.size(faqList) > 0}">
+                    <div class="qna-detail-wrapper" >
+	                	<div class="qna-detail" th:each="faq, i : ${faqList}">
+	                	<form th:action="@{/CScenter/FAQ/modify}" method="post">
+	                	<input type="hidden" name="q_no" id="q_no" th:value=${faq.q_no}>
+		                <div class=" question">
+		                	<ul><li class="FAQ_num" th:text= "${i.count}"></li>
+		                	<li class="FAQ_content cursor" id="q_title"><span th:text="${faq.q_title}"></span></li></ul></div>
+		                <div class="answer-wrapper">
+		                <p class="answer" th:utext="${#strings.replace(faq.q_answer, enter, '&lt;br&gt;')}"></p>
+		                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+		                    <div class="btnArea">
+		                    <button type="button" class="mOrd modify">수정</button>
+		                    <button type="button" class="mOrd delete">삭제</button>
+		                    </div>
+		                    </th:block>
+		                </div>
+		                </form>
+		                </div>
+                	</div>
+	                </th:block>
            
             </div>
         </div>

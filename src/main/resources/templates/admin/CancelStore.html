@@ -82,13 +82,13 @@ if(msg){
                         </ul>
 
                         <ul class="pagaing_right" >
-                            <li class="next" th:classappend="${cancelPi.page == cancelPi.endPage} ? 'hide'">
-                            	<a th:href="@{/CScenter/admin/cancelStore/(page=${cancelPi.page} + 1)}" th:if="${cancelPi.page < cancelPi.endPage}"></a>
-                            	<a href="javascript:;" th:unless="${cancelPi.page < cancelPi.endPage}"></a>
+                            <li class="next" th:classappend="${cancelPi.page == cancelPi.maxPage} ? 'hide'">
+                            	<a th:href="@{/CScenter/admin/cancelStore/(page=${cancelPi.page} + 1)}" th:if="${cancelPi.page < cancelPi.maxPage}}"></a>
+                            	<a href="javascript:;" th:unless="${cancelPi.page < cancelPi.maxPage}}"></a>
                             </li>
-                            <li class="allNext"  th:classappend="${cancelPi.page == cancelPi.endPage} ? 'hide'">
-                            	<a th:href="@{/CScenter/admin/cancelStore/(page=${cancelPi.endPage})}" th:if="${cancelPi.page < cancelPi.endPage}"></a>
-                            	<a href="javascript:;" th:unless="${cancelPi.page < cancelPi.endPage}"></a>
+                            <li class="allNext"  th:classappend="${cancelPi.page == cancelPi.maxPage}} ? 'hide'">
+                            	<a th:href="@{/CScenter/admin/cancelStore/(page=${cancelPi.maxPage}})}" th:if="${cancelPi.page < cancelPi.maxPage}}"></a>
+                            	<a href="javascript:;" th:unless="${cancelPi.page < cancelPi.maxPage}}"></a>
                             </li>
                         </ul>
                     </div>
