@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.clendy.member.model.vo.UserImpl;
 import com.kh.clendy.reviewboard.model.service.ReviewService;
 import com.kh.clendy.reviewboard.model.vo.Review;
 
@@ -28,9 +30,14 @@ public class reviewboardController {
 	
 	//리뷰리스트
 	@GetMapping("")
-	   public void toReview(Model model, @RequestParam(defaultValue="1") int page) {
+	
+	   public void toReview( @RequestParam(defaultValue="")String keyword,  @RequestParam(defaultValue="1")int categoryCode, Model  model, @RequestParam(defaultValue="1") int page) {
 		
-		Map<String, Object> result = reviewService.selectReviewAllList(page);
+//		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		int user_no = user.getUser_no();
+//		System.out.println("111"+user_no);
+		
+		Map<String, Object> result = reviewService.selectReviewAllList(keyword, categoryCode, page);
 		//리뷰 리스트
 		//List<Review> reviewList = reviewService.selectReviewAllList(page);
 	
@@ -39,22 +46,30 @@ public class reviewboardController {
 		model.addAttribute("pi",result.get("pageInfo"));
 	
 		
-		System.out.println(result);
+		System.out.println("그냥:"+result);
 		
 	}
 	//검색      
-	@PostMapping("/search")
-	public String searchReviewKeyword(@RequestParam("keyword")String keyword, String categoryCode,Model model) {
-		
-		System.out.println("123124124 : "+keyword);
-		
-		List<Review> reviewList = reviewService.searchReviewByKeyword(keyword,categoryCode);
-				
-		model.addAttribute("reviewList",reviewList);
-		
-						
-		return "/review/review";
-	}
+	/*
+	 * @GetMapping("search?categoryCode={categoryCode}&keyword={keyword}") public
+	 * String searchReviewKeyword(String keyword, String categoryCode,Model
+	 * model,@RequestParam(defaultValue="1") int page) {
+	 * 
+	 * System.out.println("123124124 : "+keyword); System.out.println("12154444:" +
+	 * categoryCode);
+	 * 
+	 * Map<String, Object> result =
+	 * reviewService.searchReviewByKeyword(keyword,categoryCode,page);
+	 * 
+	 * model.addAttribute("reviewList",result.get("reviewList"));
+	 * model.addAttribute("pi",result.get("pageInfo"));
+	 * 
+	 * System.out.println("model :" + model);
+	 * 
+	 * return "/review/review";
+	 * 
+	 * }
+	 */
 	
 }
 

@@ -7,11 +7,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>문의게시판</title>
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
- 
+
+
 <link rel="stylesheet" href="/css/CScenter/FAQ.css">
 <link rel="stylesheet" href="/css/common/sidebar.css">
+<link rel="stylesheet" href="/css/common/paging.css">
 <style>
-
 </style>
 </head>
 <body>
@@ -29,107 +30,177 @@
 			</ul>
 		</div>
 		<div id="content">
-		</th:block>
-		
-		 
-		<div id="FAQList">
-			<div class="title">
-				<ul style="text-align: center;">
-					<li class="FAQ_num">번호</li>
-					<li class="FAQ_content">상품명</li>
-					<li class="FAQ_content">제목</li>
-					<li class="FAQ_content">등록일</li>
-					<li class="FAQ_content">상태</li>
-				</ul>
-			</div>
-			
-			
-			<div class="FAQList"  th:if="${#lists.size(sellerAskList) > 0}">
+			</th:block>
+
+
+			<div id="FAQList">
 				<div class="title">
-				<ul style="text-align: center; "  th:each="SellerAsk : ${sellerAskList}">
-					<li class="FAQ_num"  th:text="${SellerAsk.PIQCode}">번호</li>
-					<li class="FAQ_content"  th:text="${SellerAsk.pName}">상품명</li>
-					<li class="FAQ_content"  th:text="${SellerAsk.PIQTitle}">제목</li>
-					<li class="FAQ_content"  th:text="${SellerAsk.PIQCDate}">등록일</li>
-					<li class="FAQ_content"></li>
-					<hr>
-				</ul>
-					
-					
-					
-					
-					
-					
-									
-							
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
+					<ul style="text-align: center;">
+						<li class="FAQ_num">번호</li>
+						<li class="FAQ_content">상품명</li>
+						<li class="FAQ_content">제목</li>
+						<li class="FAQ_content">등록일</li>
+						<li class="FAQ_content">상태</li>
+					</ul>
+				</div>
+
+				<div class="qna-detail-wrapper">
+					<div class="qna-detail" th:if="${#lists.size(sellerAskList) > 0}">
+						<!-- <form th:action="@{/CScenter/FAQ/modify}" method="post"> -->
+						<div class=" question">
+						<ul class="" style="text-align: center;  white-space: nowrap; text-overflow: ellipsis; display: block; overflow: hidden;"
+							th:each="SellerAsk : ${sellerAskList}">
+							<li class="FAQ_num" th:text="${SellerAsk.PIQCode}">번호</li>
+							<li class="FAQ_content" th:text="${SellerAsk.pName}">상품명</li>
+							<li class="FAQ_content" th:text="${SellerAsk.PIQTitle}">제목</li>
+							<li class="FAQ_content" th:text="${SellerAsk.PIQCDate}">등록일</li>
+							<li class="FAQ_content"></li>
+						</ul>
 						</div>
+						<!-- </form> -->
+					</div>
 
 				</div>
 
 			</div>
 
 		</div>
-		</div>
-			<div th:unless="${#lists.size(sellerAskList) > 0}">
-					<h1>검색 결과가 없습니다.</h1>
-				</div>
-			<!-- 페이징 -->
-           <div class="pagaing_wrap" th:if="${#lists.size(sellerAskList) > 0}">
-                        <ul class="pagaing_left">
-                            <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
-                            	<a th:href="@{/seller/sellerAsk/(page=1)}" th:if="${pi.page > 1}"></a>
-	                            <a href="javascript:;" th:unless="${pi.page > 1}"></a>
-                            </li>
-                            <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
-	                            <a th:href="@{/seller/sellerAsk/(page=${pi.page - 1})}" th:if="${pi.page > 1}"></a>
-                            	<a href="javascript:;" th:unless="${pi.page > 1}"></a>
-                            </li>
-                        </ul>
-                        
-                        <ul class="pagaing_num">
-                        	<th:block th:each="pd : ${#numbers.sequence(pi.startPage, pi.endPage)}">
-                        		<li th:classappend="${pi.page == pdStat.current} ? 'on'">
-                        			<a th:href="@{/seller/sellerAsk/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
-                        		</li>
-                        	</th:block>
-                            
-                        </ul>
+	</div>
+	<div th:unless="${#lists.size(sellerAskList) > 0}">
+		<h1>검색 결과가 없습니다.</h1>
+	</div>
+	<!-- 페이징 -->
+	<div class="pagaing_wrap" th:if="${#lists.size(sellerAskList) > 0}">
+		<ul class="pagaing_left">
+			<li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'"><a
+				th:href="@{/seller/sellerAsk/(page=1)}" th:if="${pi.page > 1}"></a>
+				<a href="javascript:;" th:unless="${pi.page > 1}"></a></li>
+			<li class="prev" th:classappend="${pi.page == 1} ? 'hide'"><a
+				th:href="@{/seller/sellerAsk/(page=${pi.page - 1})}"
+				th:if="${pi.page > 1}"></a> <a href="javascript:;"
+				th:unless="${pi.page > 1}"></a></li>
+		</ul>
 
-                        <ul class="pagaing_right" >
-                            <li class="next" th:classappend="${pi.page == pi.endPage} ? 'hide'">
-                            	<a th:href="@{/seller/sellerAsk/(page=${pi.page} + 1)}" th:if="${pi.page < pi.endPage}"></a>
-                            	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
-                            </li>
-                            <li class="allNext"  th:classappend="${pi.page == pi.endPage} ? 'hide'">
-                            	<a th:href="@{/seller/sellerAsk/(page=${pi.endPage})}" th:if="${pi.page < pi.endPage}"></a>
-                            	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
-                            </li>
-                        </ul>
-                    </div>
-		
-		
+		<ul class="pagaing_num">
+			<th:block
+				th:each="pd : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+				<li th:classappend="${pi.page == pdStat.current} ? 'on'"><a
+					th:href="@{/seller/sellerAsk/(page=${pdStat.current})}"
+					th:text="${pdStat.current}"></a></li>
+			</th:block>
+
+		</ul>
+
+		<ul class="pagaing_right">
+			<li class="next" th:classappend="${pi.page == pi.maxPage} ? 'hide'">
+				<a th:href="@{/seller/sellerAsk/(page=${pi.page} + 1)}"
+				th:if="${pi.page < pi.maxPage}"></a> <a href="javascript:;"
+				th:unless="${pi.page < pi.maxPage}"></a>
+			</li>
+			<li class="allNext"
+				th:classappend="${pi.page == pi.maxPage} ? 'hide'"><a
+				th:href="@{/seller/sellerAsk/(page=${pi.maxPage})}"
+				th:if="${pi.page < pi.maxPage}"></a> <a href="javascript:;"
+				th:unless="${pi.page < pi.maxPage}"></a></li>
+		</ul>
+	</div>
+
+
 
 	<div th:replace="common/footer.html"></div>
-	<script>
-		/* $(document).on('click', '.question', function() {
-			if ($(this).next().css('display') == 'none') {
-				$(this).next().slideUp();
-				$(this).next().slideDown();
-			} else if ($(this).next().css('display') == 'block') {
-				$(this).next().slideUp();
+	 <script>
+    	/* faq 답변 클릭 시 슬라이드 효과 */
+    	$(document).on('click', '.question', function(){  
+    		if(!$(this).hasClass('modifying')){
+	            if($(this).next().css('display') == 'none'){
+	                $(this).next().slideUp();
+	                $(this).next().slideDown();
+	            }else if($(this).next().css('display') == 'block'){
+	                $(this).next().slideUp();
+	            }  	
+    		}
+        });
+    	
+    	/* 검색시 검색keyword 체크*/
+    	$("#finding img").click(function(){
+    	if($("#searchFAQ").val() == ""){
+    		alert("검색어를 입력해주세요.");
+    		return false;
+    	}
+    });
+    	$("#searchFAQ").keydown(function(key) {
+    		if (key.keyCode == 13) {
+	    		if($("#searchFAQ").val() == ""){
+	        		alert("검색어를 입력해주세요.");
+	        		return false;
+	        	}
+    		}
+    	});
+
+    	
+    	/* 카테고리 별 faq 리스트 출력 */
+    	$(document).on('click', '#categoryUl li', function(){
+
+    		var category = $(this).text();
+    		var categoryCode = 0;
+    		
+    		if(category == "주문") categoryCode=1;
+    		else if (category == "배송") categoryCode=2;
+    		else if (category == "교환/환불") categoryCode=3;
+    		else if (category == "적립금/쿠폰") categoryCode=4;
+    		else if (category == "회원관련") categoryCode=5;
+    		
+    		location.href="/CScenter/FAQ/category?categoryCode="+categoryCode;
+		
+    	});
+    	
+    	/* faq 삭제 */
+    	$(document).on('click', '.delete', function(){
+    		var q_no = $(this).parent().parent().prev().prev().val();
+    		var token = $("meta[name='_csrf']").attr("content");
+    		var header = $("meta[name='_csrf_header']").attr("content");
+    		
+    		$.ajax({
+				url : "/CScenter/FAQ/delete",
+				type : "post",
+				data : {q_no:q_no},
+				beforeSend : function(xhr)
+	            {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+					xhr.setRequestHeader(header, token);
+	            },
+
+			 	success : function(result){
+				if( result == 0){
+					alert("게시글 삭제에 실패하였습니다.");
+					
+				}else{
+					alert("게시글 삭제에 성공하였습니다.");
+					location.reload();
+				}
+			},
+			error : function(e){
+				console.log(e);
 			}
-		}); */
-	</script>
+			});
+    	});
+    	
+    	/* faq 수정 - textarea 로 변경 */
+    	$(document).on('click', '.modify', function(){
+    		var question = $(this).parent().parent().prev().children().children().children();
+            var answer = $(this).parent().prev();
+            var questionBefore = question.text();
+            var answerBefore = answer.text();
+            
+            $(this).parent().parent().prev().addClass("modifying");
+            console.log($(this).parent().parent().prev())
+            
+            $(this).parent().html("<input type='submit' class='complete' style='margin-right: 5px; border:0; background-color: lightgray; width : 65px; height : 25px;' value='수정완료'>");
+            
+            question.replaceWith('<textarea id="q_title" name="q_title" class="modifying" style="width:640px; resize:none;">'+questionBefore+'</textarea>');
+            answer.replaceWith('<textarea name="q_answer" style="width: 640px; height: 80px; resize:none; margin-top:10px; margin-left:119px;">'+answerBefore+'</textarea>');
+
+    	});   	
+    </script>    
 
 </body>
 </html>
