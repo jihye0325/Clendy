@@ -48,7 +48,7 @@
 	</select>
 	
 	<select id="reviewAllSelectList" parameterType="map" resultMap="productReviewResultMap">
-	 SELECT
+SELECT
 	         *
 	    FROM(SELECT
 	         ROWNUM AS ROWN
@@ -71,18 +71,12 @@
 	     , M.GENDER
 	     , M.HEIGHT
 	     , M.WEIGHT
-	     , RIMG.IMG_NO
-	     , ROUTE
-	     , IMG_NAME
-	     , IMG_R_NAME
-	     , IMG_LEVEL
-	     , IMG_STATUS
 	     , PRODUCT.P_NO
 	     , (SELECT
 			               COUNT(*)
 			               FROM REVIEW_LIKE
-			              WHERE REVIEW_LIKE.USER_NO = M.USER_NO
-			                AND REVIEW_LIKE.R_NO = RV.R_NO
+			              WHERE REVIEW_LIKE.USER_NO = USER_NO
+			                 AND REVIEW_LIKE.R_NO = RV.R_NO
 			     ) AS LIKE_COUNT
 	  FROM REVIEW RV
 	  LEFT JOIN ORDER_OPTION OOP ON(OOP.ORDER_OPTION_CODE = RV.ORDER_OPTION_CODE)
@@ -90,11 +84,9 @@
 	  JOIN PRODUCT ON(POP.P_NO = PRODUCT.P_NO)
 	  JOIN PRODUCT_ORDER POR ON(OOP.ORDER_CODE = POR.ORDER_CODE)
 	  JOIN MEMBER M ON(POR.USER_NO = M.USER_NO)
-	  JOIN REVIEW_IMAGE RIMG ON(RV.R_NO = RIMG.R_NO)
-	  JOIN IMAGE ON(RIMG.IMG_NO = IMAGE.IMG_NO)
-	  WHERE POP.P_NO = #{pNo}
+	  WHERE POP.P_NO = #{ pNo }
 	  ORDER BY R_NO DESC) REVIEW_TABLE)
-	  WHERE ROWN BETWEEN #{startRow} AND #{endRow}
+	  WHERE ROWN BETWEEN #{ startRow } AND #{endRow}
 	</select>
 	
 	<select id="reviewView" parameterType="_int" resultMap="productReviewResultMap">
@@ -116,12 +108,6 @@
      , M.GENDER
      , M.HEIGHT
      , M.WEIGHT
-     , RIMG.IMG_NO
-     , ROUTE
-     , IMG_NAME
-     , IMG_R_NAME
-     , IMG_LEVEL
-     , IMG_STATUS
      , PRODUCT.P_NO
      , (SELECT
 		               COUNT(*)
@@ -135,8 +121,6 @@
   JOIN PRODUCT ON(POP.P_NO = PRODUCT.P_NO)
   JOIN PRODUCT_ORDER POR ON(OOP.ORDER_CODE = POR.ORDER_CODE)
   JOIN MEMBER M ON(POR.USER_NO = M.USER_NO)
-  JOIN REVIEW_IMAGE RIMG ON(RV.R_NO = RIMG.R_NO)
-  JOIN IMAGE ON(RIMG.IMG_NO = IMAGE.IMG_NO)
   WHERE RV.R_NO = #{rNo}
 	</select>
 	

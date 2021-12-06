@@ -306,7 +306,7 @@
     <script th:inline="javascript">
     
 function pay(){
-	let title = "";
+	let title = "테스트입니다.";
 	
 	
 	let amount = $('.order_allPrice .txt span').text();
@@ -420,9 +420,6 @@ function pay(){
 	(카카오페이, 페이코, 다날의 경우는 필요없음. PC와 마찬가지로 callback함수로 결과가 떨어짐)
 	*/
 	}, function (rsp) {
-
-	
-		
 	if (rsp.success) {
 		/* var msg = '결제가 완료되었습니다.';
 		msg += '고유ID : ' + rsp.imp_uid;
@@ -461,7 +458,7 @@ function pay(){
 				"cardNumber" : rsp.card_number,
 				"payMethod" : rsp.pay_method,
 				"orderPrice" : orderPrice,
-		}
+		};
 		
 		$.ajax({
 			url : '/product/orderPay/', 

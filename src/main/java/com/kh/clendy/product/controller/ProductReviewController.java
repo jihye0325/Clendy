@@ -35,7 +35,6 @@ public class ProductReviewController {
 	public ModelAndView reviewAllSelectList(ModelAndView mv, @RequestBody Map<String, Object> mapReturn) {
 
 		List<ProductReview> reviewList = productReviewService.reviewAllSelectList(mapReturn);
-		System.out.println(reviewList);
 		
 		mv.addObject("reviewList", reviewList);
 		mv.setViewName("product/product_view :: #review_board");
@@ -48,6 +47,8 @@ public class ProductReviewController {
 	@ResponseBody
 	public PageInfo reviewPaging(@RequestBody Map<String, Object> mapReturn) {
 		PageInfo pageInfo = productReviewService.reviewPaging(mapReturn);
+		
+		System.out.println(mapReturn);
 		
 		return pageInfo;
 	}

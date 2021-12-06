@@ -51,6 +51,7 @@ public class ProductController {
 		Map<String, Object> mapReturn = productService.productSelectList(filter);
 		// 상품 목록 
 		model.addAttribute("productList", mapReturn.get("productList"));
+		System.out.println(mapReturn.get("productList"));
 		
 		// 상품 갯수
 		model.addAttribute("categoryCount", mapReturn.get("categoryCount"));

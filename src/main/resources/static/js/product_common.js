@@ -30,6 +30,7 @@ function pagingHandler(id, cmObject){
 
 // 페이징 배치
 function paging(id, data, link){
+
 	if(data.listCount == 0){
 	   $("#" + id + " .pagaing_wrap").hide();
 	}else{
@@ -41,29 +42,55 @@ function paging(id, data, link){
    // 페이징 좌측
    if(data.page <= 1){
    		$("#" + id + " .pagaing_left").html('');
-   		$("#" + id + " .pagaing_left").html('<li class="allPrev hide"><a href="javascript:;"></a></li><li class="prev hide"><a href="javascript:;"></a></li>')
+	   	$("#" + id + " .pagaing_left").html('<li class="allPrev hide"><a href="javascript:;"></a></li><li class="prev hide"><a href="javascript:;"></a></li>');
    }else{
    		$("#" + id + " .pagaing_left").html('');
-   		$("#" + id + " .pagaing_left").html('<li class="allPrev"><a href="javascript:' + link +'(1);"</a></li><li class="prev"><a href="javascript:' + link  + '(' + (data.page - 1) +');"></a></li>');
+   	
+   		if(id == 'item_qna'){
+   			$("#" + id + " .pagaing_left").html('<li class="allPrev"><a href="javascript:' + link +'(1);"</a></li><li class="prev"><a href="javascript:' + link  + '(' + (data.page - 1) +');"></a></li>');
+   		}else if(id == 'item_review'){
+   			$("#" + id + " .pagaing_left").html("<li class='allPrev'><a href='javascript:" + link + "("+ pNoNumber + ", " + loginUno +" ," + (1) + ");'></a></li><li class='prev'><a href='javascript:" + link + "("+ pNoNumber + ", " + loginUno +" ," + (data.page - 1) + ");'></a></li>");
+   		}
+   		
    }
    
     // 페이징 우측
-   if(data.page >= data.endPage){
+   if(data.page >= data.maxPage){
    		$("#" + id + " .pagaing_right").html('');
    		$("#" + id + " .pagaing_right").html('<li class="next hide"><a href="javascript:;"></a></li><li class="allNext hide"><a href="javascript:;"></a></li>')
    }else{
    		$("#" + id + " .pagaing_right").html('');
-   		$("#" + id + " .pagaing_right").html('<li class="next"><a href="javascript:' + link +'(' + (data.page + 1) + ');"</a></li><li class="allNext"><a href="javascript:' + link  + '(' + (data.endPage) +');"></a></li>')
+   		
+   		if(id == 'item_qna'){
+   			$("#" + id + " .pagaing_right").html('<li class="next"><a href="javascript:' + link +'(' + (data.page + 1) + ');"</a></li><li class="allNext"><a href="javascript:' + link  + '(' + (data.endPage) +');"></a></li>')
+
+   		}else if(id == 'item_review'){
+   			$("#" + id + " .pagaing_right").html("<li class='next'><a href='javascript:" + link + "("+ pNoNumber + ", " + loginUno +" ," + (data.page + 1) + ");'></a></li><li class='allNext'><a href='javascript:" + link + "("+ pNoNumber + ", " + loginUno +" ," + (data.endPage) + ");'></a></li>");
+   		}
+   		
+   		
+   		
    }
 	
    // 페이징 숫자
    for(let i = data.startPage; i <= data.endPage; i++){
        if(i == data.page){
-           $("#" + id + " .pagaing_num").append("<li class='on'><a href='javascript:" + link + "("+ i +");'>" + i +"</a></li>");
+       		if(id == 'item_qna'){
+	           $("#" + id + " .pagaing_num").append("<li class='on'><a href='javascript:" + link + "("+ i +");'>" + i +"</a></li>");
+       		}else if(id == 'item_review'){
+       		   $("#" + id + " .pagaing_num").append("<li class='on'><a href='javascript:" + link + "("+ pNoNumber + ", " + loginUno +" ," + i + ");'>" + i +"</a></li>");
+       		
+       		}
+       
        }else{
-           $("#" + id + " .pagaing_num").append(
-               "<li><a href='javascript:" + link + "("+ i +");'>" + i +"</a></li>"	
-           );
+       		if(id == 'item_qna'){
+	           $("#" + id + " .pagaing_num").append("<li><a href='javascript:" + link + "("+ i +");'>" + i +"</a></li>");
+       		}else if(id == 'item_review'){
+       		   $("#" + id + " .pagaing_num").append("<li><a href='javascript:" + link + "("+ pNoNumber + ", " + loginUno +" ," + i + ");'>" + i +"</a></li>");
+       		
+       		}
+       
+       
        }
    }
 }

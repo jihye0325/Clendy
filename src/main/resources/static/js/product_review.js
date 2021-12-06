@@ -1,6 +1,6 @@
 $(function(){
 	// console.log(pNoNumber)
-    reviewSelect(pNoNumber, loginUno);
+    reviewSelect(pNoNumber, loginUno, 1);
     
     // 슬라이드
 	 var swiper = new Swiper(".mySwiper", {
@@ -12,6 +12,8 @@ $(function(){
 		  observer: true,
 		  observeParents: true
 	});
+	
+	
 })
 
 function reviewSelect(pNo, userNo, page){
@@ -20,7 +22,6 @@ function reviewSelect(pNo, userNo, page){
     }
 
     let dataLimit = {"pNo" : pNo, "userNo": userNo, "page" : page};
-    // console.log(dataLimit);
    
     $.ajax({
         type : "post",
@@ -60,7 +61,9 @@ function reviewPagingHandler(pNo, page){
 }
 
 function reviewView(rNo){
-	let dataLimit = {"rNo" : rNo};
+
+	 let dataLimit = {"rNo" : rNo};
+	
 	$.ajax({
 		type : "post",
 		url : "/product/reviewView/" + rNo,
@@ -96,28 +99,21 @@ function reviewView(rNo){
 			}
 			
 			id.find(".review_option").text(data.pColor + " / " + data.pSize);
-			id.find(".review_txt_box").text(data.rContent);
+			id.find(".review_txt_box").html(data.rContent);
 			
 			//이미지 수정
+			let maxImgSize = 10;
 			
-			let cnt = $(".swiper-slide").length;
-			let imgCnt = data.imageList.length;
+			let imgSize = $("#review_view .review_txt_box img").length;
+			$('.swiper-slide').remove();
 			
-			console.log("imgCnt : " + imgCnt);
-			console.log("cnt : " + cnt);
-			console.log(data);
-			
-			for(let i = 0; i < cnt; i++){
-				if(i < imgCnt){
-					$(".swiper-slide").eq(i).find("img").attr("src", data.imageList[i].route + data.imageList[i].imgrName);
-				}else{
-					$(".swiper-slide").eq(i).remove();
-					cnt -= 1;
-					i -= 1;
-				}
+			for(let i = 0; i < imgSize; i++){
+				let imgSrc = $("#review_view .review_txt_box img").eq(i).attr("src");
+				let slideHtml = '<div class="swiper-slide"><img src="'+imgSrc+'"></div>';
+				$(".swiper-wrapper").append(slideHtml);
 			}
 			
-			
+			$("#review_view .review_txt_box img").parent().remove();
 			
 			
 		},
@@ -127,17 +123,9 @@ function reviewView(rNo){
 	});
 }
 
-function reviewLike(rNo, loginUno){
-	if(loginUno == 0){
-		let pmt = "로그인후 이용 가능합니다 로그인 하시겠습니까?"
-		if(confirm(pmt)){
-			location.href="/member/login";	
-		}else{
-			return;
-		}
-	}
-
+function reviewLike(rNo, loginUno, index){
 	let dataLimit = {"rNo" : rNo, "loginUno" : loginUno};
+	console.log(dataLimit);
 	$.ajax({
 		type : "post",
 		url : "/product/reviewLike",
@@ -147,13 +135,11 @@ function reviewLike(rNo, loginUno){
 			xhr.setRequestHeader(header, token);
 		},
 		success : function(data){
-			// console.log(data);
 			if(data == 'insert'){
-				$('.review_list .review_like').addClass('on');
+				$('.review_list').eq(index).find(".review_like").addClass('on');
 			}else if(data == 'delete'){
-				$('.review_list .review_like').removeClass('on');
+				$('.review_list').eq(index).find(".review_like").removeClass('on');
 			}else{
-				
 				alertPopup("리뷰 좋아요 실패하였습니다.");
 			}
 		},
