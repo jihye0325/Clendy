@@ -33,9 +33,7 @@ private ProductQnaService productQnaService;
 	@ResponseBody
 	public ModelAndView qnaAllSelectList(@RequestBody Map<String, Object> mapReturn, ModelAndView mv){
 	
-		// System.out.println(mapReturn);
 		List<ProductQnaQ> selectList = productQnaService.qnaAllSelectList(mapReturn);
-		// System.out.println(selectList);
 		
 		for(ProductQnaQ pq : selectList) {
 			pq.setLoginUno((int)mapReturn.get("loginUno"));
@@ -53,7 +51,6 @@ private ProductQnaService productQnaService;
 	@PostMapping("/paging")
 	@ResponseBody
 	public PageInfo commonPaging(@RequestBody Map<String, Object> mapReturn){
-		// System.out.println(mapReturn);
 
 		PageInfo pageInfo = productQnaService.commonPaging(mapReturn);
 
@@ -64,7 +61,6 @@ private ProductQnaService productQnaService;
 	@PostMapping("/qnaInsert")
 	@ResponseBody
 	public String qnaInsert(@RequestBody ProductQnaQ productQnaQ) {
-		// System.out.println(productQnaQ);
 		
 		int result = productQnaService.qnaInsert(productQnaQ);
 		
@@ -84,7 +80,6 @@ private ProductQnaService productQnaService;
 	@ResponseBody
 	public ProductQnaQ qnaModifyView(@RequestParam int piqCode) {
 		
-		// System.out.println(piqCode);
 		
 		ProductQnaQ modifyQna = productQnaService.qnaModifyView(piqCode);
 		
@@ -95,11 +90,9 @@ private ProductQnaService productQnaService;
 	@PostMapping("/qnaModify")
 	@ResponseBody
 	public String qnaModify(@RequestBody ProductQnaQ qnaModifyView) {
-	
-		System.out.println(qnaModifyView);
 		
 		int result = productQnaService.qnaModify(qnaModifyView);
-		System.out.println(result);
+		
 		String msg = "";
 		
 		if(result > 0) {
@@ -115,7 +108,6 @@ private ProductQnaService productQnaService;
 	@PostMapping("/qnaDelete")
 	@ResponseBody
 	public String qnaDelete(@RequestBody int piqCode) {
-		// System.out.println(piqCode);
 		
 		// 상품문의 질문 삭제후
 		int result = productQnaService.qnaDelete(piqCode);

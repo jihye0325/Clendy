@@ -485,7 +485,6 @@
         		$(this).addClass("on");
         		
         		let imgAttr = $(this).find("img").attr("src");
-        		console.log(imgAttr);
         		
         		$(".slide_wrap .img img").attr("src", imgAttr);
         	});
@@ -508,7 +507,6 @@
         		postTxt = "익일" + dayType + "배송";
         	}
         	
-        	console.log(weekday);
         	if(weekday == 0){
         		postToday.setDate(postToday.getDate() + 2);
         		dayType = "(" + (postToday.getMonth() + 1)  + "/" + postToday.getDate() + ")";

@@ -58,7 +58,6 @@ public class ProductOrderController {
 		
 		// 배송정보
 		Member member = productOrderService.orderMemberSelect(userNo);
-		// System.out.println(member);
 		
 		// 주문내역
 		Map<String, List<Order>> orderInfo = productOrderService.orderInfoSelect(cartList);
@@ -68,7 +67,6 @@ public class ProductOrderController {
 		
 		// 쿠폰리스트
 		// List<Coupon> couponList = productOrderService.orderCouponSelectList(userNo);
-		// System.out.println(couponList);
 		
 		// 결제금액 정보
 		Map<String, Integer> payPrice = new HashMap<>();
@@ -106,7 +104,6 @@ public class ProductOrderController {
 	@ResponseBody
 	public String order(@RequestBody Map<String, Object> parameters, Model model) {
 		
-		System.out.println(parameters);
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int userNo = user.getUser_no();
 		int amount = Integer.parseInt(((String)parameters.get("amount")).replace(",", ""));
@@ -133,7 +130,6 @@ public class ProductOrderController {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int userNo = user.getUser_no();
 		int orderCode = productOrderService.orderCodeSelect(userNo);
-		// System.out.println("orderCode : " + orderCode);
 		
 		Map<String, Integer> parameters = new HashMap<>();
 		parameters.put("userNo", userNo);
@@ -141,11 +137,9 @@ public class ProductOrderController {
 		
 		// 배송정보
 		Map<String, String> orderDelInfo = productOrderService.completeOrderInfo(parameters);
-		// System.out.println(orderDelInfo);
 		
 		// 주문내역
 		List<ProductComplete> completeList = productOrderService.productCompleteList(parameters);
-		System.out.println(completeList);
 		Map<String, List<ProductComplete>> completeMap = new HashMap<>();
 		for(ProductComplete pc : completeList) {
 			
@@ -160,11 +154,9 @@ public class ProductOrderController {
 			completeMap.put(key + "", list);
 		}
 		
-		System.out.println(completeMap);
 		
 		// 결제정보
 		ProductComplete payResult = productOrderService.orderPayMentEnd(parameters);
-		// System.out.println(payResult);
 		
 		model.addAttribute("orderDelInfo", orderDelInfo);
 		model.addAttribute("completeMap", completeMap);

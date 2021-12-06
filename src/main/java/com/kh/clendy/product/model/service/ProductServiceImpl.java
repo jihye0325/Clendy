@@ -33,11 +33,9 @@ public class ProductServiceImpl implements ProductService{
 		
 		// 상품 목록 갯수
 		int listCount = productMapper.productGetListCount(filter);
-		// System.out.println("listCount : " + listCount);
 		
 		// 페이징
 		PageInfo pageInfo = new PageInfo(filter.getPage(), listCount, 10, 12);
-		System.out.println(pageInfo);
 		
 		// 상품 목록 호출에 필요한 값
 		int startRow = (pageInfo.getPage() - 1) * pageInfo.getBoardLimit() + 1;
@@ -54,7 +52,6 @@ public class ProductServiceImpl implements ProductService{
 		
 		// 상품 카테고리 상품 갯수
 		Map<String, Integer> categoryCount = productMapper.productCategoryCount(filter);
-		System.out.println(categoryCount);
 		
 		Map<String, Object> mapReturn = new HashMap<>();
 		mapReturn.put("productList", productList);
