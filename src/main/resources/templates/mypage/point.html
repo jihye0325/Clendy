@@ -29,18 +29,16 @@
 		    		<div class="event-detail" th:each="event : ${event_point_list}">
 		    		<input type="hidden" name="point_code" th:value="${event.point_code}">
 		    		<ul>
-		    		<li class="event-content" th:text="${event.point_content}"><input type="hidden" name="point_code" th:value="${event.point_content}"></li>
-			    	<li class="event-point" th:text="${event.point_amount}"><input type="hidden" name="point_code" th:value="${event.point_amount}"></li>
+		    		<li class="event-content" th:text="${event.point_content}"><input type="hidden" name="point_content" th:value="${event.point_content}"></li>
+			    	<li class="event-point" th:text="${event.point_amount}"><input type="hidden" name="point_amount" th:value="${event.point_amount}"></li>
 			    	<li class="event-download"><input type="submit" value="다운"></li>
 		    		</ul>
 		    		</div>
 		    	</form>
 		    	</th:block>
 	    	</div>
-	    		
-	  		<hr class="hr">
-    
-        <div clss="title">
+	    		    
+        <div class="title">
             <span id="title">포인트 상세내역</span>
         </div>
 
@@ -99,13 +97,13 @@
 	            </ul>
 	
 	            <ul class="pagaing_right" >
-	                <li class="next" th:classappend="${pi.page == pi.endPage} ? 'hide'">
-	                	<a th:href="@{/mypage/point/(page=${pi.page} + 1)}" th:if="${pi.page < pi.endPage}"></a>
-	                	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+	                <li class="next" th:classappend="${pi.page == pi.maxPage} ? 'hide'">
+	                	<a th:href="@{/mypage/point/(page=${pi.page} + 1)}" th:if="${pi.page < pi.maxPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page < pi.maxPage}"></a>
 	                </li>
-	                <li class="allNext"  th:classappend="${pi.page == pi.endPage} ? 'hide'">
-	                	<a th:href="@{/mypage/point/(page=${pi.endPage})}" th:if="${pi.page < pi.endPage}"></a>
-	                	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+	                <li class="allNext"  th:classappend="${pi.page == pi.maxPage} ? 'hide'">
+	                	<a th:href="@{/mypage/point/(page=${pi.maxPage})}" th:if="${pi.page < pi.maxPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page < pi.maxPage}"></a>
 	                </li>
 	            </ul>
             </div>

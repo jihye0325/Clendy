@@ -36,6 +36,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.clendy.CScenter.model.vo.FAQ;
 import com.kh.clendy.CScenter.model.vo.PersonalQ;
 import com.kh.clendy.member.model.vo.Member;
 import com.kh.clendy.member.model.vo.UserImpl;
@@ -177,7 +178,6 @@ public class MypageController {
 		mv.addObject("total_point", total_point);
 		mv.addObject("point_list", resultList.get("point_list"));
 		mv.addObject("pi", resultList.get("pi"));
-		System.out.println(resultList.get("point_list"));
 		// 다운 가능한 이벤트 적립금 불러오기
 		List<Point_Category> event_point_list = mypageService.selectDownableEventPoint(user_no);
 		
@@ -236,6 +236,23 @@ public class MypageController {
 		mv.setViewName("mypage/wishlist");
 		
 		return mv;
+	}
+	
+	// 위시리스트 카테고리별 조회
+	@GetMapping("/category")
+	public ModelAndView selectFAQByCategory(@RequestParam String categoryName, ModelAndView mv, @RequestParam(defaultValue="1") int page){ 
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		
+		// 위시리스트 불러오기
+		Map<String, Object> resultList = mypageService.selectAcclist(user_no, categoryName, page);
+		
+		mv.addObject("wishlist", resultList.get("wishlist"));
+		mv.addObject("pi", resultList.get("pi4"));
+		
+		mv.setViewName("mypage/wishlist");	
+		
+		return mv;		
 	}
 	
 	// 위시리스트 삭제
@@ -382,46 +399,96 @@ public class MypageController {
 		return result;
 	}
 	
-	// 내가 쓴 글 화면 
-	@GetMapping("/myBoard")
+	// 리뷰 삭제
+	@PostMapping("/reviewDelete")
+	@ResponseBody
+	public int reviewDelete(@RequestParam int order_option_code) {
+		
+		int result = mypageService.reviewDelete(order_option_code);
+		
+		return result;
+	}
+	
+	// 내가 쓴 글 화면 (상품문의글)
+	@GetMapping("/myBoard_pqna")
 	public ModelAndView myBoard(ModelAndView mv, @RequestParam(defaultValue="1") int page) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		
 		// 상품 문의글 리스트 
 		Map<String, Object> resultList = mypageService.selectP_Qna_List(user_no, page);
-					
+		
 		mv.addObject("p_qna_list", resultList.get("p_qna_list"));
 		mv.addObject("pi", resultList.get("pi"));
 		
-		// 리뷰 리스트
-		Map<String, Object> resultList2 = mypageService.selectReview_List(user_no, page);
+		mv.setViewName("mypage/myBoard_pqna");
+		return mv;
+	}
+
+	// 내가 쓴 글 화면 (리뷰)
+	@GetMapping("/myBoard_review")
+	public ModelAndView myBoard_review(ModelAndView mv, @RequestParam(defaultValue="1") int page) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
 		
-		mv.addObject("review_list", resultList2.get("review_list"));
-		mv.addObject("pi2", resultList2.get("pi2"));
+		// 리뷰 리스트
+		Map<String, Object> resultList = mypageService.selectReview_List(user_no, page);
+		
+		mv.addObject("review_list", resultList.get("review_list"));
+		mv.addObject("pi", resultList.get("pi"));
+		
+		mv.setViewName("mypage/myBoard_review");
+		return mv;
+	}
+	
+	// 내가 쓴 글 화면 (1:1문의)
+	@GetMapping("/myBoard_qna")
+	public ModelAndView myBoard_qna(ModelAndView mv, @RequestParam(defaultValue="1") int page) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
 		
 		// 1:1 문의 리스트  
-		Map<String, Object> resultList3 = mypageService.selectQ_list(user_no, page);
+		Map<String, Object> resultList = mypageService.selectQ_list(user_no, page);
 		
-		mv.addObject("q_list", resultList3.get("q_list"));
-		mv.addObject("pi3", resultList3.get("pi3"));
+		mv.addObject("q_list", resultList.get("q_list"));
+		mv.addObject("pi", resultList.get("pi"));
+		
+		mv.setViewName("mypage/myBoard_qna");
+		return mv;
+	}
+	
+	// 내가 쓴 글 화면 (교환)
+	@GetMapping("/myBoard_exchange")
+	public ModelAndView myBoard_exchange(ModelAndView mv, @RequestParam(defaultValue="1") int page) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
 		
 		// 교환 리스트
-		Map<String, Object> resultList4 = mypageService.selectEx_list(user_no, page);
+		Map<String, Object> resultList = mypageService.selectEx_list(user_no, page);
 		
-		mv.addObject("ex_list", resultList4.get("ex_list"));
-		mv.addObject("pi4", resultList4.get("pi4"));
+		mv.addObject("ex_list", resultList.get("ex_list"));
+		mv.addObject("pi", resultList.get("pi"));
+		
+		mv.setViewName("mypage/myBoard_exchange");
+		return mv;
+	}
+	
+	// 내가 쓴 글 화면 (환불)
+	@GetMapping("/myBoard_refund")
+	public ModelAndView myBoard_refund(ModelAndView mv, @RequestParam(defaultValue="1") int page) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
 		
 		// 환불 리스트
 		Map<String, Object> resultList5 = mypageService.selectR_list(user_no, page);
 		
 		mv.addObject("r_list", resultList5.get("r_list"));
-		mv.addObject("pi5", resultList5.get("pi5"));
+		mv.addObject("pi", resultList5.get("pi"));
 		
-		mv.setViewName("mypage/myBoard");
+		mv.setViewName("mypage/myBoard_refund");
 		return mv;
 	}
-
+	
 	// 장바구니 화면
 	@GetMapping("/cart")
 	public ModelAndView cart(ModelAndView mv) {

@@ -58,9 +58,7 @@
                 <select name="ex_option" required>
                     <option value="none" disabled>옵션 선택</option>
                     
-                    <option th:each="e : ${ ex }" 
-                    		th:if="${o.product_option.p_option_no != e.p_option_no}" th:value="${e.p_option_no}"
-                    		th:text="|${e.p_color} / ${e.p_size} (재고:${e.p_stock})|"></option>
+                    <option th:each="e : ${ ex }" th:value="${e.p_option_no}" th:text="|${e.p_color} / ${e.p_size} (재고:${e.p_stock})|"></option>
                 </select>
             </div>
 
@@ -78,7 +76,7 @@
                     <span>사유입력</span><br>
                     <span>0 / 100</span>
                 </div>
-                <textarea name="ex_reason" placeholder="교환사유를 입력해주세요(선택사항)"></textarea>
+                <textarea name="ex_reason" id="ex_reason" placeholder="교환사유를 입력해주세요(선택사항)"></textarea>
             </div>
         </div>
 
@@ -96,7 +94,7 @@
         </div>
 
         <div class="btn_area">
-            <button type="submit">교환신청</button>
+            <button type="button" onclick="exchange()">교환신청</button>
             <button type="button" onclick="cancle()">취소</button>
         </div>
         </form>
@@ -107,6 +105,27 @@
 			window.close();
 		}
     </script>
+    
+    <!-- 교환신청 유효성 -->
+    <script>
+	    function exchange(){
+			var form = $(".exchange");
+			var content = $("#ex_reason");
+			
+			if(content.val().length > 100){
+				alert('사유입력은 100자 이내로 가능합니다.');
+				content.focus();
+				return;	
+			}
+			
+			if(!confirm('교환신청은 취소되지 않습니다. \n교환신청을 완료하시겠습니까?')) return;
+			form.submit();
+			
+		}
+    </script>    
+    
+    
+    
     
 </body>
 </html>

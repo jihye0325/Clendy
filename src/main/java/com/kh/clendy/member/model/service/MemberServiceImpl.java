@@ -68,20 +68,28 @@ public class MemberServiceImpl implements MemberService{
 	public int signUp(Member member, String rec_id) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		member.setPassword(passwordEncoder.encode(member.getPassword()));
-		int result1 = memberMapper.insertMember(member);
 		
+		int result = 0;
+		int result1 = memberMapper.insertMember(member);
+				
 		MemberRole memberRole = new MemberRole();
 		memberRole.setAuth_code(1);
 		int result2 = memberMapper.insertMemberRole(memberRole);
 		
 		// 회원가입 적립금
 		int result3 = memberMapper.addPoint(member.getUser_no());
-		// 추천인 적립금
-		int result4 = memberMapper.addRecPoint(member.getId(), rec_id);
 		
-		int result = 0;
-		if(result1 > 0 && result2 > 0 && result3 > 0 && result4 > 0)
-			result = 1;
+		if(rec_id != "") {
+			// 추천인 적립금
+			int result4 = memberMapper.addRecPoint(member.getId(), rec_id);	
+			if(result1 > 0 && result2 > 0 && result3 > 0 && result4 > 0)
+				result = 1;
+		} else {
+			// 추천인 없을 때
+			if(result1 > 0 && result2 > 0 && result3 > 0)
+				result = 1;
+		}
+
 		return result;
 		
 	}

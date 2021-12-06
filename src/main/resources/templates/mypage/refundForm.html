@@ -70,7 +70,7 @@
                     <span>사유입력</span><br>
                     <span>0 / 100</span>
                 </div>
-                <textarea name="ref_reason" placeholder="환불사유를 입력해주세요(선택사항)"></textarea>
+                <textarea name="ref_reason" id="ref_reason" placeholder="환불사유를 입력해주세요(선택사항)"></textarea>
             </div>
         </div>
 
@@ -93,7 +93,7 @@
         </div>
 
         <div class="btn_area">
-            <button type="submit">환불신청</button>
+            <button type="button" onclick="refund()">환불신청</button>
             <button type="button" onclick="cancle()">취소</button>
         </div>
         </form>
@@ -104,5 +104,25 @@
 			window.close();
 		}
     </script>
+    
+    <!-- 교환신청 유효성 -->
+    <script>
+	    function refund(){
+			var form = $("#refundForm");
+			var content = $("#ref_reason");
+			
+			if(content.val().length > 100){
+				alert('사유입력은 100자 이내로 가능합니다.');
+				content.focus();
+				return;	
+			}
+			
+			if(!confirm('환불신청은 취소되지 않습니다. \n환불신청을 완료하시겠습니까?')) return;
+			form.submit();
+			
+		}
+    </script> 
+    
+    
 </body>
 </html>

@@ -301,7 +301,7 @@ public class MypageServiceImpl implements MypageService {
 		
 		Map<String, Object> result = new HashMap<>();
 		result.put("review_list", review_list);
-		result.put("pi2", pageInfo);
+		result.put("pi", pageInfo);
 		
 		return result;
 	}
@@ -442,7 +442,7 @@ public class MypageServiceImpl implements MypageService {
 		
 		Map<String, Object> result = new HashMap<>();
 		result.put("q_list", q_list);
-		result.put("pi3", pageInfo);
+		result.put("pi", pageInfo);
 		
 		return result;
 	}
@@ -472,7 +472,7 @@ public class MypageServiceImpl implements MypageService {
 		
 		Map<String, Object> result = new HashMap<>();
 		result.put("r_list", r_list);
-		result.put("pi5", pageInfo);
+		result.put("pi", pageInfo);
 		
 		return result;
 	}
@@ -508,7 +508,7 @@ public class MypageServiceImpl implements MypageService {
 		
 		Map<String, Object> result = new HashMap<>();
 		result.put("ex_list", ex_list);
-		result.put("pi4", pageInfo);
+		result.put("pi", pageInfo);
 		
 		return result;
 	}
@@ -609,6 +609,12 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public int selectTotalPoint(int user_no) {
 		return mypageMapper.selectTotalPoint(user_no);
+	}
+
+	// 리뷰삭제
+	@Override
+	public int reviewDelete(int order_option_code) {
+		return mypageMapper.reviewDelete(order_option_code);
 	}
 
 }
