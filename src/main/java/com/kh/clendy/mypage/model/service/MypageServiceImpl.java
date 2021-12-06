@@ -255,6 +255,8 @@ public class MypageServiceImpl implements MypageService {
 	public Map<String, Object> selectP_Qna_List(int user_no, int page) {
 		// 문의글 개수
 		int listCount = mypageMapper.countP_Qna_List(user_no);
+		System.out.println("listCount: " + listCount);
+		System.out.println("user_no : " + user_no);
 		
 		// 페이징
 		PageInfo pageInfo = new PageInfo(page, listCount, 10, 10);

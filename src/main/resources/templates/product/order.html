@@ -9,7 +9,7 @@
 	<!-- default header name is X-CSRF-TOKEN -->
 	<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>상품 주문 페이지</title>
-     <link rel="stylesheet" th:href="@{/css/product_style.css}">
+    <link rel="stylesheet" th:href="@{/css/product_style.css}">
     <!-- <script th:src="@{/js/jquery-3.6.0.min.js}"></script> -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
@@ -304,7 +304,6 @@
     </script>
     
     <script th:inline="javascript">
-   console.log();
     
 function pay(){
 	let title = "테스트이니다.";
@@ -312,7 +311,6 @@ function pay(){
 	let buyerName = [[${postMember.user_name}]];
 	let buyerTel = [[${postMember.phone}]];
 	let buyerAddr = [[${postMember.address}]];
-	console.log(buyerAddr);
 	let buyerEmail = "";
 	let postCheck = $("input[name=post_info]:checked").val();
 	let postRequest = $("#post_request option:selected").val();
@@ -361,12 +359,12 @@ function pay(){
 			return;
 		 }
 		
-		 if($("#tel_two").length <= 0 && $("#tel_three").length <= 0){
+		 if($("#tel_two").val().length <= 0 && $("#tel_three").val().length <= 0){
 			 alert("연락처를 입력해주세요");
 			 
 			 return;
 		 }else{
-			 const regex = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
+			 const regex = /^[0-9]{4}$/;
 			 
 			 if(!regex.test($("#tel_two").val())){
 				 alert("연락처를 숫자, 4자리로 입력해주세요!");
@@ -391,7 +389,6 @@ function pay(){
 		postRequest = $("#post_edit").val();
 		
 		let editCount = postRequest.length;
-		console.log(editCount);
 		if(editCount <= 0){
 			alert("배송요청 사항을 입력해주세요.");
 			$("#post_edit").focus();
@@ -425,8 +422,6 @@ function pay(){
 	
 		
 	if (rsp.success) {
-		console.log(rsp);
-		
 		/* var msg = '결제가 완료되었습니다.';
 		msg += '고유ID : ' + rsp.imp_uid;
 		msg += '상점 거래ID : ' + rsp.merchant_uid;

@@ -89,8 +89,6 @@ function qnaModifyView(piqCode){
 			xhr.setRequestHeader(header, token);
 		},
        success : function(data){
-           // console.log(data);
-           
            // select, input 값 세팅
            const secretSize = $("#productQna [name=piqSecret] option").length;
            const codeSize = $("#productQna [name=piCateCode] option").length;
@@ -126,12 +124,12 @@ function qnaModify(piqCode){
    const piqTitle = $("#productQna [name=piqTitle]").val();
    const piqContent = $("#productQna [name=piqContent]").val(); 
    
-    if(piqTitle.length > 0){
+    if(piqTitle.length <= 0){
 	   	alert("제목을 입력해주세요.");
 	   	return;
    	}
    
-   if(piqContent.length > 0){
+   if(piqContent.length <= 0){
 	   	alert("내용을 입력해주세요.");
 	   	return;
    }

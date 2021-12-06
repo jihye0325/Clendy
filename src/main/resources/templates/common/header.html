@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--     <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
- -->    <title>header</title>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <title>header</title>
 <style>
 *{ margin : 0; padding : 0; }
 .wrapper {background-color : #060032}
@@ -35,8 +35,9 @@
 .nav{ font-weight: bold; font-size: 20px; margin: 30px;}
 </style>
 <script>
+let	jq = jQuery.noConflict();
 function searchForm(){
-	$(".searchProductForm").submit();
+	jq(".searchProductForm").submit();
 }
 </script>
 </head>

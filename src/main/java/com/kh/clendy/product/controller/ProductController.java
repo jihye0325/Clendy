@@ -49,8 +49,6 @@ public class ProductController {
 	public String productListPage(@PathVariable String type, Model model, @ModelAttribute ProductFilter filter) {
 		
 		Map<String, Object> mapReturn = productService.productSelectList(filter);
-		// System.out.println(mapReturn.get("productList"));
-		//System.out.println(filter);
 		// 상품 목록 
 		model.addAttribute("productList", mapReturn.get("productList"));
 		// 상품 갯수
@@ -122,9 +120,7 @@ public class ProductController {
 	@PostMapping("/wishStatus")
 	@ResponseBody
 	public String productViewWish(@RequestBody Map<String, Integer> returnMap) {
-		// System.out.println(returnMap);
 		int result = productService.productViewWish(returnMap);
-		// System.out.println(result);
 		
 		String msg = "fail";
 		
@@ -165,7 +161,6 @@ public class ProductController {
 			
 			cartList.add(pc);
 		}
-		// System.out.println(cartList);
 		
 		int result = productService.productCartInsert(cartList);
 		

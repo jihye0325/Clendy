@@ -36,20 +36,6 @@ public class ProductOrderServiceImpl implements ProductOrderService{
 	public Map<String, List<Order>> orderInfoSelect(List<ProductCart> cartList) {
 		Map<String, List<Order>> returnMap = new HashMap<>();
 		
-		/*
-		 * Iterator<String> keys = cartMap.keySet().iterator(); while(keys.hasNext()) {
-		 * 
-		 * String key = keys.next(); System.out.println(key);
-		 * 
-		 * List<ProductCart> lists = cartMap.get(key); List<Order> newList = new
-		 * ArrayList<>();
-		 * 
-		 * for(ProductCart cart : lists) {
-		 * 
-		 * System.out.println(order); newList.add(order); }
-		 * 
-		 * returnMap.put(key, newList); }
-		 */
 		for(ProductCart cart : cartList) {
 			
 			Order order = productOrderMapper.orderInfoSelect(cart);

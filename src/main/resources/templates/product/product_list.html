@@ -90,7 +90,7 @@
                     <div class="pagaing_wrap" th:if="${#lists.size(productList) > 0}">
                         <ul class="pagaing_left"> 
                             <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
-                            	<a th:href="@{/product/list/{type}(page=${pi.page}, align=${param.align}, category=${param.category})}" th:if="${pi.page > 1}"></a>
+                            	<a th:href="@{/product/list/{type}(type=${type}, page=1, align=${param.align}, category=${param.category})}" th:if="${pi.page > 1}"></a>
 	                            <a href="javascript:;" th:unless="${pi.page > 1}"></a>
                             </li>
                             <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
@@ -110,11 +110,11 @@
 
                         <ul class="pagaing_right" >
                             <li class="next" th:classappend="${pi.page == pi.endPage} ? 'hide'">
-                            	<a th:href="@{/product/list/{type}(type=${type}, page=${pi.page - 1}, align=${param.align}, category=${param.category})}" th:if="${pi.page < pi.endPage}"></a>
+                            	<a th:href="@{/product/list/{type}(type=${type}, page=${pi.page + 1}, align=${param.align}, category=${param.category})}" th:if="${pi.page < pi.endPage}"></a>
                             	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
                             </li>
                             <li class="allNext"  th:classappend="${pi.page == pi.endPage} ? 'hide'">
-                            	<a th:href="@{/product/list/${type}(type=${type}, page=${pi.endPage}, align=${param.align}, category=${param.category})}" th:if="${pi.page < pi.endPage}"></a>
+                            	<a th:href="@{/product/list/{type}(type=${type}, page=${pi.endPage}, align=${param.align}, category=${param.category})}" th:if="${pi.page < pi.endPage}"></a>
                             	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
                             </li>
                         </ul>

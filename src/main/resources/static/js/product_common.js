@@ -44,7 +44,7 @@ function paging(id, data, link){
    		$("#" + id + " .pagaing_left").html('<li class="allPrev hide"><a href="javascript:;"></a></li><li class="prev hide"><a href="javascript:;"></a></li>')
    }else{
    		$("#" + id + " .pagaing_left").html('');
-   		$("#" + id + " .pagaing_left").html('<li class="allPrev"><a href="javascript:" + link + "(' + 1 + ');"></a></li><li class="prev"><a href="javascript:" + link + "(' + (data.page - 1) + ');"></a></li>')
+   		$("#" + id + " .pagaing_left").html('<li class="allPrev"><a href="javascript:' + link +'(1);"</a></li><li class="prev"><a href="javascript:' + link  + '(' + (data.page - 1) +');"></a></li>');
    }
    
     // 페이징 우측
@@ -53,7 +53,7 @@ function paging(id, data, link){
    		$("#" + id + " .pagaing_right").html('<li class="next hide"><a href="javascript:;"></a></li><li class="allNext hide"><a href="javascript:;"></a></li>')
    }else{
    		$("#" + id + " .pagaing_right").html('');
-   		$("#" + id + " .pagaing_right").html('<li class="next"><a href="javascript:" + link + "(' + (data.page + 1) + ');"></a></li><li class="allNext"><a href="javascript:" + link + "(' + data.endPage + ');"></a></li>');
+   		$("#" + id + " .pagaing_right").html('<li class="next"><a href="javascript:' + link +'(' + (data.page + 1) + ');"</a></li><li class="allNext"><a href="javascript:' + link  + '(' + (data.endPage) +');"></a></li>')
    }
 	
    // 페이징 숫자
