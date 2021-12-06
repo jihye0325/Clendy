@@ -113,7 +113,6 @@ public class MemberController {
 	@ResponseBody
 	public int idCheck(@RequestParam String id) {
 		int result = memberService.idCheck(id);
-		System.out.println(result);
 		return result;
 	}
 	
@@ -121,9 +120,7 @@ public class MemberController {
 	@PostMapping("/phoneCheck")
 	@ResponseBody
 	public int phoneCheck(@RequestParam String phone) {
-		System.out.println(phone);
 		int result = memberService.phoneCheck(phone);
-		System.out.println(result);
 		return result;
 	}
 	

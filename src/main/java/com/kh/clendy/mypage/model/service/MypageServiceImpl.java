@@ -49,12 +49,7 @@ public class MypageServiceImpl implements MypageService {
 	public int modifyMember(Member m) {
 		
 		int result = mypageMapper.modifyMember(m);
-		
-		if(result > 0)
-			System.out.println("수정 성공");
-		else 
-			System.out.println("수정 실패");
-		
+				
 		return result;
 	}
 	
@@ -255,8 +250,6 @@ public class MypageServiceImpl implements MypageService {
 	public Map<String, Object> selectP_Qna_List(int user_no, int page) {
 		// 문의글 개수
 		int listCount = mypageMapper.countP_Qna_List(user_no);
-		System.out.println("listCount: " + listCount);
-		System.out.println("user_no : " + user_no);
 		
 		// 페이징
 		PageInfo pageInfo = new PageInfo(page, listCount, 10, 10);
@@ -593,10 +586,6 @@ public class MypageServiceImpl implements MypageService {
 			if(r > 0)
 				result4 = 1;
 		}
-		System.out.println("result1" + result1);
-		System.out.println("result2" + result2);
-		System.out.println("result3" + result3);
-		System.out.println("result4" + result4);
 		
 		if(result1 > 0 && result2 > 0 && result3 > 0 && result4 > 0)
 			result = 1; 

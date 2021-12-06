@@ -58,7 +58,6 @@ public class MemberServiceImpl implements MemberService{
 		UserImpl user = new UserImpl(member.getId(), member.getPassword(), authorities);
 		user.setDetails(member);
 		
-		System.out.println("확인!! : " + user);
 		
 		return user;
 	}
@@ -79,7 +78,6 @@ public class MemberServiceImpl implements MemberService{
 		int result3 = memberMapper.addPoint(member.getUser_no());
 		// 추천인 적립금
 		int result4 = memberMapper.addRecPoint(member.getId(), rec_id);
-		System.out.println(result4);
 		
 		int result = 0;
 		if(result1 > 0 && result2 > 0 && result3 > 0 && result4 > 0)
