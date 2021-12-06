@@ -37,7 +37,12 @@
 <script>
 let	jq = jQuery.noConflict();
 function searchForm(){
-	jq(".searchProductForm").submit();
+	if(jq("#searchItem").val() == ''){
+		alert("검색어를 입력해주세요.");
+		return false;
+	}else{
+		return true;	
+	}
 }
 </script>
 </head>
@@ -62,7 +67,7 @@ function searchForm(){
             <div class="logoArea">
                 <a id="logoA" href="/mainpage"><img id="logo" src="/images/logo-white.png" alt="logo"></a>
                 <div class="searchArea">
-                	<form class="searchProductForm" th:action="@{/searchProduct}" method="post">
+                	<form class="searchProductForm" th:action="@{/searchProduct}" onsubmit="return searchForm()" method="post">
                     <input id="searchItem" name="keyword" type="text" placeholder="상품명,카테고리 검색"></input>
                     <span id="img-wrapper">
                     <img class="finding" onclick="searchForm();" src="/images/magnifying-glass-white.png" alt="finding">
