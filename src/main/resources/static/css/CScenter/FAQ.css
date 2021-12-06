@@ -25,6 +25,8 @@
 	.answer-wrapper { display : none; border-bottom: 1px solid lightgray;}
 	.answer{ padding-left: 119px; margin:10px;}
 	#finding img{    vertical-align: sub;}
+    .null {text-align: center;	font-size: x-large;	font-weight: bold;align-self: center; margin-top:60px;}
+	
 	/* btn */
 	.btnArea{ display: flex; justify-content: flex-end; width: 850px; padding-bottom: 15px;}
 	.mOrd{ margin-right: 5px; border:0; background-color: lightgray; width : 40px; height : 25px;}

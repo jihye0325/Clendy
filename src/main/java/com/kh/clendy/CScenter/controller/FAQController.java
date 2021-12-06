@@ -62,6 +62,8 @@ public class FAQController {
 	public String searchFAQByKeyword(String keyword, Model model) {
 		
 		List<FAQ> resultList = faqService.searchFAQByKeyword(keyword);
+		
+		model.addAttribute("enter", "\n");
 				
 		model.addAttribute("faqList",resultList);
 		
