@@ -1109,7 +1109,7 @@
 	  , USER_NO
 	)
 	VALUES(
-	    POINT_NO.NEXTVAL
+	    SEQ_POINT_NO.NEXTVAL
 	   , #{downloadPoint.point_code}
 	   , #{downloadPoint.point_amount}
 	   , #{user_no}
