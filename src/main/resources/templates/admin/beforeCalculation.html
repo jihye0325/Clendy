@@ -53,8 +53,8 @@ if(msg){
                     <ul><li class="list-num" th:text="${(pi.listCount-(10*(pi.page-1))) - (i.count-1) }"></li>
                     <li class="list-name" th:text="${before.seller_name}"></li>
                     <li class="list-account "><span  th:text="${before.account_bank}"></span>/<span  th:text="${before.account_num}"></span></li>
-                    <li class="list-sales" th:text="${before.sales_price}"></li>
-                    <li class="list-calculation" th:text="${before.cal_price}"></li>
+                    <li class="list-sales" th:text="${#numbers.formatInteger(before.sales_price,0,'COMMA')}"></li>
+                    <li class="list-calculation" th:text="${#numbers.formatInteger(before.cal_price,0,'COMMA')}"></li>
                     <li class="list-date"><input type="submit" class="list-btn" value="정산"></li></ul>            
                  </form>
                 </div>

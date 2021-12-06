@@ -51,8 +51,8 @@
                 	<input type="hidden" name="user_no" th:value="${s.user_no}">
                     <ul><li class="list-num" th:text="${(pi.listCount-(10*(pi.page-1))) - (i.count-1) }"></li>
                     <li class="list-name" th:text="${s.seller_name}"></li>
-                    <li class="list-sales" th:text="${s.sales}"></li>
-                    <li class="list-commission" th:text="${s.commission}"></li>  
+                    <li class="list-sales" th:text="${#numbers.formatInteger(s.sales,0,'COMMA')}"></li>
+                    <li class="list-commission" th:text="${#numbers.formatInteger(s.commission,0,'COMMA')}"></li>  
                     <li class="list-date" th:text="${#dates.format(s.apply_date, 'yyyy-MM-dd')}"></li>
                     <li class="list-cancel"><input type="submit" class="cancel" value="취소"></li></ul>    
                     </form>
