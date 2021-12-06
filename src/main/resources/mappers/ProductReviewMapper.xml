@@ -137,7 +137,7 @@
   JOIN MEMBER M ON(POR.USER_NO = M.USER_NO)
   JOIN REVIEW_IMAGE RIMG ON(RV.R_NO = RIMG.R_NO)
   JOIN IMAGE ON(RIMG.IMG_NO = IMAGE.IMG_NO)
-  WHERE POP.P_NO = #{pNo}
+  WHERE RV.R_NO = #{rNo}
 	</select>
 	
 	<select id="reviewLikeGetCount" parameterType="map" resultType="_int">

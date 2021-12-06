@@ -33,8 +33,9 @@ public class ProductReviewController {
 	@PostMapping("/reviewAllSelectList")
 	@ResponseBody
 	public ModelAndView reviewAllSelectList(ModelAndView mv, @RequestBody Map<String, Object> mapReturn) {
-		
+
 		List<ProductReview> reviewList = productReviewService.reviewAllSelectList(mapReturn);
+		System.out.println(reviewList);
 		
 		mv.addObject("reviewList", reviewList);
 		mv.setViewName("product/product_view :: #review_board");
@@ -57,6 +58,7 @@ public class ProductReviewController {
 	public ProductReview reviewView(@PathVariable int rNo, ModelAndView mv) {
 		
 		ProductReview productReview = productReviewService.reviewView(rNo);
+		System.out.println(productReview);
 		
 		return productReview;
 	}
@@ -66,6 +68,7 @@ public class ProductReviewController {
 	@ResponseBody
 	public String reviewLike(@RequestBody Map<String, Object> returnMap) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
 		int loginUno = user.getUser_no();
 		
 		returnMap.put("loginUno", loginUno);

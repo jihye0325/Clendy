@@ -1,6 +1,17 @@
 $(function(){
 	// console.log(pNoNumber)
     reviewSelect(pNoNumber, loginUno);
+    
+    // 슬라이드
+	 var swiper = new Swiper(".mySwiper", {
+		  pagination: {
+		    loop: true,
+		    el: ".slide_page",
+		    type: "fraction",
+		  },
+		  observer: true,
+		  observeParents: true
+	});
 })
 
 function reviewSelect(pNo, userNo, page){
@@ -50,7 +61,6 @@ function reviewPagingHandler(pNo, page){
 
 function reviewView(rNo){
 	let dataLimit = {"rNo" : rNo};
-
 	$.ajax({
 		type : "post",
 		url : "/product/reviewView/" + rNo,
@@ -62,6 +72,8 @@ function reviewView(rNo){
 		success : function(data){
 			popOpen("review_view");
 			let id = $("#review_view");
+			
+			// console.log(data);
 			
 			id.find(".review_id_text").text(data.member.id);
 			
@@ -86,6 +98,28 @@ function reviewView(rNo){
 			id.find(".review_option").text(data.pColor + " / " + data.pSize);
 			id.find(".review_txt_box").text(data.rContent);
 			
+			//이미지 수정
+			
+			let cnt = $(".swiper-slide").length;
+			let imgCnt = data.imageList.length;
+			
+			console.log("imgCnt : " + imgCnt);
+			console.log("cnt : " + cnt);
+			console.log(data);
+			
+			for(let i = 0; i < cnt; i++){
+				if(i < imgCnt){
+					$(".swiper-slide").eq(i).find("img").attr("src", data.imageList[i].route + data.imageList[i].imgrName);
+				}else{
+					$(".swiper-slide").eq(i).remove();
+					cnt -= 1;
+					i -= 1;
+				}
+			}
+			
+			
+			
+			
 		},
 		error : function(error){
 		
@@ -94,6 +128,15 @@ function reviewView(rNo){
 }
 
 function reviewLike(rNo, loginUno){
+	if(loginUno == 0){
+		let pmt = "로그인후 이용 가능합니다 로그인 하시겠습니까?"
+		if(confirm(pmt)){
+			location.href="/member/login";	
+		}else{
+			return;
+		}
+	}
+
 	let dataLimit = {"rNo" : rNo, "loginUno" : loginUno};
 	$.ajax({
 		type : "post",
@@ -118,5 +161,9 @@ function reviewLike(rNo, loginUno){
 			console.log(error);
 		}
 	})
+	
+	
 }
+
+
 
