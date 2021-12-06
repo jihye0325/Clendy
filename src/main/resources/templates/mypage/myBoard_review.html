@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/mypage/myBoard_review.css" rel="stylesheet"></link>
+    <link href="/css/common/paging.css" rel="stylesheet" >
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <!-- csrf 토큰 -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>내가 쓴 글</title>
+<body>
+    <div th:replace="common/header.html"></div>
+	<div th:replace="mypage/sideMenu.html"></div>
+    <div class="outer">
+        <div class="menu">
+        	<ul class="board_menuList">
+        		<li class="pQna">상품문의</li>
+        		<li class="review">리뷰</li>
+        		<li class="qna">1:1 문의</li>
+        		<li class="ex_ref">교환/환불</li>
+        	</ul>
+        </div>
+        
+        <div class="board_area" id="review_List">
+            <div class="title">리뷰</div>
+			
+			<th:block th:if="${#lists.size(review_list) > 0}">
+            <div class="board_list">
+                <ul class="board_header">
+                    <li class="b_no">글번호</li>
+                    <li class="b_pname">주문상품</li>
+                    <li class="b_title">제목</li>
+                    <li class="b_date">등록일</li>
+                </ul>
+
+                <ul class="board_content" th:each="r : ${review_list}" th:attr="onclick=|reviewDetail('${r.order_option_code}')|">
+                    <li class="b_no" th:text="${r.r_no}"></li>
+                    <li class="b_pname" th:text="${r.order_option.product_option.product.p_name}"></li>
+                    <li class="b_title" th:text="${r.r_title}"></li>
+                    <li class="b_date" th:text="${#dates.format(r.r_create_date, 'yyyy-MM-dd')}"></li>
+                </ul>
+            </div>
+            </th:block>
+            <th:block th:if="${#lists.size(review_list) == 0}">
+            	<div class="null_list">
+            		<img id="null" src="/images/nolist.png">
+            		<div>작성한 글이 없습니다.</div>
+            	</div>
+            </th:block>
+           
+            <!-- 페이징 -->
+            <div class="pagaing_wrap" th:if="${#lists.size(review_list) > 0}">
+	            <ul class="pagaing_left">
+	                <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard_review/(page=1)}" th:if="${pi.page > 1}"></a>
+	                 <a href="javascript:;" th:unless="${pi.page > 1}"></a>
+	                </li>
+	                <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
+	                 <a th:href="@{/mypage/myBoard_review/(page=${pi.page - 1})}" th:if="${pi.page > 1}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page > 1}"></a>
+	                </li>
+	            </ul>
+	            
+	            <ul class="pagaing_num">
+	            	<th:block th:each="pd : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+	            		<li th:classappend="${pi.page == pdStat.current} ? 'on'">
+	            			<a th:href="@{/mypage/myBoard_review/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+	            		</li>
+	            	</th:block>
+	                
+	            </ul>
+	
+	            <ul class="pagaing_right" >
+	                <li class="next" th:classappend="${pi.page == pi.maxPage} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard_review/(page=${pi.page} + 1)}" th:if="${pi.page < pi.maxPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page < pi.maxPage}"></a>
+	                </li>
+	                <li class="allNext"  th:classappend="${pi.page == pi.maxPage} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard_review/(page=${pi.maxPage})}" th:if="${pi.page < pi.maxPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page < pi.maxPage}"></a>
+	                </li>
+	            </ul>
+            </div>
+        </div>
+    </div>
+	<div th:replace="common/footer.html"></div>
+    
+    <!-- 게시글 리스트 마우스오버 이벤트 -->
+    <script>
+        const boardlist = document.querySelectorAll(".board_list");
+
+        for(var i = 0; i < boardlist.length; i++) {
+            var item = boardlist.item(i);
+
+            item.addEventListener('mouseover', function(){
+
+            if(event.target.classList.contains('board_content'))
+            event.target.classList.add('onmouseover');
+            else if(event.target.parentNode.classList.contains('board_content'))
+            event.target.parentNode.classList.add('onmouseover');
+            });
+
+            item.addEventListener('mouseout', function(){
+            
+            if(event.target.classList.contains('board_content'))
+            event.target.classList.remove('onmouseover');
+            else if(event.target.parentNode.classList.contains('board_content'))
+            event.target.parentNode.classList.remove('onmouseover');
+            });   
+        }
+    </script>
+    
+    <!-- 리뷰확인 새창 -->
+    <script>
+    	function reviewDetail(p_order_option_code){
+    		var order_option_code = p_order_option_code;
+			var popupWidth = 900;
+			var popupHeight = 650;
+	
+			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+			var popupY= (window.screen.height / 2) - (popupHeight / 2);
+			
+			window.open("/mypage/reviewDetail/" +order_option_code, "리뷰 상세", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY)
+    	}
+    </script>
+    
+    <!-- 페이지 이동 -->
+    <script>
+    	// 상품문의
+    	$(".pQna").on("click", function(){
+    		location.href="/mypage/myBoard_pqna";
+    	});  
+    	
+    	// 1:1 문의
+    	$(".qna").on("click", function(){
+    		location.href="/mypage/myBoard_qna";
+    	});  
+    	
+    	// 교환/환불
+    	$(".ex_ref").on("click", function(){
+    		location.href="/mypage/myBoard_exchange";
+    	});  
+    </script>
+</body>
+</head>

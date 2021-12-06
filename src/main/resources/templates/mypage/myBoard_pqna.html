@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/mypage/myBoard_pqna.css" rel="stylesheet"></link>
+    <link href="/css/common/paging.css" rel="stylesheet" >
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <!-- csrf 토큰 -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>내가 쓴 글</title>
+<body>
+    <div th:replace="common/header.html"></div>
+	<div th:replace="mypage/sideMenu.html"></div>
+    <div class="outer">
+        <div class="menu">
+        	<ul class="board_menuList">
+        		<li class="pQna">상품문의</li>
+        		<li class="review">리뷰</li>
+        		<li class="qna">1:1 문의</li>
+        		<li class="ex_ref">교환/환불</li>
+        	</ul>
+        </div>
+
+        <div class="board_area" id="pQna_List">
+            <div class="title">상품문의</div>
+	
+			<th:block th:if="${#lists.size(p_qna_list) > 0}">
+            <div class="board_list">
+                <ul class="board_header">
+                    <li class="b_no">글번호</li>
+                    <li class="b_category">카테고리</li>
+                    <li class="b_title">제목</li>
+                    <li class="b_date">등록일</li>
+                    <li class="b_status">상태</li>
+                </ul>
+				
+				<div class="qna_area" th:each="p : ${p_qna_list}">
+					<ul class="board_content" id="qna_list">
+	                    <li class="b_no" th:text="${p.p_i_q_code}"></li>
+	                    <li class="b_category" th:text="${p.p_i_cate_name}"></li>
+	                    <li class="b_title" th:text="${p.p_i_q_title}"></li>
+	                    <li class="b_date" th:text="${#dates.format(p.p_i_q_create_date, 'yyyy-MM-dd')}"></li>
+	                    <li class="b_status" th:if="${p.productQnaA != null}" th:text="답변완료"></li>
+	                    <li class="b_status" th:unless="${p.productQnaA != null}" th:text="답변대기"></li>
+	                </ul>
+	                
+	                <div class="slide_area">
+		                <div class="p_info">
+		                	<!-- **상품이름 누르면 상세페이지 이동하기**  -->
+		                	<a th:href="@{'/product/view/' + ${p.p_no}}">
+		                	<div class="p_name" th:text="|상품명 : ${p.p_name}|" ></div>
+		                	</a>
+		                </div>
+		                
+		                <div class="question">
+		                	<img class="q_img" src="/images/qnaQ.png">
+		                	<div class="q_content">
+		                		<textarea th:text="${p.p_i_q_content}" readonly></textarea>
+		                		<div class="detail_area">
+		                			<div class="q_date"> 
+		          
+		                			<span th:text="|작성일 ${#dates.format(p.p_i_q_create_date, 'yyyy-MM-dd')}|"></span>
+		                			<span th:text="|수정일 ${#dates.format(p.p_i_q_modify_date, 'yyyy-MM-dd')}|"></span>
+		                		</div>
+		                		</div>
+		                	</div>
+		                </div>
+		                
+		                <th:block th:if="${p.productQnaA != null}">
+		                <div class="answer">
+		                	<img class="a_img" src="/images/qnaA.png">
+		                	<div class="a_content">
+		                		<textarea th:text="${p.productQnaA.piaContent}" readonly></textarea>
+		                		<div class="a_date"> 
+		                			<span th:text="|작성일 ${#dates.format(p.productQnaA.piaCreateDate, 'yyyy-MM-dd')}|"></span>
+		                		</div>
+		                	</div>
+		                </div>
+		                </th:block>
+	                </div>
+				</div>
+            </div>
+            </th:block>
+            <th:block th:if="${#lists.size(p_qna_list) == 0}">
+            	<div class="null_list">
+            		<img id="null" src="/images/nolist.png">
+            		<div>작성한 글이 없습니다.</div>
+            	</div>
+            </th:block>
+            
+            <!-- 페이징 -->
+            <div class="pagaing_wrap" th:if="${#lists.size(p_qna_list) > 0}">
+	            <ul class="pagaing_left">
+	                <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard_pqna/(page=1)}" th:if="${pi.page > 1}"></a>
+	                 <a href="javascript:;" th:unless="${pi.page > 1}"></a>
+	                </li>
+	                <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
+	                 <a th:href="@{/mypage/myBoard_pqna(page=${pi.page - 1})}" th:if="${pi.page > 1}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page > 1}"></a>
+	                </li>
+	            </ul>
+	            
+	            <ul class="pagaing_num">
+	            	<th:block th:each="pd : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+	            		<li th:classappend="${pi.page == pdStat.current} ? 'on'">
+	            			<a th:href="@{/mypage/myBoard_pqna/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+	            		</li>
+	            	</th:block>
+	                
+	            </ul>
+	
+	            <ul class="pagaing_right" >
+	                <li class="next" th:classappend="${pi.page == pi.maxPage} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard_pqna/(page=${pi.page} + 1)}" th:if="${pi.page < pi.maxPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page < pi.maxPage}"></a>
+	                </li>
+	                <li class="allNext"  th:classappend="${pi.page == pi.maxPage} ? 'hide'">
+	                	<a th:href="@{/mypage/myBoard_pqna/(page=${pi.maxPage})}" th:if="${pi.page < pi.maxPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page < pi.maxPage}"></a>
+	                </li>
+	            </ul>
+            </div>
+            
+        </div>
+  </div>
+	<div th:replace="common/footer.html"></div>
+
+    <script>
+        function selectType(e)  {
+        }
+    </script>
+    
+    <!-- 게시글 리스트 마우스오버 이벤트 -->
+    <script>
+        const boardlist = document.querySelectorAll(".board_list");
+
+        for(var i = 0; i < boardlist.length; i++) {
+            var item = boardlist.item(i);
+
+            item.addEventListener('mouseover', function(){
+
+            if(event.target.classList.contains('board_content'))
+            event.target.classList.add('onmouseover');
+            else if(event.target.parentNode.classList.contains('board_content'))
+            event.target.parentNode.classList.add('onmouseover');
+            });
+
+            item.addEventListener('mouseout', function(){
+            
+            if(event.target.classList.contains('board_content'))
+            event.target.classList.remove('onmouseover');
+            else if(event.target.parentNode.classList.contains('board_content'))
+            event.target.parentNode.classList.remove('onmouseover');
+            });   
+        }
+    </script>
+    
+    <!-- 게시글 클릭 시 슬라이드 -->
+    <script>
+    	$(document).on('click', '#qna_list', function(){
+    		if($(this).next().css('display') == 'none'){
+    			$(this).next().slideUp();
+    			$(this).next().slideDown();
+    		} else {
+    			$(this).next().slideUp();
+    		}
+    	});
+    </script>
+    
+    <!-- 페이지 이동 -->
+    <script>
+    	// 리뷰
+    	$(".review").on("click", function(){
+    		location.href="/mypage/myBoard_review";
+    	});  
+    	
+    	// 1:1 문의
+    	$(".qna").on("click", function(){
+    		location.href="/mypage/myBoard_qna";
+    	});  
+    	
+    	// 교환/환불
+    	$(".ex_ref").on("click", function(){
+    		location.href="/mypage/myBoard_exchange";
+    	});  
+    </script>
+</body>
+</head>

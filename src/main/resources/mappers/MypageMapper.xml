@@ -963,7 +963,8 @@
 			    REF_ID,
 			    REF_REASON,
 			    REF_STATUS,
-			    REF_PRICE
+			    REF_PRICE,
+			    REF_DATE
 			)
 			VALUES
 			(
@@ -972,7 +973,8 @@
 			    #{ ref_id },
 			    #{ ref_reason },
 			    DEFAULT,
-			    #{ ref_price }
+			    #{ ref_price },
+			    SYSDATE
 			)	
 	</insert>
 	
@@ -1100,7 +1102,7 @@
 	     WHERE USER_NO = #{user_no})
 	</select>
 	
-	<update id="downloadEventPoint" parameterType="map">
+	<insert id="downloadEventPoint" parameterType="map">
 	INSERT INTO POINT
 	(
 	    POINT_NO
@@ -1114,7 +1116,7 @@
 	   , #{downloadPoint.point_amount}
 	   , #{user_no}
 	)
-	</update>
+	</insert>
 	
 	<!-- 교환할 옵션 정보 -->
 	<select id="selectExOption" parameterType="_int" resultMap="product_optionResultMap">
@@ -1346,6 +1348,12 @@
                                    WHERE ORDER_STATUS_NAME IN ('환불신청','교환신청', '환불완료', '교환완료', '결제취소'))
 	</select>
 	
+	<!-- 리뷰 삭제 -->
+	<update id="reviewDelete" parameterType="_int">
+		UPDATE REVIEW
+		   SET R_STATUS = 'N'
+		 WHERE ORDER_OPTION_CODE = #{ order_option_code }
+	</update>
 	
 	
 	

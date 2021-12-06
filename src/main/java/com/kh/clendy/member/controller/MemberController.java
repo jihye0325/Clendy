@@ -45,9 +45,15 @@ public class MemberController {
 	
 	@PostMapping("/signUp")	
 	public String signUp(Member member, HttpServletRequest request, RedirectAttributes redirectAttr) {
-		String rec_id = request.getParameter("recommender");
+		int result = 0;
+		String rec_id = "";
 		
-		int result = memberService.signUp(member, rec_id);
+		if(request.getParameter("recommender") != null) {
+			rec_id = request.getParameter("recommender");
+			result = memberService.signUp(member, rec_id);
+		} else {
+			result = memberService.signUp(member, rec_id);
+		}
 		
 		if(result > 0) {
 			redirectAttr.addFlashAttribute("msg", "성공");

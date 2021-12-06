@@ -94,6 +94,8 @@ public interface MypageService{
 
 	Review reviewDate(int order_option_code);
 
-	int selectTotalPoint(int user_no);	
+	int selectTotalPoint(int user_no);
+
+	int reviewDelete(int order_option_code);	
 
 }

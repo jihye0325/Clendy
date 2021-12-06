@@ -156,5 +156,7 @@ public interface MypageMapper {
 	int selectDel_Complete_cnt(int user_no);
 
 	int selectCancle_cnt(int user_no);
+
+	int reviewDelete(int order_option_code);
 	
 }

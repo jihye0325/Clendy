@@ -102,7 +102,7 @@ ul {
 }
 
 /* 이벤트 포인트 다운로드 */
-.event-point-wrapper{width: 700px; margin: 5px auto 50px auto;}
+.event-point-wrapper{width: 700px; margin: 5px auto 50px auto; border-bottom: 2px solid black;}
 .event-point-wrapper li{display: table-cell; }
 .event-point-wrapper ul {list-style: none; padding-left: 0; height: 30px; line-height:30px;}
 .event-point-wrapper li {list-style: none; padding-left: 0; height: 30px; line-height:30px;}

@@ -9,31 +9,37 @@ div {
 }
 
 .menu {
-    display: flex;
-    justify-content: space-evenly;
     font-size: x-large;
     margin-bottom: 60px;
 }
 
-/* 라디오 버튼 숨기기 */
-input[type=radio] {
-    display: none;
-    margin: 10px;
+.board_menuList {
+	display: flex;
+	justify-content: space-evenly;
 }
 
-label {
-    cursor: pointer;
+.board_menuList li {
+	cursor: pointer;
 }
 
-/* 라디오박스인 라벨 선택시 밑줄 */
-.selectType:checked + .radio {
-    border-bottom: 1px solid black;
+.ex_ref {
+	border-bottom : 1px solid black;
 }
 
-.title {
-    font-size: large;
-    font-weight: bold;
-    margin-bottom: 20px;
+.ex_ref_list {
+	width: 200px;
+	display:flex;
+	justify-content: space-evenly;
+	font-size: large;
+	font-weight: bold;
+}
+
+.ex_ref_list li {
+	cursor: pointer;
+}
+
+#ref_li {
+	border-bottom : 1px solid black;
 }
 
 .board_list li {

@@ -13,21 +13,18 @@ div {
     margin: auto;
     font-size: x-large;
     font-weight: bold;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     border-bottom: 3px solid black;
     margin-bottom: 30px;
 }
 
-.title label {
-    font-size: small;
-    color: gray;
+.wish_type {
+	margin-top:20px;
+	width: 140px;
+	display: flex;
+	font-size: small;
     cursor: pointer;
-}
-
-.title input[type=radio]:checked + label{
-	color: black;
-	font-size : medium;
-	font-weight : bold;
+    justify-content: space-between;
 }
 
 .nowish{
