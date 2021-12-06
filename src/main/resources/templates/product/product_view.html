@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 			    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,6 +23,7 @@
     	
     </script>
     <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script th:src="@{/js/product_common.js}"></script> <!-- 상품 페이지 공통js -->
     <script th:src="@{/js/product.js}" th:inline="javascript"></script>	      <!-- 상품 상세js -->
     <script th:src="@{/js/product_qna.js}"></script>	  <!-- 상품 상세 상품문의 js -->
@@ -48,14 +48,15 @@
                         <div class="view_top_wrap">
                             <div class="slide_wrap">
                                 <div class="img">
-                                    <img th:src="@{${modelMap.info.imageList[0].route} + ${modelMap.info.imageList[0].imgrName}}" alt="" th:if="${modelMap.info.imageList != null}">
+                                    <img th:src="@{${modelMap.info.imageList[0].route} + ${modelMap.info.imageList[0].imgrName}}" alt="">
                                 </div>
-                                <div class="img_list" th:if="${modelMap.info.imageList != null}">
+                                <div class="img_list">
                                     <a href="javascript:;" th:each="image : ${modelMap.info.imageList}" th:classappend="${imageStat.first} ? 'on'">
                                         <img th:src="${image.route} + ${image.imgrName}" alt="">
                                     </a>
                                 </div>
                             </div>
+                            
                             <div class="view_txt_wrap">
                                 <p class="product_title" th:text="${modelMap.info.pName}">긴팔 셔츠/체크/스트라이프/캐주얼/오버핏/빅 사이즈</p>
                                 
@@ -424,7 +425,7 @@
 
                     <div class="swiper mySwiper">
                         <div class="swiper-wrapper">
-                          <div class="swiper-slide">
+                          	<div class="swiper-slide">
                                 <img src="/images/slide_sample.png" alt="">
                             </div>
                             <div class="swiper-slide">
@@ -466,18 +467,9 @@
             </div>
         </div>
     </div>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    
     <script>
-        var swiper = new Swiper(".mySwiper", {
-          pagination: {
-            loop: true,
-            el: ".slide_page",
-            type: "fraction",
-          },
-          observer: true,
-          observeParents: true
-        });
-        
+
         $(function(){
         	// 상품 상세 이미지 이벤트
         	$(".slide_wrap .img_list a").mouseenter(function(){

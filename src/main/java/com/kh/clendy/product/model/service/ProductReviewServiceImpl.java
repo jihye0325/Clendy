@@ -64,6 +64,7 @@ public class ProductReviewServiceImpl implements ProductReviewService{
 	// 상품 상세 리뷰 좋아요
 	@Override
 	public int reviewLike(Map<String, Object> returnMap) {
+		
 		// 1. 리뷰 좋아요 눌렀는지 확인
 		int reviewLikeCount = productReviewMapper.reviewLikeGetCount(returnMap);
 		

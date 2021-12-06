@@ -172,7 +172,7 @@
                                 <h3 class="order_title">결제방식</h3>
                                 <div class="pay_wrap">
                                     <a href="javascript:;" class="on">신용카드</a>
-                                    <a href="javascript:;">간편결제</a>
+                                    <!-- <a href="javascript:;">간편결제</a> -->
                                 </div>
                             </div>
 
@@ -306,7 +306,9 @@
     <script th:inline="javascript">
     
 function pay(){
-	let title = "테스트이니다.";
+	let title = "";
+	
+	
 	let amount = $('.order_allPrice .txt span').text();
 	let buyerName = [[${postMember.user_name}]];
 	let buyerTel = [[${postMember.phone}]];
