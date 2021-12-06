@@ -46,7 +46,7 @@
 	            			<span>등록된 1:1문의가 없습니다.</span>
 	                	</div>
                 	</th:block>
-                	<th:block th:if="${personalQList} != null">
+                	<th:block th:if="${#lists.size(personalQList) > 0}">
 	                	<div class="board-list" th:each="p,i : ${personalQList}">
 	                    <input type="hidden" name="p_no" th:value="${p.p_no}">
 	                    <ul><li class="list-num" th:text="${(pi.listCount-(10*(pi.page-1))) - (i.count-1) }"></li>
@@ -85,10 +85,10 @@
                         <ul class="pagaing_right" >
                             <li class="next" th:classappend="${pi.page == pi.maxPage} ? 'hide'">
                             	<a th:href="@{/CScenter/personalQ/(page=${pi.page} + 1)}" th:if="${pi.page < pi.maxPage}"></a>
-                            	<a href="javascript:;" th:unless="${pi.page < pi.pi.maxPage}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page < pi.maxPage}"></a>
                             </li>
-                            <li class="allNext"  th:classappend="${pi.page == pi.pi.maxPage} ? 'hide'">
-                            	<a th:href="@{/CScenter/personalQ/(page=${pi.pi.maxPage})}" th:if="${pi.page < pi.maxPage}"></a>
+                            <li class="allNext"  th:classappend="${pi.page == pi.maxPage} ? 'hide'">
+                            	<a th:href="@{/CScenter/personalQ/(page=${pi.maxPage})}" th:if="${pi.page < pi.maxPage}"></a>
                             	<a href="javascript:;" th:unless="${pi.page < pi.maxPage}"></a>
                             </li>
                         </ul>

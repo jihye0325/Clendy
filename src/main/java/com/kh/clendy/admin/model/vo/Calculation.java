@@ -5,8 +5,8 @@ import java.util.Date;
 public class Calculation {
 	private int cal_no;
 	private String cal_status;
-	private int sales_price;	// 매출액
-	private int cal_price;		// 정산금액
+	private long sales_price;	// 매출액
+	private long cal_price;		// 정산금액
 	private Date complete_date;
 	private int seller_code;
 	private int commission;		// 수수료
@@ -16,7 +16,7 @@ public class Calculation {
 
 	public Calculation() {}
 
-	public Calculation(int cal_no, String cal_status, int sales_price, int cal_price, Date complete_date,
+	public Calculation(int cal_no, String cal_status, long sales_price, long cal_price, Date complete_date,
 			int seller_code, int commission, String seller_name, String account_bank, long account_num) {
 		super();
 		this.cal_no = cal_no;
@@ -47,19 +47,19 @@ public class Calculation {
 		this.cal_status = cal_status;
 	}
 
-	public int getSales_price() {
+	public long getSales_price() {
 		return sales_price;
 	}
 
-	public void setSales_price(int sales_price) {
+	public void setSales_price(long sales_price) {
 		this.sales_price = sales_price;
 	}
 
-	public int getCal_price() {
+	public long getCal_price() {
 		return cal_price;
 	}
 
-	public void setCal_price(int cal_price) {
+	public void setCal_price(long cal_price) {
 		this.cal_price = cal_price;
 	}
 

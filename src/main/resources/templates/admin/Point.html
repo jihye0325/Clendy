@@ -40,13 +40,13 @@ if(msg){
                     <div class="list-th">
                         <ul><li class="list-num">번호</li><li class="list-content">내용</li><li class="list-amount">금액/퍼센트</li>
                         <li class="list-check">수정</li><li class="list-check">삭제</li></ul></div>
-	                <th:block th:if="${basicPointList} == null">
+	                <th:block th:if="${#lists.size(basicPointList) == 0}">
 		              	<div class="board-list null">
 			                	<img class="nowish" src="/images/nowish.png"><br>
 		            			<span>등록된 기본 적립금이 없습니다.</span>
 		                </div>
 	                </th:block>
-	                <th:block th:if="${basicPointList} != null">
+	                <th:block th:if="${#lists.size(basicPointList) > 0}">
 	                	<form th:action="@{/admin/point/update}" method="post">
 		                <div class="board-list" th:each="b, i : ${basicPointList}">
 		                	<input type="hidden" name="point_code" th:value="${b.point_code}">
@@ -67,13 +67,13 @@ if(msg){
                 	<div class="list-th">
                         <ul><li class="list-num">번호</li><li class="list-content">내용</li><li class="list-amount">금액/퍼센트</li>
                         <li class="list-event">삭제</li></ul></div>
-	                <th:block th:unless="${eventPointList} != null">
+	                <th:block th:if="${#lists.size(eventPointList) == 0}">
 		              	<div class="board-list null">
 		                	<img class="nowish" src="/images/nowish.png"><br>
 	            			<span>등록된 이벤트 적립금이 없습니다.</span>
 		                </div>
 	                </th:block>
-	                <th:block th:if="${eventPointList} != null">
+	                <th:block th:if="${#lists.size(eventPointList) > 0}">
 		                <div class="board-list" th:each="e, i : ${eventPointList}">
 		                	<input type="hidden" th:value="${e.point_code}">
 		                    <ul><li class="list-num" th:text="${(pi.listCount-(10*(pi.page-1))) - (i.count-1) }"></li>

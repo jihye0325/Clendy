@@ -38,13 +38,13 @@
                     <ul><li class="list-num">번호</li><li class="list-name">이름</li>
                     <li class="list-sales">매출액</li><li class="list-commission">수수료</li>
                     <li class="list-date">등록일</li><li class="list-cancel"> 입점취소</li></ul></div>
-                <th:block th:if ="${sellerList} == null" >
+                <th:block th:if ="${#lists.size(sellerList) == 0}" >               
 	                	<div class="board-list null">
 		                	<img class="nowish" src="/images/nowish.png"><br>
 	            			<span>등록된 스토어가 없습니다.</span>
 	                	</div>
                 </th:block>
-                <th:block th:if="${sellerList} != null">
+                <th:block th:if="${#lists.size(sellerList) > 0}" >
                 <div class="board-list" th:each="s, i : ${sellerList}">
                 	<form th:action="@{/admin/sellerList/cancelStore}" method="post">
                 	<input type="hidden" name="seller_code" th:value="${s.seller_code}">

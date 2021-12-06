@@ -6,14 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항 상세</title>
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+	<!-- jQuery -->
+     <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 	<!-- csrf -->
     <meta name="_csrf" th:content="${_csrf.token}">
 	<meta name="_csrf_header" th:content="${_csrf.headerName}">
 	<!-- 썸머노트 -->
-	<script src="/js/summernote/summernote-lite.js"></script>
-	<script src="/js/summernote/summernote-ko-KR.js"></script>
-	<link rel="stylesheet" href="/css/summernote/summernote-lite.css">	
+	<script src="/css/summernote/summernote-lite.js"></script>
+	<script src="/css/summernote/lang/summernote-ko-KR.js"></script>
+	<link rel="stylesheet" href="/css/summernote/summernote-lite.css">
+	<!-- CSS -->
 	<link rel="stylesheet" href="/css/CScenter/detailBoard.css">
 <!-- 수정, 등록 성공여부 알림창 -->
 	<script>

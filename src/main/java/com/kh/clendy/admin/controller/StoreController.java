@@ -1,6 +1,5 @@
 package com.kh.clendy.admin.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.clendy.admin.model.service.StoreService;
-import com.kh.clendy.admin.model.vo.Seller;
 
 @Controller
 @RequestMapping("/admin")
@@ -43,7 +41,7 @@ public class StoreController {
 		
 		int result = storeSerivce.admitCancelStoreInSellerList(seller_code, user_no);
 		
-		if(result>2) {
+		if(result>1) {
 			redirectAttr.addFlashAttribute("msg","입점 취소가 완료되었습니다.");
 		}else {
 			redirectAttr.addFlashAttribute("msg","입점 취소에 실패했습니다.");
@@ -96,7 +94,7 @@ public class StoreController {
 		
 		int result = storeSerivce.admitCancelStore(can_no, user_no);
 		
-		if(result>2) {
+		if(result>1) {
 			redirectAttr.addFlashAttribute("msg","입점 취소가 완료되었습니다.");
 		}else {
 			redirectAttr.addFlashAttribute("msg","입점 취소에 실패했습니다.");
