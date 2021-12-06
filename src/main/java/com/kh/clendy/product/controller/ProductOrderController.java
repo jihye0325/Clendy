@@ -64,6 +64,7 @@ public class ProductOrderController {
 		 
 		// 포인트 정보
 		int point = productOrderService.orderPointSelect(userNo);
+		System.out.println(userNo);
 		
 		// 쿠폰리스트
 		// List<Coupon> couponList = productOrderService.orderCouponSelectList(userNo);

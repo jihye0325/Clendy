@@ -18,7 +18,9 @@
     <script th:inline="javascript">
     	// pNo전달위해 
     	let pNoNumber = Number('[[${pNo}]]');
+    	
     	let loginUno = Number('[[${modelMap.loginUno}]]');
+    	let imgSet = [];
     	
     	
     </script>
@@ -106,9 +108,13 @@
                                 <h3 class="title">상품리뷰</h3>
                             </div>
                             <div class="review_wrap" id="review_board">
-                            	<div class="review_list" th:if="${reviewList != null and #lists.size(reviewList) > 0}" th:each="review : ${reviewList}" >
+                            	<div class="review_list" th:if="${reviewList != null and #lists.size(reviewList) > 0}" th:each="review,index : ${reviewList}" >
+                            		<input type="hidden" name="rNoHidden" th:value="${review.rNo}"/>
                                     <p class="review_date">2021.10.21</p>
-                                    <a href="javascript:;" th:onclick="|javascript:reviewLike(${review.rNo}, ${review.loginUno});|" class="review_like" th:classappend="${review.likeCount} == 1 ? 'on'">좋아요</a>
+                                    <th:block sec:authorize="isAuthenticated()">
+							       		<a href="javascript:;" th:onclick="|javascript:reviewLike(${review.rNo}, ${review.loginUno}, ${index.index});|" class="review_like" th:classappend="${review.likeCount} == 1 ? 'on'">좋아요</a>
+							       </th:block>
+                                    
                                     <p class="review_id">
                                     	<span th:text="${#strings.substring(review.member.id, 0, #strings.length(review.member.id) - 4) + '****'}">id1234****</span>
 	                                    <span class="sub" th:text="|${review.member.gender}성-|">남성</span>
@@ -126,21 +132,60 @@
                                     </ul>
                                     <p class="review_option" th:text="|${review.pColor} / ${review.pSize}|">캐쥬얼 긴팔 셔츠 / 화이트 / L</p>
 
-                                    <ul class="review_img_wrap">
-                                        <li class="review_img" th:each="img : ${review.imageList}">
-                                            <a href="javascript:;" th:onclick="|javascript:reviewView(${review.rNo});|">
-                                                <img th:src="@{${img.route} + ${img.imgrName}}" alt="">
+                                   <ul class="review_img_wrap">
+                                       <li class="review_img">
+                                            <a href="javascript:;" th:onclick="|javascript:reviewView();|">
+                                                <img src="data:image/png;base64,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">
                                             </a>
                                         </li>
                                     </ul>
 
-                                    <div class="review_txt_wrap">
-                                      <p class="review_txt" th:text="${review.rContent}">
+                                    <div class="review_txt_wrap"> 
+                                     <div class="review_txt" th:utext="${review.rContent}">
                                         마음에들어요<br>
                                         마음에들어요!
-                                      </p>
+                                      </div>
                                     </div>
                                 </div>
+                                
+                                <script>
+                                	$(function(){
+                                		// 리뷰이미지 가공하기
+                            			let rList = $("#review_board .review_list");
+                                		let rListSize = rList.length;
+                                		
+                                		$(".review_img_wrap li").remove();
+                                		
+                                		imgSet = [];
+                                		
+                                		for(let i = 0; i < rListSize; i++){
+                                			let temp = [];
+                                			let rImg = rList.eq(i).find(".review_txt img");
+                                			let rImgSize = rImg.length;
+                                			let rNo = rList.eq(i).find('input[name=rNoHidden]').val();
+                                			
+                                			for(let j = 0; j < rImgSize; j++){
+                                			let imgSrc = rImg.eq(j).attr("src");
+	                                			temp.push(imgSrc);
+	                                			
+	                                			let html = '<li class="review_img"><a href="javascript:;" onclick="javascript:reviewView('+rNo+');">'; 
+	                                			
+                                                   html += '<img src="'+imgSrc+'">';
+                                            	   html += '</a>';
+                                        		   html += '</li>';
+                                        		   rList.eq(i).find(".review_img_wrap").append(html);
+                                			}
+                                			
+                                			if(temp.length > 0){
+	                                			imgSet.push(temp);
+                                			}
+                                		}
+                                		
+                                		rList.find('.review_txt img').remove(); 
+                                		
+                                	});
+                                
+                                </script>
                                 
                                 <!-- nodata -->
                                 <div class="nodata" th:unless="${reviewList != null and #lists.size(reviewList) > 0}"></div>
@@ -425,18 +470,10 @@
 
                     <div class="swiper mySwiper">
                         <div class="swiper-wrapper">
-                          	<div class="swiper-slide">
+                          	<!-- <div class="swiper-slide">
                                 <img src="/images/slide_sample.png" alt="">
                             </div>
-                            <div class="swiper-slide">
-                                <img src="/images/slide_sample.png" alt="">
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="/images/slide_sample.png" alt="">
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="/images/slide_sample.png" alt="">
-                            </div>
+                            -->
                         </div>
                     </div>
                     
@@ -514,6 +551,8 @@
         	}
         	
         	$(".view_status .post_day span").text(postTxt);
+        	
+        	
         })
       </script>
     <!-- 상품 리뷰 상세 E -->

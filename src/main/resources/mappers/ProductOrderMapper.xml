@@ -115,11 +115,9 @@
 		
 	<select id="orderPointSelect" parameterType="_int" resultType="_int">
 		SELECT
-	      NVL((SELECT SUM(POINT) FROM POINT WHERE POINT_CODE IN(1, 2, 4, 5) AND USER_NO = #{userNo}) 
-	      -
-	      (SELECT SUM(POINT) FROM POINT WHERE POINT_CODE IN(3) AND USER_NO = #{userNo}), 0)
-	      AS POINT
-	  FROM DUAL
+	       SUM(POINT)
+	       FROM POINT
+	       WHERE USER_NO = #{ userNo }
 	</select>
 	
 	<!-- 상품 주문 추가 -->
@@ -188,10 +186,10 @@
 		  )
 		VALUES
 		(
-			   POINT_NO.NEXTVAL
+			   SEQ_POINT_NO.NEXTVAL
 			 , #{ orderOptionCode }
 			 , 3
-			 , #{ point }
+			 , -#{ point }
 			 , SYSDATE
 			 , #{ userNo }
 		)
