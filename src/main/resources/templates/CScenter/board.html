@@ -67,7 +67,7 @@
 	            			<span>등록된 공지사항이 없습니다.</span>
 	                	</div>
                 </th:block>
-                <th:block if="${boardList} != null"> 
+                <th:block if="${#lists.size(boardList) > 0}"> 
                 <div class="board-list" th:each="board, i : ${boardList}">
                 	<div th:each="pi : ${pi}">
                 	<input type="hidden" name="b_no" id="b_no" th:value=${board.b_no}>

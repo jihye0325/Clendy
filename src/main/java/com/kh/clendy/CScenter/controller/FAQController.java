@@ -105,6 +105,7 @@ public class FAQController {
 	public String insertFAQ(FAQ newFAQ, Model model, RedirectAttributes redirectAttr) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
+		newFAQ.setUser_no(user_no);
 		
 		int result = faqService.insertFAQ(newFAQ);
 		if(result>0) {

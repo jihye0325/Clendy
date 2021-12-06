@@ -32,7 +32,7 @@ public class StoreServiceImpl implements StoreService{
 		int listCount = storeMapper.sellerGetListCount();
 		
 		// 페이징 
-		PageInfo pageInfo = new PageInfo(page, listCount, 10, 8);
+		PageInfo pageInfo = new PageInfo(page, listCount, 10, 10);
 		
 		// 목록 호출에 필요한 값
 		int startRow = (pageInfo.getPage()-1) * pageInfo.getBoardLimit() + 1;

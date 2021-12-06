@@ -59,7 +59,7 @@
             
             <div id="FAQList">
                 <div class="title"><ul><li class="FAQ_num">번호</li><li class="FAQ_content">내용</li></ul></div>
-               		 <th:block th:if="${faqList == null || #strings.isEmpty(faqList)}">
+               		 <th:block th:if="${#lists.size(faqList) == 0}">
                 	<div class="qna-detail-wrapper null" >
 	            		<span>FAQ가 존재하지 않습니다.</span>
 	            	</div>

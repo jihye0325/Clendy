@@ -36,13 +36,13 @@ if(msg){
             <h3 id="content-title">정산 전</h3><h6>Before Calculation</h6>
 
             <div class="board-wrapper">
-            <th:block th:if="${beforeCalculation} == null">
+            <th:block th:if="${#lists.size(beforeCalculation) == 0}">
             	<div class="board-list null">
 	                	<img class="nowish" src="/images/nowish.png"><br>
             			<span>정산 전 리스트가 없습니다.</span>
 	            </div>
             </th:block>
-            <th:block th:if="${beforeCalculation} != null">
+            <th:block th:if="${#lists.size(beforeCalculation) > 0}">
                 <div class="list-th">
                     <ul><li class="list-num">번호</li><li class="list-name">이름</li>
                     <li class="list-account">은행명/계좌번호</li><li class="list-sales">매출액</li>

@@ -11,13 +11,13 @@ public class CancelStore {
 	private int a_no; 			// 입점 신청 코드
 	private String seller_name;
 	private String rep_name;
-	private int b_license;
+	private long b_license;
 	private int user_no;
 
 	public CancelStore() {}
 
 	public CancelStore(int can_no, Date c_date, Date complete_date, int seller_code, int a_no, String seller_name,
-			String rep_name, int b_license, int user_no) {
+			String rep_name, long b_license, int user_no) {
 		super();
 		this.can_no = can_no;
 		this.c_date = c_date;
@@ -86,11 +86,11 @@ public class CancelStore {
 		this.rep_name = rep_name;
 	}
 
-	public int getB_license() {
+	public long getB_license() {
 		return b_license;
 	}
 
-	public void setB_license(int b_license) {
+	public void setB_license(long b_license) {
 		this.b_license = b_license;
 	}
 
