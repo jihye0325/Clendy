@@ -44,8 +44,8 @@
                     <ul><li class="list-num"  th:text="${(pi.listCount-(10*(pi.page-1))) - (i.count-1) }"></li>
                     <li class="list-name" th:text="${after.seller_name}"></li>
                     <li class="list-account "><span  th:text="${after.account_bank}"></span>/<span  th:text="${after.account_num}"></span></li>
-                    <li class="list-sales" th:text="${after.sales_price}"></li>
-                    <li class="list-calculation" th:text="${after.cal_price}"></li>
+                    <li class="list-sales" th:text="${#numbers.formatInteger(after.sales_price,0,'COMMA')}"></li>
+                    <li class="list-calculation" th:text="${#numbers.formatInteger(after.cal_price,0,'COMMA')}"></li>
                     <li class="list-date" th:text="${#dates.format(after.complete_date, 'yyyy-MM-dd')}"></li></ul>    
                       
                 </div>
