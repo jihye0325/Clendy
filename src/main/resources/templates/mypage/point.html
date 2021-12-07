@@ -28,9 +28,11 @@
 		    	<form th:action="@{/mypage/point/download}" method="post">
 		    		<div class="event-detail" th:each="event : ${event_point_list}">
 		    		<input type="hidden" name="point_code" th:value="${event.point_code}">
+		    		<input type="hidden" name="point_content" th:value="${event.point_content}">
+		    		<input type="hidden" name="point_amount" th:value="${event.point_amount}">
 		    		<ul>
-		    		<li class="event-content" th:text="${event.point_content}"><input type="hidden" name="point_content" th:value="${event.point_content}"></li>
-			    	<li class="event-point" th:text="${event.point_amount}"><input type="hidden" name="point_amount" th:value="${event.point_amount}"></li>
+		    		<li class="event-content" th:text="${event.point_content}"></li>
+			    	<li class="event-point" th:text="${event.point_amount}"></li>
 			    	<li class="event-download"><input type="submit" value="다운"></li>
 		    		</ul>
 		    		</div>

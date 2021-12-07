@@ -617,4 +617,36 @@ public class MypageServiceImpl implements MypageService {
 		return mypageMapper.reviewDelete(order_option_code);
 	}
 
+	//위시리스트 카테고리
+	@Override
+	public Map<String, Object> selectWishlist(int user_no, String categoryName, int page) {
+		// 위시리스트 개수
+		int listCount = mypageMapper.countWishList(user_no, categoryName);
+		
+		// 페이징
+		// 페이징
+		PageInfo pageInfo = new PageInfo(page, listCount, 5, 9);
+		
+		// 목록 호출에 필요한 값
+		int startRow = (pageInfo.getPage()-1) * pageInfo.getBoardLimit() + 1;
+		int endRow = startRow + pageInfo.getBoardLimit() -1;
+		
+		// 목록 호출에 넘기는 값
+		Map<String, Object> mapMapper = new HashMap<>();
+		mapMapper.put("page", page);
+		mapMapper.put("startRow", startRow);
+		mapMapper.put("endRow", endRow);
+		mapMapper.put("user_no", user_no);
+		mapMapper.put("categoryName", categoryName);
+		
+		// 위시리스트 조회
+		Wishlist wishlist = mypageMapper.selectWishlist(wishlist);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("acc_list", acc_list);
+		result.put("pi4", pageInfo);
+		
+		return result;
+	}
+
 }

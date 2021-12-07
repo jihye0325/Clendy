@@ -245,12 +245,12 @@ public class MypageController {
 		int user_no = user.getUser_no();
 		
 		// 위시리스트 불러오기
-		Map<String, Object> resultList = mypageService.selectAcclist(user_no, categoryName, page);
+		Map<String, Object> resultList = mypageService.selectWishlist(user_no, categoryName, page);
 		
 		mv.addObject("wishlist", resultList.get("wishlist"));
-		mv.addObject("pi", resultList.get("pi4"));
+		mv.addObject("pi", resultList.get("pi"));
 		
-		mv.setViewName("mypage/wishlist");	
+		mv.setViewName("mypage/wishlist/wishlistCategory");	
 		
 		return mv;		
 	}
