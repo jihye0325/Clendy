@@ -5,7 +5,7 @@ public class Review {
 	private int pNo;
 	private int rNo;
 	private int pPrice;
-	private String pImgName;
+	private String pImgRName;
 	private int height;
 	private int weight;
 	private String rTitle;
@@ -26,7 +26,7 @@ public class Review {
 		super();
 	}
 
-	public Review(String pName, int pNo, int rNo, int pPrice, String pImgName, int height, int weight, String rTitle,
+	public Review(String pName, int pNo, int rNo, int pPrice, String pImgRName, int height, int weight, String rTitle,
 			String rContent, String id, String gender, double ss, int cntlike, String rvimg, String rvroute,
 			String route, String pColor, String pSize, String openSize, String categoryName) {
 		super();
@@ -34,7 +34,7 @@ public class Review {
 		this.pNo = pNo;
 		this.rNo = rNo;
 		this.pPrice = pPrice;
-		this.pImgName = pImgName;
+		this.pImgRName = pImgRName;
 		this.height = height;
 		this.weight = weight;
 		this.rTitle = rTitle;
@@ -84,12 +84,12 @@ public class Review {
 		this.pPrice = pPrice;
 	}
 
-	public String getpImgName() {
-		return pImgName;
+	public String getpImgRName() {
+		return pImgRName;
 	}
 
-	public void setpImgName(String pImgName) {
-		this.pImgName = pImgName;
+	public void setpImgRName(String pImgRName) {
+		this.pImgRName = pImgRName;
 	}
 
 	public int getHeight() {
@@ -214,8 +214,8 @@ public class Review {
 
 	@Override
 	public String toString() {
-		return "Review [pName=" + pName + ", pNo=" + pNo + ", rNo=" + rNo + ", pPrice=" + pPrice + ", pImgName="
-				+ pImgName + ", height=" + height + ", weight=" + weight + ", rTitle=" + rTitle + ", rContent="
+		return "Review [pName=" + pName + ", pNo=" + pNo + ", rNo=" + rNo + ", pPrice=" + pPrice + ", pImgRName="
+				+ pImgRName + ", height=" + height + ", weight=" + weight + ", rTitle=" + rTitle + ", rContent="
 				+ rContent + ", id=" + id + ", gender=" + gender + ", ss=" + ss + ", cntlike=" + cntlike + ", rvimg="
 				+ rvimg + ", rvroute=" + rvroute + ", route=" + route + ", pColor=" + pColor + ", pSize=" + pSize
 				+ ", openSize=" + openSize + ", categoryName=" + categoryName + "]";
