@@ -159,4 +159,8 @@ public interface MypageMapper {
 
 	int reviewDelete(int order_option_code);
 	
+	int countWishList(Map<String, Object> cnt);
+	
+	Wishlist selectWishlist(Map<String, Object> mapMapper);
+	
 }

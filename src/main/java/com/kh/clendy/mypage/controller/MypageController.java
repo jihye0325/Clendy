@@ -239,18 +239,25 @@ public class MypageController {
 	}
 	
 	// 위시리스트 카테고리별 조회
-	@GetMapping("/category")
-	public ModelAndView selectFAQByCategory(@RequestParam String categoryName, ModelAndView mv, @RequestParam(defaultValue="1") int page){ 
+	@GetMapping("/wishlistCategory/{categoryName}")
+	public ModelAndView selectFAQByCategory(@PathVariable String categoryName, ModelAndView mv, @RequestParam(defaultValue="1") int page){ 
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		
+		String category_name = "";
+		if(categoryName.equals("outer")) category_name  = "아우터";
+		else if(categoryName.equals("top")) category_name  = "상의";
+		else if(categoryName.equals("bottom")) category_name  = "하의";
+		else if(categoryName.equals("ACC")) category_name  = "ACC";
+				
 		// 위시리스트 불러오기
-		Map<String, Object> resultList = mypageService.selectWishlist(user_no, categoryName, page);
+		Map<String, Object> resultList = mypageService.selectWishlist(user_no, category_name, page);
 		
 		mv.addObject("wishlist", resultList.get("wishlist"));
 		mv.addObject("pi", resultList.get("pi"));
 		
-		mv.setViewName("mypage/wishlist/wishlistCategory");	
+		System.out.println(resultList.get("wishlist"));
+		mv.setViewName("mypage/wishlistCategory");	
 		
 		return mv;		
 	}

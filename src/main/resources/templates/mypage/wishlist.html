@@ -84,7 +84,7 @@
 	                	<a href="javascript:;" th:unless="${pi1.page < pi1.maxPage}"></a>
 	                </li>
 	                <li class="allNext"  th:classappend="${pi1.page == pi1.maxPage} ? 'hide'">
-	                	<a th:href="@{/mypage/wishlist/(page=${pi1.endPage})}" th:if="${pi1.page < pi1.maxPage}"></a>
+	                	<a th:href="@{/mypage/wishlist/(page=${pi1.maxPage})}" th:if="${pi1.page < pi1.maxPage}"></a>
 	                	<a href="javascript:;" th:unless="${pi1.page < pi1.maxPage}"></a>
 	                </li>
 	            </ul>
@@ -141,9 +141,8 @@
     		else if(category == '상의') categoryName = 'top';
     		else if(category == '하의') categoryName = 'bottom';
     		else if(category == 'ACC') categoryName = 'ACC';
-    		console.log(categoryName);
     		
-    		location.href="/mypage/wishlist/category?categoryName="+categoryName;
+    		location.href="/mypage/wishlistCategory/"+categoryName;
     	});
     </script>
 </body>

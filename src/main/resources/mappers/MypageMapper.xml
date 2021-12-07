@@ -1355,7 +1355,46 @@
 		 WHERE ORDER_OPTION_CODE = #{ order_option_code }
 	</update>
 	
+	<!-- 위시리스트 개수 -->
+	<select id="countWishList" parameterType="map" resultType="_int">
+		SELECT    
+		    COUNT(*)
+		 FROM WISHLIST
+		 JOIN PRODUCT USING(P_NO)
+		WHERE USER_NO = #{ user_no }
+		  AND CATEGORY_CODE IN (SELECT CATEGORY_CODE FROM PRODUCT_CATEGORY WHERE CATEGORY_NAME = #{ category_name })
+	</select>
 	
+	<!-- 위시리스트 카테고리검색 -->
+	<select id="selectWishlist" parameterType="map" resultMap="wishListResultMap">
+		SELECT
+			*
+			FROM(
+			SELECT
+		ROWNUM ROWN
+		, TBL.*
+		FROM( SELECT 
+		        USER_NO
+              , P_NO
+              , P_NAME
+              , P_PRICE
+              , P_STATUS
+              , CATEGORY_NAME
+              , ROUTE
+              , IMG_NAME
+              , IMG_R_NAME
+		    FROM WISHLIST
+		    JOIN PRODUCT USING (P_NO)
+		    JOIN PRODUCT_CATEGORY USING(CATEGORY_CODE)
+		    JOIN PRODUCT_IMAGE USING(P_NO)
+		    JOIN IMAGE USING(IMG_NO)
+		   WHERE USER_NO = #{ user_no }
+             AND CATEGORY_NAME = #{ category_name }
+		     AND IMG_LEVEL = 0
+		     AND P_STATUS = 'Y'
+		     ORDER BY CREATE_DATE DESC ) TBL)
+    	   WHERE ROWN BETWEEN #{startRow} AND #{endRow}	
+	</select>
 	
 	
 </mapper>
