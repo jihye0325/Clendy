@@ -17,16 +17,16 @@
 </head>
 <body>
 	<div th:replace="common/header.html"></div>
-	<div class="wrapper1" style="display: flex;">
+	<div class="wrapper1" style="display: flex; height: 400px;">
 		<div id="sidebar">
 			<ul>
-				<li><a class="sideA current" href="#">내 정보</a></li>
-				<li><a class="sideA" href="#">등록 상품</a></li>
-				<li><a class="sideA" href="#">문의</a></li>
-				<li><a class="sideA" href="#">주문 내역</a></li>
-				<li><a class="sideA" href="#">배송 현황</a></li>
-				<li><a class="sideA" href="#">반송 요청</a></li>
-				<li><a class="sideA" href="#">교환 요청</a></li>
+				<li><a class="sideA" href="/seller/index">내 정보</a></li>
+				<li><a class="sideA" href="/seller/sub03">상품 등록</a></li>
+				<li><a class="sideA current" href="/seller/sellerAsk">문의</a></li>
+				<li><a class="sideA" href="/seller/sub04">주문 내역</a></li>
+				<li><a class="sideA" href="/seller/sub05">배송 현황</a></li>
+				<li><a class="sideA" href="/seller/sub06">반송 요청</a></li>
+				<li><a class="sideA" href="/seller/sub07">교환 요청</a></li>
 			</ul>
 		</div>
 		<div id="content">
@@ -44,7 +44,7 @@
 					</ul>
 				</div>
 
-				<div class="qna-detail-wrapper">
+				<div class="qna-detail-wrapper" style="height: 50%;">
 					<div class="qna-detail" th:if="${#lists.size(sellerAskList) > 0}">
 						<!-- <form th:action="@{/CScenter/FAQ/modify}" method="post"> -->
 						<div class=" question">

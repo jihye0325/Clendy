@@ -8,6 +8,9 @@
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <link rel="stylesheet" href="/css/reviewBoard/reset.css" type="text/css">
 <link rel="stylesheet" href="/css/common/paging.css">
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet"> 
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+  <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
 <style>
 .searchdiv {
 	float: right;
@@ -99,9 +102,8 @@ ul{
 								<div style="margin-top: 10px;">
 									<ul class="productinfo">
 										<li style="list-style: none; float: left;"><a
-											th:href="@{'/product/view/' + ${Review.pNo}}"><img
-												th:src="${Review.route}+${Review.pImgName}"
-												style="width: 100px; margin-left: 20px;"></a></li>
+											th:href="@{'/product/view/' + ${Review.pNo}}">
+											<img th:src="${Review.route}+${Review.pImgRName}" style="width: 100px; margin-left: 20px;"></a></li>
 										<li style="list-style: none; float: left;">
 											<ul style="list-style: none; font-size: 20px; color: grey;">
 												<li th:text="${Review.pName}"></li>
@@ -122,20 +124,8 @@ ul{
 										</li>
 									</ul>
 								</div>
-								<div
-									style="margin-left: 20px; height: 30%; margin-top: 140px; word-break: break-all; font-size: 20px;"
-									th:text="${Review.rContent}"></div>
-								<div style="margin-left: 20px; height: 30%; padding: 10px;">
-									<img th:src="${Review.rvroute}+${Review.rvimg}"
-										style="width: 100px; margin-left: 20px;"> <img
-										th:src="${Review.rvroute}+${Review.rvimg}"
-										style="width: 100px; margin-left: 20px;"> <img
-										th:src="${Review.rvroute}+${Review.rvimg}"
-										style="width: 100px; margin-left: 20px;">
-
-								</div>
-
-
+								<div style="margin-left: 20px; height: 30%; margin-top: 140px; word-break: break-all; font-size: 20px;"	th:utext="${Review.rContent}"></div>
+							
 							</div>
 						</li>
 					</ul>
@@ -166,13 +156,13 @@ ul{
                         </ul>
 
                         <ul class="pagaing_right" >
-                            <li class="next" th:classappend="${pi.page == pi.endPage} ? 'hide'">
-                            	<a th:href="@{/review/review/(page=${pi.page} + 1)}" th:if="${pi.page < pi.endPage}"></a>
-                            	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+                            <li class="next" th:classappend="${pi.page == pi.maxPage} ? 'hide'">
+                            	<a th:href="@{/review/review/(page=${pi.page} + 1)}" th:if="${pi.page < pi.maxPage}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page < pi.maxPage}"></a>
                             </li>
-                            <li class="allNext"  th:classappend="${pi.page == pi.endPage} ? 'hide'">
-                            	<a th:href="@{/review/review/(page=${pi.endPage})}" th:if="${pi.page < pi.endPage}"></a>
-                            	<a href="javascript:;" th:unless="${pi.page < pi.endPage}"></a>
+                            <li class="allNext"  th:classappend="${pi.page == pi.maxPage} ? 'hide'">
+                            	<a th:href="@{/review/review/(page=${pi.maxPage})}" th:if="${pi.page < pi.maxPage}"></a>
+                            	<a href="javascript:;" th:unless="${pi.page < pi.maxPage}"></a>
                             </li>
                         </ul>
                     </div>
