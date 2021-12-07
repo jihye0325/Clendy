@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/member/findIdResult.css" rel="stylesheet"></link>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <title>비밀번호 찾기 결과</title>
+</head>
+<body>
+    <div class="title">
+        <div>비밀번호 찾기 결과</div>
+    </div>
+
+    <div class="content">    
+        <div class="result">
+            <span class="info">회원님의 비밀번호</span>
+            <div class="id_result"><span th:text="${#request.getAttribute('pwd')}"></span></div>
+        </div>
+    </div>
+
+    <div class="btn">
+        <button type="button" id="confirm" onclick='closeform()'>확인</button>
+    </div>
+    
+    <script>
+    	function closeform(){
+    		window.close();
+    	}
+    </script>
+</body>
+</html>

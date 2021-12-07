@@ -188,19 +188,12 @@
 	</select>
 	
 	<!-- 아이디, 이메일 일치 회원 확인 -->
-	<select id="findMemberById_Email" parameterType="String" resultType="_int">
+	<select id="findPWd" parameterType="String" resultType="String">
 		SELECT
-		        COUNT(*)
+		        PASSWORD
 		    FROM MEMBER
 		   WHERE ID = #{ id }
 		     AND EMAIL = #{ email }
 	</select>
-	
-	<!-- 임시비밀번호로 비밀번호 변경 --> 
-	<update id="memberMapper" parameterType="String">
-		UPDATE MEMBER
-		   SET PASSWORD = #{ tmpPwd }
-		 WHERE ID = #{ id }
-	</update>
 	
 </mapper>

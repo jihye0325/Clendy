@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kh.clendy.member.dto.MailDto;
 import com.kh.clendy.member.model.service.MemberService;
-import com.kh.clendy.member.model.service.sendEmailService;
 import com.kh.clendy.member.model.vo.Member;
 
 @Controller
@@ -133,37 +132,24 @@ public class MemberController {
 	// 비밀번호 찾기
 	//Email과 name의 일치여부를 check하는 컨트롤러
 	 @PostMapping("/findPwd")
-		public String findPw(HttpServletRequest request, HttpSession session, Member member) {
-
-			int findMemberPw = memberService.findMemberById_Email(member.getId(), member.getEmail());
-
-			if (findMemberPw > 0) {
-				MailDto dto = sendEmailService.sendTempPw(member.getId());
-				sendEmailService.mailSend(dto);
-
-				BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-				String tempPw = passwordEncoder.encode(dto.getTempPassword());
-				if (passwordEncoder.matches(dto.getTempPassword(), tempPw)) {
-					memberService.updatePassword(member.getId(), tempPw);
-					request.setAttribute("findPw", "modifyPw");
-				}
+		public String findPw(HttpServletRequest request, Member member, RedirectAttributes redirectAttr) {
+			String id = member.getId();
+			String email = member.getEmail();
+			
+			String pwd = memberService.findPwd(id, email);
+			
+			if(pwd == null) {
+				request.setAttribute("noPwd", "noPwd");
+				return "member/findPwd";
 			} else {
-				request.setAttribute("findPw", "noMember");
-				return "member/findPw";
-
+				request.setAttribute("pwd", pwd);
 			}
-			return "member/login";
-
-		}
-
-	//등록된 이메일로 임시비밀번호를 발송하고 발송된 임시비밀번호로 사용자의 pw를 변경하는 컨트롤러
-	    @PostMapping("/sendEmail")
-	    public @ResponseBody void sendEmail(String email, String id){
-	        MailDto dto = sendEmailService.createMailAndChangePassword(email, id);
-	        sendEmailService.mailSend(dto);
-
-	    }
-	
+			
+			return "member/findPwdResult";
+	 }
+	 
+	 @GetMapping("/findPwdResult")
+	 public void findPwdResult() {}
 }
 
 

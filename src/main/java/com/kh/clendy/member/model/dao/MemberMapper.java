@@ -28,10 +28,8 @@ public interface MemberMapper {
 	int idCheck(String id);
 
 	int phoneCheck(String phone);
-
-	int findMemberById_Email(String id, String email);
-
-	void updatePassword(String id, String pw);
+	
+	String findPWd(String id, String email);
 
 
 	
