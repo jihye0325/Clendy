@@ -1,5 +1,4 @@
 $(function(){
-	// console.log(pNoNumber)
     reviewSelect(pNoNumber, loginUno, 1);
     
     // 슬라이드
@@ -76,8 +75,6 @@ function reviewView(rNo){
 			popOpen("review_view");
 			let id = $("#review_view");
 			
-			// console.log(data);
-			
 			id.find(".review_id_text").text(data.member.id);
 			
 			if(data.openSize == 'Y'){
@@ -125,7 +122,7 @@ function reviewView(rNo){
 
 function reviewLike(rNo, loginUno, index){
 	let dataLimit = {"rNo" : rNo, "loginUno" : loginUno};
-	console.log(dataLimit);
+	
 	$.ajax({
 		type : "post",
 		url : "/product/reviewLike",

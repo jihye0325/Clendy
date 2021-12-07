@@ -35,9 +35,6 @@ function qnaInsert(pNo){
    const piqTitle = $("#productQna [name=piqTitle]").val();
    const piqContent = $("#productQna [name=piqContent]").val();
    
-   console.log(piqTitle);
-   console.log(piqContent);
-   
    if(piqTitle.length <= 0){
    	alert("제목을 입력해주세요.");
    	return;
@@ -49,7 +46,6 @@ function qnaInsert(pNo){
    }
    
    const insertData = {'userNo' : loginUno,'pNo': pNo, 'piqSecret': piqSecret, 'piCateCode': piCateCode, 'piqTitle': piqTitle, 'piqContent': piqContent};
-   // console.log(insertData);
    
    $.ajax({
        type : "post",
@@ -135,7 +131,6 @@ function qnaModify(piqCode){
    }
    
    const insertData = {'piqCode': piqCode, 'piqSecret': piqSecret, 'piCateCode': piCateCode, 'piqTitle': piqTitle, 'piqContent': piqContent};
-   // console.log(insertData);
    
    $.ajax({
        type : "post",
@@ -178,7 +173,6 @@ function qnaDelete(piqCode){
 				xhr.setRequestHeader(header, token);
 			},
            success : function(data){
-               // console.log(data);
                
                if(data == 'success'){
                    popClose('productQna');
@@ -209,8 +203,6 @@ function qnaAllSelectList (page){
    let qnaType = $("select[name=qnaType] option:selected").val();
    let secretCheck = $("#qnaSecret").is(":checked");
    
-   // console.log(page, qnaType, secretCheck);
-   
    let dataLimit = {"page": page, "qnaType": qnaType, "secretCheck": secretCheck, "pNo": pNoNumber, "loginUno" : loginUno };
    
    $.ajax({
@@ -222,7 +214,6 @@ function qnaAllSelectList (page){
 			xhr.setRequestHeader(header, token);
 		}
    }).done(function(fragment,){
-        //console.log(fragment)
    		$('#view_qna').replaceWith(fragment);
    })
    

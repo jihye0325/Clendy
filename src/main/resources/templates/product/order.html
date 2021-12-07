@@ -307,7 +307,17 @@
     
 function pay(){
 	let title = "테스트입니다.";
+	let productCount = 0;
+	let listSize = $(".order_list_box").length;
+	for(let i = 0; i < listSize; i++){
+		productCount += $(".order_list_box").eq(i).find(".list").length;
+	}
 	
+	if(productCount > 1){
+		title = $(".order_list_box .list").eq(0).find(".title").text() + "외 " + (productCount-1) + "개";
+	}else{
+		title = $(".order_list_box .list").eq(0).find(".title").text();
+	}
 	
 	let amount = $('.order_allPrice .txt span').text();
 	let buyerName = [[${postMember.user_name}]];

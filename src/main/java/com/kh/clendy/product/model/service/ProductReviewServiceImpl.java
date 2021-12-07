@@ -26,12 +26,10 @@ public class ProductReviewServiceImpl implements ProductReviewService{
 
 		// 상품 리뷰 등록 갯수
 		int listCount = productReviewMapper.reviewGetListCount(mapReturn);
-		System.out.println(listCount);
 		
 		int page = Integer.parseInt(mapReturn.get("page") + "");
 		
 		PageInfo pageInfo = new PageInfo(page, listCount, 10, 4);
-		System.out.println(pageInfo);
 		
 		int startRow = (pageInfo.getPage() - 1) * pageInfo.getBoardLimit() + 1;
 		int endRow = startRow + pageInfo.getBoardLimit() - 1;

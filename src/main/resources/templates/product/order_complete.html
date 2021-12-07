@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 			    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
@@ -111,7 +111,8 @@
                                 </div>
                                 <div>
                                     <p class="title">배송비</p>
-                                    <p class="txt"><span th:text="${#numbers.formatInteger(payResult.orderDelivery, 3, 'COMMA')}">2,500</span>원</p>
+                                    <p class="txt" th:if="${payResult.orderDelivery > 0}">(+)<span th:text="${#numbers.formatInteger(payResult.orderDelivery, 3, 'COMMA')}">2,500</span>원</p>
+                                    <p class="txt" th:unless="${payResult.orderDelivery > 0}">(+)<span>0</span>원</p>
                                 </div>
                                 <div>
                                     <p class="title">포인트사용 금액</p>
