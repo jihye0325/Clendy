@@ -187,13 +187,19 @@
 			   WHERE PHONE = #{ phone }
 	</select>
 	
-	<!-- 아이디, 이메일 일치 회원 확인 -->
-	<select id="findPWd" parameterType="String" resultType="String">
+	<!-- 아이디, 이메일 일치하는 회원 존재 확인 -->
+	<select id="findMemberById_Email" parameterType="String" resultType="_int">
 		SELECT
-		        PASSWORD
+		        COUNT(*)
 		    FROM MEMBER
 		   WHERE ID = #{ id }
 		     AND EMAIL = #{ email }
 	</select>
 	
+	<!-- 임시비밀번호로 변경 -->
+	<update id="updatePwd" parameterType="com.kh.clendy.member.model.vo.Member">
+		UPDATE MEMBER
+		   SET PASSWORD = #{ password }
+		 WHERE ID = #{ id }
+	</update>
 </mapper>

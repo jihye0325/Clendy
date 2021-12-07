@@ -1,5 +1,7 @@
 package com.kh.clendy.member.model.service;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.kh.clendy.member.model.vo.Member;
@@ -17,7 +19,8 @@ public interface MemberService extends UserDetailsService{
 
 	int phoneCheck(String phone);
 
-	String findPwd(String id, String email);
+	void sendEmail(Member member, String div);
 
+	int findMemberById_Email(Member member, HttpServletResponse response);
 
 }

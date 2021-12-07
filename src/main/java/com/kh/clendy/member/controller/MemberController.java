@@ -1,15 +1,10 @@
 package com.kh.clendy.member.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -129,27 +124,31 @@ public class MemberController {
 		return result;
 	}
 	
+	 @GetMapping("/findPwdResult")
+	 public void findPwdResult() {}
+	
+
 	// 비밀번호 찾기
-	//Email과 name의 일치여부를 check하는 컨트롤러
+	//Email과 name의 일치여부를 check
 	 @PostMapping("/findPwd")
-		public String findPw(HttpServletRequest request, Member member, RedirectAttributes redirectAttr) {
+		public String findPwd(HttpServletRequest request, HttpServletResponse response , Member member, RedirectAttributes redirectAttr) {
 			String id = member.getId();
 			String email = member.getEmail();
 			
-			String pwd = memberService.findPwd(id, email);
-			
-			if(pwd == null) {
-				request.setAttribute("noPwd", "noPwd");
-				return "member/findPwd";
+			int findMember = memberService.findMemberById_Email(member, response);
+
+			String msg ="";
+			if(findMember > 0) {
+				msg="성공";
 			} else {
-				request.setAttribute("pwd", pwd);
+				msg = "해당 정보와 일치하는 회원이 존재하지 않습니다.";
 			}
+					
+			redirectAttr.addFlashAttribute("msg", msg);
 			
-			return "member/findPwdResult";
+			return "redirect:/member/findPwd";
 	 }
 	 
-	 @GetMapping("/findPwdResult")
-	 public void findPwdResult() {}
 }
 
 
