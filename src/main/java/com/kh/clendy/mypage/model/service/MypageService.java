@@ -96,6 +96,8 @@ public interface MypageService{
 
 	int selectTotalPoint(int user_no);
 
-	int reviewDelete(int order_option_code);	
+	int reviewDelete(int order_option_code);
+
+	Map<String, Object> selectWishlist(int user_no, String categoryName, int page);	
 
 }

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/mypage/wishlist.css" rel="stylesheet"></link>
+    <link href="/css/common/paging.css" rel="stylesheet" >
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <!-- csrf 토큰 -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>위시리스트</title>
+</head>
+<body>
+    <div th:replace="common/header.html"></div>
+	<div th:replace="mypage/sideMenu.html"></div>
+    <div class="outer">
+        <div class="title">
+            <span>위시리스트</span><br>
+            <ul class="wish_type">
+            	<li>아우터</li>
+            	<li>상의</li>
+            	<li>하의</li>
+            	<li>ACC</li>
+            </ul>
+        </div>
+		<div id="wrap_outer">
+			<div class="outer_div" id="outerWishList">
+	        	<th:block th:if="${outer_list != null}">
+	            <ul class="wish_list" th:each="outer : ${outer_list.product_list}">
+	                <li>
+	                    <div class="product">
+	                    	<div class="product_in">
+		                   		<a th:href="@{'/product/view/' + ${outer.p_no}}">
+		                        <img th:src="@{${outer.imageList[0].route} + ${outer.imageList[0].imgrName}}">
+		                        </a>
+		                        <div class="p_info">
+		                        <a th:href="@{'/product/view/' + ${outer.p_no}}">
+		                            <div class="name" th:text="${outer.p_name}"></div>
+		                            <div class="price" th:text="|${outer.p_price}원|"></div>
+		                        </a>
+		                        </div>
+	                        </div>
+	                        <button type="button" id="delete" th:value="${outer.p_no}">삭제</button>
+	                    </div>
+	                </li>
+	            </ul>
+	            </th:block>
+	            <th:block th:if="${outer_list == null}">
+	            	<div class="null">
+	            	    <img class="nowish" src="/images/nowish.png"><br>
+	            		<span>위시리스트에 담긴 상품이 없습니다.</span>
+	            	</div>
+	            </th:block>
+	        </div>
+	        
+        	<!-- 페이징 -->
+        	<th:block th:if="${outer_list != null}">
+            <div class="pagaing_wrap" th:if="${#lists.size(outer_list) > 0}">
+	            <ul class="pagaing_left">
+	                <li class="allPrev" th:classappend="${pi1.page == 1} ? 'hide'">
+	                	<a th:href="@{/mypage/wishlist/(page=1)}" th:if="${pi1.page > 1}"></a>
+	                 <a href="javascript:;" th:unless="${pi1.page > 1}"></a>
+	                </li>
+	                <li class="prev" th:classappend="${pi1.page == 1} ? 'hide'">
+	                 <a th:href="@{/mypage/wishlist/(page=${pi1.page - 1})}" th:if="${pi1.page > 1}"></a>
+	                	<a href="javascript:;" th:unless="${pi1.page > 1}"></a>
+	                </li>
+	            </ul>
+	            
+	            <ul class="pagaing_num">
+	            	<th:block th:each="pd : ${#numbers.sequence(pi1.startPage, pi1.endPage)}">
+	            		<li th:classappend="${pi1.page == pdStat.current} ? 'on'">
+	            			<a th:href="@{/mypage/wishlist/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+	            		</li>
+	            	</th:block>
+	                
+	            </ul>
+	
+	            <ul class="pagaing_right" >
+	                <li class="next" th:classappend="${pi1.page == pi1.maxPage} ? 'hide'">
+	                	<a th:href="@{/mypage/wishlist/(page=${pi1.page} + 1)}" th:if="${pi1.page < pi1.maxPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi1.page < pi1.maxPage}"></a>
+	                </li>
+	                <li class="allNext"  th:classappend="${pi1.page == pi1.maxPage} ? 'hide'">
+	                	<a th:href="@{/mypage/wishlist/(page=${pi1.endPage})}" th:if="${pi1.page < pi1.maxPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi1.page < pi1.maxPage}"></a>
+	                </li>
+	            </ul>
+            </div>
+            </th:block>
+		</div>													
+    </div>
+	<div th:replace="common/footer.html"></div>
+
+	<!-- 카테고리 전환 -->
+    <script>
+ 
+    </script>
+    
+    <!-- 위시리스트 삭제 -->
+    <script>
+    	$(function(){
+    		$(document).on("click", '#delete', function(){
+    			if(!confirm("위시리스트에서 삭제하시겠습니까?")) return;
+    			var p_no = $(this).val();
+        		var token = $("meta[name='_csrf']").attr("content");
+        		var header = $("meta[name='_csrf_header']").attr("content"); 
+    			
+    			$.ajax({
+    				url : "/mypage/deleteWish",
+    				type : "post",
+    				data : {p_no:p_no},  
+    				/* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+    				beforeSend : function(xhr)		
+    				{
+    					xhr.setRequestHeader(header, token);    					
+    				},
+    				success : function(result){
+    					if(result > 0) {
+    						alert("위시리스트에서 삭제되었습니다.");
+    						location.reload();
+    				}	else 
+    						alert("위시리스트 삭제에 실패했습니다.");
+    				},
+    				error : function(e){
+    					console.log(e);
+    				}
+    			});
+    		});    		
+    	});
+    </script>
+    
+    <!-- 위시리스트 카테고리 -->
+    <script>
+    	$(document).on('click', '.wish_type li', function(){
+    		var category = $(this).text();
+    		
+    		if(category == '아우터') categoryName = 'outer';
+    		else if(category == '상의') categoryName = 'top';
+    		else if(category == '하의') categoryName = 'bottom';
+    		else if(category == 'ACC') categoryName = 'ACC';
+    		console.log(categoryName);
+    		
+    		location.href="/mypage/wishlist/category?categoryName="+categoryName;
+    	});
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
