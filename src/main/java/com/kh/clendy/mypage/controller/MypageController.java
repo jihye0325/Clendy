@@ -256,7 +256,6 @@ public class MypageController {
 		mv.addObject("wishlist", resultList.get("wishlist"));
 		mv.addObject("pi", resultList.get("pi"));
 		
-		System.out.println(resultList.get("wishlist"));
 		mv.setViewName("mypage/wishlistCategory");	
 		
 		return mv;		
