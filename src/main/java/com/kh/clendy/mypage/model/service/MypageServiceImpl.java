@@ -619,10 +619,12 @@ public class MypageServiceImpl implements MypageService {
 
 	//위시리스트 카테고리
 	@Override
-	public Map<String, Object> selectWishlist(int user_no, String categoryName, int page) {
+	public Map<String, Object> selectWishlist(int user_no, String category_name, int page) {
 		// 위시리스트 개수
-		int listCount = mypageMapper.countWishList(user_no, categoryName);
-		
+		Map<String, Object> cnt = new HashMap<>();
+		cnt.put("user_no", user_no);
+		cnt.put("category_name", category_name);
+		int listCount = mypageMapper.countWishList(cnt);
 		// 페이징
 		// 페이징
 		PageInfo pageInfo = new PageInfo(page, listCount, 5, 9);
@@ -637,14 +639,14 @@ public class MypageServiceImpl implements MypageService {
 		mapMapper.put("startRow", startRow);
 		mapMapper.put("endRow", endRow);
 		mapMapper.put("user_no", user_no);
-		mapMapper.put("categoryName", categoryName);
+		mapMapper.put("category_name", category_name);
 		
 		// 위시리스트 조회
-		Wishlist wishlist = mypageMapper.selectWishlist(wishlist);
+		Wishlist wishlist = mypageMapper.selectWishlist(mapMapper);
 		
 		Map<String, Object> result = new HashMap<>();
-		result.put("acc_list", acc_list);
-		result.put("pi4", pageInfo);
+		result.put("wishlist", wishlist);
+		result.put("pi", pageInfo);
 		
 		return result;
 	}

@@ -27,27 +27,27 @@
         </div>
 		<div id="wrap_outer">
 			<div class="outer_div" id="outerWishList">
-	        	<th:block th:if="${outer_list != null}">
-	            <ul class="wish_list" th:each="outer : ${outer_list.product_list}">
+	        	<th:block th:if="${wishlist != null}">
+	            <ul class="wish_list" th:each="w : ${wishlist.product_list}">
 	                <li>
 	                    <div class="product">
 	                    	<div class="product_in">
-		                   		<a th:href="@{'/product/view/' + ${outer.p_no}}">
-		                        <img th:src="@{${outer.imageList[0].route} + ${outer.imageList[0].imgrName}}">
+		                   		<a th:href="@{'/product/view/' + ${w.p_no}}">
+		                        <img th:src="@{${w.imageList[0].route} + ${w.imageList[0].imgrName}}">
 		                        </a>
 		                        <div class="p_info">
-		                        <a th:href="@{'/product/view/' + ${outer.p_no}}">
-		                            <div class="name" th:text="${outer.p_name}"></div>
-		                            <div class="price" th:text="|${outer.p_price}원|"></div>
+		                        <a th:href="@{'/product/view/' + ${w.p_no}}">
+		                            <div class="name" th:text="${w.p_name}"></div>
+		                            <div class="price" th:text="|${w.p_price}원|"></div>
 		                        </a>
 		                        </div>
 	                        </div>
-	                        <button type="button" id="delete" th:value="${outer.p_no}">삭제</button>
+	                        <button type="button" id="delete" th:value="${w.p_no}">삭제</button>
 	                    </div>
 	                </li>
 	            </ul>
 	            </th:block>
-	            <th:block th:if="${outer_list == null}">
+	            <th:block th:if="${wishlist == null}">
 	            	<div class="null">
 	            	    <img class="nowish" src="/images/nowish.png"><br>
 	            		<span>위시리스트에 담긴 상품이 없습니다.</span>
@@ -56,36 +56,36 @@
 	        </div>
 	        
         	<!-- 페이징 -->
-        	<th:block th:if="${outer_list != null}">
-            <div class="pagaing_wrap" th:if="${#lists.size(outer_list) > 0}">
+        	<th:block th:if="${wishlist != null}">
+            <div class="pagaing_wrap" th:if="${#lists.size(wishlist) > 0}">
 	            <ul class="pagaing_left">
-	                <li class="allPrev" th:classappend="${pi1.page == 1} ? 'hide'">
-	                	<a th:href="@{/mypage/wishlist/(page=1)}" th:if="${pi1.page > 1}"></a>
-	                 <a href="javascript:;" th:unless="${pi1.page > 1}"></a>
+	                <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
+	                	<a th:href="@{/mypage/wishlistCategory/(page=1)}" th:if="${pi.page > 1}"></a>
+	                 <a href="javascript:;" th:unless="${pi.page > 1}"></a>
 	                </li>
-	                <li class="prev" th:classappend="${pi1.page == 1} ? 'hide'">
-	                 <a th:href="@{/mypage/wishlist/(page=${pi1.page - 1})}" th:if="${pi1.page > 1}"></a>
-	                	<a href="javascript:;" th:unless="${pi1.page > 1}"></a>
+	                <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
+	                 <a th:href="@{/mypage/wishlistCategory/(page=${pi.page - 1})}" th:if="${pi.page > 1}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page > 1}"></a>
 	                </li>
 	            </ul>
 	            
 	            <ul class="pagaing_num">
-	            	<th:block th:each="pd : ${#numbers.sequence(pi1.startPage, pi1.endPage)}">
-	            		<li th:classappend="${pi1.page == pdStat.current} ? 'on'">
-	            			<a th:href="@{/mypage/wishlist/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
+	            	<th:block th:each="pd : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+	            		<li th:classappend="${pi.page == pdStat.current} ? 'on'">
+	            			<a th:href="@{/mypage/wishlistCategory/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
 	            		</li>
 	            	</th:block>
 	                
 	            </ul>
 	
 	            <ul class="pagaing_right" >
-	                <li class="next" th:classappend="${pi1.page == pi1.maxPage} ? 'hide'">
-	                	<a th:href="@{/mypage/wishlist/(page=${pi1.page} + 1)}" th:if="${pi1.page < pi1.maxPage}"></a>
-	                	<a href="javascript:;" th:unless="${pi1.page < pi1.maxPage}"></a>
+	                <li class="next" th:classappend="${pi.page == pi.maxPage} ? 'hide'">
+	                	<a th:href="@{/mypage/wishlistCategory/(page=${pi.page} + 1)}" th:if="${pi.page < pi.maxPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page < pi.maxPage}"></a>
 	                </li>
-	                <li class="allNext"  th:classappend="${pi1.page == pi1.maxPage} ? 'hide'">
-	                	<a th:href="@{/mypage/wishlist/(page=${pi1.endPage})}" th:if="${pi1.page < pi1.maxPage}"></a>
-	                	<a href="javascript:;" th:unless="${pi1.page < pi1.maxPage}"></a>
+	                <li class="allNext"  th:classappend="${pi.page == pi.maxPage} ? 'hide'">
+	                	<a th:href="@{/mypage/wishlistCategory/(page=${pi.maxPage})}" th:if="${pi.page < pi.maxPage}"></a>
+	                	<a href="javascript:;" th:unless="${pi.page < pi.maxPage}"></a>
 	                </li>
 	            </ul>
             </div>
@@ -143,7 +143,7 @@
     		else if(category == 'ACC') categoryName = 'ACC';
     		console.log(categoryName);
     		
-    		location.href="/mypage/wishlist/category?categoryName="+categoryName;
+       		location.href="/mypage/wishlistCategory/"+categoryName;
     	});
     </script>
 </body>
