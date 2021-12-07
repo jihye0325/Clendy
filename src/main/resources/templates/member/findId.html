@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/member/findId.css" rel="stylesheet"></link>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
     <title>아이디 찾기</title>
 </head>
 <body>
@@ -30,20 +31,52 @@
         </div>
 
         <div class="input_area">
-            <form th:action="@{/member/findId}" name="findId" method="post">
+            <form th:action="@{/member/findId}" name="findId" id="findId" method="post">
                 <div class="name_area">
                     <span>이름</span><br>
-                    <input type="text" name="user_name" placeholder="이름을 입력해주세요">
+                    <input type="text" name="user_name" placeholder="이름을 입력해주세요" required>
                 </div>
 
                 <div class="phone_area">
                     <span>휴대폰 번호</span><br>
-                    <input type="tel" name="phone" placeholder="휴대폰 번호를 입력해주세요 (-포함)">
+                    <input type="tel" name="phone" id="phone" placeholder="휴대폰 번호를 입력해주세요 (-포함)" required>
                 </div>
 
-                <button type="submit" name="id_find_btn">아이디 찾기</button>
+                <button type="submit" name="id_find_btn" id="id_find_btn" onclick="validate()">아이디 찾기</button>
             </form>
         </div>
     </div>
+    
+    <script>
+   	// 전화번호 유효성   	
+	function phone_Confirm(phone){
+		var regExp = /^01[\d]{1}-\d{3,4}-\d{4}$/; 
+
+    	return regExp.test(phone);
+	}
+	
+	function validate(){	
+		var phoneCheck = false;
+		var phone = $('[name=phone]');
+		var phoneValue = phone.val();
+		
+		if(phone_Confirm(phoneValue)) {
+			phoneCheck = true;
+			console.log(phone_Confirm(phoneValue));
+		} 
+		
+		if(!phoneCheck) {
+			alert('01x-xxx(x)-xxxx 형태로 입력해주세요.');
+			phone.focus();
+			$("#id_find_btn").attr("disabled", true);
+			
+			var phone_input = document.getElementById("phone");
+			
+			phone_input.addEventListener('click', function(){
+	        	$("#id_find_btn").removeAttr("disabled");
+	        });	
+		} 
+	}
+    </script>
 </body>
 </html>

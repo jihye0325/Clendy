@@ -41,26 +41,53 @@
             <form th:action="@{/member/findPwd}" name="findPwd" id="findPwd" method="post">
                 <div class="idarea">
                     <span>아이디</span><br>
-                    <input type="text" name="id" placeholder="아이디를 입력해주세요">
+                    <input type="text" name="id" id="id" placeholder="아이디를 입력해주세요" required>
                 </div>
 
                 <div class="email_area">
                     <span>이메일</span><br>
-                    <input type="email" name="email" id="email" placeholder="이메일을 입력해주세요">
+                    <input type="email" name="email" id="email" placeholder="이메일을 입력해주세요" required>
                 </div>
 
                 <button type="button" id="checkEmail" onclick="sendEmail()">비밀번호 찾기</button>
             </form>
         </div>
     </div>
-    
+   
     <script>
     	function sendEmail(){
-    		var form = $("#findPwd");
-    		var email = $("#email").val();
-    		if(!confirm("*입력하신 이메일이 맞는지 확인해주세요.*" + "\n"+ email + "로 임시비밀번호를 발송하시겠습니까?\n임시번호가 발급되면 임시비밀번호로 로그인이 가능합니다.")) return;
+    		console.log(id.value);
+    		if($("#id").val() == "") {
+    			alert("아이디를 입력해주세요.");
+    			$("#id").focus();
+    			return;
+    		} else if($("#email").val() == "") {
+    			alert("이메일을 입력해주세요.");
+    			$("#email").focus();
+    			return;	
+    		}
     		
-    		form.submit();
+    		// 이메일 형식 확인
+    		var emailCheck = false;
+    		var emailValue = $("#email").val();
+    		emailCheck = email_Confirm(emailValue);
+    		
+    		if(!emailCheck){
+    			alert("이메일 형식을 확인해주세요.");
+    		}
+    		
+    		if(emailCheck){
+        		var form = $("#findPwd");
+        		var email = $("#email").val();
+        		if(!confirm("*입력하신 이메일이 맞는지 확인해주세요.*" + "\n"+ email + "로 임시비밀번호를 발송하시겠습니까?\n임시번호가 발급되면 임시비밀번호로 로그인이 가능합니다.")) return;
+        		
+        		form.submit();
+    		}
+    	}
+    	 
+    	function email_Confirm(email){
+    		var regExp = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+	    	return regExp.test(email);
     	}
     </script>
 </body>

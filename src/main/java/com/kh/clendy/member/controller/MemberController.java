@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.clendy.member.model.service.MemberService;
@@ -73,17 +74,18 @@ public class MemberController {
 	
 	// 아이디찾기
 	@PostMapping("/findId")
-	public String findId(HttpServletRequest request, Member member) {
+	public ModelAndView findId(ModelAndView mv, Member member) {
 		String id = memberService.findId(member.getUser_name(), member.getPhone());
-		
+
 		if(id == null) {
-			request.setAttribute("noId", "noId");
-			return "member/findId";
+			mv.addObject("noId", "noId");
+			mv.setViewName("member/findId");
 		} else {
-			request.setAttribute("id", id);
+			mv.addObject("id", id);
+			mv.setViewName("member/findIdResult");
 		}
 		
-		return "member/findIdResult";
+		return mv;
 	}
 	
 	@GetMapping("/findIdResult")
@@ -132,10 +134,8 @@ public class MemberController {
 	//Email과 name의 일치여부를 check
 	 @PostMapping("/findPwd")
 		public String findPwd(HttpServletRequest request, HttpServletResponse response , Member member, RedirectAttributes redirectAttr) {
-			String id = member.getId();
-			String email = member.getEmail();
 			
-			int findMember = memberService.findMemberById_Email(member, response);
+		 	int findMember = memberService.findMemberById_Email(member, response);
 
 			String msg ="";
 			if(findMember > 0) {

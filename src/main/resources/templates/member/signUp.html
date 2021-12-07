@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/member/signUp.css" rel="stylesheet"></link>
-     <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
     <!-- csrf 토큰 -->
     <meta name="_csrf" th:content="${_csrf.token}"/>
 	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -143,17 +143,17 @@
                     <span>전체 동의</span>
                 </div>
                 <div>
-                    <input type="checkbox" name="clause" required>
+                    <input type="checkbox" name="clause" id="cla1" required>
                     <span>이용약관</span><button type="button" id="clause1">내용보기</button>
                 </div>
                 <div>
-                    <input type="checkbox" name="clause" required>
+                    <input type="checkbox" name="clause" id="cla2" required>
                     <span>개인정보 수집 및 이용안내</span><button type="button" id="clause2">내용보기</button>
                 </div>
             </div>
             
             <div class="btn_area">
-            <button id="joinBtn" disabled>회원가입</button>
+            <button id="joinBtn" disabled onclick="validate()">회원가입</button>
         	</div>
         </form>
     </div>
@@ -182,6 +182,11 @@
     	recommender.addEventListener('input', () => {
     		var rec_Check = false;
         	$("#joinBtn").attr("disabled", true);
+        	
+        	if($("#recommender").val() == "") {
+        		var rec_Check = true;
+        		$("#joinBtn").removeAttr("disabled");
+        	}
     	});
     
     	$(document).on("click", "#recommender_btn", function(){
@@ -507,8 +512,14 @@
     
     </script>
     
-    
-    
+   	<script>
+   		function validate(){
+   			if(!$("#cla1").is(":checked")) 
+   				alert("이용약관을 읽고 동의해주세요.");
+   			else if(!$("#cla2").is(":checked")) 
+   				alert("개인정보 수집 및 이용안내를 읽고 동의해주세요.");
+   		}
+   	</script>
     
     
 </body>

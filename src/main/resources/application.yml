@@ -8,6 +8,17 @@ spring:
     url: jdbc:oracle:thin:@localhost:1521:xe
     username: clendy
     password: clendy
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: 
+    password: 
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true 
  
 # mybatis config
 mybatis:

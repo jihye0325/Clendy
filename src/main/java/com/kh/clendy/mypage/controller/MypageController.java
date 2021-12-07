@@ -204,8 +204,8 @@ public class MypageController {
 	}
 	
 	// 위시리스트 화면
-	@GetMapping("/wishlist")
-	public ModelAndView wishlist(ModelAndView mv, @RequestParam(defaultValue="1") int page) {
+	@GetMapping("/wishlistOuter")
+	public ModelAndView wishlisOutert(ModelAndView mv, @RequestParam(defaultValue="1") int page) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		
@@ -213,52 +213,62 @@ public class MypageController {
 		Map<String, Object> resultList1 = mypageService.selectOuterlist(user_no, page);
 		
 		mv.addObject("outer_list", resultList1.get("outer_list"));
-		mv.addObject("pi1", resultList1.get("pi1"));
+		mv.addObject("pi", resultList1.get("pi"));
 		
-		// 위시리스트 불러오기(상의)
-		Map<String, Object> resultList2 = mypageService.selectToplist(user_no, page);
-		
-		mv.addObject("top_list", resultList2.get("top_list"));
-		mv.addObject("pi2", resultList2.get("pi2"));
-		
-		// 위시리스트 불러오기(하의)
-		Map<String, Object> resultList3 = mypageService.selectBottomlist(user_no, page);
-		
-		mv.addObject("bottom_list", resultList3.get("bottom_list"));
-		mv.addObject("pi3", resultList3.get("pi3"));
-		
-		// 위시리스트 불러오기(ACC)
-		Map<String, Object> resultList4 = mypageService.selectAcclist(user_no, page);
-		
-		mv.addObject("acc_list", resultList4.get("acc_list"));
-		mv.addObject("pi4", resultList4.get("pi4"));
-		
-		mv.setViewName("mypage/wishlist");
+		mv.setViewName("mypage/wishlistOuter");
 		
 		return mv;
 	}
 	
-	// 위시리스트 카테고리별 조회
-	@GetMapping("/wishlistCategory/{categoryName}")
-	public ModelAndView selectFAQByCategory(@PathVariable String categoryName, ModelAndView mv, @RequestParam(defaultValue="1") int page){ 
+	// 위시리스트(상의)
+	@GetMapping("/wishlistTop")
+	public ModelAndView wishlistTop(ModelAndView mv, @RequestParam(defaultValue="1") int page) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		
-		String category_name = "";
-		if(categoryName.equals("outer")) category_name  = "아우터";
-		else if(categoryName.equals("top")) category_name  = "상의";
-		else if(categoryName.equals("bottom")) category_name  = "하의";
-		else if(categoryName.equals("ACC")) category_name  = "ACC";
-				
-		// 위시리스트 불러오기
-		Map<String, Object> resultList = mypageService.selectWishlist(user_no, category_name, page);
+		// 위시리스트 불러오기(상의)
+		Map<String, Object> resultList = mypageService.selectToplist(user_no, page);
 		
-		mv.addObject("wishlist", resultList.get("wishlist"));
+		mv.addObject("top_list", resultList.get("top_list"));
 		mv.addObject("pi", resultList.get("pi"));
 		
-		mv.setViewName("mypage/wishlistCategory");	
+		mv.setViewName("mypage/wishlistTop");
 		
-		return mv;		
+		return mv;
+	}
+	
+	// 위시리스트(하의)
+	@GetMapping("/wishlistBottom")
+	public ModelAndView wishlistBottom(ModelAndView mv, @RequestParam(defaultValue="1") int page) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		
+		// 위시리스트 불러오기(상의)
+		Map<String, Object> resultList = mypageService.selectBottomlist(user_no, page);
+		
+		mv.addObject("bottom_list", resultList.get("bottom_list"));
+		mv.addObject("pi", resultList.get("pi"));
+		
+		mv.setViewName("mypage/wishlistBottom");
+		
+		return mv;
+	}
+	
+	// 위시리스트(ACC)
+	@GetMapping("/wishlistACC")
+	public ModelAndView wishlistACC(ModelAndView mv, @RequestParam(defaultValue="1") int page) {
+		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int user_no = user.getUser_no();
+		
+		// 위시리스트 불러오기(상의)
+		Map<String, Object> resultList = mypageService.selectAcclist(user_no, page);
+		
+		mv.addObject("acc_list", resultList.get("acc_list"));
+		mv.addObject("pi", resultList.get("pi"));
+		
+		mv.setViewName("mypage/wishlistACC");
+		
+		return mv;
 	}
 	
 	// 위시리스트 삭제
