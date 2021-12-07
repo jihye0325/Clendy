@@ -61,8 +61,6 @@ $(function(){
        let reviewTop = $("#item_review").offset().top - 60; // 상품리뷰
        let qnaTop = $("#item_qna").offset().top - 60; // 상품문의
        let infoTop = $("#item_info").offset().top - 60; // 기본정보
-       // console.log("상품리뷰 : " + reviewTop);
-       // console.log("상품문의 : " + qnaTop);
 
        // 스크롤 이벤트시 조건 에맞을시 on 클래스 추가/삭제
        $(".view_tab_wrap .tab_box a").removeClass("on");
@@ -158,7 +156,7 @@ function wishListHandler(userNo, pNo){
 			xhr.setRequestHeader(header, token);
 		},
 		success : function(data){
-			// console.log(data);
+
 			if(data == 'insert'){
 				$(".view_txt_wrap .btn_wish").addClass("on");
 			}else if(data == 'delete'){
@@ -197,7 +195,6 @@ function options(pNo){
 // 옵션
 function option(data){
 	const keySize = Object.keys(data).length;
-	// console.log(data);
 	
 	$("select[name=optionColor]").find("option").remove();
 	// 색상 세팅
@@ -217,7 +214,7 @@ function option(data){
 		// 박스가 이미 추가되어있는지 확인
 		const boxSize = $(".select_list_wrap .list").length;
 		let optionNoArr = [];
-		// console.log("boxSize : " + boxSize);
+
 		for(let i = 0; i < boxSize; i++){
 			let num = $(".select_list_wrap .list").eq(i).find("[name=pOptionNo]").val();
 			optionNoArr.push(Number(num));
@@ -254,7 +251,7 @@ function optionBox(data){
 	// 옵션 박스 추가
 	$("select[name=optionSize]").change(function(){
 		let val = $(this).val();
-		// console.log(val);
+
 		let colorKey = $("select[name=optionColor]").val();
 		const keySize = Object.keys(data[colorKey]).length;
 		let product;
@@ -265,7 +262,7 @@ function optionBox(data){
 			for(let i = 0; i < keySize; i++){
 				if(val == data[colorKey][i].pOptionNo) {
 					product = data[colorKey][i];
-					// console.log(product);
+	
 				}
 			}		
 		
@@ -325,7 +322,7 @@ $(document).on('click', '.list .close', function(){
 
 // 선택 상품 계산
 function priceHanlder(data){
-	// console.log(data);
+
 	const key = Object.keys(data)[0];
 	let onePrice = data[key][0].pPrice - (data[key][0].pPrice * data[key][0].pDiscount / 100);
 	let count = 0; // 총 물품 갯수
@@ -351,12 +348,12 @@ function productCartHandler(){
 
 	let count = $('.select_list_wrap .list').length;
 	let frm = document.forms['productFrm'];
-	console.log(frm);
+
 	if(count > 0){
 		frm.method = "GET";
 		frm.action = "/product/cartInsert";
 		frm.submit();
-		// console.log(frm);
+
 	}else{
 		alert("상품 옵션을 추가해주세요.");
 	}
@@ -374,7 +371,7 @@ function productBuyHandler(){
 		// $('name=productFrm').attr("method", "post");
 		// $('name=productFrm').attr("action", buy);
 		frm.submit();
-		console.log(frm);
+
 	}else{
 		alert("상품 옵션을 추가해주세요.");
 	}

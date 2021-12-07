@@ -124,7 +124,7 @@
                  WHERE P_NO = PD.P_NO
             ) AS SEL_COUNT
             ,NVL(( SELECT
-                      SUM(SCORE)
+                      COUNT(*)
                 FROM REVIEW
                 JOIN ORDER_OPTION USING(ORDER_OPTION_CODE)
                  JOIN PRODUCT_OPTION USING(P_OPTION_NO)
@@ -148,7 +148,7 @@
                    WHERE P_NO = PD.P_NO
             ) +
             NVL(( SELECT
-                      SUM(SCORE)
+                      COUNT(SCORE)
                 FROM REVIEW
                 JOIN ORDER_OPTION USING(ORDER_OPTION_CODE)
                  JOIN PRODUCT_OPTION USING(P_OPTION_NO)

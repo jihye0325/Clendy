@@ -89,7 +89,6 @@ public class ProductOrderServiceImpl implements ProductOrderService{
 		int pointResult = 0;
 		if(point > 0) {
 			pointResult = productOrderMapper.orderPoint(parameters);
-			System.out.println(parameters);
 		}
 		
 		// 상품 주문 배송지 관리 ORDER_DEL_INFO - 추가

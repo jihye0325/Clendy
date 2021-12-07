@@ -48,8 +48,6 @@ public class ProductReviewController {
 	public PageInfo reviewPaging(@RequestBody Map<String, Object> mapReturn) {
 		PageInfo pageInfo = productReviewService.reviewPaging(mapReturn);
 		
-		System.out.println(mapReturn);
-		
 		return pageInfo;
 	}
 	
@@ -59,7 +57,6 @@ public class ProductReviewController {
 	public ProductReview reviewView(@PathVariable int rNo, ModelAndView mv) {
 		
 		ProductReview productReview = productReviewService.reviewView(rNo);
-		System.out.println(productReview);
 		
 		return productReview;
 	}

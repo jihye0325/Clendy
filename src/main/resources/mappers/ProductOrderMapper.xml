@@ -115,7 +115,7 @@
 		
 	<select id="orderPointSelect" parameterType="_int" resultType="_int">
 		SELECT
-	       SUM(POINT)
+	       NVL(SUM(POINT), 0 ) AS POINT
 	       FROM POINT
 	       WHERE USER_NO = #{ userNo }
 	</select>
