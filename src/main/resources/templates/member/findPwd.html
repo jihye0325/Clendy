@@ -7,6 +7,19 @@
     <link href="/css/member/findPwd.css" rel="stylesheet"></link>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <title>비밀번호 찾기</title>
+    <script>
+		const msg = '[[${ msg }]]';
+		
+		if(msg){
+			if(msg == '성공'){
+				alert("해당 이메일로 임시비밀번호가 발송되었습니다.\n임시비밀번호로 로그인해주세요.");
+				window.opener.location.href = window.opener.document.URL;
+				window.close();
+			} else {
+				alert(msg);
+			}
+		}
+	</script>
 </head>
 <body>
     <div class="title">
