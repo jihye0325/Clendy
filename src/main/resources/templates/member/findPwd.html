@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/member/findPwd.css" rel="stylesheet"></link>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <title>비밀번호 찾기</title>
 </head>
 <body>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="input_area">
-            <form th:action="@{/member/findPwd}" name="findPwd" method="post">
+            <form th:action="@{/member/findPwd}" name="findPwd" id="findPwd" method="post">
                 <div class="idarea">
                     <span>아이디</span><br>
                     <input type="text" name="id" placeholder="아이디를 입력해주세요">
@@ -33,13 +33,22 @@
 
                 <div class="email_area">
                     <span>이메일</span><br>
-                    <input type="email" name="email" placeholder="이메일을 입력해주세요">
+                    <input type="email" name="email" id="email" placeholder="이메일을 입력해주세요">
                 </div>
 
-                <button type="button" id="checkEmail">비밀번호 찾기</button>
-
+                <button type="button" id="checkEmail" onclick="sendEmail()">비밀번호 찾기</button>
             </form>
         </div>
     </div>
+    
+    <script>
+    	function sendEmail(){
+    		var form = $("#findPwd");
+    		var email = $("#email").val();
+    		if(!confirm("*입력하신 이메일이 맞는지 확인해주세요.*" + "\n"+ email + "로 임시비밀번호를 발송하시겠습니까?\n임시번호가 발급되면 임시비밀번호로 로그인이 가능합니다.")) return;
+    		
+    		form.submit();
+    	}
+    </script>
 </body>
 </html>
