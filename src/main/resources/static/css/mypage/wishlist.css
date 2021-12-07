@@ -2,7 +2,7 @@ div {
     borde: 1px solid black;
 }
 
-.outer {
+.wishlist {
     width: 1000px;
     margin: auto;
     min-height: 500px;
@@ -25,6 +25,8 @@ div {
 	font-size: small;
     cursor: pointer;
     justify-content: space-between;
+    color: gray;
+    align-items: self-end;
 }
 
 .nowish{
@@ -40,13 +42,7 @@ div {
 	align-self: center;
 }
 
-/* 라디오 버튼 숨기기 */
-input[type=radio] {
-    display: none;
-    margin: 10px;
-}
-
-.outer_div {
+.wish_div {
     display: grid;
     grid-template-columns: repeat(3, 300px);
     gap: 20px;
@@ -55,27 +51,6 @@ input[type=radio] {
 
 .wish_list {
 	list-style:none;
-}
-
-.top_div {
-    display: grid;
-    grid-template-columns: repeat(3, 300px);
-    gap: 20px;
-    padding: 0px;
-}
-
-.bottom_div {
-    display: grid;
-    grid-template-columns: repeat(3, 300px);
-    gap: 20px;
-    padding: 0px;
-}
-
-.acc_div {
-    display: grid;
-    grid-template-columns: repeat(3, 300px);
-    gap: 20px;
-    padding: 0px;
 }
 
 .p_info {

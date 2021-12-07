@@ -3,10 +3,16 @@ package com.kh.clendy.member.model.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.Message.RecipientType;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,10 +31,12 @@ import com.kh.clendy.member.model.vo.UserImpl;
 public class MemberServiceImpl implements MemberService{
 
 	private MemberMapper memberMapper;
+	private JavaMailSender mailSender;
 	
 	@Autowired
-	public MemberServiceImpl(MemberMapper memberMapper) {
+	public MemberServiceImpl(MemberMapper memberMapper, JavaMailSender mailSender) {
 		this.memberMapper = memberMapper;
+		this.mailSender = mailSender;
 	}
 	
 	/* 사용자 아이디를 통해 사용자 정보 조회하는 기능 */
@@ -123,48 +131,34 @@ public class MemberServiceImpl implements MemberService{
 
 	// 이메일 전송
 	@Override
-	public void sendEmail(Member member, String div) {
-		// Mail Server 설정
-		String charSet = "utf-8";
-		String hostSMTP = "smtp.gmail.com";
-		String hostSMTPid = "clendy1210@gmail.com";
-		String hostSMTPpwd = "Clendy211210!!";
-		
+	public void sendEmail(Member member, String tempPwd) {		
 		// 보내는 사람 Email, 제목, 내용
 		String fromEmail = "clendy1210@gmail.com";
-		String fromName = "Clendy";
 		String subject = "";
 		String msg = "";
 		
-		if(div.equals("findpw")) {
-			subject = "Clendy 임시 비밀번호 입니다.";
-			msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
-			msg += "<h3 style='color: blue;'>";
-			msg += member.getUser_name() + "님의 임시 비밀번호 입니다. 로그인 후 비밀번호를 변경하여 사용하세요.</h3>";
-			msg += "<p>임시 비밀번호 : ";
-			msg += member.getPassword() + "</p></div>";
-		}
+		subject = "Clendy 임시 비밀번호 입니다.";
+		msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
+		msg += "<h3 style='color: blue;'>";
+		msg += member.getUser_name() + "님의 임시 비밀번호 입니다. 로그인 후 비밀번호를 변경하여 사용하세요.</h3>";
+		msg += "<p>임시 비밀번호 : ";
+		msg += tempPwd + "</p></div>";
 		
 		// 받는 사람 E-Mail주소
-		String mail = member.getEmail();
-			try {
-				HtmlEmail email = new HtmlEmail();
-				email.setDebug(true);
-				email.setCharset(charSet);
-				email.setSSL(true);
-				email.setHostName(hostSMTP);
-				email.setSmtpPort(465);
-	
-				email.setAuthentication(hostSMTPid, hostSMTPpwd);
-				email.setTLS(true);
-				email.addTo(mail, charSet);
-				email.setFrom(fromEmail, fromName, charSet);
-				email.setSubject(subject);
-				email.setHtmlMsg(msg);
-				email.send();
-			} catch (Exception e) {
-				System.out.println("메일발송 실패 : " + e);
+			String mail = member.getEmail();
+			MimeMessage message = mailSender.createMimeMessage();
+		 
+	        try {
+				message.addRecipient(RecipientType.TO, new InternetAddress(mail));
+		        message.setFrom(fromEmail);
+		        message.setSubject(subject, "UTF-8");
+		        message.setText(msg, "UTF-8", "html");
+
+			} catch (MessagingException e) {
+				e.printStackTrace();
 			}
+
+	        mailSender.send(message);
 	}
 
 	@Override
@@ -181,12 +175,16 @@ public class MemberServiceImpl implements MemberService{
 				tempPwd += (char) ((Math.random() * 26) + 97);
 			}
 			
+			// 비밀번호 변경 메일 발송
+			sendEmail(member, tempPwd);
+			
 			// 임시비밀번호로 변경
-			member.setPassword(tempPwd);
+			// 암호화
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+				
+			member.setPassword(passwordEncoder.encode(tempPwd));
 			memberMapper.updatePwd(member);
 			
-			// 비밀번호 변경 메일 발송
-			sendEmail(member, "findpw");
 			result = 1;
 		}
 		

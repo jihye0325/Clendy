@@ -98,8 +98,6 @@ public interface MypageService{
 
 	int reviewDelete(int order_option_code);
 
-	Map<String, Object> selectWishlist(int user_no, String category_name, int page);
-
 	
 
 }
