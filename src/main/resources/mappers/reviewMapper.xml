@@ -85,17 +85,12 @@
                     					
 				WHERE R.R_STATUS = 'Y'
 				AND	PRI.IMG_LEVEL = 0
-		
-				<if test="keyword != null or categoryCode != null or categoryCode != 0">
 				AND(
-					P.P_NAME LIKE '%' || #{keyword} || '%'	OR PC.CATEGORY_NAME LIKE '%' || #{keyword} || '%'
+					P.P_NAME LIKE '%' || #{keyword} || '%'
+						OR 
+					PC.CATEGORY_NAME LIKE '%' || #{keyword} || '%'
 					)
-				AND
-				(
-				PC.CATEGORY_CODE LIKE '%' || #{categoryCode} || '%'	OR	PC.REF_CATEGORY_CODE LIKE '%' || #{categoryCode} || '%'
-				)
-				</if>
-				
+												
 				ORDER BY CNT.CNTLIKE ASC		
 				)
 		 	TBL

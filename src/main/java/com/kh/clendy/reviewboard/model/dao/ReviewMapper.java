@@ -13,16 +13,16 @@ public interface ReviewMapper {
 
 	
 
-	int reviewListCount(String keyword, int categoryCode);
-	//int reviewSearchCount();
+	int reviewListCount(String keyword);
 
 
 
-	/* List<Review> searchReviewByKeyword(String keyword, String categoryCode); */
 
 
 
-	//List<Review> searchReviewByKeyword(Map<String, Object> mapMapper);
+
+
+
 
 	
 
