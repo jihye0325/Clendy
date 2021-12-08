@@ -4,26 +4,26 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>적립금 등록</title>
+<title>포인트 등록</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <link rel="stylesheet" href="/css/admin/insertPoint.css">
 </head>
 <body>
 	<div class="insert-title">
-    <h3>적립금 등록</h3>
+    <h3>포인트 등록</h3>
     </div>
     
     <form th:action="@{/admin/point/insert}" method="post">
     <div class="detail-wrapper">
     	<div class="detail">
             <ul><li class="title">내용 : </li>
-            <li><input type="text" class="name" name="point_content" maxlength='25' placeholder="예:회원가입 적립금" required></li></ul>
+            <li><input type="text" class="name" name="point_content" maxlength='25' placeholder="예:회원가입 포인트" required></li></ul>
             <ul><li class="title">금액/할인율 : </li>
             <li><input type="number" class="price" name="point_amount" id="price" required> 원 / %</li></ul>
-            <ul><li class="title">적립금 종류 : </li>
+            <ul><li class="title">포인트 종류 : </li>
             <li><select class="point_group" name="point_group">
-            <option value="1">기본 적립금</option>
-            <option value="2">이벤트 적립금</option>
+            <option value="1">기본 포인트</option>
+            <option value="2">이벤트 포인트</option>
             </select></li></ul>
     	</div>
     </div>
