@@ -73,7 +73,7 @@ public class FAQController {
 	
 	/* faq 수정 */
 	@PostMapping("/FAQ/modify")
-	public String updateQna(FAQ newFaq, Model model, RedirectAttributes redirectAttr) {
+	public String updateQna(FAQ newFaq, RedirectAttributes redirectAttr) {
 		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int user_no = user.getUser_no();
 		

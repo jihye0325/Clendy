@@ -25,7 +25,7 @@
 		 FROM FAQ F, Q_CATEGORY Q
         WHERE F.QC_NO = Q.QC_NO 
           AND Q_STATUS ='Y'
-        ORDER BY Q_NO
+        ORDER BY Q_NO DESC
 	</select>
 	
 	<!-- faq 카테고리 별 조회 -->
@@ -43,7 +43,7 @@
         WHERE F.QC_NO = Q.QC_NO
           AND Q.QC_NO = #{categoryCode}
           AND Q_STATUS ='Y'
-        ORDER BY Q_NO
+        ORDER BY Q_NO DESC
 	</select>
 	
 	<!-- faq 검색-->
@@ -62,7 +62,7 @@
           AND (Q_TITLE LIKE '%' || #{keyword} || '%'
            OR  Q_ANSWER LIKE '%' || #{keyword} || '%')
            AND Q_STATUS ='Y'
-        ORDER BY Q_NO
+        ORDER BY Q_NO DESC
 	</select>
 	
 	<!-- faq 등록 -->

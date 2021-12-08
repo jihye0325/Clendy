@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>적립금관리</title>
+<title>포인트관리</title>
 <script src="/js/jquery-3.6.0.min.js"></script> 
 <link rel="stylesheet" href="/css/admin/Point.css">
 <link rel="stylesheet" href="/css/common/paging.css">
@@ -27,15 +27,15 @@ if(msg){
                 <li><a class="sideA " href="/admin/sellerList">판매자관리</a></li>
                 <li><a class="sideA " href="/admin/joinStore">입점승인/취소</a></li>
                 <li><a class="sideA " href="/admin/calculation/before">정산</a></li>
-                <li><a class="sideA current" href="/admin/point">적립금관리</a></li>
+                <li><a class="sideA current" href="/admin/point">포인트관리</a></li>
             </ul>
         </div>
         <div id="content">
-            <h3 id="content-title">적립금관리</h3><h6>Point</h6>
+            <h3 id="content-title">포인트관리</h3><h6>Point</h6>
         
             <div class="board-wrapper">
                 <div class="btn-area"><a class="make-point" href = "javascript:popup()">등록</a></div>
-                <h4>기본 적립금</h4>
+                <h4>기본 포인트</h4>
                 <div class="basic-point">
                     <div class="list-th">
                         <ul><li class="list-num">번호</li><li class="list-content">내용</li><li class="list-amount">금액/퍼센트</li>
@@ -43,7 +43,7 @@ if(msg){
 	                <th:block th:if="${#lists.size(basicPointList) == 0}">
 		              	<div class="board-list null">
 			                	<img class="nowish" src="/images/nowish.png"><br>
-		            			<span>등록된 기본 적립금이 없습니다.</span>
+		            			<span>등록된 기본 포인트가 없습니다.</span>
 		                </div>
 	                </th:block>
 	                <th:block th:if="${#lists.size(basicPointList) > 0}">
@@ -61,7 +61,7 @@ if(msg){
 	                </th:block>
                 </div>
 
-            	<h4>이벤트 적립금</h4>
+            	<h4>이벤트 포인트</h4>
 
                   <div class="event-point">
                 	<div class="list-th">
@@ -70,7 +70,7 @@ if(msg){
 	                <th:block th:if="${#lists.size(eventPointList) == 0}">
 		              	<div class="board-list null">
 		                	<img class="nowish" src="/images/nowish.png"><br>
-	            			<span>등록된 이벤트 적립금이 없습니다.</span>
+	            			<span>등록된 이벤트 포인트가 없습니다.</span>
 		                </div>
 	                </th:block>
 	                <th:block th:if="${#lists.size(eventPointList) > 0}">
