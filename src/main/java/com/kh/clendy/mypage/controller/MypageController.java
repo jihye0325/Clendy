@@ -148,7 +148,7 @@ public class MypageController {
 					
 			if(result > 0) {
 				SecurityContextHolder.clearContext();
-				redirectAttr.addFlashAttribute("msg", "Clendy 탈퇴가 완료되었습니다. 감사합니다.");	// ** 개행처리 **
+				redirectAttr.addFlashAttribute("msg", "Clendy 탈퇴가 완료되었습니다. 감사합니다.");
 			}
 			else {
 				redirectAttr.addFlashAttribute("msg", "탈퇴에 실패하셨습니다.");
