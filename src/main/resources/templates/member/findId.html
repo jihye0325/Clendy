@@ -34,7 +34,7 @@
             <form th:action="@{/member/findId}" name="findId" id="findId" method="post">
                 <div class="name_area">
                     <span>이름</span><br>
-                    <input type="text" name="user_name" placeholder="이름을 입력해주세요" required>
+                    <input type="text" name="user_name" id="user_name" placeholder="이름을 입력해주세요" required>
                 </div>
 
                 <div class="phone_area">
@@ -56,6 +56,16 @@
 	}
 	
 	function validate(){	
+		if($("#user_name").val() == "") {
+			alert("이름을 입력해주세요.");
+			$("#user_name").focus();
+			return;
+		} else if($("#phone").val() == "") {
+			alert("휴대폰 번호를 입력해주세요.");
+			$("#phone").focus();
+			return;	
+		}
+		
 		var phoneCheck = false;
 		var phone = $('[name=phone]');
 		var phoneValue = phone.val();

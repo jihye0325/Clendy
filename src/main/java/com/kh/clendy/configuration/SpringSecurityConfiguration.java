@@ -8,12 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AccountExpiredException;
-import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.CredentialsExpiredException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.LockedException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -55,6 +49,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
    protected void configure(HttpSecurity http) throws Exception {
       http
          // .csrf().disable()   /* 일단 비활성화 -> 이후에 변경 */
+         .headers().frameOptions().disable()
+         .and()
          .authorizeRequests()   /* 요청에 대한 권한 체크 */ 
             .antMatchers("/mypage/**").authenticated()   // "/mypage/**" 요청은 인증되어야함
             .antMatchers("/member/new_Pwd").authenticated()
