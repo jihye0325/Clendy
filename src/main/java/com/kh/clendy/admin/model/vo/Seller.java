@@ -10,21 +10,21 @@ public class Seller {
 	private int rep_num;
 	private long b_license;
 	private String o_b_license;
-	private int phone;
+	private long phone;
 	private String email;
 	private String address;
 	private String account_bank;
-	private int account_num;
+	private long account_num;
 	private Date apply_date;
 	private int user_no;
-	private int sales; 			// 매출액
-	private int commission; 		// 수수료
+	private long sales; 			// 매출액
+	private long commission; 		// 수수료
 	
 	public Seller() {}
 
 	public Seller(int seller_code, int a_no, String seller_name, String rep_name, int rep_num, long b_license,
-			String o_b_license, int phone, String email, String address, String account_bank, int account_num,
-			Date apply_date, int user_no, int sales, int commission) {
+			String o_b_license, long phone, String email, String address, String account_bank, long account_num,
+			Date apply_date, int user_no, long sales, long commission) {
 		super();
 		this.seller_code = seller_code;
 		this.a_no = a_no;
@@ -100,11 +100,11 @@ public class Seller {
 		this.o_b_license = o_b_license;
 	}
 
-	public int getPhone() {
+	public long getPhone() {
 		return phone;
 	}
 
-	public void setPhone(int phone) {
+	public void setPhone(long phone) {
 		this.phone = phone;
 	}
 
@@ -132,11 +132,11 @@ public class Seller {
 		this.account_bank = account_bank;
 	}
 
-	public int getAccount_num() {
+	public long getAccount_num() {
 		return account_num;
 	}
 
-	public void setAccount_num(int account_num) {
+	public void setAccount_num(long account_num) {
 		this.account_num = account_num;
 	}
 
@@ -156,19 +156,19 @@ public class Seller {
 		this.user_no = user_no;
 	}
 
-	public int getSales() {
+	public long getSales() {
 		return sales;
 	}
 
-	public void setSales(int sales) {
+	public void setSales(long sales) {
 		this.sales = sales;
 	}
 
-	public int getCommission() {
+	public long getCommission() {
 		return commission;
 	}
 
-	public void setCommission(int commission) {
+	public void setCommission(long commission) {
 		this.commission = commission;
 	}
 

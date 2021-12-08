@@ -79,9 +79,9 @@ public class PersonalQController {
 		int result = personalQService.insertQuestion(newQuestion);
 		
 		if(result>0) {
-			redirectAttr.addFlashAttribute("msg", "답변이 등록되었습니다.");
+			redirectAttr.addFlashAttribute("msg", "1:1 문의가 등록되었습니다.");
 		}else {
-			redirectAttr.addFlashAttribute("msg", "답변 등록에 실패하였습니다.");
+			redirectAttr.addFlashAttribute("msg", "문의 등록에 실패하였습니다.");
 		}
 		
 		return "redirect:/CScenter/personalQ";

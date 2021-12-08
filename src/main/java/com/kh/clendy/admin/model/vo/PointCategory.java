@@ -1,19 +1,32 @@
 package com.kh.clendy.admin.model.vo;
 
+import java.util.Date;
+
 public class PointCategory {
 	private Integer point_code;
 	private String point_content;
 	private Integer point_amount;
 	private Integer point_status;
 	private Integer point_group;
+	private Date insert_date;
 	
-	public PointCategory(Integer point_code, String point_content, Integer point_amount, Integer point_status, Integer point_group) {
+	public PointCategory(Integer point_code, String point_content, Integer point_amount, Integer point_status, Integer point_group,
+			             Date insert_date) {
 		super();
 		this.point_code = point_code;
 		this.point_content = point_content;
 		this.point_amount = point_amount;
 		this.point_status = point_status;
 		this.point_group = point_group;
+		this.insert_date =insert_date;
+	}
+
+	public Date getInsert_date() {
+		return insert_date;
+	}
+
+	public void setInsert_date(Date insert_date) {
+		this.insert_date = insert_date;
 	}
 
 	public Integer getPoint_code() {
@@ -59,10 +72,8 @@ public class PointCategory {
 	@Override
 	public String toString() {
 		return "PointCategory [point_code=" + point_code + ", point_content=" + point_content + ", point_amount="
-				+ point_amount + ", point_status=" + point_status + ", point_group=" + point_group + "]";
+				+ point_amount + ", point_status=" + point_status + ", point_group=" + point_group + ", insert_date="
+				+ insert_date + "]";
 	}
-	
-	
-	
 
 }

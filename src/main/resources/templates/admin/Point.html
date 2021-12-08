@@ -47,8 +47,8 @@ if(msg){
 		                </div>
 	                </th:block>
 	                <th:block th:if="${#lists.size(basicPointList) > 0}">
-	                	<form th:action="@{/admin/point/update}" method="post">
 		                <div class="board-list" th:each="b, i : ${basicPointList}">
+	                	<form th:action="@{/admin/point/update}" method="post">
 		                	<input type="hidden" name="point_code" th:value="${b.point_code}">
 		                    <ul><li class="list-num" th:text=${i.count}></li>
 		                    <li class="list-content" th:text="${b.point_content}"></li>
@@ -56,8 +56,8 @@ if(msg){
 		                    <li class="list-check"><input type="submit" class="modify" value="수정"></li>
 		                    <li class="list-check"><a class="delete">삭제</a></li>
 		                    </ul>    
-		                </div>
 		                </form>
+		                </div>
 	                </th:block>
                 </div>
 
@@ -66,7 +66,7 @@ if(msg){
                   <div class="event-point">
                 	<div class="list-th">
                         <ul><li class="list-num">번호</li><li class="list-content">내용</li><li class="list-amount">금액/퍼센트</li>
-                        <li class="list-event">삭제</li></ul></div>
+                        <li class="list-event">생성날짜</li></ul></div>
 	                <th:block th:if="${#lists.size(eventPointList) == 0}">
 		              	<div class="board-list null">
 		                	<img class="nowish" src="/images/nowish.png"><br>
@@ -79,7 +79,7 @@ if(msg){
 		                    <ul><li class="list-num" th:text="${(pi.listCount-(10*(pi.page-1))) - (i.count-1) }"></li>
 		                    <li class="list-content" th:text="${e.point_content}"></li>
 		                    <li class="list-amount" th:text="${e.point_amount}"></li>
-		                    <li class="list-event"><a class="delete">삭제</a></li></ul>    
+		                    <li class="list-event" th:text="${#dates.format(e.insert_date, 'yyyy-MM-dd')}">삭제</li></ul>    
 		                </div>
 	                </th:block>
             </div>

@@ -9,6 +9,7 @@
 		<result property="point_amount" column="POINT_AMOUNT"/>
 		<result property="point_status" column="POINT_STATUS"/>
 		<result property="point_group" column="POINT_GROUP"/>
+		<result property="insert_date" column="INSERT_DATE"/>
 	</resultMap>
 	
 	<!-- memberRole resultMap -->
@@ -24,6 +25,7 @@
 	     , POINT_AMOUNT
 	     , POINT_STATUS
 	     , POINT_GROUP
+	     , INSERT_DATE
 	  FROM POINT_CATEGORY
 	 WHERE POINT_GROUP = 1
 	 ORDER BY POINT_CODE
@@ -44,6 +46,7 @@
 			     , POINT_AMOUNT
 			     , POINT_STATUS
 			     , POINT_GROUP
+			     , INSERT_DATE
 	            FROM(
 	            SELECT
 	       ROWNUM ROWN
@@ -54,6 +57,7 @@
 			     , POINT_AMOUNT
 			     , POINT_STATUS
 			     , POINT_GROUP
+			     , INSERT_DATE
 			  FROM POINT_CATEGORY
 			 WHERE POINT_GROUP = 2
 			 ORDER BY POINT_CODE DESC) TBL)
@@ -86,6 +90,7 @@
 		 , POINT_AMOUNT
 		 , POINT_STATUS
 		 , POINT_GROUP
+		 , INSERT_DATE
 	)
 	VALUES
 	(
@@ -94,6 +99,7 @@
 		 , #{point_amount}
 		 , 1
 		 , #{point_group}
+		 , SYSDATE
 	)  
 	</insert>
 </mapper>

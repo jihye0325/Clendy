@@ -5,9 +5,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- csrf -->
-    <meta name="_csrf" th:content="${_csrf.token}">
-	<meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>공지사항 등록</title>
 	<!-- CSS -->
     <link href="/css/CScenter/insertBoard.css" rel="stylesheet">
@@ -55,11 +52,7 @@
     
     <div th:replace="common/footer.html"></div>
     
-    <script>
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
-    $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
-    
+    <script>    
     $(document).ready(function() {
 	     $('#summernote').summernote({
 	    	 width: 850,
@@ -76,8 +69,7 @@
 			    ['table', ['table']],
 			    ['para', ['ul', 'ol', 'paragraph']],
 			    ['height', ['height']],
-			    ['insert',['picture','link','video']],
-			    ['view', ['fullscreen', 'help']]
+			    ['insert',['picture','link','video']]
 			  ],
 			fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
 			fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
