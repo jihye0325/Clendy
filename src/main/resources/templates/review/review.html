@@ -65,14 +65,7 @@ ul{
 				<form class="searcharea" th:action="@{/review/review}"
 					method="get">
 					<div class="searchdiv">
-						<select class="searchbar2" name="categoryCode">
-							<!-- 카테고리 선택  -->
-							<option value="">=== 카테고리 선택===</option>
-							<option value="0">전체</option>
-							<option value="1">공용</option>
-							<option value="2">남성</option>
-							<option value="3">여성</option>
-						</select> <input type="search" name="keyword" title="검색" class="searchbar2"
+						<input type="search" name="keyword" title="검색" class="searchbar2"
 							placeholder="상품이름,카테고리 입력">
 						<button class="searchButton" type="submit">
 							<img src="/images/돋보기.png"
@@ -124,8 +117,9 @@ ul{
 										</li>
 									</ul>
 								</div>
+								<div style="margin-left: 20px; height: 30%; padding: 10px;">
 								<div style="margin-left: 20px; height: 30%; margin-top: 140px; word-break: break-all; font-size: 20px;"	th:utext="${Review.rContent}"></div>
-							
+							</div>
 							</div>
 						</li>
 					</ul>
@@ -133,6 +127,8 @@ ul{
 				<div th:unless="${#lists.size(reviewList) > 0}">
 					<h1>검색 결과가 없습니다.</h1>
 				</div>
+			
+			
 			<!-- 페이징 -->
             <div class="pagaing_wrap" th:if="${#lists.size(reviewList) > 0}">
                         <ul class="pagaing_left">

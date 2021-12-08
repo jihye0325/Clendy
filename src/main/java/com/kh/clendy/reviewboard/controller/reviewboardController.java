@@ -25,13 +25,14 @@ public class reviewboardController {
 	//리뷰리스트
 	@GetMapping("")
 	
-	   public void toReview( @RequestParam(defaultValue="")String keyword,  @RequestParam(defaultValue="1")int categoryCode, Model  model, @RequestParam(defaultValue="1") int page) {
+	   public void toReview( @RequestParam(defaultValue="")String keyword, Model  model, @RequestParam(defaultValue="1") int page) {
 		
 //		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //		int user_no = user.getUser_no();
 //		System.out.println("111"+user_no);
+		System.out.println("123123:"+keyword);
 		
-		Map<String, Object> result = reviewService.selectReviewAllList(keyword, categoryCode, page);
+		Map<String, Object> result = reviewService.selectReviewAllList(keyword, page);
 		//리뷰 리스트
 		//List<Review> reviewList = reviewService.selectReviewAllList(page);
 	
@@ -42,28 +43,7 @@ public class reviewboardController {
 		
 		System.out.println("그냥:"+result);
 		
-	}
-	//검색      
-	/*
-	 * @GetMapping("search?categoryCode={categoryCode}&keyword={keyword}") public
-	 * String searchReviewKeyword(String keyword, String categoryCode,Model
-	 * model,@RequestParam(defaultValue="1") int page) {
-	 * 
-	 * System.out.println("123124124 : "+keyword); System.out.println("12154444:" +
-	 * categoryCode);
-	 * 
-	 * Map<String, Object> result =
-	 * reviewService.searchReviewByKeyword(keyword,categoryCode,page);
-	 * 
-	 * model.addAttribute("reviewList",result.get("reviewList"));
-	 * model.addAttribute("pi",result.get("pageInfo"));
-	 * 
-	 * System.out.println("model :" + model);
-	 * 
-	 * return "/review/review";
-	 * 
-	 * }
-	 */
+	}	
 	
 }
 
