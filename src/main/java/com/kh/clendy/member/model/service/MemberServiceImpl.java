@@ -73,7 +73,7 @@ public class MemberServiceImpl implements MemberService{
 		return user;
 	}
 
-	// Member, Member_Role에 insert 처리 			// ++ 추천인 로직 
+	// Member, Member_Role insert, 추천인 적립금 
 	@Transactional
 	@Override
 	public int signUp(Member member, String rec_id) {
@@ -102,7 +102,6 @@ public class MemberServiceImpl implements MemberService{
 		}
 
 		return result;
-		
 	}
 
 	// 아이디 찾기
