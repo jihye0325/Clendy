@@ -137,11 +137,11 @@ public class MemberServiceImpl implements MemberService{
 		String subject = "";
 		String msg = "";
 		
-		subject = "Clendy 임시 비밀번호 입니다.";
+		subject = "Clendy 임시비밀번호입니다.";
 		msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
-		msg += "<h3 style='color: blue;'>";
+		msg += "<h4 style='color: black;'>";
 		msg += member.getUser_name() + "님의 임시 비밀번호 입니다. 로그인 후 비밀번호를 변경하여 사용하세요.</h3>";
-		msg += "<p>임시 비밀번호 : ";
+		msg += "<p style='color:red;'>임시 비밀번호 : ";
 		msg += tempPwd + "</p></div>";
 		
 		// 받는 사람 E-Mail주소
@@ -165,8 +165,9 @@ public class MemberServiceImpl implements MemberService{
 	public int findMemberById_Email(Member member, HttpServletResponse response) {
 		response.setContentType("text/html;charset=utf-8");
 		int result = 0;
-		
-		if(memberMapper.findMemberById_Email(member.getId(), member.getEmail()) == 0) {
+		Member m = memberMapper.findMemberById_Email(member.getId(), member.getEmail());
+		System.out.println(m);
+		if(m == null) {
 			result = 0;
 		} else {
 			// 임시비밀번호 생성
@@ -176,14 +177,14 @@ public class MemberServiceImpl implements MemberService{
 			}
 			
 			// 비밀번호 변경 메일 발송
-			sendEmail(member, tempPwd);
+			sendEmail(m, tempPwd);
 			
 			// 임시비밀번호로 변경
 			// 암호화
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-				
-			member.setPassword(passwordEncoder.encode(tempPwd));
-			memberMapper.updatePwd(member);
+			
+			m.setPassword(passwordEncoder.encode(tempPwd));
+			memberMapper.updatePwd(m);
 			
 			result = 1;
 		}

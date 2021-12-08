@@ -188,9 +188,13 @@
 	</select>
 	
 	<!-- 아이디, 이메일 일치하는 회원 존재 확인 -->
-	<select id="findMemberById_Email" parameterType="String" resultType="_int">
+	<select id="findMemberById_Email" parameterType="String" resultMap="loginMemberResultMap">
 		SELECT
-		        COUNT(*)
+		       ID,
+               PASSWORD,
+               USER_NAME,
+               EMAIL,
+               TEMP_PWD_YN
 		    FROM MEMBER
 		   WHERE ID = #{ id }
 		     AND EMAIL = #{ email }
@@ -199,7 +203,8 @@
 	<!-- 임시비밀번호로 변경 -->
 	<update id="updatePwd" parameterType="com.kh.clendy.member.model.vo.Member">
 		UPDATE MEMBER
-		   SET PASSWORD = #{ password }
+		   SET PASSWORD = #{ password },
+		       TEMP_PWD_YN = 'Y'
 		 WHERE ID = #{ id }
 	</update>
 </mapper>
