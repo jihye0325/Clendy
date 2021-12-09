@@ -13,9 +13,9 @@ public interface ReviewMapper {
 
 	int reviewListCount();
 
-	int reviewLike(int user_no,int rNo);
+	
 
-	int reviewSearchListCount(String keyword);
+
 
 	List<Review> selectReviewSearchList(Map<String, Object> mapMapper);
 

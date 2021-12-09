@@ -3,23 +3,33 @@
 <mapper namespace="com.kh.clendy.sellerAsk.model.dao.SellerAskMapper">
 	
 	<resultMap type="com.kh.clendy.sellerAsk.model.vo.SellerAsk" id="sellerAskResultMap">
-		<id property="PIQCode" column="P_I_Q_CODE"/>
+		<id property="sellerCode" column="SELLER_CODE"/>
+		<result property="piqCode" column="P_I_Q_CODE"/>
 		<result property="pName" column="P_NAME"/>
-		<result property="PIQTitle" column="P_I_Q_TITLE"/>
-		<result property="PIQCDate" column="P_I_Q_CREATE_DATE"/>
+		<result property="piqTitle" column="P_I_Q_TITLE"/>
+		<result property="piqcDate" column="P_I_Q_CREATE_DATE"/>
+		<result property="piacDate" column="P_I_A_CREATE_DATE"/>
 		<result property="id" column="ID"/>
-		<result property="PIQContent" column="P_I_Q_CONTENT"/>
+		<result property="piqContent" column="P_I_Q_CONTENT"/>
+		<result property="piaContent" column="P_I_A_CONTENT"/>
+		<result property="userNo" column="USER_NO"/>
 		<result property="pNo" column="P_NO"/>
-		<result property="PIAContent" column="P_I_A_CONTENT"/>
+		
 	</resultMap>
 	
 	<select id="sellerAskListCount" resultType="_int">
 		SELECT
-				COUNT(*) AS COUNT
-		   FROM PRODUCT_INQUIRY_Q
+   	COUNT(*) AS COUNT
+    FROM PRODUCT_INQUIRY_Q PIQ
+    LEFT OUTER JOIN PRODUCT_INQUIRY_A PIA ON PIQ.P_I_Q_CODE = PIA.P_I_Q_CODE
+    LEFT OUTER JOIN PRODUCT P ON PIQ.P_NO = P.P_NO
+    LEFT OUTER JOIN MEMBER M ON PIQ.USER_NO = M.USER_NO
+    LEFT OUTER JOIN SELLER S ON P.SELLER_CODE = S.SELLER_CODE
+    WHERE S.SELLER_CODE = #{user_no}
+    ORDER BY P_I_Q_CREATE_DATE
 	</select>
 	
-	<select id="selectSellerAskList" parameterType="map" resultMap="sellerAskResultMap">
+	<select id="selectAskAllList" parameterType="map" resultMap="sellerAskResultMap">
 	
 		SELECT
 		*
@@ -28,25 +38,29 @@
 			,TBL.*
 			FROM(
 			SELECT
-    PIQ.P_I_Q_CODE
-    ,P.P_NAME
-    ,PIQ.P_I_Q_TITLE
-    ,PIQ.P_I_Q_CREATE_DATE
-    ,M.ID
-    ,PIQ.P_I_Q_CONTENT
-    ,P.P_NO
-    ,PIA.P_I_A_CONTENT
-    ,P.SELLER_CODE
+   	 S.SELLER_CODE
+   	,PIQ.P_I_Q_CODE
+   	,P.P_NAME
+   	,PIQ.P_I_Q_TITLE
+   	,PIQ.P_I_Q_CREATE_DATE
+   	,PIA.P_I_A_CREATE_DATE
+   	,M.ID
+   	,PIQ.P_I_Q_CONTENT
+   	,PIA.P_I_A_CONTENT
+   	,PIQ.USER_NO
+   	,p.P_NO
     FROM PRODUCT_INQUIRY_Q PIQ
     LEFT OUTER JOIN PRODUCT_INQUIRY_A PIA ON PIQ.P_I_Q_CODE = PIA.P_I_Q_CODE
     LEFT OUTER JOIN PRODUCT P ON PIQ.P_NO = P.P_NO
     LEFT OUTER JOIN MEMBER M ON PIQ.USER_NO = M.USER_NO
+    LEFT OUTER JOIN SELLER S ON P.SELLER_CODE = S.SELLER_CODE
+    WHERE S.SELLER_CODE = #{user_no}
+    ORDER BY P_I_Q_CREATE_DATE
 			)TBL)
 			WHERE ROWN BETWEEN #{startRow} AND #{endRow}
 		
 	
 	</select>
-
-
-
+	
+	
 </mapper>

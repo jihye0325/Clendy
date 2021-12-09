@@ -53,6 +53,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
          .and()
          .authorizeRequests()   /* 요청에 대한 권한 체크 */ 
             .antMatchers("/mypage/**").authenticated()   // "/mypage/**" 요청은 인증되어야함
+            .antMatchers("/seller/**").authenticated()   // "/mypage/**" 요청은 인증되어야함
             .antMatchers("/member/new_Pwd").authenticated()
             /* 상품 정보 인증 관련*/
             //.antMatchers("/product/**").authenticated()

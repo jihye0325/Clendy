@@ -16,7 +16,7 @@ import com.kh.clendy.reviewboard.model.service.ReviewService;
 public class reviewboardController {
 	
 	private ReviewService reviewService;
-	private ProductReviewService productReviewService;
+	
 	
 	@Autowired
 	public reviewboardController(ReviewService reviewService) {
@@ -25,22 +25,22 @@ public class reviewboardController {
 	
 	//리뷰리스트
 	@GetMapping("")
-	   public void toReview( @RequestParam(defaultValue="")String keyword, Model  model, @RequestParam(defaultValue="1") int page) {
+	   public void toReview(Model  model, @RequestParam(defaultValue="1") int page) {
 		
-		if(keyword.equals("")) {
+		
 			Map<String, Object> result = reviewService.selectReviewAllList(page);	
 			model.addAttribute("reviewList",result.get("reviewList"));
 			model.addAttribute("pi",result.get("pageInfo"));
 			System.out.println("키워드 없음");
 			System.out.println("Result"+ model);
 			
-		}else {
-			Map<String, Object> searchResult = reviewService.selectReviewSearchList(keyword,page);
-			model.addAttribute("reviewList",searchResult.get("reviewList"));
-			model.addAttribute("pi",searchResult.get("pageInfo"));
-			System.out.println("키워드 있음");
-			System.out.println("dd:"+keyword);
-			System.out.println("searchResult"+ model);
+		
+		
+		
+		
+		
+		
+		
 		}
 		
 	}
@@ -57,6 +57,5 @@ public class reviewboardController {
 //			int result = productReviewService.reviewLike(returnMap);
 //			
 //			}
-}
 
 
