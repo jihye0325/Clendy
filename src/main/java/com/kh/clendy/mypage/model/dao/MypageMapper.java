@@ -162,5 +162,7 @@ public interface MypageMapper {
 	int countWishList(Map<String, Object> cnt);
 	
 	Wishlist selectWishlist(Map<String, Object> mapMapper);
+
+	int modifyTemp(Member m);
 	
 }
