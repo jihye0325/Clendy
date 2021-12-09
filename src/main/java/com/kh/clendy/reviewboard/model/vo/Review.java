@@ -1,6 +1,7 @@
 package com.kh.clendy.reviewboard.model.vo;
 
 public class Review {
+	private int loginUno;
 	private String pName;
 	private int pNo;
 	private int rNo;
@@ -21,15 +22,18 @@ public class Review {
 	private String pSize;
 	private String openSize;
 	private String categoryName;
+	private int likeCount;
 
 	public Review() {
 		super();
 	}
 
-	public Review(String pName, int pNo, int rNo, int pPrice, String pImgRName, int height, int weight, String rTitle,
-			String rContent, String id, String gender, double ss, int cntlike, String rvimg, String rvroute,
-			String route, String pColor, String pSize, String openSize, String categoryName) {
+	public Review(int loginUno, String pName, int pNo, int rNo, int pPrice, String pImgRName, int height, int weight,
+			String rTitle, String rContent, String id, String gender, double ss, int cntlike, String rvimg,
+			String rvroute, String route, String pColor, String pSize, String openSize, String categoryName,
+			int likeCount) {
 		super();
+		this.loginUno = loginUno;
 		this.pName = pName;
 		this.pNo = pNo;
 		this.rNo = rNo;
@@ -50,6 +54,15 @@ public class Review {
 		this.pSize = pSize;
 		this.openSize = openSize;
 		this.categoryName = categoryName;
+		this.likeCount = likeCount;
+	}
+
+	public int getLoginUno() {
+		return loginUno;
+	}
+
+	public void setLoginUno(int loginUno) {
+		this.loginUno = loginUno;
 	}
 
 	public String getpName() {
@@ -212,15 +225,23 @@ public class Review {
 		this.categoryName = categoryName;
 	}
 
-	@Override
-	public String toString() {
-		return "Review [pName=" + pName + ", pNo=" + pNo + ", rNo=" + rNo + ", pPrice=" + pPrice + ", pImgRName="
-				+ pImgRName + ", height=" + height + ", weight=" + weight + ", rTitle=" + rTitle + ", rContent="
-				+ rContent + ", id=" + id + ", gender=" + gender + ", ss=" + ss + ", cntlike=" + cntlike + ", rvimg="
-				+ rvimg + ", rvroute=" + rvroute + ", route=" + route + ", pColor=" + pColor + ", pSize=" + pSize
-				+ ", openSize=" + openSize + ", categoryName=" + categoryName + "]";
+	public int getLikeCount() {
+		return likeCount;
 	}
 
-	
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+
+	@Override
+	public String toString() {
+		return "Review [loginUno=" + loginUno + ", pName=" + pName + ", pNo=" + pNo + ", rNo=" + rNo + ", pPrice="
+				+ pPrice + ", pImgRName=" + pImgRName + ", height=" + height + ", weight=" + weight + ", rTitle="
+				+ rTitle + ", rContent=" + rContent + ", id=" + id + ", gender=" + gender + ", ss=" + ss + ", cntlike="
+				+ cntlike + ", rvimg=" + rvimg + ", rvroute=" + rvroute + ", route=" + route + ", pColor=" + pColor
+				+ ", pSize=" + pSize + ", openSize=" + openSize + ", categoryName=" + categoryName + ", likeCount="
+				+ likeCount + "]";
+	}
+
 	
 }

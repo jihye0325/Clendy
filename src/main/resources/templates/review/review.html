@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+
 <link rel="stylesheet" href="/css/reviewBoard/reset.css" type="text/css">
 <link rel="stylesheet" href="/css/common/paging.css">
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet"> 
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
   <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+  
+  
 <style>
 .searchdiv {
 	float: right;
@@ -50,6 +54,16 @@
 ul{
 	list-style: none;
 }
+
+.rcontent p{
+	height: 150px;
+}
+.rcontent p img{
+	height: 120px;
+	padding: 10px;
+	float: right;
+	
+}
 </style>
 </head>
 
@@ -57,10 +71,12 @@ ul{
 	<div th:replace="common/header.html"></div>
 	<div class="wrapper1" style="height: 100%;">
 		<div class="container">
+		
+			
 			<div style="margin-left: 100px;">
 				<h1>리뷰 모아보기</h1>
 			</div>
-
+			
 			<div class="reviewBoard">
 				<form class="searcharea" th:action="@{/review/review}"
 					method="get">
@@ -73,17 +89,24 @@ ul{
 						</button>
 					</div>
 				</form>
-				<div th:if="${#lists.size(reviewList) > 0}">
-					<ul style="list-style: none;" th:each="Review, i:${reviewList}">
+				<div th:if="${reviewList != null and #lists.size(reviewList) > 0}">
+					<ul style="list-style: none;" th:each="Review, index:${reviewList}">
 						<li>
 							<div
 								style="height: 50%; border-style: solid; border-width: 1px 1px; padding-right: 20px; margin-bottom: 10px;">
 								<span class="username"
 									style="margin-top: 10px; font-size: 20px; float: left; margin-left: 20px; font-weight: bolder;"
 									th:text="${Review.id}"></span>
+									
+									
+									<!-- <th:block sec:authorize="isAuthenticated()">
+							       		<a href="javascript:;" style="float: right; margin-top: 30px;" th:onclick="|javascript:reviewLike(${Review.rNo}, ${Review.loginUno}, ${index.index});|" class="review_like" th:classappend="${Review.likeCount} == 1 ? 'on'">좋아요</a>
+							       </th:block> -->
+									
 									<span class="like" style="float: right; font-size: 20px; padding: 10px; margin-top: 10px; border-style: double; border-radius: 20px; border-width: 1px 1px;" th:text="|🧡 ${Review.cntlike}|">
-										<input type="hidden">
-									</span>
+										</span>
+									
+									
 									 <br>
 									  <br>
 									   <span
@@ -118,13 +141,13 @@ ul{
 									</ul>
 								</div>
 								<div style="margin-left: 20px; height: 30%; padding: 10px;">
-								<div style="margin-left: 20px; height: 30%; margin-top: 140px; word-break: break-all; font-size: 20px;"	th:utext="${Review.rContent}"></div>
+								<div class="rcontent"style="margin-left: 20px; height: 30%; margin-top: 140px; word-break: break-all; font-size: 20px;"	th:utext="${Review.rContent}" ></div>
 							</div>
 							</div>
 						</li>
 					</ul>
 				</div>
-				<div th:unless="${#lists.size(reviewList) > 0}">
+				 <div th:unless="${#lists.size(reviewList) > 0}">
 					<h1>검색 결과가 없습니다.</h1>
 				</div>
 			
@@ -135,6 +158,7 @@ ul{
                             <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
                             	<a th:href="@{/review/review/(page=1)}" th:if="${pi.page > 1}"></a>
 	                            <a href="javascript:;" th:unless="${pi.page > 1}"></a>
+	                            
                             </li>
                             <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
 	                            <a th:href="@{/review/review/(page=${pi.page - 1})}" th:if="${pi.page > 1}"></a>

@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import com.kh.clendy.product.model.service.ProductReviewService;
 import com.kh.clendy.reviewboard.model.service.ReviewService;
 
 @Controller
@@ -16,6 +16,7 @@ import com.kh.clendy.reviewboard.model.service.ReviewService;
 public class reviewboardController {
 	
 	private ReviewService reviewService;
+	private ProductReviewService productReviewService;
 	
 	@Autowired
 	public reviewboardController(ReviewService reviewService) {
@@ -24,27 +25,47 @@ public class reviewboardController {
 	
 	//리뷰리스트
 	@GetMapping("")
-	
 	   public void toReview( @RequestParam(defaultValue="")String keyword, Model  model, @RequestParam(defaultValue="1") int page) {
 		
-//		UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		int user_no = user.getUser_no();
-//		System.out.println("111"+user_no);
-		System.out.println("123123:"+keyword);
+		if(keyword.equals("")) {
+			Map<String, Object> result = reviewService.selectReviewAllList(page);	
+			model.addAttribute("reviewList",result.get("reviewList"));
+			model.addAttribute("pi",result.get("pageInfo"));
+			System.out.println("키워드 없음");
+			System.out.println("Result"+ model);
+			
+		}else {
+			Map<String, Object> searchResult = reviewService.selectReviewSearchList(keyword,page);
+			model.addAttribute("reviewList",searchResult.get("reviewList"));
+			model.addAttribute("pi",searchResult.get("pageInfo"));
+			System.out.println("키워드 있음");
+			System.out.println("dd:"+keyword);
+			System.out.println("searchResult"+ model);
+		}
 		
-		Map<String, Object> result = reviewService.selectReviewAllList(keyword, page);
-		//리뷰 리스트
-		//List<Review> reviewList = reviewService.selectReviewAllList(page);
+	}
 	
-		
-		model.addAttribute("reviewList",result.get("reviewList"));
-		model.addAttribute("pi",result.get("pageInfo"));
-	
-		
-		System.out.println("그냥:"+result);
-		
-	}	
-	
+	// 리뷰 좋아요 기능
+//		@PostMapping("/reviewLike")
+//		@ResponseBody
+//		public String reviewLike(@RequestBody Map<String, Object> returnMap) {
+//			UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//			
+//			int loginUno = user.getUser_no();
+//			
+//			returnMap.put("loginUno", loginUno);
+//			
+//			int result = productReviewService.reviewLike(returnMap);
+//			
+//			String msg = "";
+//			if(result == -1) { 
+//				msg = "error";
+//			}else if(result == 1) {
+//				msg = "delete";
+//			}else if(result == 2) {
+//				msg = "insert";
+//			}
+//			return msg;
 }
 
 

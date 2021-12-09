@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <title>clendy_Mainpage</title>
+
 <style>
 .ranking .productimg {
 	list-style: none;
@@ -104,6 +106,7 @@ outline: solid 1px lightgray;
 }
 
 .section .slidelist .textbox h3 {
+	margin-top : 410px;
 	font-size: 36px;
 	color: #fff;;
 	transform: translateY(30px);
@@ -272,19 +275,22 @@ outline: solid 1px lightgray;
 		
 		if(msg){
 			alert(msg);
-		}
+			
+		} 
+		
+	
 	</script>
 </head>
-
+<div th:replace="common/header.html"></div>
 <body>
-	<div th:replace="common/header.html"></div>
+	
 	<div class="wrapper1" >
 		<div style="text-align: center;">
 		<div class="searchdiv" style="display: inline-block; padding: 50px; width: 50%; height: 20%;">
-		<form class="searchProductForm" th:action="@{/searchProduct}" method="post" style="">
+		<form class="searchProductForm1" th:action="@{/searchProduct}" method="post" style="">
 			<input class="inputbar" type="search" name="keyword" placeholder="상품명,카테고리 검색" style="height: 50px; width: 70%; text-align: center; outline: solid;">
-			<span id="img-wrapper">
-             	<button><img class="findingbtn" onclick="searchForm();"  src="/images/magnifying-glass-white.png" alt="finding"></button>
+			<span id="img-wrapper1" style="width: 30px; height: 30px; border-radius: 5px; display:inline-block; cursor: pointer;">
+             	<button style="border: 0; vertical-align: middle;"><img class="findingbtn" onclick="searchForm1();"  src="/images/magnifying-glass-white.png" alt="finding"></button>
             </span>
 		</form>
 		</div>
@@ -308,7 +314,12 @@ outline: solid 1px lightgray;
 							th:href="@{'/product/view/' + ${mainproduct.pNo}}">
 								<div class="textbox">
 									<h3 th:text="${mainproduct.pName}"></h3>
-									<p th:text="${mainproduct.pPrice}"></p>
+									<p th:with="perwon = ${mainproduct.pPrice - (mainproduct.pPrice * (mainproduct.pDiscount / 100.0))}">
+									<del style="font-size:10px;" th:text="${mainproduct.pPrice}"></del>
+									<span style="font-size:20px;"class="won" th:text="${#numbers.formatInteger(perwon, 3, 'COMMA')}"></span>원
+									</p>
+									
+									
 								</div> <img th:src="${mainproduct.route}+${mainproduct.imgRName}">
 						</a></li>
 
@@ -316,15 +327,15 @@ outline: solid 1px lightgray;
 						<!-- 좌,우 슬라이드 버튼 -->
 						<div class="slide-control">
 							<div>
-								<label for="slide03" class="left"></label> <label for="slide02"
+								<label for="slide03" class="left" id="chk"></label> <label for="slide02"
 									class="right"></label>
 							</div>
 							<div>
-								<label for="slide01" class="left"></label> <label for="slide03"
+								<label for="slide01" class="left" id="chk1"></label> <label for="slide03"
 									class="right"></label>
 							</div>
 							<div>
-								<label for="slide02" class="left"></label> <label for="slide01"
+								<label for="slide02" class="left" id="chk2"></label> <label for="slide01"
 									class="right"></label>
 							</div>
 						</div>
@@ -351,39 +362,35 @@ outline: solid 1px lightgray;
 							th:src="${mainproduct.route}+${mainproduct.imgRName}"></a>
 						<div class="product_txt">
 							<p class="product_title" th:text="${mainproduct.pName}" />
-							<p th:text="${mainproduct.pPrice}" />
-
+							<p th:with="perwon = ${mainproduct.pPrice - (mainproduct.pPrice * (mainproduct.pDiscount / 100.0))}">
+									<del style="font-size:10px;" th:text="${mainproduct.pPrice}"></del>
+									<span style="font-size:20px;"class="won" th:text="${#numbers.formatInteger(perwon, 3, 'COMMA')}"></span>원
+									</p>
 						</div></li>
 				</ul>
 			</div>
 			<hr>
 			
 			
-			<div id="rightSide">
-				<div id="right_zzim">
-					<div class="recTit">
-						<h1>최근본상품</h1>
-						 <span id=recentCnt></span>
-					</div>
-					<ul></ul>
-					<!-- 본 상품이 뿌려질 부분  -->
-					<div id="paging">
-						<a class="btn_prev" style="cursor: pointer">이전</a><span
-							id="currentPage"></span><span id="totalPageCount"></span><a
-							class="btn_next" style="cursor: pointer">다음</a>
-					</div>
-				</div>
-			</div>
+		
 		</div>
 	</div>
 	<div th:replace="common/footer.html"></div>
 
-	<script>
-function searchForm(){
-	$(".searchProductForm").submit();
-}
-</script>
 	
+	<script>
+    setInterval(function(){
+    	chk.click();
+    },3000);
+    setInterval(function(){
+    	chk1.click();
+    },6000);
+    setInterval(function(){
+    	chk2.click();
+    },9000);
+    
+   
+</script>
 
 
 

@@ -44,23 +44,33 @@
 					</ul>
 				</div>
 
-				<div class="qna-detail-wrapper" style="height: 50%;">
-					<div class="qna-detail" th:if="${#lists.size(sellerAskList) > 0}">
-						<!-- <form th:action="@{/CScenter/FAQ/modify}" method="post"> -->
+				<th:block th:if="${#lists.size(sellerAskList) > 0}">
+                    <div class="qna-detail-wrapper" >
+	                	<div class="qna-detail" th:each="sellerAsk, i : ${sellerAskList}">
+						<form th:action="@{/CScenter/FAQ/modify}" method="post">
+						
 						<div class=" question">
-						<ul class="" style="text-align: center;  white-space: nowrap; text-overflow: ellipsis; display: block; overflow: hidden;"
-							th:each="SellerAsk : ${sellerAskList}">
-							<li class="FAQ_num" th:text="${SellerAsk.PIQCode}">번호</li>
-							<li class="FAQ_content" th:text="${SellerAsk.pName}">상품명</li>
-							<li class="FAQ_content" th:text="${SellerAsk.PIQTitle}">제목</li>
-							<li class="FAQ_content" th:text="${SellerAsk.PIQCDate}">등록일</li>
+						<ul class="" style="text-align: center;  white-space: nowrap; text-overflow: ellipsis; display: block; overflow: hidden;">
+							<li class="FAQ_num" th:text="${sellerAsk.PIQCode}">번호</li>
+							<li class="FAQ_content" th:text="${sellerAsk.pName}">상품명</li>
+							<li class="FAQ_content" th:text="${sellerAsk.PIQTitle}">제목</li>
+							<li class="FAQ_content" th:text="${sellerAsk.PIQCDate}">등록일</li>
 							<li class="FAQ_content"></li>
 						</ul>
 						</div>
-						<!-- </form> -->
+						 <div class="answer-wrapper">
+		                <p class="answer" th:utext="${#strings.replace(sellerAsk.PIAContent, enter, '&lt;br&gt;')}"></p>
+						 <div class="btnArea">
+		                    <button type="button" class="mOrd modify">수정</button>
+		                    <button type="button" class="mOrd delete">삭제</button>
+		                    </div>
+		                    
+		                    </div>
+						</form>
 					</div>
 
 				</div>
+				</th:block>
 
 			</div>
 
