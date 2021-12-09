@@ -3,123 +3,164 @@ package com.kh.clendy.sellerAsk.model.vo;
 import java.sql.Date;
 
 public class SellerAsk {
-	private int PIQCode;
+	private int sellerCode;
+	private int piqCode;
+	private int piaCode;
 	private String pName;
-	private String PIQTitle;
-	private Date PIQCDate;
+	private String piqTitle;
+	private Date piqcDate;
+	private Date piacDate;
 	private String id;
-	private String PIQContent;
+	private String piqContent;
 	private int pNo;
-	private String PIAContent;
-	
+	private String piaContent;
+	private int userNo;
+	private String picateName;
+	private int picateCode;
 	
 	public SellerAsk() {
 		super();
 	}
 
-
-	public SellerAsk(int pIQCode, String pName, String pIQTitle, Date pIQCDate, String id, String pIQContent, int pNo,
-			String pIAContent) {
+	public SellerAsk(int sellerCode, int piqCode, int piaCode, String pName, String piqTitle, Date piqcDate,
+			Date piacDate, String id, String piqContent, int pNo, String piaContent, int userNo, String picateName,
+			int picateCode) {
 		super();
-		PIQCode = pIQCode;
+		this.sellerCode = sellerCode;
+		this.piqCode = piqCode;
+		this.piaCode = piaCode;
 		this.pName = pName;
-		PIQTitle = pIQTitle;
-		PIQCDate = pIQCDate;
+		this.piqTitle = piqTitle;
+		this.piqcDate = piqcDate;
+		this.piacDate = piacDate;
 		this.id = id;
-		PIQContent = pIQContent;
+		this.piqContent = piqContent;
 		this.pNo = pNo;
-		PIAContent = pIAContent;
+		this.piaContent = piaContent;
+		this.userNo = userNo;
+		this.picateName = picateName;
+		this.picateCode = picateCode;
 	}
 
-
-	public int getPIQCode() {
-		return PIQCode;
+	public int getSellerCode() {
+		return sellerCode;
 	}
 
-
-	public void setPIQCode(int pIQCode) {
-		PIQCode = pIQCode;
+	public void setSellerCode(int sellerCode) {
+		this.sellerCode = sellerCode;
 	}
 
+	public int getPiqCode() {
+		return piqCode;
+	}
+
+	public void setPiqCode(int piqCode) {
+		this.piqCode = piqCode;
+	}
+
+	public int getPiaCode() {
+		return piaCode;
+	}
+
+	public void setPiaCode(int piaCode) {
+		this.piaCode = piaCode;
+	}
 
 	public String getpName() {
 		return pName;
 	}
 
-
 	public void setpName(String pName) {
 		this.pName = pName;
 	}
 
-
-	public String getPIQTitle() {
-		return PIQTitle;
+	public String getPiqTitle() {
+		return piqTitle;
 	}
 
-
-	public void setPIQTitle(String pIQTitle) {
-		PIQTitle = pIQTitle;
+	public void setPiqTitle(String piqTitle) {
+		this.piqTitle = piqTitle;
 	}
 
-
-	public Date getPIQCDate() {
-		return PIQCDate;
+	public Date getPiqcDate() {
+		return piqcDate;
 	}
 
-
-	public void setPIQCDate(Date pIQCDate) {
-		PIQCDate = pIQCDate;
+	public void setPiqcDate(Date piqcDate) {
+		this.piqcDate = piqcDate;
 	}
 
+	public Date getPiacDate() {
+		return piacDate;
+	}
+
+	public void setPiacDate(Date piacDate) {
+		this.piacDate = piacDate;
+	}
 
 	public String getId() {
 		return id;
 	}
 
-
 	public void setId(String id) {
 		this.id = id;
 	}
 
-
-	public String getPIQContent() {
-		return PIQContent;
+	public String getPiqContent() {
+		return piqContent;
 	}
 
-
-	public void setPIQContent(String pIQContent) {
-		PIQContent = pIQContent;
+	public void setPiqContent(String piqContent) {
+		this.piqContent = piqContent;
 	}
-
 
 	public int getpNo() {
 		return pNo;
 	}
 
-
 	public void setpNo(int pNo) {
 		this.pNo = pNo;
 	}
 
-
-	public String getPIAContent() {
-		return PIAContent;
+	public String getPiaContent() {
+		return piaContent;
 	}
 
-
-	public void setPIAContent(String pIAContent) {
-		PIAContent = pIAContent;
+	public void setPiaContent(String piaContent) {
+		this.piaContent = piaContent;
 	}
 
+	public int getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
+	}
+
+	public String getPicateName() {
+		return picateName;
+	}
+
+	public void setPicateName(String picateName) {
+		this.picateName = picateName;
+	}
+
+	public int getPicateCode() {
+		return picateCode;
+	}
+
+	public void setPicateCode(int picateCode) {
+		this.picateCode = picateCode;
+	}
 
 	@Override
 	public String toString() {
-		return "SellerAsk [PIQCode=" + PIQCode + ", pName=" + pName + ", PIQTitle=" + PIQTitle + ", PIQCDate="
-				+ PIQCDate + ", id=" + id + ", PIQContent=" + PIQContent + ", pNo=" + pNo + ", PIAContent=" + PIAContent
-				+ "]";
+		return "SellerAsk [sellerCode=" + sellerCode + ", piqCode=" + piqCode + ", piaCode=" + piaCode + ", pName="
+				+ pName + ", piqTitle=" + piqTitle + ", piqcDate=" + piqcDate + ", piacDate=" + piacDate + ", id=" + id
+				+ ", piqContent=" + piqContent + ", pNo=" + pNo + ", piaContent=" + piaContent + ", userNo=" + userNo
+				+ ", picateName=" + picateName + ", picateCode=" + picateCode + "]";
 	}
 	
 	
-	
-
 }

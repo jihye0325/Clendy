@@ -74,7 +74,7 @@ ul{
 		
 			
 			<div style="margin-left: 100px;">
-				<h1>리뷰 모아보기</h1>
+				<h1>검색 결과</h1>
 			</div>
 			
 			<div class="reviewBoard">
@@ -98,14 +98,16 @@ ul{
 									style="margin-top: 10px; font-size: 20px; float: left; margin-left: 20px; font-weight: bolder;"
 									th:text="${Review.id}"></span>
 									
+									
+									
 									<span class="like" style="float: right; font-size: 20px; padding: 10px; margin-top: 10px; border-style: double; border-radius: 20px; border-width: 1px 1px;" th:text="|🧡 ${Review.cntlike}|">
 										</span>
 									
 									
 									 <br>
 									  <br>
-									 
-								  <span style="margin-left: 20px; color: gray;"
+									   <span
+									style="margin-left: 20px; color: gray;"
 									th:if="${Review.openSize}=='Y'"
 									th:text="|${Review.gender}성,${Review.height}cm,${Review.weight}kg|"></span>
 								<span style="margin-left: 20px; color: gray;"
@@ -145,42 +147,7 @@ ul{
 				 <div th:unless="${#lists.size(reviewList) > 0}">
 					<h1>검색 결과가 없습니다.</h1>
 				</div>
-			
-			
-			<!-- 페이징 -->
-            <div class="pagaing_wrap" th:if="${#lists.size(reviewList) > 0}">
-                        <ul class="pagaing_left">
-                            <li class="allPrev" th:classappend="${pi.page == 1} ? 'hide'">
-                            	<a th:href="@{/review/review/(page=1)}" th:if="${pi.page > 1}"></a>
-	                            <a href="javascript:;" th:unless="${pi.page > 1}"></a>
-	                            
-                            </li>
-                            <li class="prev" th:classappend="${pi.page == 1} ? 'hide'">
-	                            <a th:href="@{/review/review/(page=${pi.page - 1})}" th:if="${pi.page > 1}"></a>
-                            	<a href="javascript:;" th:unless="${pi.page > 1}"></a>
-                            </li>
-                        </ul>
-                        
-                        <ul class="pagaing_num">
-                        	<th:block th:each="pd : ${#numbers.sequence(pi.startPage, pi.endPage)}">
-                        		<li th:classappend="${pi.page == pdStat.current} ? 'on'">
-                        			<a th:href="@{/review/review/(page=${pdStat.current})}" th:text="${pdStat.current}"></a>
-                        		</li>
-                        	</th:block>
-                            
-                        </ul>
-
-                        <ul class="pagaing_right" >
-                            <li class="next" th:classappend="${pi.page == pi.maxPage} ? 'hide'">
-                            	<a th:href="@{/review/review/(page=${pi.page} + 1)}" th:if="${pi.page < pi.maxPage}"></a>
-                            	<a href="javascript:;" th:unless="${pi.page < pi.maxPage}"></a>
-                            </li>
-                            <li class="allNext"  th:classappend="${pi.page == pi.maxPage} ? 'hide'">
-                            	<a th:href="@{/review/review/(page=${pi.maxPage})}" th:if="${pi.page < pi.maxPage}"></a>
-                            	<a href="javascript:;" th:unless="${pi.page < pi.maxPage}"></a>
-                            </li>
-                        </ul>
-                    </div>
+		
 			</div>
 		</div>
 		

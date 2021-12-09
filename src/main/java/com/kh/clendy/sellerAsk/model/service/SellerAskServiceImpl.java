@@ -24,9 +24,9 @@ public class SellerAskServiceImpl  implements SellerAskService{
 	}
 
 	@Override
-	public Map<String, Object> selectAskAllList(int page) {
+	public Map<String, Object> selectAskAllList(int page, int user_no) {
 		
-		int listCount = sellerAskMapper.sellerAskListCount();
+		int listCount = sellerAskMapper.sellerAskListCount(user_no);
 		
 		PageInfo pageInfo = new PageInfo(page, listCount, 10, 10);
 		
@@ -34,14 +34,15 @@ public class SellerAskServiceImpl  implements SellerAskService{
 		int endRow = startRow + pageInfo.getBoardLimit() -1;
 		
 		Map<String, Object> mapMapper = new HashMap<>();
+		mapMapper.put("user_no", user_no);
 		mapMapper.put("page", page);
 		mapMapper.put("startRow", startRow);
 		mapMapper.put("endRow", endRow);
 		
-		List<SellerAsk> sellerAskList = sellerAskMapper.selectSellerAskList(mapMapper);
+		List<SellerAsk> selectAskAllList = sellerAskMapper.selectAskAllList(mapMapper);
 		
 		Map<String, Object> result = new HashMap<>();
-		result.put("sellerAskList", sellerAskList);
+		result.put("selectAskAllList", selectAskAllList);
 		result.put("pageInfo", pageInfo);
 		
 		return result;

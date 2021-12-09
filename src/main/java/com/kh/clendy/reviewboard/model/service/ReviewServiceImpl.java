@@ -48,38 +48,18 @@ public class ReviewServiceImpl implements ReviewService {
 		return result;
 	}
 	
-	//검색 결과
+	
+
 	@Override
-	public Map<String, Object> selectReviewSearchList(String keyword,int page) {
-		
-		int listCount = reviewMapper.reviewSearchListCount(keyword);
-		
-		PageInfo pageInfo = new PageInfo(page, listCount, 10, 5);
-		
-		int startRow = (pageInfo.getPage() - 1) * pageInfo.getBoardLimit() + 1;
-		int endRow = startRow + pageInfo.getBoardLimit() - 1;
-		
+	public Map<String, Object> selectReviewSearchList(String keyword) {
 		Map<String, Object> mapMapper = new HashMap<>();
 		mapMapper.put("keyword", keyword);
-		mapMapper.put("startRow", startRow);
-		mapMapper.put("endRow", endRow);
 		
-		List<Review> reviewList = reviewMapper.selectReviewAllList(mapMapper);
+		List<Review> reviewList = reviewMapper.selectReviewSearchList(mapMapper);
 		
 		Map<String, Object> result = new HashMap<>();
 		result.put("reviewList", reviewList);
-		result.put("pageInfo", pageInfo);
 		
-		return result;
-	}
-
-	// 리뷰 좋아요
-	@Transactional
-	@Override
-	public int reviewLike(int user_no,int rNo) {
-
-		int result = reviewMapper.reviewLike(user_no, rNo);
-
 		return result;
 	}
 

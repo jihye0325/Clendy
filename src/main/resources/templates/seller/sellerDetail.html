@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+                xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1:1문의 상세</title>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<link rel="stylesheet" href="/css/CScenter/detailPersonal.css">
+<style>
+   
+    </style>
+    <!-- 알림창 -->
+	<script>
+		const msg = '[[${ msg }]]';
+		
+		if(msg){
+			alert(msg);
+		}
+	</script>
+</head>
+<body>
+    <div th:replace="common/header.html"></div>
+
+    <div id="wrapper">
+        <div id="sidebar">
+            <ul>
+                <li><a class="sideA " href="/CScenter/FAQ">FAQ</a></li>
+                <li><a class="sideA " href="/CScenter/board">공지사항</a></li>
+                <li><a class="sideA current" href="/CScenter/personalQ">1:1문의</a></li>
+            </ul>
+        </div>
+        <div id="content" th:each="p : ${personalQ}">
+            <h3 id="content-title">1:1문의</h3><h6>1:1 Q&A</h6>
+        
+            <div class="question-detail" >
+                <div class="detail-title" >
+                    <div class="title-wrapper"><label class="title">제목</label>
+                    <label class="name" th:text="${p.p_title}"></label></div>
+                    <div class="date-wrapper"><label class="title">등록일</label>
+                    <label class="enroll-date" th:text="${#dates.format(p.p_enroll_date, 'yyyy-MM-dd')}"></label></div>
+                    <div class="category-wrapper"><label class="title">카테고리</label>
+                    <label class="category" th:text="${p.qc_name}"></label></div>
+                </div>
+                <div class="question-content" th:utext="${p.p_content}">
+
+                </div>
+            </div>
+
+            <h3 id="content-title">답변</h3><h6>Answer</h6>
+             <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+            <div class="answer-btn">
+            	<th:block th:if="${p.p_answer == null}">
+            	<input type="button" class="insert" value="등록">
+            	</th:block>
+            	<th:block th:if="${p.p_answer != null}">    
+                <input type="button" class="modify" value="수정">
+                <input type="button" class="delete" value="삭제">
+                </th:block>
+            </div>
+			</th:block>
+			<form id="insertAnswer" th:action="@{/CScenter/personalQ/insertAnswer}" method="post">
+            <input type="hidden" class="p_no" name="p_no" th:value="${p.p_no}">
+            <div class="answer-content">
+				<th:block th:if="${p.p_answer == null}">        
+	            		<span class="answer null" style="line-height:200px;">등록된 답변이 없습니다.</span>
+				</th:block>
+				<th:block th:if="${p.p_answer != null}">
+	            <label class="answer notnull" th:utext="${#strings.replace(p.p_answer, enter, '&lt;br&gt;')}"></label>
+	            
+				</th:block>
+            </div>
+			</form>
+            <div class="btn-area">
+                <a type="button" class="to-list" href="/CScenter/personalQ">목록</a>
+            </div>
+            
+        </div>
+
+    </div>
+
+    
+    <div th:replace="common/footer.html"></div>
+    
+     <script>
+     /* 1:1문의 답변 등록 */
+     $(".insert").click(function(){
+    	 /* 등록 버튼을 한번 눌렀을 때*/
+    	 if($(this).val()=='등록'){
+		    	 $(this).val("등록완료");
+		    	 $(".null").replaceWith("<textarea name='p_answer' class='textarea' cols='30' rows= '50' style='resize:none;'></textarea>");
+    	  /* 등록 완료되면 컨트롤러로 값 넘기기 */ 
+    	 }else if($(this).val()=='등록완료'){
+    		 console.log($(".textarea").val());
+    	     $("#insertAnswer").submit();
+    	 }
+     });
+     
+    /* 1:1문의 답변 삭제 */
+    $(".delete").click(function(){
+    	$("#insertAnswer").prop("action", "/CScenter/personalQ/delete");
+    	$("#insertAnswer").submit();
+    });
+     
+     /* 1:1 문의 답변 수정 */
+     $(".modify").click(function(){
+    	 /* 수정하러 들어갈 때 */
+    	 if($(this).val() == '수정'){
+			$(this).val("수정완료");
+ 	    	var p_answer = $(".notnull").text(); 	    	
+ 	    	$(".notnull").replaceWith("<textarea class='textarea' name='p_answer' cols='30' rows= '50' wrap='hard' style='resize:none;'>"+p_answer+"</textarea>");
+    	 /* 수정 완료 할 때*/
+  		  }else if($(this).val() == '수정완료'){
+ 	    	$("#insertAnswer").prop("action", "/CScenter/personalQ/modify");
+  			$("#insertAnswer").submit();
+  		  }
+ 
+     });
+     
+    </script>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</body>
+</html>
