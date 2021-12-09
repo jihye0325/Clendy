@@ -266,6 +266,11 @@ outline: solid 1px lightgray;
 .findingbtn{ width: 50px; vertical-align: text-bottom; margin-left: 1px; height: 50px; background-color: #060032;}
 
 
+.searchdiv{display: inline-block; padding: 50px; width: 50%; height: 20%;}
+.inputbar{height: 50px; width: 70%; text-align: center; outline: solid;}
+#img-wrapper1{width: 30px; height: 30px; border-radius: 5px; display:inline-block; cursor: pointer;}
+button{border: 0; vertical-align: middle;}
+
 
 
 
@@ -286,14 +291,16 @@ outline: solid 1px lightgray;
 	
 	<div class="wrapper1" >
 		<div style="text-align: center;">
-		<div class="searchdiv" style="display: inline-block; padding: 50px; width: 50%; height: 20%;">
-		<form class="searchProductForm1" th:action="@{/searchProduct}" method="post" style="">
-			<input class="inputbar" type="search" name="keyword" placeholder="상품명,카테고리 검색" style="height: 50px; width: 70%; text-align: center; outline: solid;">
-			<span id="img-wrapper1" style="width: 30px; height: 30px; border-radius: 5px; display:inline-block; cursor: pointer;">
-             	<button style="border: 0; vertical-align: middle;"><img class="findingbtn" onclick="searchForm1();"  src="/images/magnifying-glass-white.png" alt="finding"></button>
-            </span>
-		</form>
-		</div>
+			<div class="searchdiv">
+				<form class="searchProductForm1" th:action="@{/searchProduct}" method="post">
+					<input class="inputbar" type="search" name="keyword" placeholder="상품명,카테고리 검색">
+					<span id="img-wrapper1">
+             			<button style="">
+             				<img class="findingbtn" onclick="searchForm1();" src="/images/magnifying-glass-white.png" alt="finding">
+             			</button>
+            		</span>
+				</form>
+			</div>
 		</div>
 		
 		<hr>
