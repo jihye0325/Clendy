@@ -25,17 +25,16 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public Map<String, Object> selectReviewAllList(String keyword, int page) {
+	public Map<String, Object> selectReviewAllList(int page) {
 
-		int listCount = reviewMapper.reviewListCount(keyword);
+		int listCount = reviewMapper.reviewListCount();
 
-		PageInfo pageInfo = new PageInfo(page, listCount, 10, 2);
+		PageInfo pageInfo = new PageInfo(page, listCount, 10, 5);
 
 		int startRow = (pageInfo.getPage() - 1) * pageInfo.getBoardLimit() + 1;
 		int endRow = startRow + pageInfo.getBoardLimit() - 1;
 
 		Map<String, Object> mapMapper = new HashMap<>();
-		mapMapper.put("keyword", keyword);
 		mapMapper.put("page", page);
 		mapMapper.put("startRow", startRow);
 		mapMapper.put("endRow", endRow);
@@ -45,6 +44,41 @@ public class ReviewServiceImpl implements ReviewService {
 		Map<String, Object> result = new HashMap<>();
 		result.put("reviewList", reviewList);
 		result.put("pageInfo", pageInfo);
+
+		return result;
+	}
+	
+	//검색 결과
+	@Override
+	public Map<String, Object> selectReviewSearchList(String keyword,int page) {
+		
+		int listCount = reviewMapper.reviewSearchListCount(keyword);
+		
+		PageInfo pageInfo = new PageInfo(page, listCount, 10, 5);
+		
+		int startRow = (pageInfo.getPage() - 1) * pageInfo.getBoardLimit() + 1;
+		int endRow = startRow + pageInfo.getBoardLimit() - 1;
+		
+		Map<String, Object> mapMapper = new HashMap<>();
+		mapMapper.put("keyword", keyword);
+		mapMapper.put("startRow", startRow);
+		mapMapper.put("endRow", endRow);
+		
+		List<Review> reviewList = reviewMapper.selectReviewAllList(mapMapper);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("reviewList", reviewList);
+		result.put("pageInfo", pageInfo);
+		
+		return result;
+	}
+
+	// 리뷰 좋아요
+	@Transactional
+	@Override
+	public int reviewLike(int user_no,int rNo) {
+
+		int result = reviewMapper.reviewLike(user_no, rNo);
 
 		return result;
 	}

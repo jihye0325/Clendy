@@ -4,6 +4,7 @@ public class MainProduct {
 	private int pNo;
 	private String pName;
 	private int pPrice;
+	private int pDiscount;
 	private String pStatus;
 	private int imgNo;
 	private String route;
@@ -19,12 +20,13 @@ public class MainProduct {
 	}
 
 
-	public MainProduct(int pNo, String pName, int pPrice, String pStatus, int imgNo, String route, String imgName,
-			String imgRName, int imgLevel, String imgStatus, String imgRoute) {
+	public MainProduct(int pNo, String pName, int pPrice, int pDiscount, String pStatus, int imgNo, String route,
+			String imgName, String imgRName, int imgLevel, String imgStatus, String imgRoute) {
 		super();
 		this.pNo = pNo;
 		this.pName = pName;
 		this.pPrice = pPrice;
+		this.pDiscount = pDiscount;
 		this.pStatus = pStatus;
 		this.imgNo = imgNo;
 		this.route = route;
@@ -63,6 +65,16 @@ public class MainProduct {
 
 	public void setpPrice(int pPrice) {
 		this.pPrice = pPrice;
+	}
+
+
+	public int getpDiscount() {
+		return pDiscount;
+	}
+
+
+	public void setpDiscount(int pDiscount) {
+		this.pDiscount = pDiscount;
 	}
 
 
@@ -148,10 +160,12 @@ public class MainProduct {
 
 	@Override
 	public String toString() {
-		return "MainProduct [pNo=" + pNo + ", pName=" + pName + ", pPrice=" + pPrice + ", pStatus=" + pStatus
-				+ ", imgNo=" + imgNo + ", route=" + route + ", imgName=" + imgName + ", imgRName=" + imgRName
-				+ ", imgLevel=" + imgLevel + ", imgStatus=" + imgStatus + ", imgRoute=" + imgRoute + "]";
+		return "MainProduct [pNo=" + pNo + ", pName=" + pName + ", pPrice=" + pPrice + ", pDiscount=" + pDiscount
+				+ ", pStatus=" + pStatus + ", imgNo=" + imgNo + ", route=" + route + ", imgName=" + imgName
+				+ ", imgRName=" + imgRName + ", imgLevel=" + imgLevel + ", imgStatus=" + imgStatus + ", imgRoute="
+				+ imgRoute + "]";
 	}
 	
 	
+
 }

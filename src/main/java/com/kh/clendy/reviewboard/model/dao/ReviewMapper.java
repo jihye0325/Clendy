@@ -11,11 +11,13 @@ public interface ReviewMapper {
 
 	List<Review> selectReviewAllList(Map<String, Object> mapMapper);
 
-	
+	int reviewListCount();
 
-	int reviewListCount(String keyword);
+	int reviewLike(int user_no,int rNo);
 
+	int reviewSearchListCount(String keyword);
 
+	List<Review> selectReviewSearchList(Map<String, Object> mapMapper);
 
 
 

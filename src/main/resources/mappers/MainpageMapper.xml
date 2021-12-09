@@ -5,6 +5,7 @@
 		<id property="pNo" column="P_NO"/>
 		<result property="pName" column="P_NAME"/>
 		<result property="pPrice" column="P_PRICE"/>
+		<result property="pDiscount" column="P_DISCOUNT"/>
 		<result property="pStatus" column="P_STATUS"/>
 		<result property="imgNo" column="IMG_NO"/>
 		<result property="route" column="ROUTE"/>
@@ -20,6 +21,7 @@
 		select
             p.p_name
             ,p.p_price
+            ,p.p_DISCOUNT
             ,p.p_no
             ,i.route
             ,I.IMG_NAME
