@@ -45,10 +45,9 @@ public class reviewboardController {
 		
 	}
 	
-	// 리뷰 좋아요 기능
+	// 
 //		@PostMapping("/reviewLike")
-//		@ResponseBody
-//		public String reviewLike(@RequestBody Map<String, Object> returnMap) {
+//		public String reviewLike(int rNo) {
 //			UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //			
 //			int loginUno = user.getUser_no();
@@ -57,15 +56,7 @@ public class reviewboardController {
 //			
 //			int result = productReviewService.reviewLike(returnMap);
 //			
-//			String msg = "";
-//			if(result == -1) { 
-//				msg = "error";
-//			}else if(result == 1) {
-//				msg = "delete";
-//			}else if(result == 2) {
-//				msg = "insert";
 //			}
-//			return msg;
 }
 
 
