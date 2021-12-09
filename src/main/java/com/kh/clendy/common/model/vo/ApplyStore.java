@@ -7,7 +7,7 @@ public class ApplyStore {
 	private String seller_name;
 	private String rep_name;
 	private int rep_num;
-	private int b_license;
+	private long b_license;
 	private String o_b_license;
 	private int phone;
 	private String email;
@@ -19,7 +19,7 @@ public class ApplyStore {
 
 	public ApplyStore() {}
 
-	public ApplyStore(int a_no, String seller_name, String rep_name, int rep_num, int b_license, String o_b_license,
+	public ApplyStore(int a_no, String seller_name, String rep_name, int rep_num, long b_license, String o_b_license,
 			int phone, String email, String address, String account_bank, long account_num, Date apply_date,
 			int user_no) {
 		super();
@@ -70,11 +70,11 @@ public class ApplyStore {
 		this.rep_num = rep_num;
 	}
 
-	public int getB_license() {
+	public long getB_license() {
 		return b_license;
 	}
 
-	public void setB_license(int b_license) {
+	public void setB_license(long b_license) {
 		this.b_license = b_license;
 	}
 
