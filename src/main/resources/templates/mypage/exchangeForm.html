@@ -76,7 +76,7 @@
             <div class="reason_area">
                 <div>
                     <span>사유입력</span><br>
-                    <span>0 / 100</span>
+                    <span id="length">0</span><span> / 100자</span>
                 </div>
                 <textarea name="ex_reason" id="ex_reason" placeholder="교환사유를 입력해주세요(선택사항)"></textarea>
             </div>
@@ -124,6 +124,20 @@
 			form.submit();
 			
 		}
+	    
+	    ex_reason.addEventListener('input', () => {  });
+	    
+		$("#ex_reason").keyup(function(){
+			var content = $(this).val();
+			
+			$("#length").html(content.length);
+			if(content.length > 100){
+				$("#length").css("color", "red");
+			} else {
+				$("#length").css("color", "blue");
+			}
+		});
+	    
     </script>    
     
     

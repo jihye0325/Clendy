@@ -130,10 +130,11 @@
             </div>
             
             <div class="recommender_area">
-                <span>추천인(선택사항)</span>
+                <span>추천인(선택사항)</span><span id="rec_confirm"></span>
                 <div class="recommender_input area">
                     <input type="text" name="recommender" id="recommender" placeholder="추천인 아이디 입력(추천 회원 포인트 2000원)">
                     <button id="recommender_btn" type="button" >확인</button>
+                    <span id="recConfirmimg"></span>
                 </div>
             </div>
 
@@ -182,6 +183,7 @@
     	recommender.addEventListener('input', () => {
     		var rec_Check = false;
         	$("#joinBtn").attr("disabled", true);
+        	rec_confirm.innerHTML = '확인버튼을 눌러주세요';
         	
         	if($("#recommender").val() == "") {
         		var rec_Check = true;
@@ -208,6 +210,8 @@
 						alert("추천 회원이 존재합니다.");
 						$("#recommender").attr('readonly', true);
 						rec_Check = true;
+						rec_confirm.innerHTML = '';
+						recConfirmimg.innerHTML = '<img src="/images/check.png">';
 						
 					} else {
 						alert("해당 회원이 존재하지 않습니다. 아이디를 확인해주세요.");
