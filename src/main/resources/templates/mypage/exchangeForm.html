@@ -57,8 +57,10 @@
                 <span>옵션선택</span><span id="required">*</span>
                 <select name="ex_option" required>
                     <option value="none" disabled>옵션 선택</option>
-                    
-                    <option th:each="e : ${ ex }" th:value="${e.p_option_no}" th:text="|${e.p_color} / ${e.p_size} (재고:${e.p_stock})|"></option>
+                    <option th:each="e : ${ ex }" th:if="${e.p_stock == 0}" th:value="${e.p_option_no}" 
+                    	th:text="|${e.p_color} / ${e.p_size} (재고:${e.p_stock})|" disabled style="background-color:lightgray;"></option>
+                    <option th:each="e : ${ ex }" th:if="${e.p_stock > 0}" th:value="${e.p_option_no}" 
+                    	th:text="|${e.p_color} / ${e.p_size} (재고:${e.p_stock})|"></option>
                 </select>
             </div>
 

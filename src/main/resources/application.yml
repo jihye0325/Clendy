@@ -4,7 +4,8 @@ server:
 
 # oracle driver config  
 spring:
-  datasource:    driver-class-name: oracle.jdbc.OracleDriver
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
     url: jdbc:oracle:thin:@localhost:1521:xe
     username: clendy
     password: clendy
@@ -18,29 +19,7 @@ spring:
         smtp:
           auth: true
           starttls:
-            enable: true
-  security:
-    oauth2:      
-      client:        
-        registration:          
-          kakao:
-            client-id: 71ae01ce56c0cfd1a893bf7ca4c6592d
-            redirect-uri: http://localhost:8800/login/oauth2/code/kakao
-            client-authentication-method: POST
-            authorization-grant-type: authorization_code
-            scope: profile_nickname, gender, account_email
-            client-name: Kakao
-        provider:
-          kakao:
-            authorization-uri: https://kauth.kakao.com/oauth/authorize
-            token-uri: https://kauth.kakao.com/oauth/token
-            user-info-uri: https://kapi.kakao.com/v2/user/me
-            user-name-attribute: id            
-  jpa:
-    show-sql: true
-    hibernate:      
-      ddl-auto: create
-            
+            enable: true 
  
 # mybatis config
 mybatis:

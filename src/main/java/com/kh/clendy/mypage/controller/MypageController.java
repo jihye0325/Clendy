@@ -715,15 +715,10 @@ public class MypageController {
 		String imp_key = "6905996150362685";
 		String imp_secret = "b26f35c4e598e5be41979266728988e82027ec199ea7982b485f0910dc0492ca73c19d48f82b68e9";
 		
-	    List<HttpMessageConverter<?>> converters = new ArrayList<HttpMessageConverter<?>>();
-	    converters.add(new FormHttpMessageConverter());
-	    converters.add(new StringHttpMessageConverter());
-	    
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 		
 	    RestTemplate restTemplate = new RestTemplate();
-	    restTemplate.setMessageConverters(converters);
 	    
 	    MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 	    map.add("imp_key", imp_key);
@@ -748,7 +743,6 @@ public class MypageController {
 	@PostMapping("/canclePay")
 	@ResponseBody
 	public int canclePay(@RequestBody Map<String, String> u_map) {
-		
 		Payment payment = mypageService.selectPayment(u_map.get("merchant_uid"));
 		String imp_uid = payment.getImp_uid();
 		String merchant_uid = payment.getMerchant_uid();
@@ -756,18 +750,11 @@ public class MypageController {
 		
 		//메소드호출해서리턴값을 토큰값으로 헤더에 추가해주기
 		String access_token = getToken();
-		
-	    List<HttpMessageConverter<?>> converters = new ArrayList<HttpMessageConverter<?>>();
-	    converters.add(new FormHttpMessageConverter());
-	    converters.add(new StringHttpMessageConverter());
 	    
 	    // 헤더 설정
 	    HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+	    headers.setContentType(MediaType.APPLICATION_JSON);
 	    headers.setBearerAuth(access_token);	// 토큰 값 넣어주기
-	    
-	    RestTemplate restTemplate = new RestTemplate();
-	    restTemplate.setMessageConverters(converters);
 	    
 	    // 파라미터 세팅
 	    MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
@@ -778,9 +765,10 @@ public class MypageController {
 	    // 요청 세팅 완료
 	    HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
 	    
+	    RestTemplate restTemplate = new RestTemplate();
+	    
 	    // 실제 요청부 
 	    ResponseEntity<String> response = restTemplate.postForEntity("https://api.iamport.kr/payments/cancel", request , String.class);
-	    
 	    
 	    String merchant_uid_Value = "";
 	    JSONParser parser = new JSONParser();
@@ -795,11 +783,8 @@ public class MypageController {
 		}
 	    
 	    int result = mypageService.canclePay(merchant_uid_Value);
-	    
 		return result;
 	}
-	
-	
 }
 
 

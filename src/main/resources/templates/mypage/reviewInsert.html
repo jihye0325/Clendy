@@ -5,17 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/mypage/reviewInsert.css" rel="stylesheet"></head>
-    <!-- csrf -->
-    <meta name="_csrf" th:content="${_csrf.token}">
-	<meta name="_csrf_header" th:content="${_csrf.headerName}">
-	<!-- include libraries(jQuery, bootstrap) -->
-	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
-	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
-	<!-- include summernote css/js-->
+	<!-- include libraries(jQuery, bootstrap) --> 
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet"> 
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js">
+	</script> <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+	<!-- include summernote css/js--> 
 	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
-	<!-- include summernote-ko-KR -->
 	<script src="/resources/js/summernote-ko-KR.js"></script>
     <title>리뷰 작성</title>
 </head>
@@ -79,10 +75,6 @@
 		             lang: "ko-KR"
 		     });
 		});
-		
-		var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-        $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
 				
 		function reviewCancle(){
 			window.close();
