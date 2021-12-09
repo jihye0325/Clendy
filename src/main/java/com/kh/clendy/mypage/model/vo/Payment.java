@@ -21,13 +21,14 @@ public class Payment {
 	private String p_size;
 	private int point;
 	private int point_amount;
-
+	private String order_status_code;
+	
 	public Payment() {}
 
 	public Payment(int pay_code, int order_code, String imp_uid, String merchant_uid, int pay_money, String pay_means,
 			String pay_card_name, String pay_card_num, String pay_refund, String order_request, String order_name,
 			String order_address, String order_phone, String p_name, String p_color, String p_size, int point,
-			int point_amount) {
+			int point_amount, String order_status_code) {
 		super();
 		this.pay_code = pay_code;
 		this.order_code = order_code;
@@ -47,6 +48,7 @@ public class Payment {
 		this.p_size = p_size;
 		this.point = point;
 		this.point_amount = point_amount;
+		this.order_status_code = order_status_code;
 	}
 
 	public int getPay_code() {
@@ -193,6 +195,14 @@ public class Payment {
 		this.point_amount = point_amount;
 	}
 
+	public String getOrder_status_code() {
+		return order_status_code;
+	}
+
+	public void setOrder_status_code(String order_status_code) {
+		this.order_status_code = order_status_code;
+	}
+
 	@Override
 	public String toString() {
 		return "Payment [pay_code=" + pay_code + ", order_code=" + order_code + ", imp_uid=" + imp_uid
@@ -200,7 +210,8 @@ public class Payment {
 				+ ", pay_card_name=" + pay_card_name + ", pay_card_num=" + pay_card_num + ", pay_refund=" + pay_refund
 				+ ", order_request=" + order_request + ", order_name=" + order_name + ", order_address=" + order_address
 				+ ", order_phone=" + order_phone + ", p_name=" + p_name + ", p_color=" + p_color + ", p_size=" + p_size
-				+ ", point=" + point + ", point_amount=" + point_amount + "]";
+				+ ", point=" + point + ", point_amount=" + point_amount + ", order_status_code=" + order_status_code
+				+ "]";
 	}
 
 }

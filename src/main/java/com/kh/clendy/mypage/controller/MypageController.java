@@ -334,7 +334,7 @@ public class MypageController {
 				
 		redirectAttr.addFlashAttribute("msg", msg);
 		
-		return "redirect:/mypage/reviewDetail/" + order_option_code;
+		return "redirect:/mypage/reviewInsert/" + order_option_code;
 	}
 	
 	// 리뷰 상세화면
