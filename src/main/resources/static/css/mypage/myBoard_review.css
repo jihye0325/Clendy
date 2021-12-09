@@ -131,6 +131,16 @@ ul {
 	list-style: none;
 }
 
+a:visited{
+    color: black;
+    text-decoration: none;
+}
+
+a:link{
+    color: black;
+    text-decoration: none;
+}
+
 .pagaing_wrap ul.pagaing_num li a:link{
     text-decoration: none;
 }

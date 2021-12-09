@@ -780,7 +780,7 @@
 		     AND P_STATUS = 'Y'
 		     AND P_STOCK >= CART_AMOUNT
 		     AND IMG_LEVEL = 0
-		ORDER BY SELLER_CODE DESC, CART_NO DESC		
+		ORDER BY SELLER_CODE, CART_NO DESC		
 	</select>
 	
 	<!-- 장바구니 삭제 (개별버튼) -->
@@ -1127,7 +1127,6 @@
 		                    FROM ORDER_OPTION
 		                    JOIN PRODUCT_OPTION USING(P_OPTION_NO)
 		                   WHERE ORDER_OPTION_CODE = #{ order_option_code })
-		     AND P_STOCK > 0
 	</select>
 	
 	<!-- 교환요청 -->
