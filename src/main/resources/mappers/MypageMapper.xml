@@ -1391,6 +1391,13 @@
     	   WHERE ROWN BETWEEN #{startRow} AND #{endRow}	
 	</select>
 	
+	<!--  
+	<update id="modifyTemp" parameterType="com.kh.clendy.member.model.vo.Member">
+		UPDATE MEMBER
+		   SET TEMP_PWD_YN = 'N'
+		 WHERE USER_NO = #{ user_no }
+	</update>
+	-->
 	
 </mapper>
 

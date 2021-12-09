@@ -47,8 +47,15 @@ public class MypageServiceImpl implements MypageService {
 	// 회원정보 수정
 	@Override
 	public int modifyMember(Member m) {
-		
+				
 		int result = mypageMapper.modifyMember(m);
+		
+//		if(m.getTemp_pwd_yn().equals('Y')) {
+//			int result2 =mypageMapper.modifyTemp(m);
+//			if(result > 0 && result2 > 0) {
+//				return 1;
+//			}
+//		}
 				
 		return result;
 	}
