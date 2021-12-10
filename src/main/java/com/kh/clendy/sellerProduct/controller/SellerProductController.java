@@ -24,7 +24,6 @@ import com.kh.clendy.sellerProduct.model.vo.ProductList;
 import com.kh.clendy.sellerProduct.model.vo.SellerProduct;
 import com.kh.clendy.sellerProduct.model.vo.SellerProductCategory;
 import com.kh.clendy.sellerProduct.model.vo.SellerProductImage;
-import com.kh.clendy.utils.UploadFileUtils;
 
 @Controller
 @RequestMapping("/seller")

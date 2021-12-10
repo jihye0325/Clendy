@@ -163,6 +163,6 @@ public interface MypageMapper {
 	
 	Wishlist selectWishlist(Map<String, Object> mapMapper);
 
-	int modifyTemp(Member m);
+	int cancle_usePoint(String merchant_uid_Value);
 	
 }
