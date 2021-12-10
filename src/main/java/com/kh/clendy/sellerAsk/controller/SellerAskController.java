@@ -38,9 +38,7 @@ public class SellerAskController {
 		 
 		 model.addAttribute("selectAskAllList", result.get("selectAskAllList"));
 		 model.addAttribute("pi", result.get("pageInfo"));
-		 
-		 System.out.println(result);
-		
+		 		
 	}
 	
 	@GetMapping("/detail")

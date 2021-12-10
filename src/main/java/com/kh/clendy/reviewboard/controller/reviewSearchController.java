@@ -26,9 +26,6 @@ public class reviewSearchController {
 		
 			Map<String, Object> result = reviewService.selectReviewSearchList(keyword);	
 			model.addAttribute("reviewList",result.get("reviewList"));
-			
-			System.out.println("키워드 없음");
-			System.out.println("Result"+ model);
 		
 		
 		}
