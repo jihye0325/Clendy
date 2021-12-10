@@ -1284,6 +1284,31 @@
 	                            WHERE ORDER_OPTION_CODE = #{ order_option_code })
 	</update>
 	
+	<!-- 결제취소 시 사용한 포인트 차감 취소 -->
+	<insert id="cancle_usePoint" parameterType="String">
+		INSERT INTO POINT
+			(
+			    POINT_NO,
+			    ORDER_CODE,
+			    POINT_CODE,
+			    POINT,
+			    POINT_DATE,
+			    USER_NO,
+			    REC_USER
+			)
+			VALUES
+			(
+			    SEQ_POINT_NO.NEXTVAL,
+			    (SELECT ORDER_CODE FROM PAYMENT WHERE MERCHANT_UID = #{ merchant_uid_Value }),
+			    6,
+			    ABS((SELECT POINT FROM POINT WHERE ORDER_CODE = (SELECT ORDER_CODE FROM PAYMENT WHERE MERCHANT_UID = #{ merchant_uid_Value }) 
+			    							   AND POINT_CODE = 3)),
+			    SYSDATE,
+			    (SELECT USER_NO FROM PAYMENT JOIN PRODUCT_ORDER USING(ORDER_CODE) WHERE MERCHANT_UID = #{ merchant_uid_Value }),
+			    NULL
+			)
+	</insert>
+	
 	<!-- 리뷰 수정 -->
 	<update id="reviewModify" parameterType="com.kh.clendy.mypage.model.vo.Review">
 		UPDATE REVIEW
@@ -1392,14 +1417,6 @@
 		     ORDER BY CREATE_DATE DESC ) TBL)
     	   WHERE ROWN BETWEEN #{startRow} AND #{endRow}	
 	</select>
-	
-	<!-- 
-	<update id="modifyTemp" parameterType="com.kh.clendy.member.model.vo.Member">
-		UPDATE MEMBER
-		   SET TEMP_PWD_YN = 'N'
-		 WHERE USER_NO = #{ user_no }
-	</update>
-	-->
 	
 </mapper>
 

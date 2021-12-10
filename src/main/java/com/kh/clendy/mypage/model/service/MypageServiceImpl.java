@@ -49,14 +49,7 @@ public class MypageServiceImpl implements MypageService {
 	public int modifyMember(Member m) {
 				
 		int result = mypageMapper.modifyMember(m);
-		
-//		if(m.getTemp_pwd_yn().equals('Y')) {
-//			int result2 =mypageMapper.modifyTemp(m);
-//			if(result > 0 && result2 > 0) {
-//				return 1;
-//			}
-//		}
-				
+						
 		return result;
 	}
 	
@@ -594,7 +587,10 @@ public class MypageServiceImpl implements MypageService {
 				result4 = 1;
 		}
 		
-		if(result1 > 0 && result2 > 0 && result3 > 0 && result4 > 0)
+		// 포인트 사용취소
+		int result5 = mypageMapper.cancle_usePoint(merchant_uid_Value);
+		
+		if(result1 > 0 && result2 > 0 && result3 > 0 && result4 > 0 && result5 > 0)
 			result = 1; 
 				
 		return result;
