@@ -31,31 +31,9 @@ public class reviewboardController {
 			Map<String, Object> result = reviewService.selectReviewAllList(page);	
 			model.addAttribute("reviewList",result.get("reviewList"));
 			model.addAttribute("pi",result.get("pageInfo"));
-			System.out.println("키워드 없음");
-			System.out.println("Result"+ model);
 			
-		
-		
-		
-		
-		
-		
 		
 		}
 		
 	}
-	
-	// 
-//		@PostMapping("/reviewLike")
-//		public String reviewLike(int rNo) {
-//			UserImpl user = (UserImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//			
-//			int loginUno = user.getUser_no();
-//			
-//			returnMap.put("loginUno", loginUno);
-//			
-//			int result = productReviewService.reviewLike(returnMap);
-//			
-//			}
-
 
